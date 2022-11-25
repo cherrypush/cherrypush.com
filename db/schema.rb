@@ -15,11 +15,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_174909) do
   enable_extension "plpgsql"
 
   create_table "occurrences", force: :cascade do |t|
-    t.string "sha"
+    t.string "metric_name"
+    t.string "commit_sha"
     t.string "file_path"
     t.integer "line_number"
     t.string "line_content"
-    t.string "repository"
+    t.string "repo"
     t.string "owners", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

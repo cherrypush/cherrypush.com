@@ -1,0 +1,40 @@
+<h1>Occurrences</h1>
+
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Metric name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Permalink
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    GitHub Repo
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Owners
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @occurrences.each do |occurrence| %>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <%= occurrence.metric_name %>
+                </th>
+                <td class="py-4 px-6">
+                    <%= link_to occurrence.permalink, occurrence.permalink, class: 'text-link' %>
+                </td>
+                <td class="py-4 px-6">
+                    <%= occurrence.repo %>
+                </td>
+                <td class="py-4 px-6">
+                    <%= occurrence.owners.to_sentence %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
