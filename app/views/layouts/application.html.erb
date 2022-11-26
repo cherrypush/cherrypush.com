@@ -12,12 +12,12 @@
   </head>
 
   <body class='dark:bg-gray-900'>
-    <div class=<%= container_class %>>
-      <%= render 'components/navbar' %>
-      <main class="container px-2 mx-auto my-6">
-        <%= yield %>
-      </main>
-    <%= render 'components/footer' %>
+    <%= render 'components/navbar' %>
+
+    <div class='container-lg'>
+      <div class="px-2 mx-auto my-6"><%= yield %></div>
+      <%= render 'components/footer' %>
     </div>
+
   </body>
 </html>
