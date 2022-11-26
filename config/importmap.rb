@@ -7,4 +7,4 @@ pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
 pin_all_from 'app/javascript/controllers', under: 'controllers'
 
 # core flobite dependency
-pin 'flowbite', to: 'https://ga.jspm.io/npm:flowbite@1.5.4/dist/flowbite.js'
+# pin 'flowbite', to: 'https://ga.jspm.io/npm:flowbite@1.5.4/dist/flowbite.js'
