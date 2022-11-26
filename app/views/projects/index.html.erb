@@ -1,0 +1,28 @@
+<h1>Projects</h1>
+
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Project
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Occurrences
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @occurrences_per_project.each do |project, occurrences| %>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <%= project %>
+                </th>
+                <td class="py-4 px-6">
+                    <%= link_to "#{occurrences.count} occurrences", project_path(id: project), class: 'text-link' %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
