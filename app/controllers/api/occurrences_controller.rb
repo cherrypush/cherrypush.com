@@ -2,8 +2,9 @@
 
 class Api::OccurrencesController < Api::ApplicationController
   def create
+    # TODO: rethink the mechanism to clean up duplicates for the same repo. this is currently a mess.
     new_occurrences = JSON.parse(params.require(:occurrences))
-    previous_occurrences_ids = Occurrence.where(repo: new_occurrences[0]['repo']).ids # TODO: rethink how to provide the repo
+    previous_occurrences_ids = Occurrence.where(repo: new_occurrences[0]['repo']).ids
     new_occurrences.map { |occurrence| Occurrence.create!(build_occurrence(occurrence)) }
     Occurrence.where(id: previous_occurrences_ids).destroy_all
 
