@@ -7,5 +7,5 @@ Rails.application.routes.draw do
 
   resources :occurrences, only: %i[index]
 
-  root 'occurrences#index'
+  root 'pages#home'
 end
