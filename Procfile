@@ -1,3 +1,3 @@
-web: bin/rails server -p 3000
+web: bundle exec puma -C config/puma.rb
 css: bin/rails tailwindcss:watch
 release: rake db:migrate
