@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :occurrences, only: :create
   end
 
-  resources :occurrences, only: %i[index]
+  resources :projects, only: %i[index show]
 
   root 'pages#home'
 end
