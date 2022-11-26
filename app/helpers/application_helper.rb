@@ -17,4 +17,9 @@ module ApplicationHelper
     ]
     Markdown.new(text, *options).to_html.html_safe
   end
+
+  def container_class
+    return 'container-lg' if controller_name == 'projects' && action_name == 'show'
+    'container-sm'
+  end
 end
