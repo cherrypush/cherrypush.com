@@ -1,9 +1,0 @@
-{
-  "name": "cherry-app",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "flowbite": "^1.5.4"
-  }
-}
