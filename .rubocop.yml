@@ -6,3 +6,9 @@ AllCops:
 
 Style/Documentation:
   Enabled: false
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+Style/ClassAndModuleChildren:
+  Enabled: true
+  EnforcedStyle: compact
