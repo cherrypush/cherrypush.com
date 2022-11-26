@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   end
 
   resources :occurrences, only: %i[index]
+
+  root 'occurrences#index'
 end
