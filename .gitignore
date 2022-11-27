@@ -33,4 +33,6 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+# project-specific
 /node_modules
+/vendor/cache

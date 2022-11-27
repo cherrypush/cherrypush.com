@@ -11,6 +11,11 @@ gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4'
 gem 'sprockets-rails'
 
+# authentication
+gem 'omniauth'
+gem 'omniauth-google-oauth2' # inspired by this repo: https://github.com/guilhermesimoes/omniauth-popup
+gem 'omniauth-rails_csrf_protection', '~> 1.0' # https://github.com/heartcombo/devise/issues/5236
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 # gem 'importmap-rails'
 
@@ -43,7 +48,7 @@ gem 'redcarpet'
 gem 'tailwindcss-rails'
 
 group :development, :test do
-  # project scope
+  # project-specific
   gem 'factory_bot'
   gem 'faker'
   gem 'pry'
@@ -53,7 +58,7 @@ group :development, :test do
 end
 
 group :development do
-  # project scope
+  # project-specific
   gem 'parity'
   gem 'rubocop', require: false
   gem 'syntax_tree'
