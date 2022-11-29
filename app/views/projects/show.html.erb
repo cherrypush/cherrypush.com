@@ -1,30 +1,36 @@
-<h1><%= @project %></h1>
+<h1><%= @project.name %></h1>
+
+<%= render 'components/dropdown', class: 'mb-3', text: 'Filter by type', entries: metric_names_for(@project) %>
+
+<span class="prose dark:prose-invert ml-3"><%= @occurrences.count %> occurrences</span>
+
+<% if params[:metric_name] %>
+  <%= link_to 'Clear filters', project_path(@project.name), class: 'text-link ml-3' %>
+<% end %>
 
 <div class="overflow-x-auto relative">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    Occurrence
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Owners
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @occurrences.each do |occurrence| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td class="py-4 px-6">
-                    <div><%= link_to occurrence.permalink, occurrence.permalink, class: 'text-link' %></div>
-                    <pre><%= occurrence.line_content.truncate(70) %></pre>
-                    <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"><%= occurrence.metric_name %></span>
-                </td>
-                <td class="py-4 px-6">
-                    <%= occurrence.owners.to_sentence %>
-                </td>
-            </tr>
-            <% end %>
-        </tbody>
-    </table>
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="py-3 px-6">Occurrence</th>
+        <th scope="col" class="py-3 px-6">Owners</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @occurrences.each do |occurrence| %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <td class="py-4 px-6">
+            <div><%= link_to occurrence.permalink, occurrence.permalink, class: 'text-link' %></div>
+            <pre><%= occurrence.line_content.truncate(70) %></pre>
+            <span
+              class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+            ><%= occurrence.metric_name %></span>
+          </td>
+          <td class="py-4 px-6">
+            <%= occurrence.owners.to_sentence %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
