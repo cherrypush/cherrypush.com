@@ -6,7 +6,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = params[:id]
-    @occurrences = Occurrence.where(repo: @project)
+    @project = Project.find(params[:id])
+    @occurrences = Occurrence.where(repo: @project.name)
+    @occurrences = @occurrences.where(metric_name: params[:metric_name]) if params[:metric_name].present?
   end
 end
