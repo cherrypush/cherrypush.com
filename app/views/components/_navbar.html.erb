@@ -30,16 +30,16 @@
           <ul class="py-1" aria-labelledby="user-menu-button">
             <li>
               <a
-                href="#"
+                href="<%= user_projects_path %>"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Dashboard 🚧</a
+                >My Projects</a
               >
             </li>
             <li>
               <a
-                href="#"
+                href="<%= user_settings_path %>"
                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >Settings 🚧</a
+                >Settings</a
               >
             </li>
             <li>
@@ -99,6 +99,11 @@
             link_to 'Projects',
                     projects_path,
                     class: controller_name === 'projects' ? 'navbar-link-active' : 'navbar-link'
+          %>
+        </li>
+        <li>
+          <%=
+            link_to 'Pricing', pricing_path, class: action_name === 'pricing' ? 'navbar-link-active' : 'navbar-link'
           %>
         </li>
       </ul>

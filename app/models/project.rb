@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class Project
-  def self.find(slug)
-    OpenStruct.new(occurrences: Occurrence.where(repo: slug), name: slug)
-  end
+class Project < ApplicationRecord
+  belongs_to :user
+  has_many :occurrences
+
+  validates :name, presence: true
 end

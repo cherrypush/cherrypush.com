@@ -7,6 +7,6 @@ module OccurrencesHelper
       .map(&:metric_name)
       .uniq
       .sort
-      .map { |metric_name| { title: metric_name, url: project_path(project.name, metric_name: metric_name) } }
+      .map { |metric_name| { title: metric_name, url: project_path(project, metric_name:) } }
   end
 end

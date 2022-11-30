@@ -4,28 +4,48 @@ require 'test_helper'
 
 class OccurrencesControllerTest < ActionDispatch::IntegrationTest
   test 'creates basic occurrences' do
-    occurrences = build_list(:occurrence, 3)
-    post(api_occurrences_path, params: { occurrences: occurrences.to_json })
+    user = create(:user)
+    post(api_occurrences_path(api_key: user.api_key), params: { occurrences: occurrences_json(3) })
     assert_response :ok
-    assert_equal 3, Occurrence.count
+    project = Project.find_by!(name: 'rails/rails')
+    assert_equal 3, project.occurrences.count
   end
 
   test 'creates occurrences with owners' do
-    occurrence = build(:occurrence, owners: ['@fwuensche'])
-    post(api_occurrences_path, params: { occurrences: [occurrence].to_json })
+    user = create(:user)
+    post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence].to_json })
     assert_response :ok
     assert_includes Occurrence.first.owners, '@fwuensche'
   end
 
   test 'cleans previous occurrences of the same project' do
-    create(:occurrence, repo: 'rails/rails')
-    create(:occurrence, repo: 'ruby/ruby')
-    new_occurrence = build(:occurrence, repo: 'cherrypush/cherry-cli')
-    post(api_occurrences_path, params: { occurrences: [new_occurrence].to_json })
-    post(api_occurrences_path, params: { occurrences: [new_occurrence].to_json })
-    assert_response :ok
-    assert_equal 3, Occurrence.all.count
-    assert_equal 1, Occurrence.where(repo: 'rails/rails').count
-    assert_equal 1, Occurrence.where(repo: 'ruby/ruby').count
+    project = create(:project, name: 'rails/rails')
+    user = project.user
+    post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('rails/rails')].to_json })
+    assert_equal 1, Occurrence.all.count
+    post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('rails/rails')].to_json })
+    assert_equal 1, Occurrence.all.count
+    post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('ruby/ruby')].to_json })
+    assert_equal 2, Occurrence.all.count
+    assert_equal 1, Project.find_by(name: 'rails/rails').occurrences.count
+    assert_equal 1, Project.find_by(name: 'ruby/ruby').occurrences.count
+  end
+
+  private
+
+  def new_occurrence(repo = 'rails/rails')
+    {
+      metric_name: 'react_query_v1',
+      commit_sha: '123',
+      file_path: 'app/controllers/occurrences_controller.rb',
+      line_number: 10,
+      line_content: 'class OccurrencesController < ApplicationController',
+      owners: ['@fwuensche'],
+      repo:,
+    }
+  end
+
+  def occurrences_json(n)
+    n.times.map { new_occurrence }.to_json
   end
 end

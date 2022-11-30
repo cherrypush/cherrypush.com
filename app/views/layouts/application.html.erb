@@ -2,23 +2,23 @@
 <html>
   <head>
     <title>cherrypush</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload' %>
     <%= render 'components/favicons' %>
 
-    <%= javascript_include_tag "application", defer: true %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag 'application', defer: true %>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
   </head>
 
-  <body class='dark:bg-gray-900'>
+  <body class="dark:bg-gray-900 text-gray-800 dark:text-white">
     <%= render 'components/navbar' %>
 
-    <div class='container-lg'>
-      <div class="px-2 mx-auto my-6"><%= yield %></div>
+    <div class="container">
+      <%= render 'components/alerts' %>
+      <%= yield %>
       <%= render 'components/footer' %>
     </div>
-
   </body>
 </html>
