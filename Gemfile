@@ -18,7 +18,6 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0' # https://github.com/heartcombo/d
 
 # project-specific dependencies
 gem 'redcarpet' # for markdown rendering
-gem 'simple_form' # forms made easy
 gem 'tailwindcss-rails'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
