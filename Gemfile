@@ -16,6 +16,10 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2' # inspired by this repo: https://github.com/guilhermesimoes/omniauth-popup
 gem 'omniauth-rails_csrf_protection', '~> 1.0' # https://github.com/heartcombo/devise/issues/5236
 
+# project-specific dependencies
+gem 'redcarpet' # for markdown rendering
+gem 'tailwindcss-rails'
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 # gem 'importmap-rails'
 
@@ -42,10 +46,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-
-# project-specific dependencies
-gem 'redcarpet'
-gem 'tailwindcss-rails'
 
 group :development, :test do
   # project-specific
