@@ -3,9 +3,12 @@
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" class="py-3 px-6">Project</th>
+        <th scope="col" class="py-3 px-6">Owner</th>
         <th scope="col" class="py-3 px-6">Occurrences</th>
+        <th scope="col" class="py-3 px-6">Actions</th>
       </tr>
     </thead>
+
     <tbody>
       <% @projects.each do |project| %>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -13,7 +16,13 @@
             <%= project.name %>
           </th>
           <td class="py-4 px-6">
+            <%= project.user.name %>
+          </td>
+          <td class="py-4 px-6">
             <%= link_to "#{project.occurrences.count} occurrences", project_path(project), class: 'text-link' %>
+          </td>
+          <td class="py-4 px-6">
+            <%= button_to 'Delete', user_project_path(project), method: :delete, class: 'text-link' %>
           </td>
         </tr>
       <% end %>

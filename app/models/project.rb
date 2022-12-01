@@ -2,7 +2,7 @@
 
 class Project < ApplicationRecord
   belongs_to :user
-  has_many :occurrences
+  has_many :occurrences, dependent: :destroy
 
   validates :name, presence: true
 end
