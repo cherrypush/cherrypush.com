@@ -5,4 +5,5 @@ class Project < ApplicationRecord
   has_many :occurrences, dependent: :destroy
 
   validates :name, presence: true
+  validates :user, presence: true
 end
