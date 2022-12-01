@@ -11,7 +11,7 @@ class Api::OccurrencesController < Api::ApplicationController
     Occurrence.where(id: previous_occurrences_ids).destroy_all
 
     render json: { status: :ok }, status: :ok
-  rescue StandardError => e
+  rescue e
     render json: { status: :error, message: e }
     raise e
   end
@@ -25,6 +25,7 @@ class Api::OccurrencesController < Api::ApplicationController
 
   def set_user
     @user = User.find_by(api_key: params[:api_key])
+    raise 'An API key is required to upload occurrences' if @user.nil? # TODO: handle this with an appropriate error message
   end
 
   def set_project
