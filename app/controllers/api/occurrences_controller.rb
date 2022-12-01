@@ -24,7 +24,7 @@ class Api::OccurrencesController < Api::ApplicationController
   end
 
   def set_user
-    @user = User.find_by(api_key: params[:api_key])
+    @user = User.find_by(api_key: params.require(:api_key))
     raise 'An API key is required to upload occurrences' if @user.nil? # TODO: handle this with an appropriate error message
   end
 
