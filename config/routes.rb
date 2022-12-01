@@ -8,8 +8,15 @@ Rails.application.routes.draw do
     resources :occurrences, only: :create
   end
 
+  # namespace dedicated to user authenticated routes
+  namespace :user do
+    resources :projects, only: %i[index new create destroy]
+    resource :settings, only: :show
+  end
+
   resources :projects, only: %i[index show]
 
+  get :pricing, to: 'pages#pricing'
   get :privacy, to: 'pages#privacy'
   get :terms, to: 'pages#terms'
 

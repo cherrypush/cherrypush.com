@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     omniauth = request.env['omniauth.auth']
     user = User.find_or_create_with_omniauth(omniauth)
     session[:user_id] = user.id
-    flash[:notice] = t('controllers.sessions.create', provider: pretty_name(omniauth.provider))
+    flash[:notice] = "New session started via #{pretty_name(omniauth.provider)}"
     render_or_redirect
   end
 

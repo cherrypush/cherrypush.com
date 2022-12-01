@@ -5,7 +5,7 @@
 <span class="prose dark:prose-invert ml-3"><%= @occurrences.count %> occurrences</span>
 
 <% if params[:metric_name] %>
-  <%= link_to 'Clear filters', project_path(@project.name), class: 'text-link ml-3' %>
+  <%= link_to 'Clear filters', project_path(@project), class: 'text-link ml-3' %>
 <% end %>
 
 <div class="overflow-x-auto relative">

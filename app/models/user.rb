@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_many :projects
+
+  before_save :ensure_api_key
+
   def self.find_or_create_with_omniauth(auth)
     user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
     user.update_dynamic_attributes(auth)
@@ -17,7 +21,13 @@ class User < ApplicationRecord
 
   def update_dynamic_attributes(auth)
     self.image = auth.info.image if auth.info.image?
-    self.save!
+    save!
     self
+  end
+
+  private
+
+  def ensure_api_key
+    self.api_key ||= SecureRandom.uuid
   end
 end
