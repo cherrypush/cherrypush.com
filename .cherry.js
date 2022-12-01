@@ -1,13 +1,21 @@
 module.exports = {
-  repo: 'cherrypush/cherry-cli',
+  repo: 'cherrypush/cherry-app',
   metrics: [
     {
-      name: 'todos',
-      pattern: /TODO:/,
+      name: 'todo',
+      pattern: /TODO:/i, // the i flag makes the regex case insensitive
     },
     {
-      name: 'rubocop',
+      name: 'fixme',
+      pattern: /FIXME:/i,
+    },
+    {
+      name: 'rubobop',
       pattern: /rubocop:disable/,
+    },
+    {
+      name: 'eslint',
+      pattern: /eslint-disable/,
     },
   ],
 }
