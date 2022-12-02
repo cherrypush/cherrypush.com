@@ -8,7 +8,7 @@ class Api::ApplicationController < ApplicationController
   private
 
   def set_user
-    @user = User.find_by(api_key: params[:api_key])
+    @user = User.find_by(api_key: params.require(:api_key))
     head :unauthorized if @user.nil?
   end
 end
