@@ -3,3 +3,4 @@
 // import 'controllers'
 
 import 'flowbite'
+import 'chartkick/chart.js'
