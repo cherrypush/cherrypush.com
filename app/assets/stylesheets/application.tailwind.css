@@ -34,6 +34,10 @@
   .container {
     @apply mx-auto max-w-4xl px-2 mx-auto my-6;
   }
+
+  .card {
+    @apply p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700;
+  }
 }
 
 .video-responsive {
