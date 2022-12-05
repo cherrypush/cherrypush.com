@@ -8,7 +8,7 @@ class OccurrencesControllerTest < ActionDispatch::IntegrationTest
     post(api_occurrences_path(api_key: user.api_key), params: { occurrences: occurrences_json(3) })
     assert_response :ok
     project = Project.find_by!(name: 'rails/rails')
-    assert_equal 3, project.occurrences.count
+    assert_equal 3, project.reports.last.occurrences.count
   end
 
   test 'creates occurrences with owners' do
@@ -18,17 +18,17 @@ class OccurrencesControllerTest < ActionDispatch::IntegrationTest
     assert_includes Occurrence.first.owners, '@fwuensche'
   end
 
-  test 'cleans previous occurrences of the same project' do
+  test 'keeps previous occurrences of the same project in a separate report' do
     project = create(:project, name: 'rails/rails')
     user = project.user
     post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('rails/rails')].to_json })
-    assert_equal 1, Occurrence.all.count
+    assert_equal 1, Report.last.occurrences.count
     post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('rails/rails')].to_json })
-    assert_equal 1, Occurrence.all.count
+    assert_equal 1, Report.last.occurrences.count
     post(api_occurrences_path(api_key: user.api_key), params: { occurrences: [new_occurrence('ruby/ruby')].to_json })
-    assert_equal 2, Occurrence.all.count
-    assert_equal 1, Project.find_by(name: 'rails/rails').occurrences.count
-    assert_equal 1, Project.find_by(name: 'ruby/ruby').occurrences.count
+    assert_equal 3, Report.count
+    assert_equal 2, Project.find_by(name: 'rails/rails').reports.count
+    assert_equal 1, Project.find_by(name: 'ruby/ruby').reports.count
   end
 
   private
