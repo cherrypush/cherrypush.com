@@ -2,7 +2,7 @@
 
 class User::ProjectsController < ApplicationController
   def index
-    @projects = current_user.projects
+    @projects = current_user.projects.joins(:reports).distinct
   end
 
   def destroy
