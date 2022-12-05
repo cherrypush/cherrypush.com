@@ -4,7 +4,7 @@
 
 @layer components {
   h1 {
-    @apply text-5xl font-extrabold dark:text-white mb-3;
+    @apply text-5xl font-extrabold dark:text-white mb-3 truncate;
   }
 
   .btn-primary {

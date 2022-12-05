@@ -1,4 +1,63 @@
 <h1>Pricing</h1>
 
-<p>Free for open source projects. For private projects, we offer a free trial and a paid plan.</p>
-<p>Currently we only offer public projects, but create your account to stay tuned.</p>
+<p>You can use cherry push for free, as long as your projects remain public.</p>
+<p class="mb-3">🔒 Need private projects? One of our paid plans might be for you:</p>
+
+<div class="md:flex">
+  <div
+    class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+  >
+    <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Individuals</h5>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">9</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
+      <%= render 'components/pricing_item_off', text: 'Unlimited project members' %>
+      <%= render 'components/pricing_item_off', text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item_off', text: '24x7 email support' %>
+    </ul>
+    <button
+      type="button"
+      class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+    >
+      Choose plan
+    </button>
+  </div>
+
+  <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Organizations</h5>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">99</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited project members' %>
+      <%= render 'components/pricing_item_on', text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item_on', text: '24x7 email support' %>
+    </ul>
+    <button
+      type="button"
+      class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+    >
+      Choose plan
+    </button>
+  </div>
+</div>
+
+<div
+  class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0 mt-3"
+>
+  <div>We're <span class="font-bold">free forever</span> for open-source software.</div>
+  <div>
+    If that's for you, then shoot us a message on Twitter via
+    <a class="text-link" href="https://twitter.com/fwuensche" target="_blank">@fwuensche</a> or
+    <a class="text-link" href="https://twitter.com/r_chqt" target="_blank">@r_chqt</a> ❤️
+  </div>
+</div>
