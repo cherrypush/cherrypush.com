@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_30_174935) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_05_143307) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,8 +23,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_174935) do
     t.string "owners", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id", null: false
-    t.index ["project_id"], name: "index_occurrences_on_project_id"
+    t.bigint "report_id", null: false
+    t.index ["report_id"], name: "index_occurrences_on_report_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -33,6 +33,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_174935) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "commit_sha"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_reports_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_30_174935) do
     t.string "api_key"
   end
 
-  add_foreign_key "occurrences", "projects"
+  add_foreign_key "occurrences", "reports"
   add_foreign_key "projects", "users"
+  add_foreign_key "reports", "projects"
 end

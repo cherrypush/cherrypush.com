@@ -14,7 +14,7 @@
           data-dropdown-placement="bottom"
         >
           <span class="sr-only">Open user menu</span>
-          <img class="w-8 h-8 rounded-full" src="<%= current_user.image %>" alt="user photo" />
+          <img class="w-8 h-8 rounded-full" src="<%= current_user.image %>" alt="user profile avatar" />
         </button>
         <!-- Dropdown menu -->
         <div
@@ -96,7 +96,7 @@
         </li>
         <li>
           <%=
-            link_to 'Public Projects',
+            link_to 'Open Projects',
                     projects_path,
                     class: controller_name === 'projects' ? 'navbar-link-active' : 'navbar-link'
           %>

@@ -4,10 +4,8 @@ class Api::OccurrencesController < Api::ApplicationController
   before_action :set_project, only: [:create]
 
   def create
-    # TODO: rethink the mechanism to clean up duplicates for the same repo. this is currently a mess.
-    previous_occurrences_ids = @project.occurrences.ids
-    new_occurrences.each { |occurrence| @project.occurrences.create!(build_occurrence(occurrence)) }
-    Occurrence.where(id: previous_occurrences_ids).destroy_all
+    report = @project.reports.create!(commit_sha: new_occurrences[0]['commit_sha'])
+    new_occurrences.each { |occurrence| report.occurrences.create!(build_occurrence(occurrence)) }
 
     render json: { status: :ok }, status: :ok
   end
@@ -23,6 +21,6 @@ class Api::OccurrencesController < Api::ApplicationController
   end
 
   def new_occurrences
-    JSON.parse(params.require(:occurrences))
+    @new_occurrences ||= JSON.parse(params.require(:occurrences))
   end
 end

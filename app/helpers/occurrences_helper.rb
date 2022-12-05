@@ -3,6 +3,8 @@
 module OccurrencesHelper
   def metric_names_for(project)
     project
+      .reports
+      .last
       .occurrences
       .map(&:metric_name)
       .uniq
