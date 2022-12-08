@@ -14,7 +14,7 @@ class Api::ReportsController < Api::ApplicationController
   private
 
   def build_occurrence(occurrence)
-    occurrence.slice('metric_name', 'commit_sha', 'file_path', 'line_number', 'line_content', 'owners')
+    occurrence.slice('metric_name', 'file_path', 'line_number', 'line_content', 'owners')
   end
 
   def set_project
