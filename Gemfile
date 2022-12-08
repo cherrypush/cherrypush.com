@@ -14,7 +14,6 @@ gem 'sprockets-rails'
 # authentication
 gem 'omniauth'
 gem 'omniauth-google-oauth2' # inspired by this repo: https://github.com/guilhermesimoes/omniauth-popup
-gem 'omniauth-rails_csrf_protection', '~> 1.0' # https://github.com/heartcombo/devise/issues/5236
 
 # project-specific dependencies
 gem 'chartkick'
