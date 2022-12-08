@@ -10,7 +10,7 @@ module.exports = {
       pattern: /FIXME:/i,
     },
     {
-      name: 'rubobop',
+      name: 'rubocop',
       pattern: /rubocop:disable/,
     },
     {
