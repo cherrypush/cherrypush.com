@@ -1,7 +1,10 @@
+<%= render 'components/notice', text: 'coucou' %>
+<%= render 'components/alert', text: 'coucou' %>
+
 <% if notice %>
-  <%= render 'components/alert', text: notice, color: 'green' %>
+  <%= render 'components/notice', text: notice %>
 <% end %>
 
 <% if alert %>
-  <%= render 'components/alert', text: alert, color: 'red' %>
+  <%= render 'components/alert', text: alert %>
 <% end %>
