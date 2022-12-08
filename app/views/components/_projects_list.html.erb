@@ -14,6 +14,8 @@
       <% @projects.each do |project| %>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
           <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <%= '🌎' if project.public_access? %>
+            <%= '🔒' if project.private_access? %>
             <%= project.name %>
           </th>
           <td class="py-4 px-6">
@@ -27,6 +29,21 @@
           </td>
           <td class="py-4 px-6">
             <% if project.user == current_user %>
+              <% if project.private_access? %>
+                <%=
+                  button_to 'Make public',
+                            user_project_path(project, { project: { access: 'public' } }),
+                            method: :put,
+                            class: 'text-link'
+                %>
+              <% else %>
+                <%=
+                  button_to 'Make private',
+                            user_project_path(project, { project: { access: 'private' } }),
+                            method: :put,
+                            class: 'text-link'
+                %>
+              <% end %>
               <%= button_to 'Delete', user_project_path(project), method: :delete, class: 'text-link' %>
             <% end %>
           </td>

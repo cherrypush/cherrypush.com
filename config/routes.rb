@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   # namespace dedicated to user authenticated routes
   namespace :user do
-    resources :projects, only: %i[index new create destroy]
+    resources :projects, only: %i[index update destroy]
     resource :settings, only: :show
   end
 
