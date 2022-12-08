@@ -4,9 +4,10 @@ class Api::ReportsController < Api::ApplicationController
   before_action :set_project, only: [:create]
 
   def create
-    report = @project.reports.create!(commit_sha: params['commit_sha'])
-    new_occurrences.each { |occurrence| report.occurrences.create!(build_occurrence(occurrence)) }
-
+    ActiveRecord::Base.transaction do
+      report = @project.reports.create!(commit_sha: params['commit_sha'])
+      report.occurrences.insert_all(new_occurrences.map { |occurrence| build_occurrence(occurrence) })
+    end
     render json: { status: :ok }, status: :ok
   end
 
