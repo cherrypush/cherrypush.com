@@ -32,15 +32,15 @@
               <% if project.private_access? %>
                 <%=
                   button_to 'Make public',
-                            user_project_path(project, { project: { access: 'public' } }),
-                            method: :put,
+                            publicize_user_project_path(project, { project: { access: 'public' } }),
+                            method: :post,
                             class: 'text-link'
                 %>
               <% else %>
                 <%=
                   button_to 'Make private',
-                            user_project_path(project, { project: { access: 'private' } }),
-                            method: :put,
+                            privatize_user_project_path(project, { project: { access: 'private' } }),
+                            method: :post,
                             class: 'text-link'
                 %>
               <% end %>
