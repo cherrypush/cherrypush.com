@@ -161,9 +161,6 @@ GEM
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
-    omniauth-rails_csrf_protection (1.0.1)
-      actionpack (>= 4.2)
-      omniauth (~> 2.0)
     parallel (1.22.1)
     parity (3.5.0)
     parser (3.1.2.1)
@@ -290,7 +287,6 @@ DEPENDENCIES
   minitest-spec-rails
   omniauth
   omniauth-google-oauth2
-  omniauth-rails_csrf_protection (~> 1.0)
   parity
   pg (~> 1.1)
   pry
