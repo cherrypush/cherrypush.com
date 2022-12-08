@@ -2,11 +2,15 @@
 
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.joins(:reports).distinct
+    @projects = Project.public_access.joins(:reports).distinct
   end
 
-  def show # rubocop:disable Metrics/AbcSize
+  def show # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     @project = Project.find(params[:id])
+
+    unless @project.public_access? || current_user&.projects&.include?(@project)
+      return redirect_to projects_path, notice: 'You are not authorized to view this project'
+    end
 
     @occurrences = @project.reports.last.occurrences
     @occurrences = @occurrences.where(metric_name: params[:metric_name]) if params[:metric_name].present?
