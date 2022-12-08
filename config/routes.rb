@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get '/sign_out', to: 'sessions#destroy', as: :signout
 
   namespace :api do
-    resources :occurrences, only: :create
+    resources :reports, only: :create
   end
 
   # namespace dedicated to user authenticated routes

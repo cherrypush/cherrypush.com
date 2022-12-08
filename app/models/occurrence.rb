@@ -4,7 +4,6 @@ class Occurrence < ApplicationRecord
   belongs_to :report
 
   validates :metric_name, presence: true
-  validates :commit_sha, presence: true
   validates :file_path, presence: true
   validates :line_number, presence: true
 
