@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_08_141820) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_08_153318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,7 +23,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_08_141820) do
 
   create_table "occurrences", force: :cascade do |t|
     t.string "metric_name"
-    t.string "commit_sha"
     t.string "file_path"
     t.integer "line_number"
     t.string "line_content"
