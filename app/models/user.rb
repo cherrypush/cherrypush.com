@@ -2,8 +2,14 @@
 
 class User < ApplicationRecord
   has_many :projects, dependent: :destroy
+  has_many :memberships, dependent: :destroy
 
   before_save :ensure_api_key
+
+  def premium?
+    return true if memberships.any?
+    false
+  end
 
   def self.find_or_create_with_omniauth(auth)
     user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)

@@ -17,7 +17,11 @@ class Api::OccurrencesController < Api::ApplicationController
   end
 
   def set_project
-    @project = @user.projects.find_or_create_by!(name: new_occurrences[0]['repo'])
+    # TODO: maybe the repo name should be passed as a param in the root of the request
+    @project = @user.projects.find_by(name: new_occurrences[0]['repo'])
+    return if @project.present?
+
+    @project = @user.projects.create!(name: new_occurrences[0]['repo'], access: @user.premium? ? 'private' : 'public')
   end
 
   def new_occurrences

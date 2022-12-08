@@ -76,6 +76,8 @@ group :development do
 end
 
 group :test do
+  gem 'minitest-spec-rails' # for rspec-like syntax
+
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
