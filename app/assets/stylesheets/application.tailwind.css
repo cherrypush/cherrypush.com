@@ -32,11 +32,15 @@
   }
 
   .container {
-    @apply mx-auto max-w-4xl px-2 mx-auto my-6;
+    @apply mx-auto max-w-5xl px-2 mx-auto my-6;
   }
 
   .card {
     @apply p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700;
+  }
+
+  .badge-light {
+    @apply bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300;
   }
 }
 

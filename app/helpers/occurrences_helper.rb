@@ -23,4 +23,8 @@ module OccurrencesHelper
       .sort
       .map { |team_name| { title: team_name, url: project_path(project, metric_name: current_metric, team_name:) } }
   end
+
+  def applied_filters?
+    params[:metric_name].present? || params[:team_name].present?
+  end
 end
