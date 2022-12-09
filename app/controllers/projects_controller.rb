@@ -8,7 +8,8 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
 
-    unless @project.public_access? || current_user&.projects&.include?(@project)
+    unless @project.public_access? || current_user&.projects&.include?(@project) ||
+             current_user&.authorizations&.find_by(project: @project)
       return redirect_to projects_path, notice: 'You are not authorized to view this project'
     end
 
