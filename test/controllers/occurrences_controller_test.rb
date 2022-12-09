@@ -41,6 +41,11 @@ class OccurrencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'private', Project.last.access
   end
 
+  it 'requires a project name' do
+    post(api_reports_path(api_key: user.api_key), params: report_params.except(:project_name))
+    assert_includes response.body, "Name can't be blank"
+  end
+
   private
 
   def new_occurrence(repo = 'rails/rails')

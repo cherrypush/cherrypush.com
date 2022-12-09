@@ -18,10 +18,12 @@ class Api::ReportsController < Api::ApplicationController
   end
 
   def set_project
-    @project = @user.projects.find_by(name: params['project_name'])
-    return if @project.present?
-
-    @project = @user.projects.create!(name: params['project_name'], access: @user.premium? ? 'private' : 'public')
+    @project =
+      @user
+        .projects
+        .find_or_create_by!(name: params['project_name']) do |project|
+          project.access = @user.premium? ? 'private' : 'public'
+        end
   end
 
   def new_occurrences
