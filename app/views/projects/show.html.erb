@@ -1,5 +1,7 @@
 <h1>
   <%= @project.name %>
+  <%= '🌎' if @project.public_access? %>
+  <%= '🔒' if @project.private_access? %>
 </h1>
 <div class="mb-3">Last updated <%= time_ago_in_words(@project.reports.last.created_at) %> ago</div>
 
