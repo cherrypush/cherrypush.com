@@ -2,7 +2,7 @@
 
 class User::ProjectsController < ApplicationController
   def index
-    @projects = current_user.projects.joins(:reports).distinct
+    @projects = current_user.projects.or(Project.where(id: current_user.authorizations.select(:project_id))).distinct
   end
 
   def destroy
