@@ -55,7 +55,6 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td class="py-4 px-6">
                 <div><%= link_to occurrence.permalink, occurrence.permalink, class: 'text-link' %></div>
-                <pre><%= occurrence.line_content.truncate(70) %></pre>
                 <span
                   class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
                 ><%= occurrence.metric_name %></span>

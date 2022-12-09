@@ -36,7 +36,6 @@ cherry run
     "commit_sha": "master",
     "file_path": "bin/cherry.js",
     "line_number": 8,
-    "line_content": "const API_BASE_URL = 'http://localhost:3000/api' // TODO: convert to production url",
     "repo": "cherrypush/cherry-cli",
     "owners": [],
     "metric_name": "todos"
