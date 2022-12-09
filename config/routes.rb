@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       post :publicize, on: :member
     end
     resource :settings, only: :show
+    resources :authorizations, only: %i[index new create destroy]
   end
 
   resources :projects, only: %i[index show]

@@ -1,0 +1,33 @@
+<h1>Authorizations</h1>
+
+<p class="mb-3">Define authorizations to each of your projects.</p>
+
+<%= link_to '+ Add Authorization', new_user_authorization_path, class: 'btn-primary' %>
+
+<% @authorizations.map(&:project).uniq.each do |project| %>
+  <div class="overflow-x-auto relative mt-6">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="py-3 px-6"><%= project.name %></th>
+          <th scope="col" class="py-3 px-6"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @authorizations.filter { |authorization| authorization.project == project }.each do |authorization| %>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <%= authorization.user.name %>
+              (<%= authorization.user.email %>)
+            </th>
+            <td class="py-4 px-6">
+              <%=
+                button_to 'Delete', user_authorization_path(authorization), method: :delete, class: 'btn-primary btn-sm'
+              %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
