@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_09_144134) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_09_160459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_144134) do
     t.string "metric_name"
     t.string "file_path"
     t.integer "line_number"
-    t.string "line_content"
     t.string "owners", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
