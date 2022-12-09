@@ -8,4 +8,12 @@ class Project < ApplicationRecord
   validates :user, presence: true
 
   enum access: { private: 'private', public: 'public' }, _suffix: :access
+
+  def metrics
+    reports.last.occurrences.map(&:metric_name).uniq.sort
+  end
+
+  def teams
+    reports.last.occurrences.map(&:owners).flatten.uniq.sort
+  end
 end

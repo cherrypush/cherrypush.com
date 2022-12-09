@@ -1,31 +1,39 @@
 <h1>
   <%= @project.name %>
 </h1>
-<div class="mb-3">Updated <%= time_ago_in_words(@project.reports.last.created_at) %> ago</div>
+<div class="mb-3">Last updated <%= time_ago_in_words(@project.reports.last.created_at) %> ago</div>
 
-<%=
-  render 'components/dropdown',
-         class: 'mb-3',
-         text: 'Filter by metric',
-         entries: dropdown_entries_for_metrics(@project, params[:team_name]),
-         id: 'dropdown-metrics'
-%>
-
-<% if dropdown_entries_for_teams(@project, params[:metric_name]).any? %>
+<% if params[:metric_name].blank? %>
   <%=
     render 'components/dropdown',
-           class: 'mb-3',
-           text: 'Filter by team',
-           entries: dropdown_entries_for_teams(@project, params[:metric_name]),
-           id: 'dropdown-teams'
+           class: 'mb-3 mr-3',
+           text: 'Filter by metric',
+           entries: dropdown_entries_for_metrics(@project, params[:team_name]),
+           id: 'dropdown-metrics'
   %>
+<% else %>
+  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= params[:metric_name] %></button>
+<% end %>
+
+<% if params[:team_name].blank? %>
+  <% if dropdown_entries_for_teams(@project, params[:metric_name]).any? %>
+    <%=
+      render 'components/dropdown',
+             class: 'mb-3 mr-3',
+             text: 'Filter by team',
+             entries: dropdown_entries_for_teams(@project, params[:metric_name]),
+             id: 'dropdown-teams'
+    %>
+  <% end %>
+<% else %>
+  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= params[:team_name] %></button>
+<% end %>
+
+<% if applied_filters? %>
+  <%= link_to 'Clear filters', project_path(@project), class: 'btn-primary' %>
 <% end %>
 
 <span class="prose dark:prose-invert ml-3"><%= @occurrences.count %> occurrences</span>
-
-<% if applied_filters? %>
-  <%= link_to 'Clear filters', project_path(@project), class: 'text-link ml-3' %>
-<% end %>
 
 <% if params[:metric_name].present? %>
   <div class="card w-full mb-3">
@@ -65,16 +73,24 @@
           <tr>
             <th scope="col" class="py-3 px-6">Team</th>
             <th scope="col" class="py-3 px-6">Occurrences</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          <% dropdown_entries_for_teams(@project, params[:metric_name]).each do |entry| %>
+          <% @occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count }.each do |team, count| %>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td class="py-4 px-6">
-                <%= entry[:title] %>
+                <%= team %>
               </td>
               <td class="py-4 px-6">
-                <%= @occurrences.filter { |occurrence| occurrence.owners.include?(entry[:title]) }.count %>
+                <%= count %>
+              </td>
+              <td>
+                <%=
+                  link_to 'Add to filters',
+                          project_path(@project, metric_name: params[:metric_name], team_name: team),
+                          class: 'btn-primary btn-sm'
+                %>
               </td>
             </tr>
           <% end %>
@@ -83,13 +99,13 @@
     </div>
   <% end %>
 <% else %>
-  <% dropdown_entries_for_metrics(@project, params[:team_name]).each do |entry| %>
+  <% @project.metrics.each do |metric| %>
     <div class="card mb-3 text-center">
-      <h3><%= entry[:title] %></h3>
+      <h3 class="inline"><%= metric %></h3>
       <%=
-        column_chart @chart_occurrences.where(metric_name: entry[:title]).group_by_day(:created_at).count,
-                     height: '240px'
+        link_to 'Add to filters', project_path(@project, metric_name: metric), class: 'btn-primary float-right btn-sm'
       %>
+      <%= column_chart @chart_occurrences.where(metric_name: metric).group_by_day(:created_at).count, height: '240px' %>
     </div>
   <% end %>
 <% end %>
