@@ -21,11 +21,19 @@
           <td class="py-4 px-6">
             <%= project.user.name %>
           </td>
-          <td class="py-4 px-6"><%= time_ago_in_words project.reports.last.created_at %> ago</td>
           <td class="py-4 px-6">
-            <%=
-              link_to "#{project.reports.last.occurrences.count} occurrences", project_path(project), class: 'text-link'
-            %>
+            <% if project.reports.any? %>
+              <%= time_ago_in_words project.reports.last.created_at %> ago
+            <% end %>
+          </td>
+          <td class="py-4 px-6">
+            <% if project.reports.any? %>
+              <%=
+                link_to "#{project.reports.last.occurrences.count} occurrences",
+                        project_path(project),
+                        class: 'text-link'
+              %>
+            <% end %>
           </td>
           <td class="py-4 px-6">
             <% if project.user == current_user %>
