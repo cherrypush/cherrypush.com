@@ -1,5 +1,5 @@
 module.exports = {
-  repo: 'cherrypush/cherry-app',
+  project_name: 'cherrypush/cherry-app',
   metrics: [
     {
       name: 'todo',
