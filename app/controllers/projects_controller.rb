@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
     @projects = Project.public_access.joins(:reports).distinct
   end
 
-  def show # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def show
     @project = Project.find(params[:id])
 
     unless @project.public_access? || current_user&.projects&.include?(@project)
@@ -14,9 +14,11 @@ class ProjectsController < ApplicationController
 
     @occurrences = @project.reports.last.occurrences
     @occurrences = @occurrences.where(metric_name: params[:metric_name]) if params[:metric_name].present?
+    @occurrences = @occurrences.where('? = ANY (owners)', params[:team_name]) if params[:team_name].present?
 
     chart_occurrences = Occurrence.where(report: reports_for_chart)
     chart_occurrences = chart_occurrences.where(metric_name: params[:metric_name]) if params[:metric_name].present?
+    chart_occurrences = chart_occurrences.where('? = ANY (owners)', params[:team_name]) if params[:team_name].present?
 
     @chart_data =
       chart_occurrences

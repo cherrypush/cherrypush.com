@@ -1,6 +1,22 @@
 <h1><%= @project.name %></h1>
 
-<%= render 'components/dropdown', class: 'mb-3', text: 'Filter by type', entries: metric_names_for(@project) %>
+<%=
+  render 'components/dropdown',
+         class: 'mb-3',
+         text: 'Filter by type',
+         entries: dropdown_entries_for_metrics(@project, params[:team_name]),
+         id: 'dropdown-metrics'
+%>
+
+<% if dropdown_entries_for_teams(@project, params[:metric_name]).any? %>
+  <%=
+    render 'components/dropdown',
+           class: 'mb-3',
+           text: 'Filter by team',
+           entries: dropdown_entries_for_teams(@project, params[:metric_name]),
+           id: 'dropdown-teams'
+  %>
+<% end %>
 
 <span class="prose dark:prose-invert ml-3"><%= @occurrences.count %> occurrences</span>
 
