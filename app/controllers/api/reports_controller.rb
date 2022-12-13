@@ -5,7 +5,7 @@ class Api::ReportsController < Api::ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      report = @project.reports.create!(commit_sha: params['commit_sha'])
+      report = @project.reports.create!(report_params)
       report.occurrences.insert_all(new_occurrences.map { |occurrence| build_occurrence(occurrence) })
     end
     render json: { status: :ok }, status: :ok
@@ -28,5 +28,9 @@ class Api::ReportsController < Api::ApplicationController
 
   def new_occurrences
     @new_occurrences ||= JSON.parse(params.require(:occurrences))
+  end
+
+  def report_params
+    params.permit(:commit_sha, :commit_date)
   end
 end

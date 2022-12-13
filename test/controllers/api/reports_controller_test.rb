@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class OccurrencesControllerTest < ActionDispatch::IntegrationTest
+class Api::ReportsControllerTest < ActionDispatch::IntegrationTest
   let!(:user) { create(:user) }
 
   it 'creates basic occurrences' do
@@ -60,6 +60,11 @@ class OccurrencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def report_params(number_of_occurrences: 1, project_name: 'rails/rails')
-    { project_name:, commit_sha: '123', occurrences: number_of_occurrences.times.map { new_occurrence }.to_json }
+    {
+      project_name:,
+      commit_sha: '123',
+      commit_date: '2022-10-16 16:00:00',
+      occurrences: number_of_occurrences.times.map { new_occurrence }.to_json,
+    }
   end
 end
