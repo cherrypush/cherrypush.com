@@ -36,3 +36,4 @@
 # project-specific
 /node_modules
 /vendor/cache
+.env
