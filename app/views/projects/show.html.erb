@@ -64,11 +64,8 @@
       </table>
     </div>
   <% else %>
-    <%
-      occurrences_per_team =
-        @project.reports.last.occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count }
-    %>
-    <% if occurrences_per_team.any? %>
+    <% occurrences_per_owner = @metric.occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count } %>
+    <% if occurrences_per_owner.any? %>
       <div class="overflow-x-auto relative">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -79,10 +76,10 @@
             </tr>
           </thead>
           <tbody>
-            <% occurrences_per_team.each do |team, count| %>
+            <% occurrences_per_owner.each do |owner_handle, count| %>
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="py-4 px-6">
-                  <%= team %>
+                  <%= owner_handle %>
                 </td>
                 <td class="py-4 px-6">
                   <%= count %>
@@ -90,7 +87,7 @@
                 <td>
                   <%=
                     link_to 'Add to filters',
-                            project_path(@project, metric_name: @metric.name, team_name: team),
+                            project_path(@project, metric_name: @metric.name, owner_handle: owner_handle),
                             class: 'btn-primary btn-sm'
                   %>
                 </td>
