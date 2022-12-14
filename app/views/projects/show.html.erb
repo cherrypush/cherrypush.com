@@ -5,43 +5,42 @@
 </h1>
 <div class="mb-3">Last updated <%= time_ago_in_words(@project.reports.last.created_at) %> ago</div>
 
-<% if params[:metric_name].blank? %>
+<% if !@metric %>
   <%=
     render 'components/dropdown',
            class: 'mb-3 mr-3',
            text: 'Filter by metric',
-           entries: dropdown_entries_for_metrics(@project, params[:team_name]),
+           entries: metric_dropdown_entries(@project, @owner),
            id: 'dropdown-metrics'
   %>
 <% else %>
-  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= params[:metric_name] %></button>
+  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= @metric.name %></button>
 <% end %>
 
-<% if params[:team_name].blank? %>
-  <% if dropdown_entries_for_teams(@project, params[:metric_name]).any? %>
+<% if !@owner %>
+  <% if owner_dropdown_entries(@project, @metric).any? %>
     <%=
       render 'components/dropdown',
              class: 'mb-3 mr-3',
-             text: 'Filter by team',
-             entries: dropdown_entries_for_teams(@project, params[:metric_name]),
-             id: 'dropdown-teams'
+             text: 'Filter by owner',
+             entries: owner_dropdown_entries(@project, @metric),
+             id: 'dropdown-owners'
     %>
   <% end %>
 <% else %>
-  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= params[:team_name] %></button>
+  <button class="btn-light mb-3 mr-3" disabled>Filtered by <%= @owner.handle %></button>
 <% end %>
 
-<% if applied_filters? %>
-  <%= link_to 'Clear filters', project_path(@project), class: 'btn-primary' %>
+<% if @metric || @owner %>
+  <%= link_to 'Clear filters', project_path(@project), class: 'text-link' %>
 <% end %>
 
-<span class="prose dark:prose-invert ml-3"><%= @occurrences.count %> occurrences</span>
-
-<% if params[:metric_name].present? %>
-  <div class="card w-full mb-3">
-    <%= column_chart @chart_data, stacked: true, height: '240px', legend: 'top' %>
+<% if @metric %>
+  <div class="card mb-3 text-center">
+    <h3 class="inline"><%= @metric.name %></h3>
+    <%= area_chart @metric.chart_data(owner: @owner), height: '240px' %>
   </div>
-  <% if params[:team_name].present? %>
+  <% if @owner %>
     <div class="overflow-x-auto relative">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -51,13 +50,10 @@
           </tr>
         </thead>
         <tbody>
-          <% @occurrences.each do |occurrence| %>
+          <% @metric.occurrences(owner: @owner).each do |occurrence| %>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td class="py-4 px-6">
-                <div><%= link_to occurrence.permalink, occurrence.permalink, class: 'text-link' %></div>
-                <span
-                  class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                ><%= occurrence.metric_name %></span>
+                <div><%= link_to occurrence.file_path, occurrence.permalink, class: 'text-link' %></div>
               </td>
               <td class="py-4 px-6">
                 <%= occurrence.owners.to_sentence %>
@@ -68,45 +64,53 @@
       </table>
     </div>
   <% else %>
-    <div class="overflow-x-auto relative">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="py-3 px-6">Team</th>
-            <th scope="col" class="py-3 px-6">Occurrences</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count }.each do |team, count| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td class="py-4 px-6">
-                <%= team %>
-              </td>
-              <td class="py-4 px-6">
-                <%= count %>
-              </td>
-              <td>
-                <%=
-                  link_to 'Add to filters',
-                          project_path(@project, metric_name: params[:metric_name], team_name: team),
-                          class: 'btn-primary btn-sm'
-                %>
-              </td>
+    <%
+      occurrences_per_team =
+        @project.reports.last.occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count }
+    %>
+    <% if occurrences_per_team.any? %>
+      <div class="overflow-x-auto relative">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">Team</th>
+              <th scope="col" class="py-3 px-6">Occurrences</th>
+              <th></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            <% occurrences_per_team.each do |team, count| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="py-4 px-6">
+                  <%= team %>
+                </td>
+                <td class="py-4 px-6">
+                  <%= count %>
+                </td>
+                <td>
+                  <%=
+                    link_to 'Add to filters',
+                            project_path(@project, metric_name: @metric.name, team_name: team),
+                            class: 'btn-primary btn-sm'
+                  %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   <% end %>
 <% else %>
   <% @project.metrics.each do |metric| %>
     <div class="card mb-3 text-center">
-      <h3 class="inline"><%= metric %></h3>
+      <h3 class="inline"><%= metric.name %></h3>
       <%=
-        link_to 'Add to filters', project_path(@project, metric_name: metric), class: 'btn-primary float-right btn-sm'
+        link_to 'Add to filters',
+                project_path(@project, metric_name: metric.name),
+                class: 'btn-primary float-right btn-sm'
       %>
-      <%= column_chart @chart_occurrences.where(metric_name: metric).group_by_day(:created_at).count, height: '240px' %>
+      <%= area_chart metric.chart_data(owner: @owner), height: '240px' %>
     </div>
   <% end %>
 <% end %>
