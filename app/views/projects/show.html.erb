@@ -46,7 +46,6 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="py-3 px-6">Occurrence</th>
-            <th scope="col" class="py-3 px-6">Owners</th>
           </tr>
         </thead>
         <tbody>
@@ -54,9 +53,7 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td class="py-4 px-6">
                 <div><%= link_to occurrence.file_path, occurrence.permalink, class: 'text-link' %></div>
-              </td>
-              <td class="py-4 px-6">
-                <%= occurrence.owners.to_sentence %>
+                <div><%= occurrence.owners.to_sentence %></div>
               </td>
             </tr>
           <% end %>
