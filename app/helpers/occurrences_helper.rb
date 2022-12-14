@@ -1,30 +1,15 @@
 # frozen_string_literal: true
 
 module OccurrencesHelper
-  def dropdown_entries_for_metrics(project, current_team)
-    project
-      .reports
-      .last
-      .occurrences
-      .map(&:metric_name)
-      .uniq
-      .sort
-      .map { |metric_name| { title: metric_name, url: project_path(project, metric_name:, team_name: current_team) } }
+  def metric_dropdown_entries(project, owner)
+    project.metrics.map do |metric|
+      { title: metric.name, url: project_path(project, metric_name: metric.name, owner_handle: owner&.handle) }
+    end
   end
 
-  def dropdown_entries_for_teams(project, current_metric)
-    project
-      .reports
-      .last
-      .occurrences
-      .map(&:owners)
-      .flatten
-      .uniq
-      .sort
-      .map { |team_name| { title: team_name, url: project_path(project, metric_name: current_metric, team_name:) } }
-  end
-
-  def applied_filters?
-    params[:metric_name].present? || params[:team_name].present?
+  def owner_dropdown_entries(project, metric)
+    project.owners.map do |owner|
+      { title: owner.handle, url: project_path(project, metric_name: metric&.name, owner_handle: owner.handle) }
+    end
   end
 end
