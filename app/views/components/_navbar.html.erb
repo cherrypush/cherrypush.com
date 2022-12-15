@@ -110,11 +110,13 @@
           </li>
         <% end %>
         <% unless current_user&.premium? %>
-          <li>
-            <%=
-              link_to 'Pricing', pricing_path, class: action_name === 'pricing' ? 'navbar-link-active' : 'navbar-link'
-            %>
-          </li>
+          <% if false %>
+            <li>
+              <%=
+                link_to 'Pricing', pricing_path, class: action_name === 'pricing' ? 'navbar-link-active' : 'navbar-link'
+              %>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>
