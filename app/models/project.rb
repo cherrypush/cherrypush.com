@@ -11,11 +11,19 @@ class Project < ApplicationRecord
   enum access: { private: 'private', public: 'public' }, _suffix: :access
 
   def metrics
-    reports.last.occurrences.map(&:metric_name).uniq.sort.map { |name| Metric.new(name:, project: self) }
+    reports.last.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
   end
 
   def owners
-    reports.last.occurrences.map(&:owners).flatten.uniq.sort.map { |owner| Owner.new(handle: owner) }
+    reports
+      .last
+      .metrics
+      .each_with_object([]) do |(_metric_name, metric), owner_handles|
+        metric['owners'].each { |handle, _count| owner_handles << handle }
+      end
+      .uniq
+      .sort
+      .map { |owner| Owner.new(handle: owner) }
   end
 
   def daily_reports

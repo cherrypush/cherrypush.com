@@ -41,28 +41,12 @@
     <%= area_chart @metric.chart_data(owner: @owner), height: '240px' %>
   </div>
   <% if @owner %>
-    <div class="overflow-x-auto relative">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="py-3 px-6">Occurrence</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @metric.occurrences(owner: @owner).each do |occurrence| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td class="py-4 px-6">
-                <div><%= link_to occurrence.file_path, occurrence.permalink, class: 'text-link' %></div>
-                <div><%= occurrence.owners.to_sentence %></div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+    <div class="card prose dark:prose-invert max-w-none">
+      <p class="mb-3">Use the command below to get a list of all occurrences:</p>
+      <pre class="mt-3">cherry run --metric=<%= @metric.name %> --team=<%= @owner.handle %></pre>
     </div>
   <% else %>
-    <% occurrences_per_owner = @metric.occurrences.map(&:owners).flatten.tally.sort_by { |_team, count| -count } %>
-    <% if occurrences_per_owner.any? %>
+    <% if @metric.owners.any? %>
       <div class="overflow-x-auto relative">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -73,18 +57,18 @@
             </tr>
           </thead>
           <tbody>
-            <% occurrences_per_owner.each do |owner_handle, count| %>
+            <% @metric.owners.each do |owner| %>
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="py-4 px-6">
-                  <%= owner_handle %>
+                  <%= owner.handle %>
                 </td>
                 <td class="py-4 px-6">
-                  <%= count %>
+                  <%= owner.count %>
                 </td>
                 <td>
                   <%=
                     link_to 'Add to filters',
-                            project_path(@project, metric_name: @metric.name, owner_handle: owner_handle),
+                            project_path(@project, metric_name: @metric.name, owner_handle: owner.handle),
                             class: 'btn-primary btn-sm'
                   %>
                 </td>

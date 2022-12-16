@@ -8,17 +8,21 @@ class Metric
     @project = project
   end
 
-  def chart_data(owner: nil)
-    chart_occurrences = Occurrence.where(report: @project.daily_reports)
-    chart_occurrences = chart_occurrences.where(metric_name: name)
-    chart_occurrences = chart_occurrences.where('? = ANY (owners)', owner.handle) if owner.present?
-    chart_occurrences.joins(:report).group_by_day('reports.commit_date').count.reject { |_k, v| v.zero? }
+  def owners
+    @project.reports.last.metrics[name]['owners'].map { |handle, count| Owner.new(handle:, count:) }
   end
 
-  def occurrences(owner: nil)
-    occurrences = @project.reports.last.occurrences
-    occurrences = occurrences.where(metric_name: name)
-    occurrences = occurrences.where('? = ANY (owners)', owner.handle) if owner.present?
-    occurrences
+  def chart_data(owner: nil)
+    @project
+      .daily_reports
+      .map { |report| [report.commit_date.to_date, get_count(report, owner)] }
+      .reject { |_k, v| v.nil? || v.zero? }
+  end
+
+  private
+
+  # TODO: this should come from a method on Metric
+  def get_count(report, owner)
+    owner ? report.metrics.dig(name, 'owners', owner.handle) : report.metrics.dig(name, 'total')
   end
 end
