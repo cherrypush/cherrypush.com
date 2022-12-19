@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Owner
-  attr_reader :handle, :count
+  attr_accessor :handle, :count
 
   def initialize(handle:, count: nil)
     @handle = handle
