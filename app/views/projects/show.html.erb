@@ -43,7 +43,7 @@
   <% if @owner %>
     <div class="card prose dark:prose-invert max-w-none">
       <p class="mb-3">Use the command below to get a list of all occurrences:</p>
-      <pre class="mt-3">cherry run --metric=<%= @metric.name %> --team=<%= @owner.handle %></pre>
+      <pre class="mt-3">cherry run --metric="<%= @metric.name %>" --owner="<%= @owner.handle %>"</pre>
     </div>
   <% else %>
     <% if @metric.owners.any? %>
