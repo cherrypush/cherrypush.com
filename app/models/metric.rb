@@ -9,7 +9,10 @@ class Metric
   end
 
   def owners
-    @project.reports.last.metrics[name]['owners'].map { |handle, count| Owner.new(handle:, count:) }
+    @project.reports.last.metrics[name]['owners']
+      .map { |handle, count| Owner.new(handle:, count:) }
+      .sort_by(&:count)
+      .reverse
   end
 
   def chart_data(owner: nil)
