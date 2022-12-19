@@ -17,10 +17,7 @@ class Metric
   end
 
   def chart_data(owners: nil)
-    @project
-      .daily_reports
-      .map { |report| [report.commit_date.to_date, get_count(report, owners)] }
-      .reject { |_k, v| v.nil? || v.zero? }
+    @project.daily_reports.map { |report| [report.commit_date.to_date, get_count(report, owners)] }.compact
   end
 
   private
