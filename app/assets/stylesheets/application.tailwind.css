@@ -4,7 +4,7 @@
 
 @layer components {
   h1 {
-    @apply text-5xl font-extrabold dark:text-white mb-3 truncate;
+    @apply text-5xl font-extrabold dark:text-white mb-3;
   }
 
   .btn-primary {
@@ -36,7 +36,7 @@
   }
 
   .container {
-    @apply mx-auto max-w-5xl px-2 mx-auto my-6;
+    @apply mx-auto max-w-5xl px-2 my-6;
   }
 
   .card {
