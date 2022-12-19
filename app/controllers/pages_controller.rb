@@ -2,6 +2,10 @@
 
 class PagesController < ApplicationController
   def home
+  end
+
+  def docs
+    # TODO: fetch the docs directly from the GitHub repo
     @content = File.read(Rails.root.join('README.md'))
   end
 
@@ -9,8 +13,5 @@ class PagesController < ApplicationController
   end
 
   def privacy
-  end
-
-  def pricing
   end
 end
