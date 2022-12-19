@@ -20,9 +20,9 @@ Rails.application.routes.draw do
 
   resources :projects, only: %i[index show]
 
-  get :pricing, to: 'pages#pricing'
   get :privacy, to: 'pages#privacy'
   get :terms, to: 'pages#terms'
+  get :docs, to: 'pages#docs'
 
   root 'pages#home'
 end
