@@ -5,8 +5,7 @@ class PagesController < ApplicationController
   end
 
   def docs
-    # TODO: fetch the docs directly from the GitHub repo
-    @content = File.read(Rails.root.join('README.md'))
+    @content = HTTParty.get('https://raw.githubusercontent.com/cherrypush/cherry-cli/master/README.md').body
   end
 
   def terms

@@ -18,6 +18,7 @@ gem 'omniauth-google-oauth2' # inspired by this repo: https://github.com/guilher
 # project-specific dependencies
 gem 'chartkick'
 gem 'groupdate'
+gem 'httparty'
 gem 'redcarpet' # for markdown rendering
 gem 'tailwindcss-rails'
 
