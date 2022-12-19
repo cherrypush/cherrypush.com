@@ -1,18 +1,84 @@
-<div class="mb-6">
-  <div class="video-responsive">
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/Kdkn31D_gto"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+<div class="mr-auto place-self-center lg:col-span-7 text-center mt-12 mb-24">
+  <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
+    Get your <span class="text-blue-700 dark:text-blue-600">technical debt</span> under control
+  </h1>
+  <p class="max-w-3xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
+    Easily track your technical debt over time with a single command. <br />No need to share access to your codebase.
+  </p>
+  <a href="/auth/google_oauth2" class="btn-primary text-lg py-3 mr-3">
+    Create a free account
+    <svg class="inline w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fill-rule="evenodd"
+        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+  </a>
+  <a href="/docs" class="btn-light text-lg py-3">Read the docs</a>
+</div>
+
+<div class="md:text-center mb-6">
+  <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl">Free forever for open-source.</h2>
+  <p class="mt-4 text-lg text-slate-400">Want to keep your projects private? 🔒 Check out our paid plans.</p>
+</div>
+
+<div class="md:flex">
+  <div
+    class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+  >
+    <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Individuals</h5>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">9</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
+      <%= render 'components/pricing_item_off', text: 'Unlimited project members' %>
+      <%= render 'components/pricing_item_off', text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item_off', text: '24x7 email support' %>
+    </ul>
+    <button
+      type="button"
+      data-modal-toggle="crypto-modal"
+      class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+    >
+      Choose plan
+    </button>
+  </div>
+
+  <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Organizations</h5>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">99</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
+      <%= render 'components/pricing_item_on', text: 'Unlimited project members' %>
+      <%= render 'components/pricing_item_on', text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item_on', text: '24x7 email support' %>
+    </ul>
+    <button
+      type="button"
+      data-modal-toggle="crypto-modal"
+      class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+    >
+      Choose plan
+    </button>
   </div>
 </div>
 
-<%# TODO: use README from the cherry-cli instead of duplicating the file on this repo %>
-<div class="prose dark:prose-invert mx-auto max-w-none">
-  <%= markdown(@content) %>
+<div
+  class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0 mt-3"
+>
+  <div>We're <span class="font-bold">free forever</span> for open-source software.</div>
+  <div>
+    Are you working on open-source?
+    <a href="javascript:void" data-modal-toggle="crypto-modal" class="text-link">Shoot us a message on Twitter ❤️</a>
+  </div>
 </div>
