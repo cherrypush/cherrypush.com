@@ -9,20 +9,28 @@ class Metric
   end
 
   def owners
-    @project.owners.each { |owner| owner.count = get_count(@project.reports.last, owner) || 0 }.sort_by(&:count).reverse
+    @project
+      .owners
+      .each { |owner| owner.count = get_count(@project.reports.last, [owner]) || 0 }
+      .sort_by(&:count)
+      .reverse
   end
 
-  def chart_data(owner: nil)
+  def chart_data(owners: nil)
     @project
       .daily_reports
-      .map { |report| [report.commit_date.to_date, get_count(report, owner)] }
+      .map { |report| [report.commit_date.to_date, get_count(report, owners)] }
       .reject { |_k, v| v.nil? || v.zero? }
   end
 
   private
 
   # TODO: this should come from a method on Metric
-  def get_count(report, owner)
-    owner ? report.metrics.dig(name, 'owners', owner.handle) : report.metrics.dig(name, 'total')
+  def get_count(report, owners)
+    if owners
+      owners.map { |owner| report.metrics.dig(name, 'owners', owner.handle) || 0 }.sum
+    else
+      report.metrics.dig(name, 'total')
+    end
   end
 end

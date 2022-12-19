@@ -10,7 +10,11 @@ class ProjectsController < ApplicationController
     return redirect_to projects_path, notice: 'You are not authorized to view this project' unless authorized?
 
     @metric = Metric.new(name: params[:metric_name], project: @project) if params[:metric_name]
-    @owner = Owner.new(handle: params[:owner_handle]) if params[:owner_handle]
+
+    if params[:owner_handles].present?
+      @selected_owners = []
+      params[:owner_handles].each { |handle| @selected_owners << Owner.new(handle:) }
+    end
   end
 
   private
