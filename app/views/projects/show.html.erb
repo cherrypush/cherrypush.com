@@ -31,6 +31,7 @@
     <div class="card prose dark:prose-invert max-w-none mb-3">
       <p class="mb-3">Use the command below to get the list of occurrences:</p>
       <pre class="mt-3">
+npm install -g cherrypush
 cherry run --metric="<%= @metric.name %>" --owner="<%= @selected_owners.map(&:handle).join(',') %>"</pre
       >
     </div>
