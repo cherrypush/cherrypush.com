@@ -13,15 +13,12 @@
   </head>
 
   <body class="dark:bg-gray-900 text-gray-800 dark:text-white">
-    <%= render 'components/navbar' %>
-    <%= render 'components/sidebar' %>
+    <%= render 'components/landing_navbar' %>
 
-    <div class="md:ml-64">
-      <div class="mx-3 mt-20">
-        <%= render 'components/alerts' %>
-        <%= yield %>
-        <%= render 'components/footer' %>
-      </div>
+    <div class="container mt-20">
+      <%= render 'components/alerts' %>
+      <%= yield %>
+      <%= render 'components/footer' %>
     </div>
   </body>
 </html>

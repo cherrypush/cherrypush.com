@@ -6,7 +6,7 @@ class User::ApplicationController < ApplicationController
   private
 
   def authenticate_user!
-    # TODO: the line below is not showing the flash message
-    redirect_to root_path, alert: 'You must be logged in to access this page' unless current_user
+    alert = 'You must be logged in to access this page'
+    redirect_to(projects_path, alert:) if current_user.nil?
   end
 end

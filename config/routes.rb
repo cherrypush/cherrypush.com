@@ -16,9 +16,10 @@ Rails.application.routes.draw do
     end
     resource :settings, only: :show
     resources :authorizations, only: %i[index new create destroy]
+    resources :metrics, only: %i[index]
   end
 
-  resources :projects, only: %i[index show]
+  resources :projects, only: %i[index]
 
   get :privacy, to: 'pages#privacy'
   get :terms, to: 'pages#terms'
