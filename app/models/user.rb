@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :reports, through: :projects
 
   before_save :ensure_api_key
 

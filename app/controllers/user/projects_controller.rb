@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class User::ProjectsController < ApplicationController
+class User::ProjectsController < User::ApplicationController
   def index
     @projects = current_user.projects.or(Project.where(id: current_user.authorizations.select(:project_id))).distinct
   end

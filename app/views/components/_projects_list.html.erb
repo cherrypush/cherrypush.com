@@ -28,7 +28,7 @@
           </td>
           <td class="py-4 px-6">
             <% if project.reports.any? %>
-              <%= link_to "#{project.reports.last.total} occurrences", project_path(project), class: 'text-link' %>
+              <%= link_to "#{project.reports.last.total} occurrences", user_metrics_path(project:), class: 'text-link' %>
             <% end %>
           </td>
           <td class="py-4 px-6">

@@ -2,6 +2,7 @@
 
 class PagesController < ApplicationController
   def home
+    redirect_to user_metrics_path if current_user
   end
 
   def docs
