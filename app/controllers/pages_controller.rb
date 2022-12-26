@@ -2,7 +2,11 @@
 
 class PagesController < ApplicationController
   def home
-    redirect_to user_metrics_path if current_user
+    if current_user&.projects&.any?
+      redirect_to user_metrics_path
+    elsif current_user
+      redirect_to user_projects_path
+    end
   end
 
   def docs
