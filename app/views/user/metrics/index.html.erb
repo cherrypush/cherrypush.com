@@ -181,6 +181,13 @@ cherry run --metric="<%= @metric.name %>" --owner="<%= @selected_owners.map(&:ha
           </tbody>
         </table>
       </div>
+    <% else %>
+      <div class="card prose dark:prose-invert max-w-none mb-3">
+        <p class="mb-3">To get a full list of occurrences:</p>
+        <pre class="mt-3">
+npm install -g cherrypush
+cherry run --metric="<%= @metric.name %>"</pre>
+      </div>
     <% end %>
   <% else %>
     <% @project.metrics.each do |metric| %>
@@ -189,7 +196,7 @@ cherry run --metric="<%= @metric.name %>" --owner="<%= @selected_owners.map(&:ha
         <%=
           link_to 'Filter by this metric',
                   user_metrics_path(
-                    project: @project,
+                    project_id: @project.id,
                     metric_name: metric.name,
                     owner_handles: @selected_owners&.map(&:handle),
                   ),
