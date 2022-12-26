@@ -19,7 +19,12 @@ module.exports = (env) => {
     },
     plugins: [],
     module: {
-      rules: [],
+      rules: [
+        {
+          test: /\.(s[ac]|c)ss$/i,
+          use: ['css-loader'],
+        },
+      ],
     },
   }
 }
