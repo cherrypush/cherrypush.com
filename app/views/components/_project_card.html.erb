@@ -1,5 +1,11 @@
 <a
-  href="<%= current_user ? user_metrics_path(project_id: project.id) : google_sign_in_path %>"
+  href="<%=
+  if current_user
+    user_metrics_path(project_id: project.id)
+  else
+    google_sign_in_path(after_sign_in_path: user_metrics_path(project_id: project.id))
+  end
+%>"
   class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
 >
   <div class="flex flex-col h-full">
