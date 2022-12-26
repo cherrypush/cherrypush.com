@@ -117,8 +117,18 @@
 </div>
 
 <% if @project.reports.any? %>
-  <div class="mb-3">Last updated <%= time_ago_in_words(@project.latest_report.created_at) %> ago</div>
+  <% if @project.reports.count < 2 %>
+  <div class='card mb-3'>
+    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+          Fill up your project with historic data by running the following command:
+        </p>
+        <div class="prose dark:prose-invert max-w-none mb-3">
+          <pre class="mt-3">
+cherry backfill --since=<%= 1.year.ago.strftime('%Y-%m-%d') %> --interval=30 --api-key=<%= current_user.api_key %></pre>
+    </div>
+    </div>
 
+  <% end %>
   <% if @metric %>
     <div class="card mb-3 text-center">
       <h3 class="inline"><%= @metric.name %></h3>
@@ -208,12 +218,11 @@ cherry run --metric="<%= @metric.name %>"</pre>
   <% end %>
 <% else %>
   <div class="card prose dark:prose-invert max-w-none mb-3">
-    <p class="mb-3">No metrics have been tracked for this project.</p>
-    <p class="mb-3">Get started with the commands below:</p>
+    <p class="mb-3">Fill up your project with historic data by running the following commands:</p>
     <pre class="mt-3">
 npm install -g cherrypush
 cherry init
-cherry push</pre
+cherry backfill --since=<%= 1.year.ago.strftime('%Y-%m-%d') %> --interval=30 --api-key=<%= current_user.api_key %></pre
     >
   </div>
 <% end %>
