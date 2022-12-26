@@ -12,13 +12,16 @@ module OccurrencesHelper
 
   def owner_dropdown_entries(project, metric)
     project.owners.map do |owner|
-      { title: owner.handle, url: project_path(project, metric_name: metric&.name, owner_handles: [owner.handle]) }
+      {
+        title: owner.handle,
+        url: user_metrics_path(project:, metric_name: metric&.name, owner_handles: [owner.handle]),
+      }
     end
   end
 
   def project_dropdown_entries
     if current_user
-      current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project_id: project.id) } }
+      current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project:) } }
     else
       Project.public_access.map { |project| { title: project.name, url: project_path(project) } }
     end
