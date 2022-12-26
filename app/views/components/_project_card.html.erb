@@ -1,24 +1,7 @@
 <a
-  href="<%= user_metrics_path(project_id: project.id) %>"
+  href="<%= current_user ? user_metrics_path(project_id: project.id) : google_sign_in_path %>"
   class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
 >
-  <% if project.reports.any? %>
-    <% if project.latest_report.created_at < 1.week.ago %>
-      <span
-        class="text-xs py-1 px-3 absolute -top-3 -right-3 bg-red-700 border-2 border-white dark:border-gray-800 rounded-full"
-        >Last report <%= time_ago_in_words project.latest_report.created_at %> ago</span
-      >
-    <% else %>
-      <span
-        class="text-xs h-3.5 w-3.5 absolute -top-1.5 -right-1.5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"
-      ></span>
-    <% end %>
-  <% else %>
-    <span
-      class="text-xs h-3.5 w-3.5 absolute -top-1.5 -right-1.5 bg-red-500 border-2 border-white dark:border-gray-800 rounded-full"
-    ></span>
-  <% end %>
-
   <div class="flex flex-col h-full">
     <h5 class="mb-3 text-xl font-medium text-gray-900 dark:text-white">
       <%= '🌎' if project.public_access? %>
@@ -29,7 +12,7 @@
     <% if project.reports.any? %>
       <span class="text-sm text-gray-500 dark:text-gray-400">
         <%=
-          area_chart project.reports.group_by_day(:commit_date).count,
+          area_chart Metric.new(name: project.metrics.first.name, project: project).chart_data,
                      height: 70,
                      legend: false,
                      library: {
