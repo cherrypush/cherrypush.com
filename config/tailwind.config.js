@@ -6,7 +6,7 @@ module.exports = {
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}',
-    // './node_modules/flowbite/**/*.js', // https://flowbite.com/docs/getting-started/rails/
+    './node_modules/flowbite/**/*.js', // https://flowbite.com/docs/getting-started/rails/
   ],
   theme: {
     extend: {
@@ -15,10 +15,11 @@ module.exports = {
       },
     },
   },
+  darkMode: 'class',
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
-    // require('flowbite/plugin'),
+    require('flowbite/plugin'),
   ],
 }
