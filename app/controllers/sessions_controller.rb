@@ -7,13 +7,13 @@ class SessionsController < ApplicationController
     omniauth = request.env['omniauth.auth']
     user = User.find_or_create_with_omniauth(omniauth)
     session[:user_id] = user.id
-    flash[:notice] = "New session started via #{pretty_name(omniauth.provider)}"
+    flash[:notice] = "Signed in as #{user.name}"
     render_or_redirect
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, notice: t('controllers.sessions.destroy')
+    redirect_to root_url, notice: 'Signed out'
   end
 
   private
