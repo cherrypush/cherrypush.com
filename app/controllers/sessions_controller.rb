@@ -7,8 +7,7 @@ class SessionsController < ApplicationController
     omniauth = request.env['omniauth.auth']
     user = User.find_or_create_with_omniauth(omniauth)
     session[:user_id] = user.id
-    flash[:notice] = "Signed in as #{user.name}"
-    render_or_redirect
+    redirect_to after_sign_in_path, notice: "Signed in as #{user.name}"
   end
 
   def destroy
@@ -18,17 +17,7 @@ class SessionsController < ApplicationController
 
   private
 
-  def render_or_redirect
-    page = request.env['omniauth.origin']
-    if request.env['omniauth.params']['popup']
-      @page = page
-      render 'callback', layout: false
-    else
-      redirect_to page
-    end
-  end
-
-  def pretty_name(provider_name)
-    provider_name.titleize
+  def after_sign_in_path
+    request.env['omniauth.params']['after_sign_in_path'] || request.env['omniauth.origin']
   end
 end
