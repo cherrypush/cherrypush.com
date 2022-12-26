@@ -21,7 +21,7 @@ module OccurrencesHelper
 
   def project_dropdown_entries
     if current_user
-      current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project:) } }
+      current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project_id: project.id) } }
     else
       Project.public_access.map { |project| { title: project.name, url: project_path(project) } }
     end
