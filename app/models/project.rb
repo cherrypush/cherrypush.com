@@ -32,6 +32,6 @@ class Project < ApplicationRecord
   end
 
   def daily_reports
-    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| latest_report }
+    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
   end
 end
