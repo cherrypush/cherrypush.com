@@ -7,8 +7,6 @@ class Report < ApplicationRecord
   validates :commit_date, presence: true
   validates :metrics, presence: true
 
-  default_scope { order(:commit_date) } # so that project.reports.last returns the latest report
-
   def total
     metrics.values.map { |metric| metric['total'] }.sum
   end

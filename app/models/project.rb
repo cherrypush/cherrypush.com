@@ -10,9 +10,13 @@ class Project < ApplicationRecord
 
   enum access: { private: 'private', public: 'public' }, _suffix: :access
 
+  def latest_report
+    reports.order(:commit_date).last
+  end
+
   def metrics
     return [] if reports.empty?
-    reports.last.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
+    latest_report.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
   end
 
   def owners
@@ -28,6 +32,6 @@ class Project < ApplicationRecord
   end
 
   def daily_reports
-    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
+    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| latest_report }
   end
 end
