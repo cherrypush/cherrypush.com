@@ -1,3 +1,7 @@
 <h1>Projects</h1>
 
-<%= render 'components/projects_list', projects: @projects %>
+<div class="grid md:grid-cols-3 gap-3">
+  <% @projects.each do |project| %>
+    <%= render 'components/project_card', project: project %>
+  <% end %>
+</div>

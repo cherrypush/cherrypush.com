@@ -4,4 +4,8 @@
 
 <p class="mb-3">It's the perfect spot to look for opportunities to contribute to open-source 🤗</p>
 
-<%= render 'components/projects_list', projects: @projects %>
+<div class="grid md:grid-cols-2 gap-3">
+  <% @projects.each do |project| %>
+    <%= render 'components/project_card', project: project %>
+  <% end %>
+</div>

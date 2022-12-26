@@ -2,7 +2,12 @@
 
 class User::ProjectsController < User::ApplicationController
   def index
-    @projects = current_user.projects.or(Project.where(id: current_user.authorizations.select(:project_id))).distinct
+    @projects =
+      current_user
+        .projects
+        .or(Project.where(id: current_user.authorizations.select(:project_id)))
+        .includes(:reports)
+        .order('reports.created_at desc nulls last')
   end
 
   def destroy
