@@ -1,0 +1,14 @@
+<p class="text-sm font-normal text-gray-500 dark:text-gray-400">Install the cherry CLI:</p>
+<div class="prose dark:prose-invert max-w-none mb-3">
+  <pre class="mt-3">npm install -g cherrypush</pre>
+</div>
+<p class="text-sm font-normal text-gray-500 dark:text-gray-400">Set up a config file for your project with:</p>
+<div class="prose dark:prose-invert max-w-none mb-3">
+  <pre class="mt-3">cherry init</pre>
+</div>
+<p class="text-sm font-normal text-gray-500 dark:text-gray-400">Backfill your historic data with:</p>
+<div class="prose dark:prose-invert max-w-none mb-3">
+  <pre class="mt-3">
+cherry backfill --since=<%= 1.year.ago.strftime('%Y-%m-%d') %> --interval=30 --api-key=<%= current_user.api_key %></pre
+  >
+</div>
