@@ -3,7 +3,8 @@
 class User::MetricsController < User::ApplicationController
   def index
     @project = Project.find_by(id: params[:project_id]) || current_user.reports.last&.project
-    return redirect_to projects_path, notice: 'You are not authorized to view this project' unless authorized?
+    return redirect_to user_projects_path, notice: 'You first need to create a project.' if @project.nil?
+    return redirect_to projects_path, notice: 'You are not authorized to view this project.' unless authorized?
 
     @metric = Metric.new(name: params[:metric_name], project: @project) if params[:metric_name]
 
