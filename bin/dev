@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-brew services start postgresql
+brew services start postgresql@14
 
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."

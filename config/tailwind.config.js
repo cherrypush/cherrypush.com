@@ -20,6 +20,7 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
+    // Works thanks to flowbite being imported from package.json
     require('flowbite/plugin'),
   ],
 }
