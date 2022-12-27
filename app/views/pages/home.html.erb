@@ -1,13 +1,14 @@
 <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-36">
   <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-    Get your <span class="text-blue-700 dark:text-blue-600">technical debt</span> under control
+    Track and manage your <span class="text-blue-700 dark:text-blue-600">technical debt</span> with ease.
   </h1>
   <p class="max-w-3xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
-    Easily monitor your codebase patterns over over time. <br />No need to share access to your codebase.
+    `cherry push` is an open-source CLI that helps you track and manage your technical debt, capture the value of your
+    work, and show off your team's impact.
   </p>
-  <a href="<%= google_sign_in_path %>" class="btn-primary text-lg py-3 mr-3">
-    Create a free account
-    <svg class="inline w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <a href="<%= google_sign_in_path %>" class="btn-primary text-lg py-4 pl-7 mr-3">
+    Create a free project
+    <svg class="inline w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path
         fill-rule="evenodd"
         d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
@@ -15,11 +16,11 @@
       ></path>
     </svg>
   </a>
-  <a href="/docs" class="btn-light text-lg py-3">Read the docs</a>
+  <%= render 'components/watch_the_video_button' %>
 </div>
 
 <div class="md:text-center mb-6">
-  <h2 class="font-display text-3xl tracking-tight text-white sm:text-4xl">Free forever for open-source.</h2>
+  <h2 class="font-display text-3xl tracking-tight sm:text-4xl">Free forever for open-source.</h2>
   <p class="mt-4 text-lg text-slate-400">Want to keep your projects private? 🔒 Check out our paid plans.</p>
 </div>
 
@@ -42,7 +43,7 @@
     </ul>
     <button
       type="button"
-      data-modal-toggle="crypto-modal"
+      data-modal-toggle="contact-modal"
       class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
     >
       Choose plan
@@ -65,7 +66,7 @@
     </ul>
     <button
       type="button"
-      data-modal-toggle="crypto-modal"
+      data-modal-toggle="contact-modal"
       class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
     >
       Choose plan
@@ -78,7 +79,7 @@
 >
   <div>We're <span class="font-bold">free forever</span> for open-source software.</div>
   <div>
-    Are you working on open-source?
-    <a href="javascript:void" data-modal-toggle="crypto-modal" class="text-link">Shoot us a message on Twitter ❤️</a>
+    Is your project open-source?
+    <a href="javascript:void" data-modal-toggle="contact-modal" class="text-link">Shoot us a message on Twitter ❤️</a>
   </div>
 </div>
