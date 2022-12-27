@@ -1,5 +1,5 @@
 {
-  "name": "immobilier",
+  "name": "cherrypush",
   "private": true,
   "dependencies": {
     "chart.js": "^4.0.1",
