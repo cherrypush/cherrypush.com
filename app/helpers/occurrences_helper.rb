@@ -5,7 +5,7 @@ module OccurrencesHelper
     project.metrics.map do |metric|
       {
         title: metric.name,
-        url: user_metrics_path(project:, metric_name: metric.name, owner_handles: owners&.map(&:handle)),
+        url: user_metrics_path(project_id: project.id, metric_name: metric.name, owner_handles: owners&.map(&:handle)),
       }
     end
   end
@@ -14,7 +14,7 @@ module OccurrencesHelper
     project.owners.map do |owner|
       {
         title: owner.handle,
-        url: user_metrics_path(project:, metric_name: metric&.name, owner_handles: [owner.handle]),
+        url: user_metrics_path(project_id: project.id, metric_name: metric&.name, owner_handles: [owner.handle]),
       }
     end
   end
