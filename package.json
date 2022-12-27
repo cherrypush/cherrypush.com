@@ -4,7 +4,6 @@
   "dependencies": {
     "chart.js": "^4.0.1",
     "chartkick": "^4.2.0",
-    "css-loader": "^6.7.3",
     "flowbite": "^1.5.4"
   },
   "devDependencies": {
