@@ -17,6 +17,5 @@ development restore production
 # Usage
 
 ```sh
-# to launch both webpack and puma at once
 bin/dev
 ```

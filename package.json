@@ -1,18 +1,8 @@
 {
-  "name": "immobilier",
+  "name": "cherrypush",
   "private": true,
-  "scripts": {
-    "start": "./bin/webpack-dev-server",
-    "build": "webpack --config ./config/webpack/webpack.config.js",
-    "stats": "npx webpack --config config/webpack/webpack.config.js --json > stats.json && yarn webpack-bundle-analyzer stats.json"
-  },
   "dependencies": {
-    "chart.js": "^4.0.1",
-    "chartkick": "^4.2.0",
-    "css-loader": "^6.7.3",
-    "flowbite": "^1.5.4",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.0"
+    "flowbite": "^1.5.4"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "1.6.1",
