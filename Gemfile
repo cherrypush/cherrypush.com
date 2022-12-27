@@ -23,7 +23,7 @@ gem 'redcarpet' # for markdown rendering
 gem 'tailwindcss-rails'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-# gem 'importmap-rails'
+gem 'importmap-rails'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 # gem 'turbo-rails'
