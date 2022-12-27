@@ -19,6 +19,10 @@ class Project < ApplicationRecord
     latest_report.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
   end
 
+  def chart_data
+    daily_reports.map { |report| [report.commit_date.to_date, report.total] }
+  end
+
   def owners
     reports
       .last
