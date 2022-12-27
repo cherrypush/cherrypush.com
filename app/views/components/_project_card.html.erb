@@ -18,7 +18,7 @@
     <% if project.reports.any? %>
       <span class="text-sm text-gray-500 dark:text-gray-400">
         <%=
-          area_chart Metric.new(name: project.metrics.first.name, project: project).chart_data,
+          area_chart project.chart_data,
                      height: 70,
                      legend: false,
                      library: {
