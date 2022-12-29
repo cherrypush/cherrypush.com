@@ -79,13 +79,13 @@
         remove_owner_path =
           user_metrics_path(
             project_id: @project.id,
-            metric_name: @metric.name,
+            metric_name: @metric&.name,
             owner_handles: @selected_owners.map(&:handle) - [owner.handle],
           )
       %>
       <span
         id="badge-dismiss-default"
-        class="inline-flex items-center py-2.5 px-3 mr-2 text-sm font-medium text-blue-800 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
+        class="inline-flex items-center py-2.5 px-3 mr-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
       >
         <%= owner.handle %>
         <a
@@ -113,6 +113,10 @@
         </a>
       </span>
     <% end %>
+  <% end %>
+
+  <% if @project.owners.any? %>
+    <%= render 'components/dropdown', class: 'mr-3', text: @selected_owners.any? ? 'Add owner' : 'Filter by owner', entries: owner_dropdown_entries(@project, @metric), id: 'dropdown-onwers' %>
   <% end %>
 </div>
 
