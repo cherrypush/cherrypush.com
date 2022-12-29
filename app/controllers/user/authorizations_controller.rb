@@ -9,11 +9,6 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def new
-    return redirect_to user_projects_path, alert: 'You need to create a project first.' if current_user.projects.blank?
-    if current_user.projects.private_access.blank?
-      return redirect_to user_projects_path, alert: 'None of your projects are private.'
-    end
-
     @projects = current_user.projects.private_access
     @github_handles = User.where.not(id: current_user.id).map(&:github_handle).compact
     @authorization = Authorization.new
@@ -23,7 +18,7 @@ class User::AuthorizationsController < User::ApplicationController
     return redirect_to user_authorizations_path, alert: 'User not found.' if @user.blank?
     return redirect_to user_authorizations_path, alert: 'Project not found.' if @project.blank?
 
-    authorization = Authorization.new(project: @project, user: @user)
+    authorization = Authorization.find_or_initialize_by(project: @project, user: @user)
     if authorization.save
       redirect_to user_authorizations_path, notice: 'Authorization created.'
     else
@@ -32,7 +27,8 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def destroy
-    current_user.authorizations.find(params[:id]).destroy!
+    authorization = Authorization.find_by(id: params[:id], project_id: current_user.projects.ids)
+    authorization.destroy!
     redirect_to user_authorizations_path, notice: 'Authorization removed.'
   end
 

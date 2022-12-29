@@ -8,7 +8,12 @@ class User < ApplicationRecord
 
   before_save :ensure_api_key
 
+  def trial?
+    created_at > 7.days.ago
+  end
+
   def premium?
+    return true if trial?
     return true if memberships.any?
     false
   end

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :projects, only: %i[index]
 
   get :privacy, to: 'pages#privacy'
+  get :pricing, to: 'pages#pricing'
   get :terms, to: 'pages#terms'
   get :docs, to: 'pages#docs'
 

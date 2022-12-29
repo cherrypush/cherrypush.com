@@ -2,7 +2,31 @@
 
 <p class="mb-3">Define authorizations to each of your projects.</p>
 
-<%= link_to '+ Add Authorization', new_user_authorization_path, class: 'btn-primary' %>
+<% if current_user.projects.blank? %>
+  <div
+    class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+    role="alert"
+  >
+    You first need to create a project.
+    <%= link_to user_projects_url, user_projects_url, class: 'text-link' %>
+  </div>
+<% elsif current_user.projects.private_access.blank? %>
+  <div
+    class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+    role="alert"
+  >
+    You need at least a private project to create authorizations.
+  </div>
+<% elsif !current_user.premium? %>
+  <div
+    class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+    role="alert"
+  >
+    You need to be a premium user to create authorizations.
+  </div>
+<% else %>
+  <%= link_to '+ Add Authorization', new_user_authorization_path, class: 'btn-primary' %>
+<% end %>
 
 <% @authorizations.map(&:project).uniq.each do |project| %>
   <div class="overflow-x-auto relative mt-6">
