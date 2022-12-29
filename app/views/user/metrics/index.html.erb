@@ -116,7 +116,7 @@
   <% end %>
 
   <% if @project.owners.any? %>
-    <%= render 'components/dropdown', class: 'mr-3', text: @selected_owners.any? ? 'Add owner' : 'Filter by owner', entries: owner_dropdown_entries(@project, @metric), id: 'dropdown-onwers' %>
+    <%= render 'components/dropdown', class: 'mr-3', text: @selected_owners ? 'Add owner' : 'Filter by owner', entries: owner_dropdown_entries(@project, @metric), id: 'dropdown-onwers' %>
   <% end %>
 </div>
 
