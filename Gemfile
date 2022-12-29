@@ -13,7 +13,7 @@ gem 'sprockets-rails'
 
 # authentication
 gem 'omniauth'
-gem 'omniauth-google-oauth2' # inspired by this repo: https://github.com/guilhermesimoes/omniauth-popup
+gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
 # project-specific dependencies
 gem 'chartkick'
@@ -84,4 +84,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem "importmap-rails", "~> 1.1"
+gem 'importmap-rails', '~> 1.1'

@@ -2,13 +2,10 @@
 
 class SessionsController < ApplicationController
   def create
-    # Have a look at the info returned by the provider by uncommenting the next line:
-    # render text: "<pre>" + env["omniauth.auth"].to_yaml and return
-    omniauth = request.env['omniauth.auth']
-    user = User.find_or_create_with_omniauth(omniauth)
+    user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
     session[:user_id] = user.id
     redirect_to after_sign_in_path, notice: "Signed in as #{user.name}"
-    TelegramClient.send("New user signed in: #{user.name}")
+    TelegramClient.send("#{user.name} just signed in (#{Rails.env})")
   end
 
   def destroy
