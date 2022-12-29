@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy', as: :signout
-  get '/auth/google_oauth2', as: :google_sign_in
+  get '/auth/github', as: :github_sign_in
 
   namespace :api do
     resources :reports, only: :create
