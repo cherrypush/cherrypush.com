@@ -36,7 +36,7 @@ module ApplicationHelper
       project.metrics.map do |metric|
         {
           text: html_escape("#{metric.name} - #{project.name}"),
-          href: user_metrics_path(project:, metric_name: metric.name),
+          href: user_metrics_path(project_id: project.id, metric_name: metric.name),
         }
       end
     end
