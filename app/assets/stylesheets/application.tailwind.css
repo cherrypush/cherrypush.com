@@ -62,3 +62,7 @@
   width: 100%;
   position: absolute;
 }
+
+.autoComplete_wrapper > ul > li mark {
+  color: #1b64f2 !important;
+}
