@@ -181,9 +181,13 @@ cherry run --metric="<%= @metric.name %>" --owner="<%= @selected_owners.map(&:ha
                     %>
                   <% else %>
                     <%=
-                      link_to
-                      'Add to filter', user_metrics_path( project_id: @project.id, metric_name: @metric.name, owner_handles:
-                      (@selected_owners&.map(&:handle) || []) + [owner.handle], ), class: 'btn-primary btn-sm'
+                      link_to 'Add to filter',
+                              user_metrics_path(
+                                project_id: @project.id,
+                                metric_name: @metric.name,
+                                owner_handles: (@selected_owners&.map(&:handle) || []) + [owner.handle],
+                              ),
+                              class: 'btn-primary btn-sm'
                     %>
                   <% end %>
                 </td>
