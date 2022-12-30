@@ -1,4 +1,4 @@
-<div class="float-right justify-end px-4 pt-4">
+<div class="float-right justify-end px-4 pt-2">
   <button
     id="dropdownButton"
     data-dropdown-toggle="project-dropdown-<%= @project.id %>}"
@@ -51,8 +51,6 @@
     </ul>
   </div>
 </div>
-
-<h1>Metrics</h1>
 
 <div>
   <%=
@@ -142,7 +140,11 @@
   <% if @metric %>
     <div class="card mb-3 text-center">
       <h3 class="inline"><%= @metric.name %></h3>
-      <%= area_chart @metric.chart_data(owners: @selected_owners), height: '240px' %>
+      <div
+        class="charts max-h-4"
+        data-serie="<%= @metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
+        data-serie-name="<%= @metric.name %>"
+      ></div>
     </div>
     <% if @selected_owners %>
       <div class="card prose dark:prose-invert max-w-none mb-3">
@@ -218,7 +220,11 @@ cherry run --metric="<%= @metric.name %>"
                   ),
                   class: 'btn-primary float-right btn-sm'
         %>
-        <%= area_chart metric.chart_data(owners: @selected_owners), height: '240px' %>
+        <div
+          class="charts max-h-4"
+          data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
+          data-serie-name="<%= metric.name %>"
+        ></div>
       </div>
     <% end %>
   <% end %>
