@@ -9,3 +9,4 @@ import 'Chart.bundle'
 
 import 'components/charts'
 import 'components/navbar_search'
+import 'components/authorization_users_search'
