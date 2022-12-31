@@ -1,3 +1,7 @@
+.autoComplete_wrapper > ul > li mark {
+  color: #1b64f2 !important;
+}
+
 .autoComplete_wrapper {
   position: relative;
   display: inline-block;
