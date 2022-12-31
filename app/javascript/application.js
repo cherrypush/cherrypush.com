@@ -3,7 +3,9 @@
 // import 'controllers'
 
 import 'flowbite'
+
 import 'chartkick'
 import 'Chart.bundle'
-import './init_charts'
-import './init_navbar_search'
+
+import 'components/charts'
+import 'components/navbar_search'
