@@ -6,13 +6,17 @@
       >GitHub username*</label
     >
     <input
-      id="github_handle"
+      id="authorization-users-search"
       name="github_handle"
-      list="brow"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       placeholder="Start typing to autocomplete..."
-      required
+      data-src="<%= @github_handles.to_json %>"
+      type="search"
+      spellcheck="false"
       autocomplete="off"
+      autocorrect="off"
+      data
+      required
     />
     <datalist id="brow" class="text-red-500">
       <% @github_handles.each do |github_handle| %>
