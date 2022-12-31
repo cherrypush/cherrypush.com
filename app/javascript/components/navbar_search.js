@@ -8,7 +8,6 @@ document.addEventListener(
     const autoCompleteJS = new autoComplete({
       selector: () => inputEl,
       threshold: 0, // required to automatically open on focus
-      placeHolder: 'Search for a project or metric...',
       data: {
         src: JSON.parse(inputEl.getAttribute('data-src')),
         keys: ['text'],
