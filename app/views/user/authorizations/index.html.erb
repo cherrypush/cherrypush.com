@@ -41,8 +41,7 @@
         <% @authorizations.filter { |authorization| authorization.project == project }.each do |authorization| %>
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              <%= authorization.user.name %>
-              (<%= authorization.user.email %>)
+              @<%= authorization.user.github_handle %>
             </th>
             <td class="py-4 px-6">
               <%=
