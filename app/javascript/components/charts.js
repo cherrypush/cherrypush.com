@@ -1,5 +1,7 @@
 import ApexCharts from 'apexcharts'
 
+// For more customization options: https://apexcharts.com/docs/chart-types/area-chart/
+
 document.addEventListener(
   'DOMContentLoaded',
   () => {
@@ -7,19 +9,18 @@ document.addEventListener(
       const options = {
         chart: {
           background: 'none',
-          type: 'line',
-          height: 400,
+          type: 'area',
+          height: 360,
           animations: { enabled: false },
           zoom: { enabled: false },
           toolbar: { show: false },
         },
+        dataLabels: { enabled: false },
         theme: { mode: 'dark', palette: 'palette2' },
-        markers: { size: 1 },
         series: [
           { name: chartEl.getAttribute('data-serie-name'), data: JSON.parse(chartEl.getAttribute('data-serie')) },
         ],
         grid: { show: false },
-        stroke: { curve: 'smooth' },
       }
 
       new ApexCharts(chartEl, options).render()
