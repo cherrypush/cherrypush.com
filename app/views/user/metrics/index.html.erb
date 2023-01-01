@@ -139,7 +139,7 @@
     <div class="card mb-3 text-center">
       <h3 class="inline"><%= @metric.name %></h3>
       <div
-        class="max-h-4 mt-3"
+        class="h-80 mt-3"
         data-chart
         data-serie="<%= @metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
         data-serie-name="<%= @metric.name %>"
@@ -214,7 +214,7 @@
                   class: 'btn-primary float-right btn-sm'
         %>
         <div
-          class="max-h-4 mt-3"
+          class="h-80 mt-3"
           data-chart
           data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
           data-serie-name="<%= metric.name %>"
