@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :projects, dependent: :destroy
+  has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
-  has_many :reports, through: :projects
+  has_many :reports, through: :owned_projects
 
   before_save :ensure_api_key
+
+  def projects
+    owned_projects.or(Project.where(id: authorizations.select(:project_id)))
+  end
 
   def trial?
     created_at > 7.days.ago

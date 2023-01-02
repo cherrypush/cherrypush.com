@@ -9,7 +9,7 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def new
-    @projects = current_user.projects.private_access
+    @projects = current_user.owned_projects.private_access
     @github_handles = User.where.not(id: current_user.id).map(&:github_handle).compact
     @authorization = Authorization.new
   end
@@ -40,7 +40,7 @@ class User::AuthorizationsController < User::ApplicationController
   private
 
   def set_project
-    @project = current_user.projects.find(params[:project_id])
+    @project = current_user.owned_projects.find(params[:project_id])
   end
 
   def set_user
