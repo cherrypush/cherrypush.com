@@ -17,7 +17,10 @@ class Metric
   end
 
   def chart_data(owners: nil)
-    @project.daily_reports.map { |report| [report.commit_date.to_date, get_count(report, owners)] }.compact
+    @project.daily_reports.filter_map do |report|
+      count = get_count(report, owners)
+      count && [report.commit_date.to_date, get_count(report, owners)]
+    end
   end
 
   private
