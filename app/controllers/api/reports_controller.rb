@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class Api::ReportsController < Api::ApplicationController
-  before_action :set_project, only: [:create]
+  before_action :set_project, only: %i[create last]
+
+  def last
+    render json: @project.reports.last
+  end
 
   def create
     @project.reports.create!(report_params)

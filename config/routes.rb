@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   get '/auth/github', as: :github_sign_in
 
   namespace :api do
-    resources :reports, only: :create
+    resources :reports, only: :create do
+      get :last, on: :collection
+    end
   end
 
   # namespace dedicated to user authenticated routes
