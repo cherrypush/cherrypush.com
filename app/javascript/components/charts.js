@@ -21,7 +21,16 @@ document.addEventListener(
           { name: chartEl.getAttribute('data-serie-name'), data: JSON.parse(chartEl.getAttribute('data-serie')) },
         ],
         grid: { show: false },
-        yaxis: { min: 0 },
+        yaxis: {
+          min: 0,
+          forceNiceScale: true,
+          decimalsInFloat: 0,
+          labels: {
+            formatter: (value) => {
+              return value.toFixed(0)
+            },
+          },
+        },
       }
 
       new ApexCharts(chartEl, options).render()
