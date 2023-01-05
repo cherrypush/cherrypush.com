@@ -12,8 +12,12 @@ class User < ApplicationRecord
     owned_projects.or(Project.where(id: authorizations.select(:project_id)))
   end
 
+  def trial_until
+    created_at + 30.days
+  end
+
   def trial?
-    created_at > 7.days.ago
+    Time.current < trial_until
   end
 
   def premium?
