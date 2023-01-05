@@ -5,6 +5,10 @@ class User::ApplicationController < ApplicationController
 
   private
 
+  def require_premium_status
+    redirect_to(pricing_path, alert: 'This action requires a premium plan.') unless current_user.premium?
+  end
+
   def authenticate_user!
     alert = 'You must be logged in to access this page'
     redirect_to(projects_path, alert:) if current_user.nil?

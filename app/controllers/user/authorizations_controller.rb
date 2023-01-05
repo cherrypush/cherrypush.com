@@ -3,6 +3,7 @@
 class User::AuthorizationsController < User::ApplicationController
   before_action :set_project, only: :create
   before_action :set_user, only: :create
+  before_action :require_premium_status, except: %i[index]
 
   def index
     @authorizations = Authorization.where(project: current_user.projects)
