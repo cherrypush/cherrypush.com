@@ -21,13 +21,41 @@
   </div>
 </div>
 
+<section class="text-center rounded-lg bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
+  <div class="text-gray-500 dark:text-gray-400 mb-9">
+    Since our first beta users arrived, <%= time_ago_in_words Date.new(2022, 12, 29) %> ago 🎉
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="flex card flex-col items-center justify-center">
+      <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
+        <%= number_to_human(Report.all.map(&:total).sum, units: { million: 'M' }) %>
+      </dt>
+      <dd class="font-light text-gray-500 dark:text-gray-400">tracked issues</dd>
+    </div>
+    <div class="flex card flex-col items-center justify-center">
+      <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
+        <%= number_to_human Report.count %>
+      </dt>
+      <dd class="font-light text-gray-500 dark:text-gray-400">submitted reports</dd>
+    </div>
+    <div class="flex card flex-col items-center justify-center">
+      <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
+      <dd class="font-light text-gray-500 dark:text-gray-400">active users</dd>
+    </div>
+    <div class="flex card flex-col items-center justify-center">
+      <dt class="mb-2 text-3xl md:text-4xl font-extrabold">one</dt>
+      <dd class="font-light text-gray-500 dark:text-gray-400">place to go 🍒</dd>
+    </div>
+  </div>
+</section>
+
 <%=
   image_tag 'screenshot_metrics.png',
             class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl mb-12'
 %>
 
-<section class="bg-white dark:bg-gray-900 card mb-12">
-  <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 p-4 sm:p-8 lg:p-6">
+<section class="rounded-xl bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
+  <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
     <%=
       image_tag 'screenshot_metrics.png',
                 class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl'
@@ -44,11 +72,11 @@
   </div>
 </section>
 
-<section class="bg-white dark:bg-gray-900 card mb-12">
-  <div class="gap-16 items-center mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 p-4 sm:p-8 lg:p-6">
+<section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <div class="gap-16 items-center mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
     <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        Share your reports within a few clicks 📈
+        You're in control of your data 🚷
       </h2>
       <p class="mb-4">
         The Cherry Dashboard helps you manage project authorizations in an intuitive way. Add or remove permissions for
@@ -67,6 +95,6 @@
   </div>
 </section>
 
-<section class="card">
+<section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
   <%= render 'components/pricing' %>
 </section>
