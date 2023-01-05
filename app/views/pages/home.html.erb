@@ -2,13 +2,12 @@
   <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
     Track and manage your <span class="text-blue-700 dark:text-blue-600">technical debt</span> with ease.
   </h1>
-  <p class="max-w-3xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
-    `cherry push` is an open-source CLI that helps you track and manage your technical debt, capture the value of your
-    work, and show off your team's impact.
+  <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
+    Cherry helps you track your technical debt, capture the value of your work, and visualize the impact of your team.
   </p>
   <div class="flex flex-col md:flex-row justify-center">
     <a href="<%= github_sign_in_path %>" class="btn-primary text-lg py-3 pl-7 mb-3 md:mb-0 md:mr-3">
-      Create a free project
+      Try Cherry for free
       <svg class="inline w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path
           fill-rule="evenodd"
@@ -49,11 +48,6 @@
   </div>
 </section>
 
-<%=
-  image_tag 'screenshot_metrics.png',
-            class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl mb-12'
-%>
-
 <section class="rounded-xl bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
   <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
     <%=
@@ -62,11 +56,11 @@
     %>
     <div class="mt-4 md:mt-0">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        Stay on top of your code migrations 🧗🏻‍♀️
+        Stay on top of your code migrations 🏔
       </h2>
       <p class="font-light text-gray-500 md:text-lg dark:text-gray-400">
-        Cherry helps you track and manage your code migrations. With the metrics dashboard, you can see the progress of
-        your migrations and visualize the impact of your work.
+        Visualize the progress of your migrations. <br />
+        Watch out for new technical debt.
       </p>
     </div>
   </div>
@@ -76,21 +70,30 @@
   <div class="gap-16 items-center mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
     <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        You're in control of your data 🚷
+        No sensitive data collected 🤫
       </h2>
       <p class="mb-4">
-        The Cherry Dashboard helps you manage project authorizations in an intuitive way. Add or remove permissions for
-        your team members based on their GitHub usernames. With the autocompletion, your authorizations are just a
-        couple of clicks away.
+        Cherry relies on an <a href="http://npmjs.com/package/cherrypush">open-source CLI</a>. <br />We don't even have
+        access to your code base.
       </p>
     </div>
-    <div class="grid grid-cols-2 gap-4">
-      <%= image_tag 'screenshot_new_authorization.png', class: 'w-full rounded-lg hover:scale-105 transition' %>
-      <%=
-        image_tag 'screenshot_authorizations.png',
-                  class:
-                    'w-full rounded-lg hover:scale-105 transition mt-4 lg:mt-10 rounded-lg hover:scale-105 transition'
-      %>
+    <%= image_tag 'cli.gif', class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl' %>
+  </div>
+</section>
+
+<section class="rounded-xl bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
+  <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
+    <%=
+      image_tag 'screenshot_github_actions.png',
+                class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl'
+    %>
+    <div class="mt-4 md:mt-0">
+      <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+        Integrate with GitHub Actions 🤖
+      </h2>
+      <p class="font-light text-gray-500 md:text-lg dark:text-gray-400">
+        Copy and paste a few lines of code, and your metrics are updated on every commit.
+      </p>
     </div>
   </div>
 </section>
