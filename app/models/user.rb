@@ -16,14 +16,16 @@ class User < ApplicationRecord
     created_at + 30.days
   end
 
+  def trial_expired?
+    !premium? && !trial?
+  end
+
   def trial?
-    Time.current < trial_until
+    !premium? && Time.current < trial_until
   end
 
   def premium?
-    return true if trial?
-    return true if memberships.any?
-    false
+    memberships.any?
   end
 
   def self.find_or_create_with_omniauth(auth)
