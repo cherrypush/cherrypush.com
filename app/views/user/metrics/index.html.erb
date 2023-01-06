@@ -305,7 +305,7 @@
       </div>
     </div>
   <% else %>
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid md:grid-cols-3 gap-3">
       <% @project.metrics.each do |metric| %>
         <%= link_to user_metrics_path(
                     project_id: @project.id,
