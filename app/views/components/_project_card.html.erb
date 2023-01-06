@@ -1,41 +1,33 @@
+<%
+  project_link =
+    if current_user
+      user_metrics_path(project_id: project.id)
+    else
+      github_sign_in_path(after_sign_in_path: user_metrics_path(project_id: project.id))
+    end
+%>
+
 <a
-  href="<%=
-  if current_user
-    user_metrics_path(project_id: project.id)
-  else
-    github_sign_in_path(after_sign_in_path: user_metrics_path(project_id: project.id))
-  end
-%>"
-  class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+  href="<%= project_link %>"
+  class="block p-6 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-hidden"
 >
   <div class="flex flex-col h-full">
     <h5 class="mb-3 text-xl font-medium text-gray-900 dark:text-white">
       <%= '🌎' if project.public_access? %>
       <%= '🔒' if project.private_access? %>
-      <%= project.name %>
+      <%= project.name %> <span class="text-sm text-gray-500 dark:text-gray-400"
+        >(Owned by <%= project.user.name %>)</span
+      >
     </h5>
 
     <% if project.reports.any? %>
-      <span class="text-sm text-gray-500 dark:text-gray-400">
-        <%=
-          area_chart project.chart_data,
-                     height: 70,
-                     legend: false,
-                     library: {
-                       scales: {
-                         x: {
-                           ticks: {
-                             display: false,
-                           },
-                         },
-                         y: {
-                           ticks: {
-                             display: false,
-                           },
-                         },
-                       },
-                     }
-        %></span>
+      <div
+        class="h-60 -mb-12 -ml-12 -mr-9"
+        data-chart
+        data-serie="<%= project.chart_data.sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
+        data-serie-name="<%= project.name %>"
+        data-show-label="false"
+      ></div>
     <% else %>
       <span class="py-16 mx-auto my-auto text-sm text-gray-500 dark:text-gray-400">No reports yet</span>
     <% end %>

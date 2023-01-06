@@ -1,49 +1,58 @@
-<h1>Authorizations</h1>
+<div class="px-0 pt-3">
+  <h1>Authorizations</h1>
 
-<p class="mb-3">Define authorizations to each of your projects.</p>
+  <p class="mb-3">Define authorizations to each of your projects.</p>
 
-<% if current_user.projects.blank? %>
-  <div
-    class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-    role="alert"
-  >
-    You first need to create a project.
-    <%= link_to user_projects_url, user_projects_url, class: 'text-link' %>
+  <div class="flex mb-3">
+    <% if current_user.projects.blank? %>
+      <div
+        class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+        role="alert"
+      >
+        You first need to create a project.
+        <%= link_to user_projects_url, user_projects_url, class: 'text-link' %>
+      </div>
+    <% elsif current_user.projects.private_access.blank? %>
+      <div
+        class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+        role="alert"
+      >
+        You need at least a private project to create authorizations.
+      </div>
+    <% else %>
+      <%= link_to '+ Add Authorization', new_user_authorization_path, class: 'btn-primary' %>
+    <% end %>
   </div>
-<% elsif current_user.projects.private_access.blank? %>
-  <div
-    class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-    role="alert"
-  >
-    You need at least a private project to create authorizations.
-  </div>
-<% else %>
-  <%= link_to '+ Add Authorization', new_user_authorization_path, class: 'btn-primary' %>
-<% end %>
 
-<% @authorizations.map(&:project).uniq.each do |project| %>
-  <div class="overflow-x-auto relative mt-6">
-    <table class="w-full max-w-xl text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="py-3 px-6"><%= project.name %></th>
-          <th scope="col" class="py-3 px-6"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @authorizations.filter { |authorization| authorization.project == project }.each do |authorization| %>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              @<%= authorization.user.github_handle %>
-            </th>
-            <td class="py-4 px-6 text-right">
-              <%=
-                button_to 'Remove', user_authorization_path(authorization), method: :delete, class: 'btn-primary btn-sm'
-              %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="grid md:grid-cols-3 gap-3">
+    <% @authorizations.map(&:project).uniq.each do |project| %>
+      <div class="overflow-x-auto relative">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6"><%= project.name %></th>
+              <th scope="col" class="py-3 px-6"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @authorizations.filter { |authorization| authorization.project == project }.each do |authorization| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  @<%= authorization.user.github_handle %>
+                </th>
+                <td class="py-4 px-6 text-right">
+                  <%=
+                    button_to 'Remove',
+                              user_authorization_path(authorization),
+                              method: :delete,
+                              class: 'btn-primary btn-sm'
+                  %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
