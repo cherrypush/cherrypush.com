@@ -1,0 +1,63 @@
+<h1>My contributions ❤️</h1>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg max-w-4xl">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3"></th>
+        <th scope="col" class="px-6 py-3">Metric</th>
+        <th scope="col" class="px-6 py-3">Commit date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @contributions.each do |contribution| %>
+        <% contribution.metrics.each do |metric_name, value| %>
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+              <% if value.positive? %>
+                <span class="text-red-300">+<%= value %></span>
+              <%else%>
+                <span class="text-green-300"><%= value %></span>
+              <%end%>
+            </th>
+            <td class="px-6 py-4">
+              <%=
+                link_to metric_name,
+                        user_metrics_path(project_id: contribution.project.id, metric_name: metric_name),
+                        class: 'text-link'
+              %>
+              @
+              <%=
+                link_to contribution.project.name,
+                        user_metrics_path(project_id: contribution.project.id),
+                        class: 'text-link'
+              %>
+            </td>
+            <td class="px-6 py-4">
+              <%= time_ago_in_words contribution.commit_date %> ago
+              <a
+                href="<%= github_commit_url(contribution.project.name, contribution.commit_sha) %>"
+                target="_blank"
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4 inline"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
