@@ -158,11 +158,11 @@
         <pre class="mt-3">npm install -g cherrypush<br><%= cherry_run_cmd(@metric.name, @selected_owners) %></pre>
       </div>
     <% end %>
-    <div class="grid grid-cols-3 gap-3">
+    <div class="grid md:grid-cols-3 gap-3">
       <div class="col-4">
         <div class="overflow-x-auto relative">
           <h3
-            class="p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             Recent activity 🔥
           </h3>
@@ -206,7 +206,7 @@
       <div class="col-4">
         <div class="overflow-x-auto relative">
           <h3
-            class="p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             Top contributors 🏆
           </h3>
@@ -234,7 +234,7 @@
       <div class="col-4">
         <div class="overflow-x-auto relative">
           <h3
-            class="p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             Debt owners 🧹
           </h3>
@@ -251,7 +251,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <td class="py-4 px-6"><%= owner.handle %></td>
                   <td class="py-4 px-6"><%= owner.count %></td>
-                  <td>
+                  <td class="py-4 px-3">
                     <% if @selected_owners && @selected_owners.map(&:handle).include?(owner.handle) %>
                       <%=
                         link_to user_metrics_path(
