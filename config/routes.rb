@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resource :settings, only: :show
     resources :authorizations, only: %i[index new create destroy]
     resources :metrics, only: %i[index]
+    resources :contributions, only: %i[index]
   end
 
   resources :projects, only: %i[index]
