@@ -1,0 +1,43 @@
+<h3
+  class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+>
+  Recent activity 🔥
+</h3>
+
+<div class="overflow-x-auto relative">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="py-3 px-6">Author</th>
+        <th scope="col" class="py-3 px-6 text-center">Diff</th>
+        <th scope="col" class="py-3 px-6">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% metric.contributions.each do |contribution, value| %>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <td class="py-4 px-6">
+            <%= commit_author_name(contribution.author_name, contribution.author_email) %>
+          </td>
+          <td class="py-4 px-6 text-center">
+            <% if value.positive? %>
+              <span class="text-red-300">+<%= value %></span>
+            <%else%>
+              <span class="text-green-300"><%= value %></span>
+            <%end%>
+          </td>
+          <td class="py-4 px-6">
+            <a
+              class="text-blue-600 dark:text-blue-500 hover:underline"
+              title="Open on GitHub"
+              href="<%= github_commit_url(project.name, contribution.commit_sha) %>"
+              target="_blank"
+            >
+              <%= time_ago_in_words(contribution.commit_date) %> ago
+            </a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
