@@ -33,7 +33,11 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def destroy
-    authorization = Authorization.find_by(id: params[:id], project_id: current_user.projects.ids)
+    authorization = Authorization.find_by(id: params[:id])
+    # TODO: use a policy here
+    unless authorization.project.in?(current_user.owned_projects)
+      return redirect_to user_authorizations_path, alert: 'You are not authorized to do this.'
+    end
     authorization.destroy!
     redirect_to user_authorizations_path, notice: 'Authorization removed.'
   end
