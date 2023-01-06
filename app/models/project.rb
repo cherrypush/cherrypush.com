@@ -3,6 +3,7 @@
 class Project < ApplicationRecord
   belongs_to :user
   has_many :reports, dependent: :destroy
+  has_many :contributions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
   validates :name, presence: true
