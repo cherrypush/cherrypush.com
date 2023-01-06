@@ -1,12 +1,11 @@
 <% if @projects.any? %>
-  <h1>Projects</h1>
   <div class="grid md:grid-cols-3 gap-3">
     <% @projects.each do |project| %>
       <%= render 'components/project_card', project: project %>
     <% end %>
     <div
       data-modal-toggle="new-project-modal"
-      class="flex h-52 min-h-full p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer"
+      class="cursor-pointer flex h-52 min-h-full p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
       <span class="mx-auto my-auto">+ New Project</span>
     </div>
