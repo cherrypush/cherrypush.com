@@ -1,0 +1,73 @@
+<%= render 'edit_project_button', project: project %>
+
+<div>
+  <%=
+    render 'components/dropdown',
+           class: 'mb-3 mr-3',
+           text: "Project: #{project.name}",
+           entries: project_dropdown_entries,
+           id: 'dropdown-projects'
+  %>
+
+  <% if project.reports.any? %>
+    <%=
+      render 'components/dropdown',
+             class: 'mb-3 mr-3',
+             text: metric ? "Metric: #{metric.name}" : 'Filter by metric',
+             entries: metric_dropdown_entries(project, selected_owners),
+             id: 'dropdown-metrics'
+    %>
+  <% end %>
+
+  <% if selected_owners %>
+    <% selected_owners.each do |owner| %>
+      <%
+        remove_owner_path =
+          user_metrics_path(
+            project_id: project.id,
+            metric_name: metric&.name,
+            owner_handles: selected_owners.map(&:handle) - [owner.handle],
+          )
+      %>
+      <span
+        id="badge-dismiss-default"
+        class="inline-flex items-center py-2.5 px-3 mr-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
+      >
+        <%= owner.handle %>
+        <a
+          href="<%= remove_owner_path %>"
+          type="button"
+          class="inline-flex items-center p-0.5 ml-2 text-sm text-blue-400 bg-transparent rounded hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-300 dark:hover:text-blue-900"
+          data-dismiss-target="#badge-dismiss-default"
+          aria-label="Remove"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-3.5 h-3.5"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          <span class="sr-only">Remove badge</span>
+        </a>
+      </span>
+    <% end %>
+  <% end %>
+
+  <% if project.owners.any? %>
+    <%=
+      render 'components/dropdown',
+             class: 'mr-3',
+             text: selected_owners ? 'Add owner' : 'Filter by owner',
+             entries: owner_dropdown_entries(project, metric),
+             id: 'dropdown-onwers'
+    %>
+  <% end %>
+</div>

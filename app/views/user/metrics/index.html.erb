@@ -1,140 +1,10 @@
-<div class="float-right justify-end px-4 pt-2">
-  <button
-    id="dropdownButton"
-    data-dropdown-toggle="project-dropdown-<%= @project.id %>}"
-    data-dropdown-placement="bottom-end"
-    class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-    type="button"
-  >
-    <span class="sr-only">Open dropdown</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-    </svg>
-  </button>
-  <!-- Dropdown menu -->
-  <div
-    id="project-dropdown-<%= @project.id %>}"
-    class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700"
-  >
-    <ul class="py-1" aria-labelledby="dropdownButton">
-      <li>
-        <% if @project.user == current_user %>
-          <% if @project.private_access? %>
-            <%=
-              button_to 'Convert to public',
-                        publicize_user_project_path(@project, { project: { access: 'public' } }),
-                        method: :post,
-                        class:
-                          'w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-            %>
-          <% else %>
-            <%=
-              button_to 'Convert to private',
-                        privatize_user_project_path(@project, { project: { access: 'private' } }),
-                        method: :post,
-                        class:
-                          'w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-            %>
-          <% end %>
-        <% end %>
-      </li>
-      <li>
-        <%# TODO: show a dialog to confirm before deleting %>
-        <%=
-          button_to 'Delete',
-                    user_project_path(@project),
-                    method: :delete,
-                    class:
-                      'w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-        %>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<div>
-  <%=
-    render 'components/dropdown',
-           class: 'mb-3 mr-3',
-           text: "Project: #{@project.name}",
-           entries: project_dropdown_entries,
-           id: 'dropdown-projects'
-  %>
-
-  <% if @project.reports.any? %>
-    <%=
-      render 'components/dropdown',
-             class: 'mb-3 mr-3',
-             text: @metric ? "Metric: #{@metric.name}" : 'Filter by metric',
-             entries: metric_dropdown_entries(@project, @selected_owners),
-             id: 'dropdown-metrics'
-    %>
-  <% end %>
-
-  <% if @selected_owners %>
-    <% @selected_owners.each do |owner| %>
-      <%
-        remove_owner_path =
-          user_metrics_path(
-            project_id: @project.id,
-            metric_name: @metric&.name,
-            owner_handles: @selected_owners.map(&:handle) - [owner.handle],
-          )
-      %>
-      <span
-        id="badge-dismiss-default"
-        class="inline-flex items-center py-2.5 px-3 mr-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800"
-      >
-        <%= owner.handle %>
-        <a
-          href="<%= remove_owner_path %>"
-          type="button"
-          class="inline-flex items-center p-0.5 ml-2 text-sm text-blue-400 bg-transparent rounded hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-300 dark:hover:text-blue-900"
-          data-dismiss-target="#badge-dismiss-default"
-          aria-label="Remove"
-        >
-          <svg
-            aria-hidden="true"
-            class="w-3.5 h-3.5"
-            aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <span class="sr-only">Remove badge</span>
-        </a>
-      </span>
-    <% end %>
-  <% end %>
-
-  <% if @project.owners.any? %>
-    <%=
-      render 'components/dropdown',
-             class: 'mr-3',
-             text: @selected_owners ? 'Add owner' : 'Filter by owner',
-             entries: owner_dropdown_entries(@project, @metric),
-             id: 'dropdown-onwers'
-    %>
-  <% end %>
-</div>
+<%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
 
 <% if @project.reports.any? %>
   <% if @project.reports.count < 2 %>
-    <div class="card mb-3">
-      <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Fill up your project with historic data by running the following command:
-      </p>
-      <div class="prose dark:prose-invert max-w-none mb-3">
-        <pre class="mt-3"><%= cherry_backfill_cmd(current_user.api_key) %></pre>
-      </div>
-    </div>
+    <%= render 'backfill_instructions' %>
   <% end %>
+
   <% if @metric %>
     <div class="card mb-3 text-center">
       <h3 class="inline"><%= @metric.name %></h3>
@@ -146,162 +16,30 @@
         data-show-label="true"
       ></div>
     </div>
+
     <% if @metric.owners.none? %>
       <div class="card prose dark:prose-invert max-w-none mb-3">
         <p class="mb-3">To get a full list of occurrences:</p>
         <pre class="mt-3">npm install -g cherrypush<br><%= cherry_run_cmd(@metric.name) %></pre>
       </div>
     <% end %>
+
     <% if @selected_owners %>
       <div class="card prose dark:prose-invert max-w-none mb-3">
         <p class="mb-3">Use the command below to get the list of occurrences:</p>
         <pre class="mt-3">npm install -g cherrypush<br><%= cherry_run_cmd(@metric.name, @selected_owners) %></pre>
       </div>
     <% end %>
-    <div class="grid md:grid-cols-3 gap-3">
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
       <div class="col-4">
-        <div class="overflow-x-auto relative">
-          <h3
-            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
-            Recent activity 🔥
-          </h3>
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="py-3 px-6">Author</th>
-                <th scope="col" class="py-3 px-6">Contribution</th>
-                <th scope="col" class="py-3 px-6">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @metric.contributions.each do |contribution, value| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="py-4 px-6">
-                    <%= commit_author_name(contribution.author_name, contribution.author_email) %>
-                  </td>
-                  <td class="py-4 px-6">
-                    <% if value.positive? %>
-                      <span class="text-red-300">+<%= value %></span>
-                    <%else%>
-                      <span class="text-green-300"><%= value %></span>
-                    <%end%>
-                  </td>
-                  <td class="py-4 px-6">
-                    <a
-                      class="text-blue-600 dark:text-blue-500 hover:underline"
-                      title="Open on GitHub"
-                      href="<%= github_commit_url(@project.name, contribution.commit_sha) %>"
-                      target="_blank"
-                    >
-                      <%= time_ago_in_words(contribution.commit_date) %> ago
-                    </a>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <%= render 'recent_activity', metric: @metric, project: @project %>
       </div>
       <div class="col-4">
-        <div class="overflow-x-auto relative">
-          <h3
-            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
-            Top contributors 🏆
-          </h3>
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="py-3 px-6">Author</th>
-                <th scope="col" class="py-3 px-6">Contribution</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @metric.contribution_by_author.each do |(author_name, author_email), value| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="py-4 px-6"><%= commit_author_name(author_name, author_email) %></td>
-                  <td class="py-4 px-6">
-                    <span class="text-red-300">+<%= value[:addition] %></span>
-                    <span class="text-green-300 ml-4"><%= value[:deletion] %></span>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <%= render 'top_contributors', metric: @metric %>
       </div>
       <div class="col-4">
-        <div class="overflow-x-auto relative">
-          <h3
-            class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
-            Current debt 🧹
-          </h3>
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" class="py-3 px-6">Owner</th>
-                <th scope="col" class="py-3 px-6">Count</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @metric.owners.each do |owner| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td class="py-4 px-6"><%= owner.handle %></td>
-                  <td class="py-4 px-6"><%= owner.count %></td>
-                  <td class="py-4 px-3">
-                    <% if @selected_owners && @selected_owners.map(&:handle).include?(owner.handle) %>
-                      <%=
-                        link_to user_metrics_path(
-                                  project_id: @project.id,
-                                  metric_name: @metric.name,
-                                  owner_handles: @selected_owners.map(&:handle) - [owner.handle],
-                                ) do
-                      %>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="w-5 h-5"
-                        >
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      <% end %>
-                    <% else %>
-                      <%=
-                        link_to user_metrics_path(
-                                  project_id: @project.id,
-                                  metric_name: @metric.name,
-                                  owner_handles: (@selected_owners&.map(&:handle) || []) + [owner.handle],
-                                ),
-                                class: 'text-blue-600 dark:text-blue-500' do
-                      %>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="w-5 h-5"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-                          />
-                        </svg>
-                      <% end %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>
       </div>
     </div>
   <% else %>
@@ -316,7 +54,6 @@
             class="overflow-hidden text-center w-full block p-3 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
           >
             <h3 class="inline"><%= metric.name %></h3>
-
             <div
               class="h-60 mt-3 -ml-9 -mr-6 -mb-12"
               data-chart
@@ -329,8 +66,5 @@
     </div>
   <% end %>
 <% else %>
-  <div class="card prose dark:prose-invert max-w-none mb-3">
-    <p class="mb-3">Fill up your project with historic data by running the following commands:</p>
-    <pre class="mt-3">npm install -g cherrypush<br>cherry init<br><%= cherry_backfill_cmd(current_user.api_key) %></pre>
-  </div>
+  <%= render 'backfill_instructions' %>
 <% end %>
