@@ -1,27 +1,19 @@
 # frozen_string_literal: true
 
+# TODO: only for backward compatibility, should be removed after Yan github action has been updated
 class Api::ReportsController < Api::ApplicationController
-  before_action :set_project, only: %i[create last]
+  include ProjectScoped
 
   def last
-    render json: @project.reports.last
+    render json: current_project.reports.order(:commit_date).last
   end
 
   def create
-    @project.reports.create!(report_params)
+    current_project.reports.create!(report_params)
     render json: { status: :ok }, status: :ok
   end
 
   private
-
-  def set_project
-    @project =
-      @user
-        .projects
-        .find_or_create_by!(name: params['project_name']) do |project|
-          project.access = @user.premium? ? 'private' : 'public'
-        end
-  end
 
   def report_params
     params.permit(:commit_sha, :commit_date, metrics: {})

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :reports, only: :create do
       get :last, on: :collection
     end
+    resource :push, only: :create
   end
 
   # namespace dedicated to user authenticated routes

@@ -22,8 +22,8 @@ module ApplicationHelper
 
   def cherry_run_cmd(metric_name = nil, owners = nil)
     cmd = ['cherry run']
-    cmd.push "--metric=#{metric_name}" if metric_name.present?
-    cmd.push "--owner=#{owners.map(&:handle).join(',')}" if owners.present?
+    cmd.push "--metric=\"#{metric_name}\"" if metric_name.present?
+    cmd.push "--owner=\"#{owners.map(&:handle).join(',')}\"" if owners.present?
     cmd.join(' ')
   end
 
@@ -40,5 +40,15 @@ module ApplicationHelper
         }
       end
     end
+  end
+
+  def github_commit_url(project_name, commit_sha)
+    "https://github.com/#{project_name}/commit/#{commit_sha}"
+  end
+
+  def commit_author_name(git_name, git_email)
+    match = git_email.match(/(.*)@users.noreply.github.com$/)
+    return git_name if match.nil?
+    match[1].split('+').last
   end
 end

@@ -16,8 +16,8 @@ class Api::ReportsControllerTest < ActionDispatch::IntegrationTest
 
     it 'returns the most recent report' do
       project = create(:project, name: 'rails/rails', user:)
-      create(:report, project:, commit_sha: '11111')
-      create(:report, project:, commit_sha: '22222')
+      create(:report, project:, commit_date: 1.hours.ago, commit_sha: '22222')
+      create(:report, project:, commit_date: 2.hour.ago, commit_sha: '11111')
       get(last_api_reports_path(api_key: user.api_key, project_name: 'rails/rails'))
       assert_response :ok
       assert_equal '22222', response.parsed_body['commit_sha']
