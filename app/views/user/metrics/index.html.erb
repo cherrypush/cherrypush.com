@@ -139,10 +139,11 @@
     <div class="card mb-3 text-center">
       <h3 class="inline"><%= @metric.name %></h3>
       <div
-        class="h-80 mt-3"
+        class="h-60 -mb-6"
         data-chart
         data-serie="<%= @metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
         data-serie-name="<%= @metric.name %>"
+        data-show-label="true"
       ></div>
     </div>
     <% if @metric.owners.none? %>
@@ -304,26 +305,28 @@
       </div>
     </div>
   <% else %>
-    <% @project.metrics.each do |metric| %>
-      <div class="card mb-3 text-center">
-        <h3 class="inline"><%= metric.name %></h3>
-        <%=
-          link_to 'Go to details',
-                  user_metrics_path(
+    <div class="grid grid-cols-3 gap-3">
+      <% @project.metrics.each do |metric| %>
+        <%= link_to user_metrics_path(
                     project_id: @project.id,
                     metric_name: metric.name,
                     owner_handles: @selected_owners&.map(&:handle),
-                  ),
-                  class: 'btn-primary float-right btn-sm'
-        %>
-        <div
-          class="h-80 mt-3"
-          data-chart
-          data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
-          data-serie-name="<%= metric.name %>"
-        ></div>
-      </div>
-    <% end %>
+                  ) do %>
+          <div
+            class="overflow-hidden text-center w-full block p-3 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h3 class="inline"><%= metric.name %></h3>
+
+            <div
+              class="h-60 mt-3 -ml-9 -mr-6 -mb-12"
+              data-chart
+              data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
+              data-serie-name="<%= metric.name %>"
+            ></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
   <% end %>
 <% else %>
   <div class="card prose dark:prose-invert max-w-none mb-3">

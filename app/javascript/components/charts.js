@@ -10,7 +10,7 @@ document.addEventListener(
         chart: {
           background: 'none',
           type: 'area',
-          height: 360,
+          height: 240,
           animations: { enabled: false },
           zoom: { enabled: false },
           toolbar: { show: false },
@@ -21,11 +21,12 @@ document.addEventListener(
           { name: chartEl.getAttribute('data-serie-name'), data: JSON.parse(chartEl.getAttribute('data-serie')) },
         ],
         grid: { show: false },
+        xaxis: { labels: { show: JSON.parse(chartEl.getAttribute('data-show-label')) } },
         yaxis: {
           min: 0,
           forceNiceScale: true,
-          decimalsInFloat: 0,
           labels: {
+            show: JSON.parse(chartEl.getAttribute('data-show-label')),
             formatter: (value) => {
               return value.toFixed(0)
             },
