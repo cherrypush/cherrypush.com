@@ -6,7 +6,7 @@ class Api::PushesController < Api::ApplicationController
   def create
     ActiveRecord::Base.transaction do
       current_project.reports.create!(report_params)
-      Contribution.upsert_all(contributions, unique_by: %i[project_id commit_sha])
+      Contribution.upsert_all(contributions, unique_by: %i[project_id commit_sha]) if contributions.present?
     end
     render json: { status: :ok }, status: :ok
   end
@@ -18,13 +18,14 @@ class Api::PushesController < Api::ApplicationController
   end
 
   def contributions
-    Array
-      .wrap(params[:contributions])
-      .map do |contribution_params|
-        contribution_params.slice(:author_name, :author_email, :commit_sha, :commit_date, :metrics).merge(
-          project_id: current_project.id,
-        )
-      end
-      .select { |contribution_params| contribution_params[:metrics].present? }
+    @contributions ||=
+      Array
+        .wrap(params[:contributions])
+        .map do |contribution_params|
+          contribution_params.slice(:author_name, :author_email, :commit_sha, :commit_date, :metrics).merge(
+            project_id: current_project.id,
+          )
+        end
+        .select { |contribution_params| contribution_params[:metrics].present? }
   end
 end
