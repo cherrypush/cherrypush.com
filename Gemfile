@@ -20,6 +20,7 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'httparty'
 gem 'redcarpet' # for markdown rendering
+gem 'sentry-rails'
 gem 'tailwindcss-rails'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
