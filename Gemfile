@@ -64,6 +64,10 @@ group :development, :test do
 end
 
 group :development do
+  # debugging
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
   # project-specific
   gem 'parity'
   gem 'rubocop', require: false
