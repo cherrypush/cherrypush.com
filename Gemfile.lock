@@ -309,6 +309,7 @@ DEPENDENCIES
   rubocop
   selenium-webdriver
   sentry-rails
+  sentry-ruby
   sprockets-rails
   syntax_tree
   tailwindcss-rails

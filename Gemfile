@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -21,6 +23,7 @@ gem 'groupdate'
 gem 'httparty'
 gem 'redcarpet' # for markdown rendering
 gem 'sentry-rails'
+gem 'sentry-ruby'
 gem 'tailwindcss-rails'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
