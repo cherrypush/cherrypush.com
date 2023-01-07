@@ -8,7 +8,7 @@ module ProjectScoped
       @user
         .projects
         .find_or_create_by!(name: params['project_name']) do |project|
-          project.access = @user.premium? ? 'private' : 'public'
+          project.access = @user.premium? || @user.trial? ? 'private' : 'public'
         end
   end
 end

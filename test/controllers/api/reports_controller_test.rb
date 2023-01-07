@@ -31,9 +31,17 @@ class Api::ReportsControllerTest < ActionDispatch::IntegrationTest
       assert default_metrics[:js_loc][:total], Report.last.metrics['js_loc']['total']
     end
 
-    it 'creates projects as public by default for non-premium users' do
-      user.update!(created_at: 1.month.ago) # so that the trial period is over
+    it 'creates projects as private by default for trial users' do
       assert_equal false, user.premium?
+      assert_equal true, user.trial?
+      post(api_reports_path(api_key: user.api_key), params: payload)
+      assert_equal 'private', Project.last.access
+    end
+
+    it 'creates projects as public by default for non-premium users' do
+      user.update!(created_at: 6.months.ago) # so that the trial period is over
+      assert_equal false, user.premium?
+      assert_equal false, user.trial?
       post(api_reports_path(api_key: user.api_key), params: payload)
       assert_equal 'public', Project.last.access
     end
