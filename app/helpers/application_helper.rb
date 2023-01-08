@@ -27,10 +27,6 @@ module ApplicationHelper
     cmd.join(' ')
   end
 
-  def cherry_backfill_cmd(api_key)
-    "cherry backfill --since=#{1.year.ago.strftime('%Y-%m-%d')} --interval=30 --api-key=#{api_key}"
-  end
-
   def navbar_search_items
     current_user.projects.flat_map do |project|
       project.metrics.map do |metric|
