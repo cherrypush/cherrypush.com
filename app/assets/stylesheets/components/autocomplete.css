@@ -15,7 +15,7 @@
 
 .autoComplete_wrapper > ul {
   position: absolute;
-  max-height: 226px;
+  max-height: 360px;
   overflow-y: scroll;
   top: 100%;
   left: 0;
@@ -23,7 +23,7 @@
   padding: 0;
   margin: 0.5rem 0 0 0;
   border-radius: 0.6rem;
-  background-color: #fff;
+  background-color: #374151;
   box-shadow: 0 3px 6px rgba(149, 157, 165, 0.15);
   border: 1px solid rgba(33, 33, 33, 0.07);
   z-index: 1000;
@@ -43,7 +43,7 @@
   list-style: none;
   text-align: left;
   font-size: 1rem;
-  color: #212121;
+  color: white;
   transition: all 0.1s ease-in-out;
   border-radius: 0.35rem;
   background-color: rgba(255, 255, 255, 1);
@@ -51,6 +51,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   transition: all 0.2s ease;
+  background-color: #374151;
 }
 
 .autoComplete_wrapper > ul > li::selection {
@@ -60,7 +61,7 @@
 
 .autoComplete_wrapper > ul > li:hover {
   cursor: pointer;
-  background-color: rgba(123, 123, 123, 0.1);
+  background-color: rgba(200, 200, 200, 0.1);
 }
 
 .autoComplete_wrapper > ul > li mark {
