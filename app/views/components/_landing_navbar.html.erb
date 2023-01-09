@@ -102,9 +102,12 @@
         <% else %>
           <li>
             <%=
-              link_to 'Open Projects',
-                      projects_path,
-                      class: controller_name === 'projects' ? 'navbar-link-active' : 'navbar-link'
+              link_to 'Demo',
+                      github_sign_in_path(
+                        after_sign_in_path:
+                          user_metrics_path(project_id: Project.public_access.find_by(name: 'demo/project')&.id),
+                      ),
+                      class: 'navbar-link'
             %>
           </li>
         <% end %>
