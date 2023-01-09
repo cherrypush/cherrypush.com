@@ -11,13 +11,9 @@ class Project < ApplicationRecord
 
   enum access: { private: 'private', public: 'public' }, _suffix: :access
 
-  def latest_report
-    reports.order(:commit_date).last
-  end
-
   def metrics
     return [] if reports.empty?
-    latest_report.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
+    reports.last.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
   end
 
   def chart_data
