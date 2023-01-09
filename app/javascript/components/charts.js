@@ -21,7 +21,7 @@ document.addEventListener(
           { name: chartEl.getAttribute('data-serie-name'), data: JSON.parse(chartEl.getAttribute('data-serie')) },
         ],
         grid: { show: false },
-        xaxis: { labels: { show: JSON.parse(chartEl.getAttribute('data-show-label')) } },
+        xaxis: { tickAmount: 6, labels: { show: JSON.parse(chartEl.getAttribute('data-show-label')) } },
         yaxis: {
           min: 0,
           forceNiceScale: true,
