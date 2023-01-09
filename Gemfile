@@ -19,6 +19,7 @@ gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
 # project-specific dependencies
 gem 'chartkick'
+gem 'faker' # also used by production code via rake demo:refresh
 gem 'groupdate'
 gem 'httparty'
 gem 'redcarpet' # for markdown rendering
@@ -56,7 +57,6 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   # project-specific
   gem 'factory_bot'
-  gem 'faker'
   gem 'pry'
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
