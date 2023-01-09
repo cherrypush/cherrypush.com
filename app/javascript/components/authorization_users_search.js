@@ -9,15 +9,14 @@ document.addEventListener(
 
     const autoCompleteJS = new autoComplete({
       selector: () => inputEl,
-      threshold: 0, // required to automatically open on focus
       data: {
         src: JSON.parse(inputEl.getAttribute('data-src')),
       },
       resultItem: { highlight: true },
+      resultsList: { maxResults: 12 },
       events: {
         input: {
           selection: (event) => (inputEl.value = event.detail.selection.value),
-          focus: () => autoCompleteJS.start(),
         },
       },
     })
