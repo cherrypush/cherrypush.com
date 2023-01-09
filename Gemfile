@@ -22,6 +22,7 @@ gem 'chartkick'
 gem 'faker' # also used by production code via rake demo:refresh
 gem 'groupdate'
 gem 'httparty'
+gem 'pundit'
 gem 'redcarpet' # for markdown rendering
 gem 'sentry-rails'
 gem 'sentry-ruby'

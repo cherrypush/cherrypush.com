@@ -1,25 +1,34 @@
 # frozen_string_literal: true
 
 class User::MetricsController < User::ApplicationController
-  def index # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
-    @project = Project.find_by(id: params[:project_id]) || current_user.reports.last&.project
-    return redirect_to user_projects_path, notice: 'You first need to create a project.' if @project.nil?
-    return redirect_to projects_path, notice: 'You are not authorized to view this project.' unless authorized?
+  before_action :set_project, if: -> { params[:project_id].present? }
+  before_action :set_metric, if: -> { params[:metric_name].present? }
+  before_action :set_owners, if: -> { params[:owner_handles].present? }
 
-    @metric = Metric.new(name: params[:metric_name], project: @project) if params[:metric_name]
-
-    if params[:owner_handles].present?
-      @selected_owners = []
-      params[:owner_handles].each { |handle| @selected_owners << Owner.new(handle:) }
+  def index
+    if params[:project_id].blank?
+      fallback_project = policy_scope(Project).first
+      return redirect_to user_metrics_path(project_id: fallback_project.id) if fallback_project
+      return redirect_to user_projects_path, alert: 'You need to create a project first.'
     end
+
+    return redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
+
+    authorize @project, :read?
   end
 
   private
 
-  # TODO: Shall we move this to a policy object?
-  def authorized? # rubocop:disable Metrics/CyclomaticComplexity
-    return true if @project.nil?
-    @project.public_access? || current_user&.projects&.include?(@project) ||
-      current_user&.authorizations&.find_by(project: @project)
+  def set_owners
+    @selected_owners = []
+    params[:owner_handles].each { |handle| @selected_owners << Owner.new(handle:) }
+  end
+
+  def set_metric
+    @metric = Metric.new(name: params[:metric_name], project: @project)
+  end
+
+  def set_project
+    @project = Project.find_by(id: params[:project_id])
   end
 end
