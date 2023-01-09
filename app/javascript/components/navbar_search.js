@@ -14,6 +14,7 @@ document.addEventListener(
         cache: true,
       },
       resultItem: { highlight: true },
+      resultsList: { maxResults: 12 },
       events: {
         input: {
           selection: (event) => {
