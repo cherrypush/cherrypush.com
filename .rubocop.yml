@@ -12,3 +12,5 @@ Style/StringLiterals:
 Style/ClassAndModuleChildren:
   Enabled: true
   EnforcedStyle: compact
+Style/HashSyntax:
+  Enabled: false
