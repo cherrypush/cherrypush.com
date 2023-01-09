@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   layout -> { current_user ? 'application' : 'landing' }
 
+  before_action :set_sentry_context, if: -> { current_user.present? }
+
   private
 
   def current_user
@@ -14,5 +16,9 @@ class ApplicationController < ActionController::Base
         # reset_session if user.nil? # clear session if the user is not found
         user
       end
+  end
+
+  def set_sentry_context
+    Sentry.set_user(id: current_user&.id, email: current_user&.email, username: current_user&.github_handle)
   end
 end
