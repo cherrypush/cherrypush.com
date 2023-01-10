@@ -22,8 +22,8 @@ module ApplicationHelper
 
   def cherry_run_cmd(metric_name = nil, owners = nil)
     cmd = ['cherry run']
-    cmd.push "--metric=\"#{metric_name}\"" if metric_name.present?
-    cmd.push "--owner=\"#{owners.map(&:handle).join(',')}\"" if owners.present?
+    cmd.push "--metric='#{metric_name}'" if metric_name.present?
+    cmd.push "--owner='#{owners.map(&:handle).join(',')}'" if owners.present?
     cmd.join(' ')
   end
 
