@@ -1,12 +1,15 @@
-<%= render 'edit_project_button', project: project %>
+<%=
+  render 'components/dropdown',
+         entries: [title: 'Delete', url: user_project_path(project), method: :delete],
+         class: 'float-right'
+%>
 
 <div>
   <%=
     render 'components/dropdown',
            class: 'mb-3 mr-3',
            text: "Project: #{project.name}",
-           entries: project_dropdown_entries,
-           id: 'dropdown-projects'
+           entries: project_dropdown_entries
   %>
 
   <% if project.reports.any? %>
@@ -14,8 +17,7 @@
       render 'components/dropdown',
              class: 'mb-3 mr-3',
              text: metric ? "Metric: #{metric.name}" : 'Filter by metric',
-             entries: metric_dropdown_entries(project, selected_owners),
-             id: 'dropdown-metrics'
+             entries: metric_dropdown_entries(project, selected_owners)
     %>
   <% end %>
 
@@ -66,8 +68,7 @@
       render 'components/dropdown',
              class: 'mr-3',
              text: selected_owners ? 'Add owner' : 'Filter by owner',
-             entries: owner_dropdown_entries(project, metric),
-             id: 'dropdown-onwers'
+             entries: owner_dropdown_entries(project, metric)
     %>
   <% end %>
 </div>

@@ -11,6 +11,6 @@ class User::ApplicationController < ApplicationController
 
   def authenticate_user!
     alert = 'You must be logged in to access this page'
-    redirect_to(projects_path, alert:) if current_user.nil?
+    redirect_to(root_path, alert:) if current_user.nil?
   end
 end

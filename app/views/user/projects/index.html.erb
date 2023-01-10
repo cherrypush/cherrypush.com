@@ -1,5 +1,5 @@
 <% if @projects.any? %>
-  <div class="grid md:grid-cols-3 gap-3">
+  <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-3">
     <% @projects.each do |project| %>
       <%= render 'components/project_card', project: project %>
     <% end %>

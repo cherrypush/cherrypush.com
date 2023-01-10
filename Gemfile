@@ -18,6 +18,7 @@ gem 'omniauth'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
 # project-specific dependencies
+gem 'acts_as_favoritor'
 gem 'chartkick'
 gem 'faker' # also used by production code via rake demo:refresh
 gem 'groupdate'
@@ -32,7 +33,7 @@ gem 'tailwindcss-rails'
 # gem 'importmap-rails'
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-# gem 'turbo-rails'
+gem 'turbo-rails'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 # gem 'stimulus-rails'

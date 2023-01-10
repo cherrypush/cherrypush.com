@@ -31,25 +31,26 @@ class Api::ReportsControllerTest < ActionDispatch::IntegrationTest
       assert default_metrics[:js_loc][:total], Report.last.metrics['js_loc']['total']
     end
 
-    it 'creates projects as private by default for trial users' do
+    it 'allow the creation of projects for trial users' do
       assert_equal false, user.premium?
       assert_equal true, user.trial?
       post(api_reports_path(api_key: user.api_key), params: payload)
-      assert_equal 'private', Project.last.access
+      assert_equal 1, Project.count
     end
 
-    it 'creates projects as public by default for non-premium users' do
-      user.update!(created_at: 6.months.ago) # so that the trial period is over
+    it 'prevents the creation of projects for expired trial users' do
+      user.update!(created_at: Time.current - User::TRIAL_DURATION - 1.day)
       assert_equal false, user.premium?
       assert_equal false, user.trial?
       post(api_reports_path(api_key: user.api_key), params: payload)
-      assert_equal 'public', Project.last.access
+      assert_equal 0, Project.count
+      assert_includes response.body, 'This action requires a premium membership'
     end
 
-    it 'creates projects as private by default for premium users' do
+    it 'allows the creation of projects for premium users' do
       create(:membership, user:)
       post(api_reports_path(api_key: user.api_key), params: payload)
-      assert_equal 'private', Project.last.access
+      assert_equal 1, Project.count
     end
 
     it 'requires a project name' do
