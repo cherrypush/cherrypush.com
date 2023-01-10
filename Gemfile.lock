@@ -122,6 +122,8 @@ GEM
     groupdate (6.1.0)
       activesupport (>= 5.2)
     hashie (5.0.0)
+    heroicon (1.0.0)
+      rails (>= 5.2)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -319,6 +321,7 @@ DEPENDENCIES
   factory_bot
   faker
   groupdate
+  heroicon
   httparty
   importmap-rails (~> 1.1)
   jbuilder
