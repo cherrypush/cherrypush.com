@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Cherry",
+    "short_name": "Cherry",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -15,5 +15,6 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
+    "start_url": "https://cherrypush.com",
     "display": "standalone"
 }
