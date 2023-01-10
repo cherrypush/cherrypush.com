@@ -1,3 +1,4 @@
+<% title 'New authorization' %>
 <h1>New authorization</h1>
 
 <%= form_with url: user_authorizations_path do %>
@@ -17,6 +18,7 @@
       autocorrect="off"
       data
       required
+      autofocus
     />
     <datalist id="brow" class="text-red-500">
       <% @github_handles.each do |github_handle| %>
