@@ -10,7 +10,7 @@ module OccurrencesHelper
     end
   end
 
-  def owner_dropdown_entries(project, metric)
+  def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength
     project.owners.map do |owner|
       {
         title: owner.handle,
@@ -25,10 +25,6 @@ module OccurrencesHelper
   end
 
   def project_dropdown_entries
-    if current_user
-      current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project_id: project.id) } }
-    else
-      Project.public_access.map { |project| { title: project.name, url: project_path(project) } }
-    end
+    current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project_id: project.id) } }
   end
 end

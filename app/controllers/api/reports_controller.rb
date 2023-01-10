@@ -9,6 +9,9 @@ class Api::ReportsController < Api::ApplicationController
   end
 
   def create
+    unless @user.trial? || @user.premium?
+      return(render json: { error: 'This action requires a premium membership.' }, status: :unauthorized)
+    end
     current_project.reports.create!(report_params)
     render json: { status: :ok }, status: :ok
   end

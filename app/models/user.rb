@@ -1,12 +1,16 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  acts_as_favoritor
+
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
   has_many :reports, through: :owned_projects
 
   before_save :ensure_api_key
+
+  TRIAL_DURATION = 30.days
 
   def contributions
     scope = Contribution.where(project: projects)
@@ -22,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def trial_until
-    created_at + 30.days
+    created_at + TRIAL_DURATION
   end
 
   def trial_expired?

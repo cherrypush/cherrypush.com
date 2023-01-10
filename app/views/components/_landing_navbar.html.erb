@@ -101,14 +101,7 @@
           </li>
         <% else %>
           <li>
-            <%=
-              link_to 'Demo',
-                      github_sign_in_path(
-                        after_sign_in_path:
-                          user_metrics_path(project_id: Project.public_access.find_by(name: 'demo/project')&.id),
-                      ),
-                      class: 'navbar-link'
-            %>
+            <%= link_to 'Demo', demo_path, class: 'navbar-link' %>
           </li>
         <% end %>
         <% unless current_user&.premium? %>

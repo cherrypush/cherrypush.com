@@ -15,10 +15,10 @@ class Api::ApplicationController < ApplicationController
   def set_user
     return render json: { error: 'API key is missing' }, status: :bad_request if params[:api_key].blank?
     @user = User.find_by(api_key: params[:api_key])
-    return(render json: { error: missing_api_key }, status: :unauthorized) if @user.nil?
+    return(render json: { error: wrong_api_key_message }, status: :unauthorized) if @user.nil?
   end
 
-  def missing_api_key
+  def wrong_api_key_message
     'Unknown API key. Find yours at https://cherrypush.com/user/settings.'
   end
 end

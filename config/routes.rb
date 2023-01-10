@@ -14,20 +14,19 @@ Rails.application.routes.draw do
 
   # namespace dedicated to user authenticated routes
   namespace :user do
-    resources :projects, only: %i[index update destroy] do
-      post :privatize, on: :member
-      post :publicize, on: :member
-    end
+    resources :projects, only: %i[index update destroy]
     resource :settings, only: :show
+    resource :favorites, only: %i[create destroy]
     resources :authorizations, only: %i[index new create destroy]
     resources :metrics, only: %i[index]
     resources :contributions, only: %i[index]
   end
 
-  get :privacy, to: 'pages#privacy'
-  get :pricing, to: 'pages#pricing'
-  get :terms, to: 'pages#terms'
+  get :demo, to: 'pages#demo'
   get :docs, to: 'pages#docs'
+  get :pricing, to: 'pages#pricing'
+  get :privacy, to: 'pages#privacy'
+  get :terms, to: 'pages#terms'
 
   root 'pages#home'
 end
