@@ -22,6 +22,7 @@ gem 'acts_as_favoritor'
 gem 'chartkick'
 gem 'faker' # also used by production code via rake demo:refresh
 gem 'groupdate'
+gem 'heroicon'
 gem 'httparty'
 gem 'pundit'
 gem 'redcarpet' # for markdown rendering
