@@ -30,6 +30,7 @@ gem 'sendgrid-ruby'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'tailwindcss-rails'
+gem 'vite_rails'
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 # gem 'importmap-rails'

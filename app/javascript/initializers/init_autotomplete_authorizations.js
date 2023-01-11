@@ -1,11 +1,11 @@
 import autoComplete from '@tarekraafat/autocomplete.js'
 
-document.addEventListener('turbo:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const inputEl = document.querySelector('#authorization-users-search')
 
   if (!inputEl) return
 
-  const autoCompleteJS = new autoComplete({
+  new autoComplete({
     selector: () => inputEl,
     data: {
       src: JSON.parse(inputEl.getAttribute('data-src')),

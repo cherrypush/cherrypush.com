@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def react_component(name, props: {})
+    content_tag :div, nil, data: { component: name, props: props.to_json }
+  end
+
   def number_to_diff(number)
     number_with_delimiter(number.negative? ? number.to_s : "+#{number}")
   end
