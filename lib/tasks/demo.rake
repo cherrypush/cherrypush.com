@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-METRIC_NAME_MAPPING = {
-  'Deprecated Components' => 'deprecated components',
-  'Deprecated Props' => 'deprecated methods',
-  'Javascript lines of code' => 'TS migration - JS lines of code',
-  'Legacy FS access' => 'deprecated imports',
-  'formApi' => 'RxJS',
-  'rubocop:disable' => 'rubocop:disable',
-  'eslint-disable-next-line' => 'eslint-disable',
-  'useAsyncTask' => 'axios legacy imports',
-  'let without bang!' => 'deprecated test setup',
-}.freeze
-
 namespace :demo do # rubocop:disable Metrics/BlockLength
   desc 'Refresh demo data'
   task refresh: :environment do
+    METRIC_NAME_MAPPING = {
+      'Deprecated Components' => 'deprecated components',
+      'Deprecated Props' => 'deprecated methods',
+      'Javascript lines of code' => 'TS migration - JS lines of code',
+      'Legacy FS access' => 'deprecated imports',
+      'formApi' => 'RxJS',
+      'rubocop:disable' => 'rubocop:disable',
+      'eslint-disable-next-line' => 'eslint-disable',
+      'useAsyncTask' => 'axios legacy imports',
+      'let without bang!' => 'deprecated test setup',
+    }.freeze
+
     ActiveRecord::Base.transaction do
       # take one existing project as reference
       base_project = Project.find_by(id: 9)

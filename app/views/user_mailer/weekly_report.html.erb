@@ -6,6 +6,7 @@
   <% @user.projects.each do |project| %>
     <% report = project.latest_report %>
     <% previous_report = project.reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
+    <% next if previous_report.nil? %>
 
     <h3><%= link_to project.name, user_metrics_url(project_id: project.id) %></h3>
     <table>
