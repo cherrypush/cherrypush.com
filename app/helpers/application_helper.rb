@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def number_to_diff(number)
+    number_with_delimiter(number.negative? ? number.to_s : "+#{number}")
+  end
+
   def title(page_title)
     content_for(:title) { page_title }
   end

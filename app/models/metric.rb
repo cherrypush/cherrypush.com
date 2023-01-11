@@ -40,6 +40,10 @@ class Metric
       .sort_by { |_author, value| value[:addition] + value[:deletion] }
   end
 
+  def total
+    @project.latest_report.metrics.dig(@name, 'total')
+  end
+
   private
 
   # TODO: this should come from a method on Metric
