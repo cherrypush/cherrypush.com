@@ -5,7 +5,7 @@ class Api::ReportsController < Api::ApplicationController
   include ProjectScoped
 
   def last
-    render json: current_project.reports.order(:commit_date).last
+    render json: current_project.latest_report
   end
 
   def create

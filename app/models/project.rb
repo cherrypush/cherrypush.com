@@ -13,9 +13,13 @@ class Project < ApplicationRecord
   validates :name, presence: true
   validates :user, presence: true
 
+  def latest_report
+    reports.order(:commit_date).last
+  end
+
   def metrics
     return [] if reports.empty?
-    reports.last.metrics.keys.sort.map { |name| Metric.new(name:, project: self) }
+    latest_report.metrics.keys.sort_by(&:downcase).map { |name| Metric.new(name:, project: self) }
   end
 
   def chart_data

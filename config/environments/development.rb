@@ -35,7 +35,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -72,4 +72,10 @@ Rails.application.configure do
   logger = ActiveSupport::Logger.new(STDOUT)
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+  # Do not send emails in development
+  config.action_mailer.perform_deliveries = false
+
+  # Sets default host for email path and urls
+  routes.default_url_options[:host] = 'http://localhost:3001'
 end
