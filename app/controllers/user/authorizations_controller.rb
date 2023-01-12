@@ -10,15 +10,10 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def new
-    @projects = current_user.owned_projects
-    @github_handles = User.where.not(id: current_user.id).map(&:github_handle).compact
     @authorization = Authorization.new
   end
 
   def create
-    return redirect_to user_authorizations_path, alert: 'User not found.' if @user.blank?
-    return redirect_to user_authorizations_path, alert: 'Project not found.' if @project.blank?
-
     authorization = Authorization.find_or_initialize_by(project: @project, user: @user)
     if authorization.save
       if Rails.env.production?
@@ -28,7 +23,7 @@ class User::AuthorizationsController < User::ApplicationController
       end
       redirect_to user_authorizations_path, notice: 'Authorization created.'
     else
-      render :new
+      redirect_to user_authorizations_path, alert: authorization.errors.full_messages.to_sentence
     end
   end
 
@@ -49,6 +44,6 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def set_user
-    @user = User.find_by(github_handle: params[:github_handle])
+    @user = User.find(params[:user_id])
   end
 end
