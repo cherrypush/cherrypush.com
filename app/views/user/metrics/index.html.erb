@@ -1,8 +1,5 @@
 <% title "Metrics: #{[@project.name, @metric&.name, @selected_owners&.map(&:handle)].compact.join(' | ')}" %>
 
-<%= react_component 'NavbarSearch', props: { name: 'Flavio', age: 33 } %>
-<%= react_component 'NewNavbarSearch', props: { name: 'Romain', age: 30 } %>
-
 <%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
 
 <% if @project.reports.any? %>

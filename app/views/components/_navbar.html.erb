@@ -32,19 +32,7 @@
           <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">🍒 Cherry</span>
         </a>
         <form action="#" method="GET" class="hidden lg:block lg:pl-2">
-          <div class="autoComplete_wrapper">
-            <input
-              id="navbar-search"
-              class="w-80 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              data-src="<%= navbar_search_items.to_json %>"
-              type="search"
-              spellcheck="false"
-              autocorrect="off"
-              autocomplete="off"
-              placeholder="Search for a project or metric..."
-              data
-            />
-          </div>
+          <%= react_component 'NavbarSearch', { items: navbar_search_items } %>
         </form>
       </div>
       <div class="flex items-center lg:order-2">

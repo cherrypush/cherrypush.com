@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def react_component(name, props: {})
+  def react_component(name, props = {})
     content_tag :div, nil, data: { component: name, props: props.to_json }
   end
 
@@ -43,8 +43,9 @@ module ApplicationHelper
     current_user.projects.flat_map do |project|
       project.metrics.map do |metric|
         {
-          text: html_escape("#{metric.name} - #{project.name}"),
-          href: user_metrics_path(project_id: project.id, metric_name: metric.name),
+          name: html_escape("#{project.name} - #{metric.name}"),
+          href: user_metrics_url(project_id: project.id, metric_name: metric.name),
+          selected: metric.name == @metric&.name && project.id == @project&.id,
         }
       end
     end

@@ -2,6 +2,8 @@
   "name": "cherrypush",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@hotwired/turbo-rails": "^7.2.4",
     "@tarekraafat/autocomplete.js": "^10.2.7",
     "apexcharts": "^3.36.3",
