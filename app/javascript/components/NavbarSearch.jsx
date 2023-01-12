@@ -12,8 +12,10 @@ const NavbarSearch = ({ items }) => {
     Turbo.visit(item.href)
   }
 
-  const filteredItems =
+  let filteredItems =
     query === '' ? items : items.filter((item) => item.name.toLowerCase().includes(query.toLowerCase()))
+
+  filteredItems = filteredItems.slice(0, 12)
 
   return (
     <Combobox value={selectedItem} onChange={navigateToItem}>

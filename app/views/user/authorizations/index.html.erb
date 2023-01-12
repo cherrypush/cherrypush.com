@@ -19,7 +19,7 @@
     <% end %>
   </div>
 
-  <div class="grid md:grid-cols-3 gap-3">
+  <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
     <% @authorizations.map(&:project).uniq.each do |project| %>
       <div class="overflow-x-auto relative">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
