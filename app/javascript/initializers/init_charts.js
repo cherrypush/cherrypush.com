@@ -7,7 +7,7 @@ document.addEventListener('turbo:load', () => {
       chart: {
         background: 'none',
         type: 'area',
-        height: 240,
+        height: 224,
         animations: { enabled: false },
         zoom: { enabled: false },
         toolbar: { show: false },
