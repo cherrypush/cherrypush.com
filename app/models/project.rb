@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class Project < ApplicationRecord
-  # TODO: drop the column `access` from the database
-
-  acts_as_favoritable
-
   belongs_to :user
   has_many :reports, dependent: :destroy
   has_many :contributions, dependent: :destroy

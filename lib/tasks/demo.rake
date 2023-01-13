@@ -27,7 +27,6 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
       # update demo project attributes
       demo_project = Project.find_or_create_by(name: 'demo/project')
       demo_project.name = 'demo/project'
-      demo_project.access = 'public'
       demo_project.user = User.find_by!(github_handle: 'fwuensche')
       demo_project.save
 
