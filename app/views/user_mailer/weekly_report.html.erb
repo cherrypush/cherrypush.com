@@ -23,7 +23,7 @@
             <td><%= link_to metric.name, user_metrics_url(project_id: project.id, metric_name: metric.name) %></td>
             <td class="text-right"><%= number_with_delimiter metric.total %></td>
             <td class="text-right">
-              <%= number_to_diff(previous_report.metrics.dig(metric.name, 'total').to_i - metric.total) %>
+              <%= number_to_diff(metric.total - previous_report.metrics.dig(metric.name, 'total').to_i) %>
             </td>
           </tr>
         <% end %>
