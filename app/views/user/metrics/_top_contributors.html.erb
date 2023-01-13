@@ -1,22 +1,21 @@
-<h3
-  class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
->
-  Top contributors 🏆
-</h3>
-
-<div class="overflow-x-auto relative">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      Top contributors 🏆
+    </caption>
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <th scope="col" class="py-3 px-6">Author</th>
-        <th scope="col" class="py-3 px-6 text-center">Contributions</th>
+        <th scope="col" class="px-6 py-3">Author</th>
+        <th scope="col" class="px-6 py-3 text-right">CHANGES</th>
       </tr>
     </thead>
     <tbody>
       <% metric.contribution_by_author.each do |(author_name, author_email), value| %>
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <td class="py-4 px-6"><%= commit_author_name(author_name, author_email) %></td>
-          <td class="py-4 px-6 text-center">
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td scope="row" class="px-6 py-4">
+            <%= commit_author_name(author_name, author_email) %>
+          </td>
+          <td class="px-6 py-4 text-right">
             <span class="text-red-300">+<%= value[:addition] %></span>
             <span class="text-green-300 ml-4"><%= value[:deletion] %></span>
           </td>

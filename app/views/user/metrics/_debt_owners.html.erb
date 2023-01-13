@@ -1,29 +1,28 @@
-<h3
-  class="font-bold p-3 mb-1 text-sm text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
->
-  Debt Owners 🧹
-</h3>
-
-<div class="overflow-x-auto relative">
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      Debt Owners 🧹
+    </caption>
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <th scope="col" class="py-3 px-6">Owner</th>
-        <th scope="col" class="py-3 px-6 text-center">Count</th>
+        <th scope="col" class="px-6 py-3">Owner</th>
+        <th scope="col" class="px-6 py-3 text-right">Count</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <% metric.owners.each do |owner| %>
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <td class="py-4 px-6">
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td scope="row" class="px-6 py-4">
             <div class="flex items-center">
               <%= render 'components/owner_star', owner: owner %>
               <%= owner.handle %>
             </div>
           </td>
-          <td class="py-4 px-6 text-center"><%= owner.count %></td>
-          <td class="py-4 px-3 text-center">
+          <td class="px-6 py-4 text-right">
+            <%= owner.count %>
+          </td>
+          <td class="px-6 py-4 text-right">
             <% if selected_owners && selected_owners.map(&:handle).include?(owner.handle) %>
               <%=
                         link_to user_metrics_path(
