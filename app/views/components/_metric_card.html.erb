@@ -10,42 +10,26 @@
 %>
 
 <div class="relative">
-  <div class="absolute top-2 right-0">
-    <%= render 'components/dropdown', entries: dropdown_entries %>
-  </div>
+  <div class="absolute top-4 right-2"><%= render 'components/dropdown', entries: dropdown_entries %></div>
   <%= link_to user_metrics_path(
                     project_id: @project.id,
                     metric_name: metric.name,
                     owner_handles: @selected_owners&.map(&:handle),
-                  ) do %>
+                  ), class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" do %>
+    <h3 class="inline">
+      <div class="flex items-center">
+        <% if current_user.favorited?(metric) %>
+          <%= heroicon 'star', options: { class: 'mr-2' } %>
+        <% end %>
+        <%= metric.name %>
+      </div>
+    </h3>
     <div
-      class="overflow-hidden text-center w-full block p-3 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-    >
-      <h3 class="inline">
-        <div>
-          <% if current_user.favorited?(metric) %>
-            <svg
-              aria-hidden="true"
-              class="text-yellow-400 w-7 h-7 inline"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>First star</title>
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              ></path>
-            </svg>
-          <% end %>
-          <%= metric.name %>
-        </div>
-      </h3>
-      <div
-        class="h-60 mt-3 -ml-9 -mr-6 -mb-12"
-        data-chart
-        data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
-        data-serie-name="<%= metric.name %>"
-      ></div>
-    </div>
+      class="h-56 mt-3 -ml-12 -mr-9 -mb-12"
+      data-chart
+      data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
+      data-serie-name="<%= metric.name %>"
+      data-show-label="false"
+    ></div>
   <% end %>
 </div>
