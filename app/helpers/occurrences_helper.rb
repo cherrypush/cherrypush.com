@@ -11,17 +11,20 @@ module OccurrencesHelper
   end
 
   def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength
-    project.owners.map do |owner|
-      {
-        title: owner.handle,
-        url:
-          user_metrics_path(
-            project_id: project.id,
-            metric_name: metric&.name,
-            owner_handles: (params[:owner_handles] || []) + [owner.handle],
-          ),
-      }
-    end
+    project
+      .owners
+      .sort_by { |owner| current_user.favorite_owner_handles.include?(owner.handle) ? 0 : 1 }
+      .map do |owner|
+        {
+          title: owner.handle,
+          url:
+            user_metrics_path(
+              project_id: project.id,
+              metric_name: metric&.name,
+              owner_handles: (params[:owner_handles] || []) + [owner.handle],
+            ),
+        }
+      end
   end
 
   def project_dropdown_entries
