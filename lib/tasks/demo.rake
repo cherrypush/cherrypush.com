@@ -58,7 +58,7 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
               METRIC_NAME_MAPPING[key],
               {
                 total: value['total'],
-                owners: value['owners'].transform_keys { |_| "@#{Faker::Company.industry.parameterize}-team" },
+                owners: value['owners'].transform_keys { |_| "@#{Faker::Company.industry.parameterize}" },
               },
             ]
           end
