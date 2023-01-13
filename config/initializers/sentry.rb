@@ -5,6 +5,6 @@ if Rails.env.production?
     config.dsn = Rails.application.credentials.dig(:sentry, :dsn)
     config.breadcrumbs_logger = %i[active_support_logger http_logger]
     config.traces_sample_rate = 1.0
-    config.excluded_exceptions = []
+    config.excluded_exceptions = [ActionController::RoutingError]
   end
 end
