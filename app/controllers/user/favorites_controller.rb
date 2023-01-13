@@ -7,7 +7,7 @@ class User::FavoritesController < User::ApplicationController
     elsif params[:metric_name].present?
       current_user.favorite_metric_names << params[:metric_name]
     elsif params[:owner_handle].present?
-      current_user.favorite_owners << params[:owner_handle]
+      current_user.favorite_owner_handles << params[:owner_handle]
     end
     current_user.save!
     redirect_to request.referer, notice: 'Added to favorites.'
@@ -19,7 +19,7 @@ class User::FavoritesController < User::ApplicationController
     elsif params[:metric_name].present?
       current_user.favorite_metric_names.delete(params[:metric_name])
     elsif params[:owner_handle].present?
-      current_user.favorite_owners.delete(params[:owner_handle])
+      current_user.favorite_owner_handles.delete(params[:owner_handle])
     end
     current_user.save!
     redirect_to request.referer, notice: 'Removed from favorites.'
