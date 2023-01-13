@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  acts_as_favoritor
-
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
@@ -60,6 +58,12 @@ class User < ApplicationRecord
     self.github_handle = auth.info.nickname
     self.email = auth.info.email if auth.info.email?
     self.image = auth.info.image if auth.info.image?
+  end
+
+  def favorited?(resource)
+    return resource.id.in?(favorite_project_ids) if resource.is_a?(Project)
+    return resource.name.in?(favorite_metric_names) if resource.is_a?(Metric)
+    return false
   end
 
   private
