@@ -1,45 +1,48 @@
-<p>Hello <%= @user.name.split.first %>! And welcome to Cherry.</p>
+<p>Hello <%= @user.name.split.first %>! Welcome to Cherry!</p>
 
 <p>
-  We're a very small team (of two!) and want to make sure we're building a product that is useful for you, so don't
-  hesitate to directly reply to this email, introduce yourself, and start a conversation.
+  We're a very small team of two and we want to make sure we're building something useful for you. If you have 5
+  minutes, just go ahead and directly reply to this email. Tell us the problems that you're trying to solve.
 </p>
 
 <p>
   To get an overview of the CLI, we recommend setting aside some time to
-  <a href="https://cherrypush.com/docs" target="_blank" id="">explore the docs</a>. Otherwise, let's get straight to
-  setting up your first project!
+  <a href="<%= docs_url %>" target="_blank" id="">explore the docs</a>. Otherwise, let's get straight to setting up your
+  first project!
 </p>
 
 <img
   style="max-width: 100% !important; height: auto !important"
-  src="https://www.cherrypush.com/assets/screenshot_metrics-c2dcaa320fbaaab1f5ed5fd2aa972aa4b92f1402491414bd03e9b8a253b7836d.png"
+  src="https://i.imgur.com/ihhJZCZ.png"
   alt="cherrypush dashboard screenshot"
 />
 
-<p>To set up a new Cherry repository:</p>
+<p>To set up a new Cherry project:</p>
 
 <ol>
+  <li>In the <a href="<%= user_projects_url %>">Cherry Projects tab</a>, click on the 'New project' card.</li>
+  <li>Strictly follow the sequence of commands listed in the modal.</li>
   <li>
-    <span
-      >In the CircleCI UI, click 'Add Projects' in the lefthand sidebar and then click 'Set up project' next to the
-      repository you want to set up.</span
-    >
+    Once you're done, your project's metrics will be in the
+    <a href="<%= user_projects_url %>">Dashboard</a>.
   </li>
-  <li>
-    <span
-      >Select the language for the project from the drop-down to generate a <code>config.yml</code> file, and make any
-      edits necessary in the text editor below.</span
-    >
-  </li>
-  <li>Click "Start Building" and then "Add Config"</li>
 </ol>
 
-<p>
-  Feel free to check out&nbsp;our getting started guides for <a href="#" target="_blank">Linux</a>,
-  <a href="#2.0/hello-world-windows/#section=getting-started" target="_blank">Windows</a>, and
-  <a href="#" target="_blank">macOS</a>
-  for information specific to each build environment.
-</p>
+<%#
+  Write another email on day 2 to explain how to customize the metrics tracked.
+  <p>
+    If you want to customize the metrics you track, you can edit the
+    <code>.cherry.js</code> file, created at the root of your project. Just add new patterns as you wish, and run the
+    <code>cherry backfill</code> command again.
+  </p>
+%>
 
-<p>Happy coding!<br />~ Flavio</p>
+<!--
+  Write another email on day 3 to explain how to automate the data submission.
+  <p>
+    Lastly, if you want to automate the data submission, there's a one-step process on how to
+    <a href="<%= docs_url %>">Integrate with GitHub Actions</a> available in our docs.
+  </p>
+-->
+
+<p>That's all you need to get started!<br />~ Flavio</p>

@@ -42,6 +42,7 @@ class User < ApplicationRecord
   def self.find_or_create_with_omniauth(auth)
     user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
     user.update_dynamic_attributes(auth)
+    UserMailer.with(user: user).weekly_report.deliver_now if user.new_record?
     user.save!
     user
   end
