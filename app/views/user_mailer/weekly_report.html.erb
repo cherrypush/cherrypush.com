@@ -1,107 +1,36 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<p>Hi <%= @user.name.split.first %>! 👋</p>
 
-    <style>
-      .wrapper {
-        color: #6b7280;
-        font-family: Arial, sans-serif;
-        font-size: 1rem;
-      }
+<p>Here's how your projects evolved during the last ~7 days.</p>
 
-      .container {
-        margin: 0 auto;
-        max-width: 540px;
-        padding: 0 0 2rem 0;
-      }
+<% @user.projects.each do |project| %>
+  <% report = project.latest_report %>
+  <% previous_report = project.reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
+  <% next if previous_report.nil? %>
 
-      a {
-        color: #1c64f2;
-        text-decoration: none;
-      }
+  <table class="reports-table" style="margin-bottom:1.5rem;">
+    <thead>
+      <tr>
+        <td><%= project.name %></td>
+        <td style="width:10%;">Count</td>
+        <td style="width:10%;">Change</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% project.metrics.each do |metric| %>
+        <tr>
+          <td>
+            <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_name: metric.name) %>
+          </td>
+          <td class="text-right"><%= number_with_delimiter metric.total %></td>
+          <td class="text-right">
+            <%= number_to_diff(metric.total - previous_report.metrics.dig(metric.name, 'total').to_i) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
-      a:hover {
-        text-decoration: underline;
-      }
+<p>Let's keep that codebase clean ✨</p>
 
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      tr:hover {
-        background: #f3f4f6;
-      }
-
-      table thead td {
-        background: #f3f4f6;
-        text-transform: uppercase;
-        font-weight: 600;
-        font-size: 0.8rem;
-      }
-
-      table,
-      th,
-      td {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-        border-bottom: 1px solid #f3f4f6;
-      }
-
-      .text-right {
-        text-align: right;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="wrapper">
-      <div class="container">
-        <p>Hi <%= @user.name.split.first %>! 👋</p>
-
-        <p>Here's how your projects evolved during the last ~7 days.</p>
-
-        <% @user.projects.each do |project| %>
-          <% report = project.latest_report %>
-          <% previous_report = project.reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
-          <% next if previous_report.nil? %>
-
-          <p style="margin-bottom:9px;font-weight:600;"></p>
-          <table>
-            <thead>
-              <tr>
-                <td><%= project.name %></td>
-                <td style="width:10%;">Count</td>
-                <td style="width:10%;">Change</td>
-              </tr>
-            </thead>
-            <tbody>
-              <% project.metrics.each do |metric| %>
-                <tr>
-                  <td>
-                    <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_name: metric.name) %>
-                  </td>
-                  <td class="text-right"><%= number_with_delimiter metric.total %></td>
-                  <td class="text-right">
-                    <%= number_to_diff(metric.total - previous_report.metrics.dig(metric.name, 'total').to_i) %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% end %>
-
-        <p>Let's keep that codebase clean ✨</p>
-
-        <p>Happy hacking!</p>
-
-        <p>~Flavio</p>
-
-        <p style="font-size:0.8rem;">
-          PS: To unsubscribe from reports, reply to this email and I'll manually shut this down for you.
-        </p>
-      </div>
-    </div>
-  </body>
-</html>
+<p>Happy hacking! <br />~ Flavio</p>
