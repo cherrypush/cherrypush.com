@@ -36,7 +36,10 @@
         </form>
       </div>
       <div class="flex items-center lg:order-2">
-        <%= render 'components/contributions', contributions: current_user.contributions.limit(5) %>
+        <%=
+          render 'components/contributions',
+                 contributions: current_user.contributions.order(commit_date: :desc).limit(5)
+        %>
         <button
           type="button"
           class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
