@@ -36,7 +36,8 @@ class User < ApplicationRecord
   end
 
   def premium?
-    memberships.any?
+    true # While it's only used at Doctolib
+    # memberships.any?
   end
 
   def self.find_or_create_with_omniauth(auth)
