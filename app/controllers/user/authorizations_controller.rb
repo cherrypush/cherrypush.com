@@ -16,11 +16,9 @@ class User::AuthorizationsController < User::ApplicationController
   def create
     authorization = Authorization.find_or_initialize_by(project: @project, user: @user)
     if authorization.save
-      if Rails.env.production?
-        TelegramClient.send(
-          "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
-        )
-      end
+      TelegramClient.send(
+        "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
+      )
       redirect_to user_authorizations_path, notice: 'Authorization created.'
     else
       redirect_to user_authorizations_path, alert: authorization.errors.full_messages.to_sentence

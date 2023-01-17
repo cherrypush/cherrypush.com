@@ -4,6 +4,11 @@ module ProjectScoped
   extend ActiveSupport::Concern
 
   def current_project
-    @current_project ||= @user.projects.find_or_create_by!(name: params['project_name'])
+    @current_project ||=
+      @user
+        .projects
+        .find_or_create_by!(name: params['project_name']) do |project|
+          TelegramClient.send("#{@user.name} just created the project #{project.name}")
+        end
   end
 end

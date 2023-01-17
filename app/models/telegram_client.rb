@@ -5,6 +5,8 @@ class TelegramClient
 
   class << self
     def send(content)
+      return if Rails.env.production?
+
       uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
 
       request = Net::HTTP::Post.new(uri)
