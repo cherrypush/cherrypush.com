@@ -5,7 +5,7 @@ class TelegramClient
 
   class << self
     def send(content)
-      return if Rails.env.production?
+      return unless Rails.env.production?
 
       uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
 
