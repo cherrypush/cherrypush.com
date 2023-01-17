@@ -1,15 +1,12 @@
-<div class="inline-flex">
+<div class="inline-flex flex-wrap">
   <%=
-    render 'components/dropdown',
-           class: 'mb-3 mr-3',
-           text: "Project: #{project.name}",
-           entries: project_dropdown_entries
+    render 'components/dropdown', class: 'mr-3', text: "Project: #{project.name}", entries: project_dropdown_entries
   %>
 
   <% if project.reports.any? %>
     <%=
       render 'components/dropdown',
-             class: 'mb-3 mr-3',
+             class: 'mr-3',
              text: metric ? "Metric: #{metric.name}" : 'Filter by metric',
              entries: metric_dropdown_entries(project, selected_owners)
     %>
@@ -26,7 +23,7 @@
           )
       %>
       <button
-        class="mr-3 inline-flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mb-3 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-gray-700"
+        class="inline-flex items-center text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-3 mb-3 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
       >
         <%= render 'components/owner_star', owner: owner %>
         <div class="ml-1 text-sm font-medium text-gray-700 dark:text-gray-300">
