@@ -11,7 +11,7 @@ class Metric
   def owners
     @project
       .owners
-      .each { |owner| owner.count = get_count(@project.reports.last, [owner]) || 0 }
+      .each { |owner| owner.count = get_count(@project.latest_report, [owner]) || 0 }
       .sort_by(&:count)
       .reverse
   end
