@@ -9,7 +9,10 @@
 
   <% if @metric %>
     <div class="card mb-3 text-center">
-      <h3 class="inline"><%= @metric.name %></h3>
+      <h3 class="flex items-center">
+        <%= render 'components/favorite_button', resource: @metric %>
+        <%= @metric.name %>
+      </h3>
       <div
         class="h-60 -mb-6"
         data-chart
