@@ -3,10 +3,13 @@
     <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
       Top contributors 🏆
     </caption>
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
-        <th scope="col" class="px-6 py-3">Author</th>
-        <th scope="col" class="px-6 py-3 text-right">CHANGES</th>
+        <th scope="col" class="px-6 py-3">AUTHOR</th>
+        <th scope="col" class="px-6 py-3 text-right flex items-center justify-end gap-1">
+          CHANGES
+          <%= render 'components/info_circle', tooltip: 'Number of added or removed occurrences per person.' %>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -16,8 +19,7 @@
             <%= commit_author_name(author_name, author_email) %>
           </td>
           <td class="px-6 py-4 text-right">
-            <span class="text-red-300">+<%= value[:addition] %></span>
-            <span class="text-green-300 ml-4"><%= value[:deletion] %></span>
+            <span class="mr-2"><%= number_to_diff(value[:addition] + value[:deletion]) %></span>
           </td>
         </tr>
       <% end %>

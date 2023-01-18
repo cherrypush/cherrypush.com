@@ -6,7 +6,11 @@ module ApplicationHelper
   end
 
   def number_to_diff(number)
-    number_with_delimiter(number.negative? ? number.to_s : "+#{number}")
+    return if number.zero?
+    caret = number.negative? ? '▾' : '▴'
+    caret = "<span class='text-xl'>#{caret}</span>".html_safe
+    color = number.negative? ? 'text-green-300' : 'text-red-300'
+    "<span class='#{color}'>#{caret} #{number.abs}</span>".html_safe
   end
 
   def title(page_title)
