@@ -13,9 +13,9 @@
     <tbody>
       <% metric.owners.each do |owner| %>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td scope="row" class="px-6 py-4">
+          <td scope="row" class="pl-3 px-6 py-4">
             <div class="flex items-center">
-              <%= render 'components/owner_star', owner: owner %>
+              <%= render 'components/favorite_button', resource: owner %>
               <%= owner.handle %>
             </div>
           </td>
