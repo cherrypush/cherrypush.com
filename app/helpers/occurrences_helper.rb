@@ -2,12 +2,17 @@
 
 module OccurrencesHelper
   def metric_dropdown_entries(project, owners)
-    project.metrics.map do |metric|
-      {
-        title: metric.name,
-        url: user_metrics_path(project_id: project.id, metric_name: metric.name, owner_handles: owners&.map(&:handle)),
-      }
-    end
+    entries =
+      project.metrics.map do |metric|
+        {
+          title: metric.name,
+          url:
+            user_metrics_path(project_id: project.id, metric_name: metric.name, owner_handles: owners&.map(&:handle)),
+        }
+      end
+
+    entries.unshift(remove_metric_entry(project)) if params[:metric_name]
+    entries
   end
 
   def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength
@@ -27,7 +32,8 @@ module OccurrencesHelper
           }
         end
 
-    entries.unshift(favorites_entry(project, metric))
+    entries.unshift(apply_all_favorite_owners_entry(project, metric))
+    entries.unshift(remove_all_owners_entry(project, metric)) if params[:owner_handles]
     entries
   end
 
@@ -48,7 +54,7 @@ module OccurrencesHelper
 
   private
 
-  def favorites_entry(project, metric)
+  def apply_all_favorite_owners_entry(project, metric)
     {
       title: (heroicon('star', options: { class: 'mr-1' }) + 'Apply favorites').html_safe,
       url:
@@ -58,6 +64,20 @@ module OccurrencesHelper
           owner_handles:
             current_user.favorite_owner_handles.filter { |handle| project.owners.map(&:handle).include?(handle) },
         ),
+    }
+  end
+
+  def remove_all_owners_entry(project, metric)
+    {
+      title: (heroicon('x-mark', options: { class: 'mr-1' }) + 'Remove all').html_safe,
+      url: user_metrics_path(project_id: project.id, metric_name: metric&.name, owner_handles: nil),
+    }
+  end
+
+  def remove_metric_entry(project)
+    {
+      title: (heroicon('x-mark', options: { class: 'mr-1' }) + 'Remove metric').html_safe,
+      url: user_metrics_path(project_id: project.id, metric_name: nil, owner_handles: params[:owner_handles]),
     }
   end
 end
