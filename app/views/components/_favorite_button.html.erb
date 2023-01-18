@@ -20,4 +20,15 @@
       <%= heroicon 'star' %>
     <% end %>
   <% end %>
+<% elsif resource.is_a?(Owner) %>
+  <%# OWNER %>
+  <% if current_user.favorited?(resource) %>
+    <%= link_to user_favorites_path(owner_handle: resource.handle), data: { 'turbo-method' => 'delete' }, class: "z-10 text-yellow-300 mr-2 bg-gray-100 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:hover:bg-gray-700" do %>
+      <%= heroicon 'star' %>
+    <% end %>
+  <% else %>
+    <%= link_to user_favorites_path(owner_handle: resource.handle), data: { 'turbo-method' => 'post' }, class: "z-10 mr-2 bg-gray-100 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" do %>
+      <%= heroicon 'star' %>
+    <% end %>
+  <% end %>
 <% end %>
