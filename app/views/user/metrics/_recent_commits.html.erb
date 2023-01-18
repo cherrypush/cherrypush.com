@@ -30,7 +30,7 @@
                 href="<%= github_commit_url(project.name, contribution.commit_sha) %>"
                 target="_blank"
               >
-                <%= contribution.commit_sha.first(6) %>
+                <code><%= contribution.commit_sha.first(6) %></code>
               </a>
             </div>
             <div
