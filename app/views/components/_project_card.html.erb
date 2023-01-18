@@ -7,34 +7,29 @@
     end
 %>
 
-<% dropdown_entries = [] %>
-<%
-  if current_user.favorited?(project)
-    dropdown_entries.concat([title: 'Unfavorite', url: user_favorites_path(project_id: project.id), method: :delete])
-  else
-    dropdown_entries.concat(
-      [title: 'Add to favorites', url: user_favorites_path(project_id: project.id), method: :post],
-    )
-  end
-%>
-<% dropdown_entries += [title: 'Delete', url: user_project_path(project), method: :delete] %>
-
 <div class="relative">
-  <div class="absolute top-4 right-2"><%= render 'components/dropdown', entries: dropdown_entries %></div>
-  <%= link_to project_link, class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" do  %>
+  <%# TITLE %>
+  <div class="absolute top-4 left-4">
     <h3 class="inline">
       <div class="flex items-center">
-        <% if current_user.favorited?(project) %>
-          <%= heroicon 'star', options: { class: 'mr-2' } %>
-        <% end %>
+        <%= render 'components/favorite_button', resource: project %>
         <%= project.name %>
       </div>
       <div class="text-sm text-gray-500 dark:text-gray-400">Owned by <%= project.user.name %></div>
     </h3>
-
+  </div>
+  <%# DROPDOWN %>
+  <div class="absolute top-4 right-2 flex items-center">
+    <%=
+      render 'components/dropdown',
+             entries: [title: 'Delete forever 🥲', url: user_project_path(project), method: :delete]
+    %>
+  </div>
+  <%# CHART %>
+  <%= link_to project_link, class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" do  %>
     <% if project.reports.any? %>
       <div
-        class="h-56 mt-3 -ml-12 -mr-9 -mb-12"
+        class="h-60 mt-8 -ml-12 -mr-9 -mb-12"
         data-chart
         data-serie="<%= project.chart_data.sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
         data-serie-name="<%= project.name %>"
