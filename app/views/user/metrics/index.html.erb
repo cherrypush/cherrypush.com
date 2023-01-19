@@ -36,12 +36,12 @@
       </div>
     <% end %>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
       <div class="col-4">
-        <%= render 'recent_commits', metric: @metric, project: @project %>
+        <%= react_component 'RecentCommits', commits: recent_commits(@project, @metric) %>
       </div>
       <div class="col-4">
-        <%= render 'top_contributors', metric: @metric %>
+        <%= react_component 'TopContributors', contributors: top_contributors(@metric) %>
       </div>
       <div class="col-4">
         <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>

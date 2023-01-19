@@ -1,6 +1,24 @@
 # frozen_string_literal: true
 
 module OccurrencesHelper
+  def recent_commits(project, metric)
+    metric.contributions.map do |contribution, value|
+      {
+        author_name: commit_author_name(contribution.author_name, contribution.author_email),
+        commit_sha: contribution.commit_sha,
+        time_ago_in_words: time_ago_in_words(contribution.commit_date) + ' ago',
+        changes: value,
+        url: github_commit_url(project.name, contribution.commit_sha),
+      }
+    end
+  end
+
+  def top_contributors(metric)
+    metric.contribution_by_author.map do |(author_name, author_email), value|
+      { name: commit_author_name(author_name, author_email), changes: value[:addition] + value[:deletion] }
+    end
+  end
+
   def metric_dropdown_entries(project, owners)
     entries =
       project.metrics.map do |metric|
