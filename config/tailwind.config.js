@@ -7,6 +7,7 @@ module.exports = {
     './app/javascript/**/*.js',
     './app/views/**/*.{erb,haml,html,slim}',
     './node_modules/flowbite/**/*.js', // https://flowbite.com/docs/getting-started/rails/
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}', // https://flowbite.com/docs/getting-started/react/
   ],
   theme: {
     extend: {

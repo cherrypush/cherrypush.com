@@ -2,11 +2,15 @@
   "name": "cherrypush",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
     "@hotwired/turbo-rails": "^7.2.4",
+    "@mui/icons-material": "^5.11.0",
     "apexcharts": "^3.36.3",
-    "flowbite": "^1.5.4",
+    "flowbite": "^1.6.2",
+    "flowbite-react": "^0.3.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
