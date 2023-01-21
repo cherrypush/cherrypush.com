@@ -6,10 +6,9 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
     METRIC_NAME_MAPPING = {
       'Deprecated Components' => 'deprecated components',
       'Deprecated Props' => 'deprecated methods',
-      'Javascript lines of code' => 'TS migration - JS lines of code',
       'Legacy FS access' => 'deprecated imports',
       'formApi' => 'RxJS',
-      'rubocop:disable' => 'rubocop:disable',
+      '@ts-expect-error' => '@ts-expect-error',
       'eslint-disable-next-line' => 'eslint-disable',
       'useAsyncTask' => 'axios legacy imports',
       'let without bang!' => 'deprecated test setup',
