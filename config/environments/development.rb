@@ -66,7 +66,7 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  # Project-specfici configuration
+  # PROJECT SPECIFIC SETTINGS
 
   # Rails will log to stdout so we can see its logs via foreman
   logger = ActiveSupport::Logger.new(STDOUT)
@@ -78,4 +78,7 @@ Rails.application.configure do
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'http://localhost:3001'
+
+  # Set up https for local development (https://www.filippoliverani.com/ssl-rails-local-development-puma)
+  config.force_ssl = true
 end
