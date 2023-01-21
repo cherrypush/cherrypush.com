@@ -69,6 +69,11 @@ class User < ApplicationRecord
     return false
   end
 
+  # TODO: make this a real feature
+  def admin?
+    github_handle.in?(%w[fwuensche rchoquet])
+  end
+
   private
 
   def ensure_api_key
