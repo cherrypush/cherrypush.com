@@ -58,6 +58,9 @@ class User < ApplicationRecord
   def update_dynamic_attributes(auth)
     self.name = auth.info.name
     self.github_handle = auth.info.nickname
+    # TODO: maybe we should get all emails from github and let the user choose one for notifications
+    # TODO: remember to pick the verified ones, and set the primary as default
+    # auth.extra.all_emails.filter(&:verified).map(&:email)
     self.email = auth.info.email if auth.info.email?
     self.image = auth.info.image if auth.info.image?
   end
