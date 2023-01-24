@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount Blazer::Engine, at: 'blazer' # authentication method set in blazer.yml
+
   get 'auth/:provider/callback', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy', as: :signout
   get '/auth/github', as: :github_sign_in

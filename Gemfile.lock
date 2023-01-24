@@ -85,6 +85,11 @@ GEM
     bindex (0.8.1)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
+    blazer (2.6.5)
+      activerecord (>= 5)
+      chartkick (>= 3.2)
+      railties (>= 5)
+      safely_block (>= 0.1.1)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -107,6 +112,7 @@ GEM
       reline (>= 0.3.1)
     debug_inspector (1.1.0)
     dry-cli (1.0.0)
+    errbase (0.2.2)
     erubi (1.12.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -256,6 +262,8 @@ GEM
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
     rubyzip (2.3.2)
+    safely_block (0.3.0)
+      errbase (>= 0.1.1)
     selenium-webdriver (4.8.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -324,6 +332,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  blazer
   bootsnap
   capybara
   chartkick
