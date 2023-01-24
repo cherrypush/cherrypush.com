@@ -18,6 +18,7 @@ gem 'omniauth'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
 # project-specific dependencies
+gem 'blazer'
 gem 'chartkick'
 gem 'faker' # also used by production code via rake demo:refresh
 gem 'groupdate'
