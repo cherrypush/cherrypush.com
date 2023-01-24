@@ -1,11 +1,16 @@
 <script type="text/javascript">
-  window.$crisp = []
-  window.CRISP_WEBSITE_ID = '0a749ad8-c6b6-4724-8a7c-44e6176d6c9c'
-  ;(function () {
-    d = document
-    s = d.createElement('script')
-    s.src = 'https://client.crisp.chat/l.js'
-    s.async = 1
-    d.getElementsByTagName('head')[0].appendChild(s)
-  })()
+if (!window.CRISP_WEBSITE_ID) {
+  window.$crisp=[];
+  window.CRISP_WEBSITE_ID="0a749ad8-c6b6-4724-8a7c-44e6176d6c9c";
+  (function(){
+    d=document;s=d.createElement("script");
+    s.src="https://client.crisp.chat/l.js";
+    s.async=1;
+    d.getElementsByTagName("head")[0].appendChild(s);
+  })();
+
+  <% if current_account %>
+    $crisp.push(["set", "user:email", "<%= current_account.email %>"]);
+  <% end %>
+}
 </script>
