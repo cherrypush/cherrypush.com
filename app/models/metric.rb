@@ -23,7 +23,6 @@ class Metric
         count = get_count(report, owners)
         count && [report.commit_date.to_date, get_count(report, owners)]
       end
-      .filter { |_date, count| count.positive? }
       .sort_by { |date, _count| date }
   end
 
