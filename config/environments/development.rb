@@ -78,7 +78,4 @@ Rails.application.configure do
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'http://localhost:3001'
-
-  # Set up https for local development (https://www.filippoliverani.com/ssl-rails-local-development-puma)
-  config.force_ssl = true
 end
