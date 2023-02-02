@@ -2,12 +2,13 @@ import { Tooltip } from 'flowbite-react'
 import React from 'react'
 import { numberToDiff } from '../helpers/applicationHelper'
 import InfoCircle from './InfoCircle'
-import EventIcon from '@mui/icons-material/Event'
+
+const MAX_ITEMS = 9
 
 const RecentCommits = ({ commits }) => {
   const [showAll, setShowAll] = React.useState(false)
 
-  const filteredCommits = showAll ? commits : commits.slice(0, 9)
+  const filteredCommits = showAll ? commits : commits.slice(0, MAX_ITEMS)
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -50,14 +51,26 @@ const RecentCommits = ({ commits }) => {
               </td>
             </tr>
           ))}
-          <tr
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-            onClick={() => setShowAll(true)}
-          >
-            <td colSpan="3" className="px-6 py-4 text-center">
-              Show all
-            </td>
-          </tr>
+          {showAll && (
+            <tr
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+              onClick={() => setShowAll(false)}
+            >
+              <td colSpan="3" className="px-6 py-4 text-center">
+                Show less
+              </td>
+            </tr>
+          )}
+          {!showAll && commits.length > MAX_ITEMS && (
+            <tr
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+              onClick={() => setShowAll(true)}
+            >
+              <td colSpan="3" className="px-6 py-4 text-center">
+                Show all
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
