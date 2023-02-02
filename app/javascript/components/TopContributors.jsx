@@ -2,6 +2,8 @@ import React from 'react'
 import { numberToDiff } from '../helpers/applicationHelper'
 import InfoCircle from './InfoCircle'
 
+const MAX_ITEMS = 9
+
 const TopContributors = ({ contributors }) => {
   const [showAll, setShowAll] = React.useState(false)
 
@@ -38,14 +40,26 @@ const TopContributors = ({ contributors }) => {
               </td>
             </tr>
           ))}
-          <tr
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-            onClick={() => setShowAll(true)}
-          >
-            <td colSpan="2" className="px-6 py-4 text-center">
-              Show all
-            </td>
-          </tr>
+          {showAll && (
+            <tr
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+              onClick={() => setShowAll(false)}
+            >
+              <td colSpan="2" className="px-6 py-4 text-center">
+                Show less
+              </td>
+            </tr>
+          )}
+          {!showAll && contributors.length > MAX_ITEMS && (
+            <tr
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+              onClick={() => setShowAll(true)}
+            >
+              <td colSpan="2" className="px-6 py-4 text-center">
+                Show all
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
