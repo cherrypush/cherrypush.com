@@ -20,17 +20,6 @@ port ENV.fetch('PORT') { 3000 }
 # Specifies the `environment` that Puma will run in.
 environment ENV.fetch('RAILS_ENV') { 'development' }
 
-# Set up https for local development (https://www.filippoliverani.com/ssl-rails-local-development-puma)
-if ENV.fetch('RACK_ENV', 'development') == 'development'
-  ssl_bind(
-    '0.0.0.0',
-    3000,
-    key: ENV.fetch('SSL_KEY_FILE', 'config/certificates/localhost-key.pem'),
-    cert: ENV.fetch('SSL_CERT_FILE', 'config/certificates/localhost.pem'),
-    verify_mode: 'none',
-  )
-end
-
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch('PIDFILE') { 'tmp/pids/server.pid' }
 
