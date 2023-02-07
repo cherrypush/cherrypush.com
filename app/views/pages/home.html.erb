@@ -26,7 +26,7 @@
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="flex card flex-col items-center justify-center">
       <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-        <%= number_to_human(Report.all.map(&:total).sum) %>
+        <%= number_to_human(Report.all.map(&:value).sum) %>
       </dt>
       <dd class="font-light text-gray-500 dark:text-gray-400">tracked issues</dd>
     </div>
