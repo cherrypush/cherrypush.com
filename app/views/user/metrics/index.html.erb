@@ -9,7 +9,6 @@
         <%= render 'components/favorite_button', resource: @metric %>
         <%= @metric.name %>
       </h3>
-      <%= @metric.chart_data(owners: @selected_owners).map { |x,y| {x:,y:} }.to_json %>
       <div
         class="h-60 -mb-6"
         data-chart

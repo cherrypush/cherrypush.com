@@ -29,7 +29,7 @@ class Metric < ApplicationRecord
   end
 
   def chart_data(owners: nil)
-    reports
+    daily_reports
       .filter_map do |report|
         count = get_count(report, owners)
         count && [report.date.to_date, get_count(report, owners)]
@@ -38,6 +38,10 @@ class Metric < ApplicationRecord
   end
 
   private
+
+  def daily_reports
+    reports.group_by { |report| report.date.to_date }.map { |_day, reports| reports.last }
+  end
 
   def get_count(report, owners)
     owners ? owners.map { |owner| report.value_by_owner[owner.handle] || 0 }.sum : report.value

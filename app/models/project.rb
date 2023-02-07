@@ -12,7 +12,7 @@ class Project < ApplicationRecord
   validates :user, presence: true
 
   def chart_data
-    metrics.first.chart_data
+    reports.group_by_day(:date, range: 4.weeks.ago..Time.now).count
   end
 
   def owners
@@ -24,9 +24,5 @@ class Project < ApplicationRecord
       .uniq
       .sort
       .map { |owner| Owner.new(handle: owner) }
-  end
-
-  def daily_reports
-    deprecated_reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
   end
 end
