@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy } from 'react'
 import * as ReactDOM from 'react-dom/client'
 
 document.addEventListener('turbo:load', () => {

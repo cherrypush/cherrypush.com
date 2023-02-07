@@ -2,7 +2,7 @@
 
 class User::MetricsController < User::ApplicationController
   before_action :set_project, if: -> { params[:project_id].present? }
-  before_action :set_metric, if: -> { params[:metric_name].present? }
+  before_action :set_metric, if: -> { params[:metric_id].present? }
   before_action :set_owners, if: -> { params[:owner_handles].present? }
 
   def index
@@ -25,7 +25,7 @@ class User::MetricsController < User::ApplicationController
   end
 
   def set_metric
-    @metric = Metric.new(name: params[:metric_name], project: @project)
+    @metric = Metric.find_by(id: params[:metric_id])
   end
 
   def set_project

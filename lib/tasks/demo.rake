@@ -30,7 +30,7 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
       demo_project.save
 
       # duplicate reports with anonymized data
-      demo_project.reports.delete_all
+      demo_project.deprecated_reports.delete_all
       Report.insert_all(demo_reports(base_project, demo_project))
 
       # duplicate contributions with anonymized data
@@ -42,7 +42,7 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
   private
 
   def demo_reports(base_project, demo_project) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    base_project.reports.map do |report|
+    base_project.deprecated_reports.map do |report|
       new_report = report.dup
       new_report.created_at = demo_project.created_at
       new_report.updated_at = demo_project.updated_at

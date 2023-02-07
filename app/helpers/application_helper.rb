@@ -48,7 +48,7 @@ module ApplicationHelper
       project.metrics.map do |metric|
         {
           name: html_escape("#{project.name} - #{metric.name}"),
-          href: user_metrics_url(project_id: project.id, metric_name: metric.name),
+          href: user_metrics_url(project_id: project.id, metric_id: metric.id),
           selected: metric.name == @metric&.name && project.id == @project&.id,
         }
       end
