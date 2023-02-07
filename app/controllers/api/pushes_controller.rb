@@ -33,6 +33,9 @@ class Api::PushesController < Api::ApplicationController
   #   }
 
   def create
+    puts params.inspect
+    puts params[:report][:commit_date].to_date
+
     ActiveRecord::Base.transaction do
       params[:report][:metrics].each do |metric_name, metric_data|
         metric = Metric.find_or_create_by!(name: metric_name, project: current_project)
