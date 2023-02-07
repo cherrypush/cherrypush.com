@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_24_084659) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_07_092022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -93,11 +93,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_084659) do
     t.index ["project_id"], name: "index_contributions_on_project_id"
   end
 
+  create_table "deprecated_reports", force: :cascade do |t|
+    t.string "commit_sha"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "commit_date", null: false
+    t.jsonb "metrics"
+    t.index ["project_id"], name: "index_deprecated_reports_on_project_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.string "name"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_metrics_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -109,13 +127,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_084659) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.string "commit_sha"
-    t.bigint "project_id", null: false
+    t.datetime "date", precision: nil
+    t.bigint "value"
+    t.jsonb "value_by_owner"
+    t.bigint "metric_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "commit_date", null: false
-    t.jsonb "metrics"
-    t.index ["project_id"], name: "index_reports_on_project_id"
+    t.index ["metric_id"], name: "index_reports_on_metric_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -135,7 +153,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_084659) do
 
   add_foreign_key "authorizations", "projects"
   add_foreign_key "authorizations", "users"
+  add_foreign_key "deprecated_reports", "projects"
   add_foreign_key "memberships", "users"
+  add_foreign_key "metrics", "projects"
   add_foreign_key "projects", "users"
-  add_foreign_key "reports", "projects"
+  add_foreign_key "reports", "metrics"
 end
