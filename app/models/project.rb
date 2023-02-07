@@ -2,24 +2,17 @@
 
 class Project < ApplicationRecord
   belongs_to :user
-  has_many :reports, dependent: :destroy
+
+  has_many :metrics, dependent: :destroy
+  has_many :reports, through: :metrics
   has_many :contributions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
   validates :name, presence: true
   validates :user, presence: true
 
-  def latest_report
-    reports.order(:commit_date).last
-  end
-
-  def metrics
-    return [] if reports.empty?
-    latest_report.metrics.keys.sort_by(&:downcase).map { |name| Metric.new(name:, project: self) }
-  end
-
   def chart_data
-    daily_reports.map { |report| [report.commit_date.to_date, report.total] }
+    reports.group_by_day(:date, range: 4.weeks.ago..Time.now).count
   end
 
   def owners
@@ -31,9 +24,5 @@ class Project < ApplicationRecord
       .uniq
       .sort
       .map { |owner| Owner.new(handle: owner) }
-  end
-
-  def daily_reports
-    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
   end
 end

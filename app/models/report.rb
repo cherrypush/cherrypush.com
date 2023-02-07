@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 class Report < ApplicationRecord
-  belongs_to :project
+  belongs_to :metric
 
-  validates :commit_sha, presence: true
-  validates :commit_date, presence: true
-  validates :metrics, presence: true
-
-  def total
-    metrics.values.map { |metric| metric['total'] }.sum
-  end
+  validates :date, presence: true
+  validates :value, presence: true
 end

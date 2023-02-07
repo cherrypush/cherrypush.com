@@ -5,17 +5,21 @@ class Api::PushesController < Api::ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      current_project.reports.create!(report_params)
+      params[:metrics].each do |metric_name, metric_data|
+        metric = Metric.find_or_create_by!(name: metric_name, project: current_project)
+        metric.reports.create!(
+          date: params[:commit_date],
+          value: metric_data['total'],
+          value_by_owner: metric_data['owners'],
+        )
+      end
+
       Contribution.upsert_all(contributions, unique_by: %i[project_id commit_sha]) if contributions.present?
     end
     render json: { status: :ok }, status: :ok
   end
 
   private
-
-  def report_params
-    params.require(:report).permit(:commit_sha, :commit_date, metrics: {})
-  end
 
   def contributions
     @contributions ||=

@@ -4,7 +4,7 @@
 
 <% @user.projects.each do |project| %>
   <% report = project.latest_report %>
-  <% previous_report = project.reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
+  <% previous_report = project.deprecated_reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
   <% next if previous_report.nil? %>
 
   <table class="reports-table" style="margin-bottom:1.5rem;">
@@ -19,7 +19,7 @@
       <% project.metrics.each do |metric| %>
         <tr>
           <td>
-            <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_name: metric.name) %>
+            <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_id: metric.id) %>
           </td>
           <td class="text-right"><%= number_with_delimiter metric.total %></td>
           <td class="text-right">
