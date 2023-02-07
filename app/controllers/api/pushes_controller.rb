@@ -37,7 +37,7 @@ class Api::PushesController < Api::ApplicationController
       params[:report][:metrics].each do |metric_name, metric_data|
         metric = Metric.find_or_create_by!(name: metric_name, project: current_project)
         metric.reports.create!(
-          date: params[:commit_date],
+          date: params[:report][:commit_date],
           value: metric_data['total'],
           value_by_owner: metric_data['owners'],
         )
