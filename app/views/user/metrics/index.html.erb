@@ -51,7 +51,7 @@
 
   <% if @metric.blank? %>
     <div class="grid md:grid-cols-3 gap-3">
-      <% @project.deprecated_metrics.sort_by{ |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
+      <% @project.metrics.sort_by { |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
         <%= render 'components/metric_card', metric: metric %>
       <% end %>
     </div>

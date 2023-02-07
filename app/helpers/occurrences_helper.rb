@@ -21,19 +21,18 @@ module OccurrencesHelper
 
   def metric_dropdown_entries(project, owners)
     entries =
-      project.deprecated_metrics.map do |metric|
+      project.metrics.map do |metric|
         {
           title: metric.name,
-          url:
-            user_metrics_path(project_id: project.id, metric_name: metric.name, owner_handles: owners&.map(&:handle)),
+          url: user_metrics_path(project_id: project.id, metric_id: metric.id, owner_handles: owners&.map(&:handle)),
         }
       end
 
-    entries.unshift(remove_metric_entry(project)) if params[:metric_name]
+    entries.unshift(remove_metric_entry(project)) if params[:metric_id]
     entries
   end
 
-  def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength
+  def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     entries =
       project
         .owners
@@ -44,7 +43,7 @@ module OccurrencesHelper
             url:
               user_metrics_path(
                 project_id: project.id,
-                metric_name: metric&.name,
+                metric_id: metric&.id,
                 owner_handles: (params[:owner_handles] || []) + [owner.handle],
               ),
           }
@@ -78,7 +77,7 @@ module OccurrencesHelper
       url:
         user_metrics_path(
           project_id: project.id,
-          metric_name: metric&.name,
+          metric_id: metric&.id,
           owner_handles:
             current_user.favorite_owner_handles.filter { |handle| project.owners.map(&:handle).include?(handle) },
         ),
@@ -88,14 +87,14 @@ module OccurrencesHelper
   def remove_all_owners_entry(project, metric)
     {
       title: (heroicon('x-mark', options: { class: 'mr-1' }) + 'Remove all').html_safe,
-      url: user_metrics_path(project_id: project.id, metric_name: metric&.name, owner_handles: nil),
+      url: user_metrics_path(project_id: project.id, metric_id: metric&.id, owner_handles: nil),
     }
   end
 
   def remove_metric_entry(project)
     {
       title: (heroicon('x-mark', options: { class: 'mr-1' }) + 'Remove metric').html_safe,
-      url: user_metrics_path(project_id: project.id, metric_name: nil, owner_handles: params[:owner_handles]),
+      url: user_metrics_path(project_id: project.id, metric_id: nil, owner_handles: params[:owner_handles]),
     }
   end
 end
