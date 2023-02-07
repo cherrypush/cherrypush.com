@@ -3,7 +3,7 @@
     render 'components/dropdown', class: 'mr-3', text: "Project: #{project.name}", entries: project_dropdown_entries
   %>
 
-  <% if project.deprecated_reports.any? %>
+  <% if project.reports.any? %>
     <%=
       render 'components/dropdown',
              class: 'mr-3',
@@ -18,7 +18,7 @@
         remove_owner_path =
           user_metrics_path(
             project_id: project.id,
-            metric_name: metric&.name,
+            metric_id: metric&.id,
             owner_handles: selected_owners.map(&:handle) - [owner.handle],
           )
       %>
@@ -39,7 +39,7 @@
     <% end %>
   <% end %>
 
-  <% if project.owners.any? %>
+  <% if metric && metric.owners.any? %>
     <%=
       render 'components/dropdown',
              class: 'mr-3',
