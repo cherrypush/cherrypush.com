@@ -45,7 +45,7 @@ module ApplicationHelper
 
   def navbar_search_items
     current_user.projects.flat_map do |project|
-      project.metrics.map do |metric|
+      project.deprecated_metrics.map do |metric|
         {
           name: html_escape("#{project.name} - #{metric.name}"),
           href: user_metrics_url(project_id: project.id, metric_name: metric.name),

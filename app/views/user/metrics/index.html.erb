@@ -2,8 +2,8 @@
 
 <%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
 
-<% if @project.reports.any? %>
-  <% if @project.reports.count < 2 %>
+<% if @project.deprecated_reports.any? %>
+  <% if @project.deprecated_reports.count < 2 %>
     <%= render 'backfill_instructions' %>
   <% end %>
 
@@ -47,13 +47,17 @@
         <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>
       </div>
     </div>
-  <% else %>
+  <% end %>
+
+  <% if @metric.blank? %>
     <div class="grid md:grid-cols-3 gap-3">
-      <% @project.metrics.sort_by{ |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
+      <% @project.deprecated_metrics.sort_by{ |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
         <%= render 'components/metric_card', metric: metric %>
       <% end %>
     </div>
   <% end %>
-<% else %>
+<% end %>
+
+<% if @project.deprecated_reports.none? %>
   <%= render 'backfill_instructions' %>
 <% end %>

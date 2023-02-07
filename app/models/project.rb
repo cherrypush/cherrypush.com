@@ -2,7 +2,9 @@
 
 class Project < ApplicationRecord
   belongs_to :user
-  has_many :reports, dependent: :destroy
+
+  has_many :metrics, dependent: :destroy
+  has_many :deprecated_reports, dependent: :destroy # to be migrated
   has_many :contributions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
@@ -10,12 +12,12 @@ class Project < ApplicationRecord
   validates :user, presence: true
 
   def latest_report
-    reports.order(:commit_date).last
+    deprecated_reports.order(:commit_date).last
   end
 
-  def metrics
-    return [] if reports.empty?
-    latest_report.metrics.keys.sort_by(&:downcase).map { |name| Metric.new(name:, project: self) }
+  def deprecated_metrics
+    return [] if deprecated_reports.empty?
+    latest_report.metrics.keys.sort_by(&:downcase).map { |name| DeprecatedMetric.new(name:, project: self) }
   end
 
   def chart_data
@@ -34,6 +36,6 @@ class Project < ApplicationRecord
   end
 
   def daily_reports
-    reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
+    deprecated_reports.group_by { |report| report.commit_date.to_date }.map { |_day, reports| reports.last }
   end
 end

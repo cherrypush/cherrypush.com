@@ -21,7 +21,7 @@ module OccurrencesHelper
 
   def metric_dropdown_entries(project, owners)
     entries =
-      project.metrics.map do |metric|
+      project.deprecated_metrics.map do |metric|
         {
           title: metric.name,
           url:
