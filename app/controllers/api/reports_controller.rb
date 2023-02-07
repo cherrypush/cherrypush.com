@@ -12,7 +12,7 @@ class Api::ReportsController < Api::ApplicationController
     unless @user.trial? || @user.premium?
       return(render json: { error: 'This action requires a premium membership.' }, status: :unauthorized)
     end
-    current_project.reports.create!(report_params)
+    current_project.deprecated_reports.create!(report_params)
     render json: { status: :ok }, status: :ok
   end
 

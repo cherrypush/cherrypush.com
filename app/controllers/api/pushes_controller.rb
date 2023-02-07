@@ -5,7 +5,7 @@ class Api::PushesController < Api::ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      current_project.reports.create!(report_params)
+      current_project.deprecated_reports.create!(report_params)
       Contribution.upsert_all(contributions, unique_by: %i[project_id commit_sha]) if contributions.present?
     end
     render json: { status: :ok }, status: :ok

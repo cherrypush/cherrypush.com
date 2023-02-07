@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeprecatedMetric
-  attr_reader :name
+  attr_reader :name, :project
 
   def initialize(name:, project:)
     @name = name
