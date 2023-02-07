@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddProjectIdToOccurrences < ActiveRecord::Migration[7.0]
   def change
     Occurrence.destroy_all
