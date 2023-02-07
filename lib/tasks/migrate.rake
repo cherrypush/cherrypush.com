@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class MigrateMetricsAndReports < ActiveRecord::Migration[7.0]
-  def change
+namespace :migrate do # rubocop:disable Metrics/BlockLength
+  desc 'Migrate data'
+  task refresh: :environment do
     # NEW METRICS
     Project.all.each do |project|
       project.deprecated_metrics.each { |metric| Metric.create!(project_id: metric.project.id, name: metric.name) }
