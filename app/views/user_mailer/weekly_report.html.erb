@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <% project.metrics.each do |metric| %>
+      <% project.deprecated_metrics.each do |metric| %>
         <tr>
           <td>
             <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_name: metric.name) %>

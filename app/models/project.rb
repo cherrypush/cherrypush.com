@@ -2,7 +2,8 @@
 
 class Project < ApplicationRecord
   belongs_to :user
-  has_many :reports, dependent: :destroy
+  has_many :metrics, dependent: :destroy
+  has_many :reports, dependent: :destroy # to be migrated
   has_many :contributions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
@@ -13,9 +14,9 @@ class Project < ApplicationRecord
     reports.order(:commit_date).last
   end
 
-  def metrics
+  def deprecated_metrics
     return [] if reports.empty?
-    latest_report.metrics.keys.sort_by(&:downcase).map { |name| Metric.new(name:, project: self) }
+    latest_report.metrics.keys.sort_by(&:downcase).map { |name| DeprecatedMetric.new(name:, project: self) }
   end
 
   def chart_data
