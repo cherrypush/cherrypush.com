@@ -3,7 +3,7 @@
     render 'components/dropdown', class: 'mr-3', text: "Project: #{project.name}", entries: project_dropdown_entries
   %>
 
-  <% if project.deprecated_reports.any? %>
+  <% if project.reports.any? %>
     <%=
       render 'components/dropdown',
              class: 'mr-3',
@@ -39,7 +39,7 @@
     <% end %>
   <% end %>
 
-  <% if project.owners.any? %>
+  <% if metric && metric.owners.any? %>
     <%=
       render 'components/dropdown',
              class: 'mr-3',
