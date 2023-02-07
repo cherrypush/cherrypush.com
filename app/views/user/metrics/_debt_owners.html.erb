@@ -28,7 +28,7 @@
               <%=
                         link_to user_metrics_path(
                                   project_id: project.id,
-                                  metric_name: metric.name,
+                                  metric_id: metric.id,
                                   owner_handles: selected_owners.map(&:handle) - [owner.handle],
                                 ),
                                 class: 'text-blue-600 dark:text-blue-500' do
@@ -39,7 +39,7 @@
               <%=
                         link_to user_metrics_path(
                                   project_id: project.id,
-                                  metric_name: metric.name,
+                                  metric_id: metric.id,
                                   owner_handles: (selected_owners&.map(&:handle) || []) + [owner.handle],
                                 ),
                                 class: 'text-blue-600 dark:text-blue-500' do

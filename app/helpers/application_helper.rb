@@ -45,10 +45,10 @@ module ApplicationHelper
 
   def navbar_search_items
     current_user.projects.flat_map do |project|
-      project.deprecated_metrics.map do |metric|
+      project.metrics.map do |metric|
         {
           name: html_escape("#{project.name} - #{metric.name}"),
-          href: user_metrics_url(project_id: project.id, metric_name: metric.name),
+          href: user_metrics_url(project_id: project.id, metric_id: metric.id),
           selected: metric.name == @metric&.name && project.id == @project&.id,
         }
       end

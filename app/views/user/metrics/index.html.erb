@@ -2,12 +2,8 @@
 
 <%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
 
-<% if @project.deprecated_reports.any? %>
-  <% if @project.deprecated_reports.count < 2 %>
-    <%= render 'backfill_instructions' %>
-  <% end %>
-
-  <% if @metric %>
+<% if @project.reports.any? %>
+  <% if @metric.present? %>
     <div class="card mb-3 text-center">
       <h3 class="flex items-center">
         <%= render 'components/favorite_button', resource: @metric %>
@@ -16,13 +12,13 @@
       <div
         class="h-60 -mb-6"
         data-chart
-        data-serie="<%= @metric.chart_data(owners: @selected_owners).map{|x,y| {x:,y:}}.to_json %>"
+        data-serie="<%= @metric.chart_data(owners: @selected_owners).map { |x,y| {x:,y:} }.to_json %>"
         data-serie-name="<%= @metric.name %>"
         data-show-label="true"
       ></div>
     </div>
 
-    <% if @metric.owners.none? %>
+    <% if @metric.reports.last&.value_by_owner&.blank? %>
       <div class="card prose dark:prose-invert max-w-none mb-3">
         <p class="mb-3">To get a full list of occurrences:</p>
         <pre class="mt-3">npm install -g cherrypush<br><%= cherry_run_cmd(@metric.name) %></pre>
@@ -37,27 +33,24 @@
     <% end %>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-      <div class="col-4">
-        <%= react_component 'RecentCommits', commits: recent_commits(@project, @metric) %>
-      </div>
-      <div class="col-4">
-        <%= react_component 'TopContributors', contributors: top_contributors(@metric) %>
-      </div>
-      <div class="col-4">
+      <div class="col-span-1">
         <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>
+      </div>
+      <div class="col-span-1 xl:col-span-2">
+        <%= render 'occurrences', occurrences: [] %>
       </div>
     </div>
   <% end %>
 
   <% if @metric.blank? %>
     <div class="grid md:grid-cols-3 gap-3">
-      <% @project.deprecated_metrics.sort_by{ |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
+      <% @project.metrics.sort_by { |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
         <%= render 'components/metric_card', metric: metric %>
       <% end %>
     </div>
   <% end %>
 <% end %>
 
-<% if @project.deprecated_reports.none? %>
+<% if @project.reports.none? %>
   <%= render 'backfill_instructions' %>
 <% end %>
