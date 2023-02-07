@@ -40,7 +40,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
     end
 
     it 'requires a project name' do
-      post(api_push_path(api_key: user.api_key), params: payload.except(:project_name))
+      post(api_push_path(api_key: user.api_key), params: payload.except('project_name'))
       assert_includes response.body, "Name can't be blank"
     end
   end
@@ -59,7 +59,14 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def payload(project_name: 'rails/rails')
-    { project_name:, commit_sha: '71b1647', commit_date: '2022-10-16 16:00:00', metrics: default_metrics }
+    {
+      'project_name' => project_name,
+      'report' => {
+        'commit_sha' => 'd6a4ee2a42f4b7a97de0190bdc7a82f796dfb479',
+        'commit_date' => '2023-02-07T21:33:15.000Z',
+        'metrics' => default_metrics,
+      },
+    }
   end
 
   def default_metrics
