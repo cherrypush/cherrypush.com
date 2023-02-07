@@ -25,7 +25,7 @@ class User::MetricsController < User::ApplicationController
   end
 
   def set_metric
-    @metric = Metric.new(name: params[:metric_name], project: @project)
+    @metric = DeprecatedMetric.new(name: params[:metric_name], project: @project)
   end
 
   def set_project
