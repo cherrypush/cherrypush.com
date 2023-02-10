@@ -10,15 +10,6 @@ class User < ApplicationRecord
 
   TRIAL_DURATION = 30.days
 
-  def contributions
-    scope = Contribution.where(project: projects)
-
-    scope
-      .where(author_name: name)
-      .or(scope.where(author_email: email))
-      .or(scope.where('author_email like ?', "%#{github_handle}%"))
-  end
-
   def projects
     owned_projects.or(Project.where(id: authorizations.select(:project_id)))
   end
