@@ -50,7 +50,7 @@ jobs:
         run: bundle exec rails db:schema:load
 
       - name: Install node dependencies
-        run: yarn install
+        run: npm install
 
       - name: Run unit tests
         run: bundle exec rails test
