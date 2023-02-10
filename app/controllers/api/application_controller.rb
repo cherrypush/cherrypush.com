@@ -4,11 +4,16 @@ class Api::ApplicationController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   before_action :set_user
-  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+  rescue_from ActionController::ParameterMissing, with: :render_bad_request
 
   private
 
-  def render_unprocessable_entity_response(exception)
+  def render_bad_request(exception)
+    render json: { error: exception.message }, status: :bad_request
+  end
+
+  def render_unprocessable_entity(exception)
     render json: { error: exception.message }, status: :unprocessable_entity
   end
 

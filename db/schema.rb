@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_07_092022) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_10_164528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -118,6 +118,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_092022) do
     t.index ["project_id"], name: "index_metrics_on_project_id"
   end
 
+  create_table "occurrences", force: :cascade do |t|
+    t.string "name"
+    t.string "url"
+    t.bigint "report_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_occurrences_on_report_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
@@ -156,6 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_092022) do
   add_foreign_key "deprecated_reports", "projects"
   add_foreign_key "memberships", "users"
   add_foreign_key "metrics", "projects"
+  add_foreign_key "occurrences", "reports"
   add_foreign_key "projects", "users"
   add_foreign_key "reports", "metrics"
 end
