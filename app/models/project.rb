@@ -5,7 +5,6 @@ class Project < ApplicationRecord
 
   has_many :metrics, dependent: :destroy
   has_many :reports, through: :metrics
-  has_many :contributions, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
   validates :name, presence: true
