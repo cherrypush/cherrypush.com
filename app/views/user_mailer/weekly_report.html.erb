@@ -3,10 +3,6 @@
 <p>Here's how your projects evolved during the last ~7 days.</p>
 
 <% @user.projects.each do |project| %>
-  <% report = project.latest_report %>
-  <% previous_report = project.deprecated_reports.where('commit_date < ?', 7.days.ago).order(:commit_date).last %>
-  <% next if previous_report.nil? %>
-
   <table class="reports-table" style="margin-bottom:1.5rem;">
     <thead>
       <tr>
@@ -17,13 +13,17 @@
     </thead>
     <tbody>
       <% project.metrics.each do |metric| %>
+        <% report = metric.reports.order(:date).last %>
+        <% previous_report = metric.reports.where('date < ?', 7.days.ago).order(:date).last %>
+        <% next if previous_report.nil? %>
+
         <tr>
           <td>
             <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_id: metric.id) %>
           </td>
-          <td class="text-right"><%= number_with_delimiter metric.total %></td>
+          <td class="text-right"><%= number_with_delimiter report.value %></td>
           <td class="text-right">
-            <%= number_to_diff(metric.total - previous_report.metrics.dig(metric.name, 'total').to_i) %>
+            <%= number_to_diff(report.value - previous_report.value) %>
           </td>
         </tr>
       <% end %>

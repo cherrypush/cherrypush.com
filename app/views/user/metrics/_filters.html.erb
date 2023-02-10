@@ -39,7 +39,7 @@
     <% end %>
   <% end %>
 
-  <% if metric && metric.owners.any? %>
+  <% if project.owners.any? %>
     <%=
       render 'components/dropdown',
              class: 'mr-3',

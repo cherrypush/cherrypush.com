@@ -16,13 +16,6 @@ class Project < ApplicationRecord
   end
 
   def owners
-    latest_report
-      .metrics
-      .each_with_object([]) do |(_metric_name, metric), owner_handles|
-        metric['owners'].each { |handle, _count| owner_handles << handle }
-      end
-      .uniq
-      .sort
-      .map { |owner| Owner.new(handle: owner) }
+    metrics.map(&:owners).flatten.uniq.sort_by(&:handle)
   end
 end
