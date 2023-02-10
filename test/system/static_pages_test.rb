@@ -1,7 +1,7 @@
 require 'application_system_test_case'
 
 class StaticPagesTest < ApplicationSystemTestCase
-  test 'visiting the index' do
+  test 'navigates through all pages' do
     visit root_url
     assert_text 'Track and manage your technical debt with ease'
     click_on 'Shoot us a message'

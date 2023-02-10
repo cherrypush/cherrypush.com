@@ -7,7 +7,7 @@ class Metric < ApplicationRecord
   validates :name, presence: true
 
   def owners
-    return [] if reports.last.nil?
+    return [] if reports.last.nil? || reports.last.value_by_owner.nil?
     reports.last.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
   end
 
