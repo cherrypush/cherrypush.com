@@ -34,7 +34,7 @@ module OccurrencesHelper
 
   def owner_dropdown_entries(project, metric) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     entries =
-      metric
+      project
         .owners
         .sort_by { |owner| current_user.favorite_owner_handles.include?(owner.handle) ? 0 : 1 }
         .map do |owner|
@@ -79,7 +79,7 @@ module OccurrencesHelper
           project_id: project.id,
           metric_id: metric&.id,
           owner_handles:
-            current_user.favorite_owner_handles.filter { |handle| metric.owners.map(&:handle).include?(handle) },
+            current_user.favorite_owner_handles.filter { |handle| project.owners.map(&:handle).include?(handle) },
         ),
     }
   end

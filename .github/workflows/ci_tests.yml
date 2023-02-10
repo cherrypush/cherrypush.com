@@ -1,0 +1,64 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  RAILS_ENV: test
+  PGHOST: localhost
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: ${{ env.POSTGRES_DB }} # if this is not set, then the value of POSTGRES_USER will be used
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }} # required
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.0
+
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.13.1
+
+      - name: Install ruby dependencies
+        run: bundle install
+
+      - name: Prepare database
+        run: bundle exec rails db:schema:load
+
+      - name: Install node dependencies
+        run: yarn install
+
+      - name: Run unit tests
+        run: bundle exec rails test
+
+      - name: Install chrome headless
+        run: |
+          sudo apt-get update
+          sudo apt-get install google-chrome-stable
+
+      - name: Run system tests
+        run: HEADLESS=1 bundle exec rails test:system
