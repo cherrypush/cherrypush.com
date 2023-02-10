@@ -32,10 +32,6 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
       # duplicate reports with anonymized data
       demo_project.deprecated_reports.delete_all
       Report.insert_all(demo_reports(base_project, demo_project))
-
-      # duplicate contributions with anonymized data
-      demo_project.contributions.delete_all
-      Contribution.insert_all(demo_contributions(base_project, demo_project))
     end
   end
 
@@ -64,20 +60,6 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
           .compact
           .to_h
       new_report.attributes.except('id')
-    end
-  end
-
-  def demo_contributions(base_project, demo_project) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    base_project.contributions.map do |contribution|
-      new_contribution = contribution.dup
-      new_contribution.created_at = contribution.created_at
-      new_contribution.updated_at = contribution.updated_at
-      new_contribution.author_name = Faker::ProgrammingLanguage.creator
-      new_contribution.author_email = "#{new_contribution.author_name.parameterize}@example.com"
-      new_contribution.commit_sha = SecureRandom.uuid
-      new_contribution.project_id = demo_project.id
-      new_contribution.metrics = contribution.metrics.transform_keys { |key| METRIC_NAME_MAPPING[key] }
-      new_contribution.attributes.except('id')
     end
   end
 end

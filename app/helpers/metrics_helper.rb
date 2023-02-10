@@ -1,24 +1,6 @@
 # frozen_string_literal: true
 
-module OccurrencesHelper
-  def recent_commits(project, metric)
-    metric.contributions.map do |contribution, value|
-      {
-        author_name: commit_author_name(contribution.author_name, contribution.author_email),
-        commit_sha: contribution.commit_sha,
-        time_ago_in_words: time_ago_in_words(contribution.commit_date) + ' ago',
-        changes: value,
-        url: github_commit_url(project.name, contribution.commit_sha),
-      }
-    end
-  end
-
-  def top_contributors(metric)
-    metric.contribution_by_author.map do |(author_name, author_email), value|
-      { name: commit_author_name(author_name, author_email), changes: value[:addition] + value[:deletion] }
-    end
-  end
-
+module MetricsHelper
   def metric_dropdown_entries(project, owners)
     entries =
       project.metrics.map do |metric|
@@ -56,17 +38,6 @@ module OccurrencesHelper
 
   def project_dropdown_entries
     current_user.projects.map { |project| { title: project.name, url: user_metrics_path(project_id: project.id) } }
-  end
-
-  def github_handle_autocomplete_items
-    User
-      .where.not(id: current_user.id)
-      .map { |user| { id: user.id, name: user.github_handle } }
-      .sort_by { |user| user[:name].downcase }
-  end
-
-  def project_autocomplete_items
-    current_user.owned_projects.map { |project| { id: project.id, name: project.name } }
   end
 
   private

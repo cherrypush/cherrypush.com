@@ -6,23 +6,6 @@ class Metric < ApplicationRecord
 
   validates :name, presence: true
 
-  def contributions
-    project
-      .contributions
-      .order(commit_date: :desc)
-      .select { |contribution| contribution.metrics[name].present? }
-      .take(60)
-      .index_with { |contribution| contribution.metrics[name] }
-  end
-
-  def contribution_by_author
-    Contribution
-      .total_by_author(project.contributions)
-      .transform_values { |metrics| metrics[@name] }
-      .select { |_author, value| value.present? }
-      .sort_by { |_author, value| value[:addition] + value[:deletion] }
-  end
-
   def owners
     return [] if reports.last.nil?
     reports.last.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
