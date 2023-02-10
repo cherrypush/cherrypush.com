@@ -9,12 +9,6 @@ class Contribution < ApplicationRecord
   validates :author_email, presence: true
   validates :metrics, presence: true
 
-  def self.total_by_author(contributions)
-    contributions
-      .group_by { |contribution| [contribution.author_name, contribution.author_email] }
-      .transform_values { |contributions| aggregate(contributions.map(&:metrics)) }
-  end
-
   def self.aggregate(metrics_list)
     metrics_list.each_with_object({}) do |metrics, result|
       metrics.each do |name, value|

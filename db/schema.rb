@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_10_164528) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_10_210417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,20 +77,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_10_164528) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
-  end
-
-  create_table "contributions", force: :cascade do |t|
-    t.datetime "commit_date"
-    t.string "author_name"
-    t.string "author_email"
-    t.string "commit_sha"
-    t.jsonb "metrics", null: false
-    t.bigint "project_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["commit_date"], name: "index_contributions_on_commit_date"
-    t.index ["project_id", "commit_sha"], name: "index_contributions_on_project_id_and_commit_sha", unique: true
-    t.index ["project_id"], name: "index_contributions_on_project_id"
   end
 
   create_table "deprecated_reports", force: :cascade do |t|

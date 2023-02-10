@@ -12,7 +12,9 @@
                     project_id: @project.id,
                     metric_id: metric.id,
                     owner_handles: @selected_owners&.map(&:handle),
-                  ), class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" do %>
+                  ),
+                  class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
+                  title: metric.name do %>
     <div
       class="h-60 mt-3 -ml-12 -mr-9 -mb-12"
       data-chart
