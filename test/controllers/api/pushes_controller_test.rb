@@ -7,6 +7,83 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
   describe '#create' do
     it 'creates reports' do
+      post(api_push_path(api_key: user.api_key), params: new_payload)
+      assert_response :ok
+      assert_equal ['cherrypush/cherry-app'], Project.all.map(&:name)
+      assert_equal ['missing coverage', 'skipped tests'], Metric.all.map(&:name)
+      assert_equal [123, 12], Report.all.map(&:value)
+      assert_equal 4, Occurrence.count
+      assert_includes Occurrence.all.map(&:name), 'test/controllers/application_controller.rb:12'
+      assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
+    end
+
+    it 'requires metrics' do
+      post(api_push_path(api_key: user.api_key), params: {})
+      assert_response :bad_request
+      assert_includes response.body, 'param is missing or the value is empty: metrics'
+    end
+
+    it 'requires project name' do
+      post(api_push_path(api_key: user.api_key), params: { metrics: [] })
+      assert_response :bad_request
+      assert_includes response.body, 'param is missing or the value is empty: project_name'
+    end
+
+    it 'calculates the value from occurrences' do
+      post(
+        api_push_path(api_key: user.api_key),
+        params: {
+          project_name: 'rails/rails',
+          date: '2023-02-12',
+          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+        },
+      )
+      assert_response :ok
+      report = Metric.find_by(name: 'rubocop').reports.last
+      assert_equal 1, report.value
+      assert_equal '2023-02-12'.to_date, report.date
+    end
+
+    it 'assumes default to current date when date param is not provided' do
+      post(
+        api_push_path(api_key: user.api_key),
+        params: {
+          project_name: 'rails/rails',
+          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+        },
+      )
+      assert_response :ok
+      report = Metric.find_by(name: 'rubocop').reports.last
+      assert_equal 1, report.value
+      assert_equal Time.current.to_date, report.date.to_date
+    end
+
+    it 'calculates value_by_owner from occurrences' do
+      post(
+        api_push_path(api_key: user.api_key),
+        params: {
+          project_name: 'rails/rails',
+          date: '2023-02-12',
+          metrics: [
+            {
+              name: 'rubocop',
+              occurrences: [
+                { name: 'filename', url: 'permalink', owners: ['@fwuensche'] },
+                { name: 'another_file', url: 'another_permalink', owners: %w[@fwuensche @rchoquet] },
+              ],
+            },
+          ],
+        },
+      )
+      assert_response :ok
+      report = Metric.find_by(name: 'rubocop').reports.last
+      assert_equal 2, report.value
+      assert_equal({ '@fwuensche' => 2, '@rchoquet' => 1 }, report.value_by_owner)
+    end
+  end
+
+  describe '#create_deprecated' do # rubocop:disable Metrics/BlockLength
+    it 'creates reports' do
       post(api_push_path(api_key: user.api_key), params: payload)
       assert_response :ok
       assert_equal 2, Metric.count
@@ -14,7 +91,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
     end
 
     # TODO: unskip this once we properly manage memberships
-    it 'allow the creation of projects for trial users' do
+    it 'allows the creation of projects for trial users' do
       skip
       assert_equal false, user.premium?
       assert_equal true, user.trial?
@@ -41,7 +118,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
     it 'requires a project name' do
       post(api_push_path(api_key: user.api_key), params: payload.except('project_name'))
-      assert_includes response.body, "Name can't be blank"
+      assert_includes response.body, 'param is missing or the value is empty: project_name'
     end
   end
 
@@ -71,5 +148,32 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
   def default_metrics
     { js_loc: { owners: { ditto: 431, pasta: 42 }, total: 473 }, react_query_v3: { owners: {}, total: 23 } }
+  end
+
+  def new_payload
+    {
+      project_name: 'cherrypush/cherry-app',
+      date: '2023-02-07T21:33:15.000Z',
+      metrics: [
+        {
+          name: 'missing coverage',
+          value: 123,
+          value_by_owner: { # (opt.)
+            ditto: 12,
+            bear: 13,
+          },
+        },
+        {
+          name: 'skipped tests',
+          value: 12,
+          occurrences: [ # (opt.) -> if not provided, then value is mandatory
+            { name: 'test/controllers/application_controller.rb:12', url: 'https://github.com/permalink' },
+            { name: 'test/controllers/reports_controller.rb:12', url: 'https://github.com/permalink' },
+            { name: 'test/controllers/occurrences_controller.rb:12', url: 'https://github.com/permalink' },
+            { name: 'test/controllers/metrics_controller.rb:12', url: 'https://github.com/docto2013' },
+          ],
+        },
+      ],
+    }
   end
 end
