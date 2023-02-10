@@ -3,6 +3,7 @@
 class Api::PushesController < Api::ApplicationController
   include ProjectScoped
 
+  # ACTUAL
   # {
   #   'project_name' => 'cherrypush/cherry-app',
   #   'report' => {
@@ -19,7 +20,50 @@ class Api::PushesController < Api::ApplicationController
   #   },
   # }
 
+  # TARGET
+  payload = {
+    project_name: 'cherrypush/cherry-app',
+    date: '2023-02-07T21:33:15.000Z',
+    metrics: [
+      {
+        name: 'missing coverage',
+        value: 123, # (opt.) -> if not provided, then it's calculated from occurrences
+        value_by_owner: { # (opt.)
+          ditto: 12,
+          bear: 13,
+        },
+        occurrences: [ # (opt.) -> if not provided, then value is mandatory
+          { name: name, url: url },
+        ],
+      },
+    ],
+  }
+
   def create
+    if params[:report]
+      legacy_create
+    else
+      ActiveRecord::Base.transaction do
+        params[:metrics].each do |metric|
+          metric = Metric.find_or_create_by!(name: metric['name'], project: current_project)
+          report =
+            metric.reports.create!(
+              date: params[:date].to_date,
+              value: metric['value'] || metric['occurrences'].count,
+              value_by_owner: metric['value_by_owner'], # TODO: calculate from occurrences
+            )
+          metric['occurrences'].each do |occurrence| # TODO: optimize to import all at once
+            report.occurrences.create!(name: occurrence['name'], url: occurrence['url'])
+          end
+        end
+      end
+    end
+    render json: { status: :ok }, status: :ok
+  end
+
+  private
+
+  def legacy_create
     ActiveRecord::Base.transaction do
       params[:report][:metrics].each do |metric_name, metric_data|
         metric = Metric.find_or_create_by!(name: metric_name, project: current_project)
@@ -29,23 +73,6 @@ class Api::PushesController < Api::ApplicationController
           value_by_owner: metric_data['owners'],
         )
       end
-
-      Contribution.upsert_all(contributions, unique_by: %i[project_id commit_sha]) if contributions.present?
     end
-    render json: { status: :ok }, status: :ok
-  end
-
-  private
-
-  def contributions
-    @contributions ||=
-      Array
-        .wrap(params[:contributions])
-        .map do |contribution_params|
-          contribution_params.slice(:author_name, :author_email, :commit_sha, :commit_date, :metrics).merge(
-            project_id: current_project.id,
-          )
-        end
-        .select { |contribution_params| contribution_params[:metrics].present? }
   end
 end
