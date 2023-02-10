@@ -7,8 +7,7 @@ module ApplicationHelper
 
   def number_to_diff(number)
     return if number.zero?
-    caret = number.negative? ? '▾' : '▴'
-    caret = "<span class='text-xl'>#{caret}</span>".html_safe
+    caret = number.negative? ? '▼' : '▲'
     color = number.negative? ? 'text-green-300' : 'text-red-300'
     "<span class='#{color}'>#{caret} #{number.abs}</span>".html_safe
   end
