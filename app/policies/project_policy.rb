@@ -12,11 +12,4 @@ class ProjectPolicy < ApplicationPolicy
   def destroy?
     record.user == user
   end
-
-  class Scope < Scope
-    def resolve
-      return scope.all if user.admin?
-      scope.includes(:authorizations).where(authorizations: { user: user }).or(scope.where(user: user))
-    end
-  end
 end
