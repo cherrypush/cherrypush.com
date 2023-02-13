@@ -7,7 +7,7 @@
       <tr>
         <th scope="col" class="px-6 py-3">Owner</th>
         <th scope="col" class="px-6 py-3 text-right">Count</th>
-        <th scope="col" class="px-6 py-3"><%= heroicon 'funnel' %></th>
+        <th scope="col" class="px-6 py-3 flex items-center gap-2"><%= heroicon 'funnel' %> Filters</th>
       </tr>
     </thead>
     <tbody>
@@ -22,30 +22,27 @@
           <td class="px-6 py-4 text-right">
             <%= owner.count %>
           </td>
-
-          <td class="px-6 py-4 text-right">
+          <td class="px-6 py-4">
             <% if selected_owners && selected_owners.map(&:handle).include?(owner.handle) %>
               <%=
-                        link_to user_metrics_path(
-                                  project_id: project.id,
-                                  metric_id: metric.id,
-                                  owner_handles: selected_owners.map(&:handle) - [owner.handle],
-                                ),
-                                class: 'text-blue-600 dark:text-blue-500' do
-                      %>
-                <%= heroicon 'x-mark' %>
-              <% end %>
+                link_to 'Remove',
+                        user_metrics_path(
+                          project_id: project.id,
+                          metric_id: metric.id,
+                          owner_handles: selected_owners.map(&:handle) - [owner.handle],
+                        ),
+                        class: 'text-blue-600 dark:text-blue-500'
+              %>
             <% else %>
               <%=
-                        link_to user_metrics_path(
-                                  project_id: project.id,
-                                  metric_id: metric.id,
-                                  owner_handles: (selected_owners&.map(&:handle) || []) + [owner.handle],
-                                ),
-                                class: 'text-blue-600 dark:text-blue-500' do
-                      %>
-                <%= heroicon 'plus' %>
-              <% end %>
+                link_to 'Add to filters',
+                        user_metrics_path(
+                          project_id: project.id,
+                          metric_id: metric.id,
+                          owner_handles: (selected_owners&.map(&:handle) || []) + [owner.handle],
+                        ),
+                        class: 'text-blue-600 dark:text-blue-500'
+              %>
             <% end %>
           </td>
         </tr>
