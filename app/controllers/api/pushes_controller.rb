@@ -45,7 +45,12 @@ class Api::PushesController < Api::ApplicationController
           next if metric_params['occurrences'].blank?
           Occurrence.upsert_all(
             metric_params['occurrences'].each_with_object([]) do |occurrence, arr|
-              arr << { name: occurrence['name'], url: occurrence['url'], report_id: report.id }
+              arr << {
+                name: occurrence['name'],
+                url: occurrence['url'],
+                report_id: report.id,
+                value: occurrence['value'],
+              }
             end,
           )
         end
@@ -83,7 +88,15 @@ class Api::PushesController < Api::ApplicationController
   end
 
   def value_by_owner(occurrences)
-    return nil if occurrences.empty?
-    occurrences.map { |occurrence| occurrence['owners'] }.flatten.tally
+    return nil if occurrences.empty? || occurrences.first['owners'].blank?
+
+    owners = {}
+    occurrences.each do |occurrence|
+      occurrence['owners'].each do |owner|
+        owners[owner] ||= 0
+        owners[owner] += (occurrence['value'] || 1).to_f
+      end
+    end
+    owners
   end
 end
