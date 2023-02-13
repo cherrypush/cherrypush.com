@@ -79,6 +79,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       report = Metric.find_by(name: 'rubocop').reports.last
       assert_equal 2, report.value
       assert_equal({ '@fwuensche' => 2, '@rchoquet' => 1 }, report.value_by_owner)
+      assert_equal 2, Occurrence.count
     end
   end
 
