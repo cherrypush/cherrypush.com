@@ -37,7 +37,7 @@
         <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>
       </div>
       <div class="col-span-1 xl:col-span-2">
-        <%= render 'occurrences', occurrences: [] %>
+        <%= render 'occurrences', occurrences: @metric.reports.last.occurrences %>
       </div>
     </div>
   <% end %>
