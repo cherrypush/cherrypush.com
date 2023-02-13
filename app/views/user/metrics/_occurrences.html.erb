@@ -6,7 +6,7 @@
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" class="px-6 py-3">Name</th>
-        <% if occurrences.any?(&:value) %>
+        <% if occurrences.first&.value %>
           <th scope="col" class="px-6 py-3">Value</th>
         <% end %>
       </tr>
@@ -18,7 +18,7 @@
             <%= occurrence.name %>
             (<%= link_to 'Open', occurrence.url, class: 'text-link', target: '_blank' %>)
           </td>
-          <% if occurrences.first.value %>
+          <% if occurrences.first&.value %>
             <td class="px-6 py-4">
               <%= occurrence.value %>
             </td>
