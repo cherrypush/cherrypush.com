@@ -11,6 +11,7 @@ class User < ApplicationRecord
   TRIAL_DURATION = 30.days
 
   def projects
+    return Project.all if admin?
     owned_projects.or(Project.where(id: authorizations.select(:project_id)))
   end
 

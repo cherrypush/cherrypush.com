@@ -2,7 +2,7 @@
 
 class User::ProjectsController < User::ApplicationController
   def index
-    @projects = policy_scope(Project).sort_by { |project| current_user.favorited?(project) ? 0 : 1 }
+    @projects = current_user.projects.sort_by { |project| current_user.favorited?(project) ? 0 : 1 }
   end
 
   def destroy

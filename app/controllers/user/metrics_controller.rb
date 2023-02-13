@@ -7,7 +7,7 @@ class User::MetricsController < User::ApplicationController
 
   def index
     if params[:project_id].blank?
-      fallback_project = policy_scope(Project).first
+      fallback_project = current_user.projects.first
       return redirect_to user_metrics_path(project_id: fallback_project.id) if fallback_project
       return redirect_to user_projects_path, alert: 'You need to create a project first.'
     end
