@@ -58,6 +58,38 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal Time.current.to_date, report.date.to_date
     end
 
+    it 'assumes value of 1 for occurrences without a value' do
+      post(
+        api_push_path(api_key: user.api_key),
+        params: {
+          project_name: 'rails/rails',
+          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+        },
+      )
+      assert_equal 1, Metric.find_by(name: 'rubocop').reports.last.value
+    end
+
+    it 'assumes value of 1 for owners of occurrences without a value' do
+      post(
+        api_push_path(api_key: user.api_key),
+        params: {
+          project_name: 'rails/rails',
+          metrics: [
+            {
+              name: 'skipped tests',
+              occurrences: [
+                { name: 'test1', owners: %w[@fwuensche @rchoquet] },
+                { name: 'test2', owners: ['@fwuensche'] },
+              ],
+            },
+          ],
+        },
+      )
+      assert_equal 2, Metric.find_by(name: 'skipped tests').reports.last.value
+      assert_equal 2, Metric.find_by(name: 'skipped tests').reports.last.value_by_owner['@fwuensche']
+      assert_equal 1, Metric.find_by(name: 'skipped tests').reports.last.value_by_owner['@rchoquet']
+    end
+
     it 'calculates value_by_owner from occurrences' do
       post(
         api_push_path(api_key: user.api_key),
@@ -68,8 +100,8 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
             {
               name: 'rubocop',
               occurrences: [
-                { name: 'filename', url: 'permalink', owners: ['@fwuensche'] },
-                { name: 'another_file', url: 'another_permalink', owners: %w[@fwuensche @rchoquet] },
+                { name: 'test.rb', url: 'permalink', owners: ['@fwuensche'], value: 1.2 },
+                { name: 'another_test.rb', url: 'another_permalink', owners: %w[@fwuensche @rchoquet], value: 2.8 },
               ],
             },
           ],
@@ -78,8 +110,9 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_response :ok
       report = Metric.find_by(name: 'rubocop').reports.last
       assert_equal 2, report.value
-      assert_equal({ '@fwuensche' => 2, '@rchoquet' => 1 }, report.value_by_owner)
+      assert_equal({ '@fwuensche' => 4.0, '@rchoquet' => 2.8 }, report.value_by_owner)
       assert_equal 2, Occurrence.count
+      assert_equal [1.2, 2.8], Occurrence.all.map(&:value)
     end
   end
 
