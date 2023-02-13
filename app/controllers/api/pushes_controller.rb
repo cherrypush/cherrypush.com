@@ -41,9 +41,13 @@ class Api::PushesController < Api::ApplicationController
               value: metric_params['value'] || metric_params['occurrences'].count,
               value_by_owner: metric_params['value_by_owner'] || value_by_owner(metric_params['occurrences']),
             )
-          metric_params['occurrences']&.each do |occurrence| # TODO: optimize to import all at once
-            report.occurrences.create!(name: occurrence['name'], url: occurrence['url'])
-          end
+
+          next if metric_params['occurrences'].blank?
+          Occurrence.upsert_all(
+            metric_params['occurrences'].each_with_object([]) do |occurrence, arr|
+              arr << { name: occurrence['name'], url: occurrence['url'], report_id: report.id }
+            end,
+          )
         end
     end
   end
