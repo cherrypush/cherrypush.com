@@ -7,5 +7,6 @@ FactoryBot.define do
     name { 'Flavio' }
     email { 'flavio@example.com' }
     api_key { Faker::Crypto.sha1 }
+    github_handle { Faker::Internet.username }
   end
 end
