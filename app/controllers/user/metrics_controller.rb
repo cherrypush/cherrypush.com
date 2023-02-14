@@ -15,6 +15,10 @@ class User::MetricsController < User::ApplicationController
     return redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
 
     authorize @project, :read?
+
+    @occurrences = @metric.reports.last.occurrences
+    @occurrences =
+      @occurrences.where('owners && ARRAY[?]::varchar[]', @selected_owners&.map(&:handle)) if @selected_owners
   end
 
   private
