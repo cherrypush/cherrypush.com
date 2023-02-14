@@ -38,6 +38,7 @@ class MetricsTest < ApplicationSystemTestCase
         uid: '12345678910',
         info: {
           email: 'flavio@gmail-fake.com',
+          nickname: 'fwuensche',
           first_name: 'Flavio',
           last_name: 'Wuensche',
           image: 'https://avatars.githubusercontent.com/u/1740848?v=4',
