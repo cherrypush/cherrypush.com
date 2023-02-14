@@ -3,8 +3,8 @@ name: cherry push
 on:
   push:
     branches:
+      - main
       - cherry
-      - master
 
 jobs:
   cherry:
