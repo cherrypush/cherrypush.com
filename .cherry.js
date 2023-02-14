@@ -1,5 +1,6 @@
 module.exports = {
   project_name: 'cherrypush/cherry-app',
+  plugins: ['rubocop'],
   metrics: [
     {
       name: 'todo',
@@ -8,10 +9,6 @@ module.exports = {
     {
       name: 'fixme',
       pattern: /FIXME:/i,
-    },
-    {
-      name: 'rubocop',
-      pattern: /rubocop:disable/,
     },
     {
       name: 'eslint',
