@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - cherry
+      - fix-cherry-push-workflow
 
 jobs:
   cherry:
