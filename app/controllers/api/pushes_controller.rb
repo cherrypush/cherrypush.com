@@ -38,8 +38,8 @@ class Api::PushesController < Api::ApplicationController
           report =
             metric.reports.create!(
               date: params[:date] || Time.current,
-              value: metric_params['value'] || metric_params['occurrences'].count,
-              value_by_owner: metric_params['value_by_owner'] || value_by_owner(metric_params['occurrences']),
+              value: metric_params['value'] || get_value(metric_params['occurrences']),
+              value_by_owner: metric_params['value_by_owner'] || get_value_by_owner(metric_params['occurrences']),
             )
 
           next if metric_params['occurrences'].blank?
@@ -87,7 +87,11 @@ class Api::PushesController < Api::ApplicationController
     end
   end
 
-  def value_by_owner(occurrences)
+  def get_value(occurrences)
+    occurrences.sum { |occ| occ['value'] || 1 }
+  end
+
+  def get_value_by_owner(occurrences)
     return nil if occurrences.empty? || occurrences.first['owners'].blank?
 
     owners = {}
