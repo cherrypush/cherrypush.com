@@ -7,4 +7,12 @@ class Owner
     @handle = handle
     @count = count
   end
+
+  def hash
+    handle.hash
+  end
+
+  def eql?(other)
+    hash == other.hash
+  end
 end
