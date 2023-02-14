@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          gem install rubocop
+          bundle exec gem install rubocop
           npm i -g cherrypush
 
       - name: Cherry diff
