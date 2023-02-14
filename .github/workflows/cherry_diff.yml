@@ -18,11 +18,10 @@ jobs:
         with:
           ruby-version: 3.2.0
 
-      - name: Install ruby dependencies
-        run: bundle install
-
-      - name: Install Cherry CLI
-        run: npm i -g cherrypush
+      - name: Install dependencies
+        run: |
+          bundle install
+          npm i -g cherrypush
 
       - name: Cherry diff
         run: cherry diff origin/${{ github.base_ref }}
