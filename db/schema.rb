@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_14_150108) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_14_161025) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -111,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_14_150108) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "value"
+    t.string "owners", array: true
     t.index ["report_id"], name: "index_occurrences_on_report_id"
   end
 
