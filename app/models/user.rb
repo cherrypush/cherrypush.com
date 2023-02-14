@@ -8,7 +8,6 @@ class User < ApplicationRecord
 
   before_save :ensure_api_key
 
-  validates :api_key, presence: true
   validates :github_handle, presence: true
 
   TRIAL_DURATION = 30.days
@@ -38,7 +37,7 @@ class User < ApplicationRecord
   def self.find_or_create_with_omniauth(auth)
     user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
     user.update_dynamic_attributes(auth)
-    UserMailer.with(user: user).weekly_report.deliver_now if user.new_record?
+    UserMailer.with(user: user).weekly_report.deliver_now if user.new_record? && user.valid?
     user.save!
     user
   end
