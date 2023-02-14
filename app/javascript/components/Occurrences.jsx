@@ -19,7 +19,12 @@ const Occurrences = ({ occurrences }) => {
             <th scope="col" className="px-6 py-3">
               Name
             </th>
-            {occurrences[0].value && (
+            {occurrences[0]?.owners && (
+              <th scope="col" className="px-6 py-3">
+                Owners
+              </th>
+            )}
+            {occurrences[0]?.value && (
               <th scope="col" className="px-6 py-3">
                 Value
               </th>
@@ -36,6 +41,7 @@ const Occurrences = ({ occurrences }) => {
               <td scope="row" className="px-6 py-4">
                 {occurrence.name}
               </td>
+              {occurrence.owners && <td className="px-6 py-4">{occurrence.owners.join(', ')}</td>}
               {occurrence.value && <td className="px-6 py-4">{occurrence.value}</td>}
             </tr>
           ))}
