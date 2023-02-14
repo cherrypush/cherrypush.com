@@ -7,7 +7,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
   describe '#create' do
     it 'creates reports' do
-      post(api_push_path(api_key: user.api_key), params: new_payload)
+      post(api_push_path, params: { api_key: user.api_key, **new_payload }, as: :json)
       assert_response :ok
       assert_equal ['cherrypush/cherry-app'], Project.all.map(&:name)
       assert_equal ['missing coverage', 'skipped tests'], Metric.all.map(&:name)
@@ -18,25 +18,34 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
     end
 
     it 'requires metrics' do
-      post(api_push_path(api_key: user.api_key), params: {})
+      post(api_push_path, params: { api_key: user.api_key }, as: :json)
       assert_response :bad_request
       assert_includes response.body, 'param is missing or the value is empty: metrics'
     end
 
     it 'requires project name' do
-      post(api_push_path(api_key: user.api_key), params: { metrics: [] })
+      post(
+        api_push_path,
+        params: {
+          api_key: user.api_key,
+          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+        },
+        as: :json,
+      )
       assert_response :bad_request
       assert_includes response.body, 'param is missing or the value is empty: project_name'
     end
 
     it 'calculates the value from occurrences' do
       post(
-        api_push_path(api_key: user.api_key),
+        api_push_path,
         params: {
+          api_key: user.api_key,
           project_name: 'rails/rails',
           date: '2023-02-12',
           metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
         },
+        as: :json,
       )
       assert_response :ok
       report = Metric.find_by(name: 'rubocop').reports.last
@@ -46,11 +55,13 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
     it 'assumes default to current date when date param is not provided' do
       post(
-        api_push_path(api_key: user.api_key),
+        api_push_path,
         params: {
+          api_key: user.api_key,
           project_name: 'rails/rails',
           metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
         },
+        as: :json,
       )
       assert_response :ok
       report = Metric.find_by(name: 'rubocop').reports.last
@@ -60,19 +71,22 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
     it 'assumes value of 1 for occurrences without a value' do
       post(
-        api_push_path(api_key: user.api_key),
+        api_push_path,
         params: {
+          api_key: user.api_key,
           project_name: 'rails/rails',
           metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
         },
+        as: :json,
       )
       assert_equal 1, Metric.find_by(name: 'rubocop').reports.last.value
     end
 
     it 'assumes value of 1 for owners of occurrences without a value' do
       post(
-        api_push_path(api_key: user.api_key),
+        api_push_path,
         params: {
+          api_key: user.api_key,
           project_name: 'rails/rails',
           metrics: [
             {
@@ -84,16 +98,18 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
             },
           ],
         },
+        as: :json,
       )
       assert_equal 2, Metric.find_by(name: 'skipped tests').reports.last.value
       assert_equal 2, Metric.find_by(name: 'skipped tests').reports.last.value_by_owner['@fwuensche']
       assert_equal 1, Metric.find_by(name: 'skipped tests').reports.last.value_by_owner['@rchoquet']
     end
 
-    it 'calculates value_by_owner from occurrences' do
+    it 'calculates value and value_by_owner from occurrences' do
       post(
-        api_push_path(api_key: user.api_key),
+        api_push_path,
         params: {
+          api_key: user.api_key,
           project_name: 'rails/rails',
           date: '2023-02-12',
           metrics: [
@@ -106,10 +122,13 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
             },
           ],
         },
+        as: :json,
       )
       assert_response :ok
-      report = Metric.find_by(name: 'rubocop').reports.last
-      assert_equal 2, report.value
+      metric = Metric.find_by(name: 'rubocop')
+      report = metric.reports.last
+
+      assert_equal 4, report.value
       assert_equal({ '@fwuensche' => 4.0, '@rchoquet' => 2.8 }, report.value_by_owner)
       assert_equal 2, Occurrence.count
       assert_equal [1.2, 2.8], Occurrence.all.map(&:value)
@@ -118,7 +137,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
   describe '#create_deprecated' do # rubocop:disable Metrics/BlockLength
     it 'creates reports' do
-      post(api_push_path(api_key: user.api_key), params: payload)
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_response :ok
       assert_equal 2, Metric.count
       assert_equal %w[js_loc react_query_v3], Metric.pluck(:name)
@@ -146,12 +165,12 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
     it 'allows the creation of projects for premium users' do
       create(:membership, user:)
-      post(api_push_path(api_key: user.api_key), params: payload)
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_equal 1, Project.count
     end
 
     it 'requires a project name' do
-      post(api_push_path(api_key: user.api_key), params: payload.except('project_name'))
+      post(api_push_path, params: { api_key: user.api_key, **payload.except('project_name') }, as: :json)
       assert_includes response.body, 'param is missing or the value is empty: project_name'
     end
   end
