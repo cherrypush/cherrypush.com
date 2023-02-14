@@ -3,6 +3,9 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
+# PROJECT SPECIFIC
+require 'minitest/mock'
+
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   FactoryBot.find_definitions

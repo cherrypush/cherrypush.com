@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   before_save :ensure_api_key
 
+  validates :api_key, presence: true
+  validates :github_handle, presence: true
+
   TRIAL_DURATION = 30.days
 
   def projects
