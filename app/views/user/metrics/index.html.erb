@@ -37,16 +37,7 @@
         <%= render 'debt_owners', metric: @metric, selected_owners: @selected_owners, project: @project %>
       </div>
       <div class="col-span-1 xl:col-span-2">
-        <%=
-          react_component 'Occurrences',
-                          occurrences:
-                            @metric
-                              .reports
-                              .last
-                              .occurrences
-                              .where('owners && ARRAY[?]::varchar[]', @selected_owners.map(&:handle))
-                              .to_a
-        %>
+        <%= react_component 'Occurrences', occurrences: @occurrences %>
       </div>
     </div>
   <% end %>
