@@ -50,6 +50,7 @@ class Api::PushesController < Api::ApplicationController
                 url: occurrence['url'],
                 report_id: report.id,
                 value: occurrence['value'],
+                owners: occurrence['owners'],
               }
             end,
           )

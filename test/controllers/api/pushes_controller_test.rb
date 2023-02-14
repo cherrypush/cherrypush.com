@@ -132,6 +132,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal({ '@fwuensche' => 4.0, '@rchoquet' => 2.8 }, report.value_by_owner)
       assert_equal 2, Occurrence.count
       assert_equal [1.2, 2.8], Occurrence.all.map(&:value)
+      assert_equal %w[@fwuensche @rchoquet], Occurrence.last.owners.sort
     end
   end
 
