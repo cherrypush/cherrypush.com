@@ -1,12 +1,7 @@
-import React from 'react'
-
-export const numberToDiff = (number) => {
-  const caret = number < 0 ? '▾' : number > 0 ? '▴' : null
-  const colorClass = number < 0 ? 'text-green-300' : 'text-red-300'
-
-  return (
-    <span className={`${colorClass}`}>
-      {caret} {Math.abs(number)}
-    </span>
-  )
+export const truncateStart = (text, length) => {
+  if (text.length > length) {
+    return '...' + text.substring(text.length - length, text.length)
+  } else {
+    return text
+  }
 }
