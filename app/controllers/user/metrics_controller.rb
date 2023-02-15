@@ -17,6 +17,14 @@ class User::MetricsController < User::ApplicationController
     authorize @project, :read?
   end
 
+  def destroy
+    metric = Metric.find(params[:id])
+    project = metric.project
+    authorize(project, :destroy?)
+    metric.destroy!
+    redirect_to user_metrics_path(project_id: project.id), notice: 'Metric was successfully deleted.'
+  end
+
   private
 
   def set_owners

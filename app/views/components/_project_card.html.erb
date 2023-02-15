@@ -18,6 +18,7 @@
       <div class="text-sm text-gray-500 dark:text-gray-400">Owned by <%= project.user.name %></div>
     </h3>
   </div>
+
   <%# DROPDOWN %>
   <div class="absolute top-4 right-2 flex items-center">
     <%=
@@ -25,6 +26,7 @@
              entries: [title: 'Delete forever 🥲', url: user_project_path(project), method: :delete]
     %>
   </div>
+
   <%# CHART %>
   <%= link_to project_link, class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700", title: project.name do  %>
     <% if project.reports.any? %>
