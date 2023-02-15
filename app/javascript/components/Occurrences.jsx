@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React from 'react'
 import { useState } from 'react'
 
@@ -35,8 +36,11 @@ const Occurrences = ({ occurrences }) => {
           {filteredOccurrences.map((occurrence) => (
             <tr
               key={occurrence.id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-              onClick={() => window.open(occurrence.url, '_blank')}
+              className={classNames(
+                'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600',
+                { 'cursor-pointer': occurrence.url }
+              )}
+              onClick={() => occurrence.url && window.open(occurrence.url, '_blank')}
             >
               <td scope="row" className="px-6 py-4">
                 {occurrence.name}
