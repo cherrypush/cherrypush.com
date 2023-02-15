@@ -8,6 +8,7 @@ module ProjectScoped
       @user
         .projects
         .find_or_create_by!(name: params.require(:project_name)) do |project|
+          project.user = @user
           TelegramClient.send("#{@user.name} just created the project #{project.name}")
         end
   end
