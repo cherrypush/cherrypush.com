@@ -1,4 +1,5 @@
 <div class="relative">
+  <%# TITLE %>
   <div class="absolute top-4 left-4">
     <h3 class="inline">
       <div class="flex items-center">
@@ -8,6 +9,14 @@
     </h3>
   </div>
 
+  <%# DROPDOWN %>
+  <div class="absolute top-4 right-2 flex items-center">
+    <%=
+      render 'components/dropdown', entries: [title: 'Delete metric 💥', url: user_metric_path(metric), method: :delete]
+    %>
+  </div>
+
+  <%# CHART %>
   <%= link_to user_metrics_path(
                     project_id: @project.id,
                     metric_id: metric.id,
@@ -16,7 +25,7 @@
                   class: "overflow-hidden w-full block p-4 pb-0 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
                   title: metric.name do %>
     <div
-      class="h-60 mt-3 -ml-12 -mr-9 -mb-12"
+      class="h-60 mt-12 -ml-12 -mr-9 -mb-12"
       data-chart
       data-serie="<%= metric.chart_data(owners: @selected_owners).sort_by(&:first).map{|x,y| {x:,y:}}.to_json %>"
       data-serie-name="<%= metric.name %>"
