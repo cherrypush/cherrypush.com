@@ -60,8 +60,8 @@ const DebtOwners = ({ owners, selectedOwners }) => {
           ))}
 
           {owners.length === 0 && (
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
-              <td colspan="3" class="px-6 py-4">
+            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+              <td colspan="3" className="px-6 py-4">
                 You can start using owners on your project by adding a CODEOWNERS file to your repository. Learn more
                 about code owners through the official docs:{' '}
                 <a
