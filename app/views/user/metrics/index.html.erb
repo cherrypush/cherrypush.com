@@ -4,19 +4,7 @@
 
 <% if @project.reports.any? %>
   <% if @metric.present? %>
-    <div class="card mb-3 text-center">
-      <h3 class="flex items-center">
-        <%= render 'components/favorite_button', resource: @metric %>
-        <%= @metric.name %>
-      </h3>
-      <div
-        class="h-60 -mb-6"
-        data-chart
-        data-serie="<%= @metric.chart_data(owners: @selected_owners).map { |x,y| {x:,y:} }.to_json %>"
-        data-serie-name="<%= @metric.name %>"
-        data-show-label="true"
-      ></div>
-    </div>
+    <%= react_component 'MetricChart', metricId: @metric.id %>
 
     <% if @metric.reports.last&.value_by_owner&.blank? %>
       <div class="card prose dark:prose-invert max-w-none mb-3">

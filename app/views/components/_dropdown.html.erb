@@ -11,8 +11,13 @@
     <%= heroicon 'bars-2' %>
   <% end %>
 </button>
+
 <!-- Dropdown menu -->
-<div id="<%= uuid %>" class="hidden z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+<div
+  id="<%= uuid %>"
+  class="hidden z-20 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
+  data-test-id="dropdown"
+>
   <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
     <% entries.each do |entry| %>
       <li>
