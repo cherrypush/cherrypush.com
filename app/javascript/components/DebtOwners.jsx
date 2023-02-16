@@ -58,6 +58,21 @@ const DebtOwners = ({ owners, selectedOwners }) => {
               <td className="px-6 py-4 text-right">{owner.count}</td>
             </tr>
           ))}
+
+          {owners.length === 0 && (
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+              <td colspan="3" class="px-6 py-4">
+                You can start using owners on your project by adding a CODEOWNERS file to your repository. Learn more
+                about code owners through the official docs:{' '}
+                <a
+                  className="text-link"
+                  href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
+                >
+                  About code owners
+                </a>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
