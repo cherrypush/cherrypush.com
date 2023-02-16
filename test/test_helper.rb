@@ -5,6 +5,7 @@ require 'rails/test_help'
 
 # PROJECT SPECIFIC
 require 'minitest/mock'
+Dir[Rails.root.join('test', 'helpers', '**', '*.rb')].each { |file| require file }
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
