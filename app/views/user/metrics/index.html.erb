@@ -3,25 +3,13 @@
 <%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
 
 <% if @project.reports.any? %>
-  <% if @metric.present? %>
-    <%= react_component 'MetricChart', metricId: @metric.id %>
-
-    <% if @metric.reports.last&.value_by_owner&.blank? %>
-      <div class="card prose dark:prose-invert max-w-none mb-3">
-        <p class="mb-3">To get a full list of occurrences:</p>
-        <pre class="mt-3">npm install -g cherrypush<br><%= cherry_run_cmd(@metric.name) %></pre>
-      </div>
-    <% end %>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-      <div class="col-span-1">
-        <%= react_component 'DebtOwners', selectedOwners: @selected_owners || [], owners: @metric.owners %>
-      </div>
-      <div class="col-span-1 xl:col-span-2">
-        <%= react_component 'Occurrences', occurrences: @occurrences %>
-      </div>
-    </div>
-  <% end %>
+  <%=
+    react_component 'MetricsIndex',
+                    selectedOwners: @selected_owners || [],
+                    owners: @metric&.owners,
+                    occurrences: @occurrences,
+                    metricId: @metric&.id
+  %>
 
   <% if @metric.blank? %>
     <div class="grid md:grid-cols-3 gap-3">
