@@ -1,7 +1,5 @@
 require 'test_helper'
 
-require 'helpers/sign_in_helper'
-
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include SignInHelper
 
