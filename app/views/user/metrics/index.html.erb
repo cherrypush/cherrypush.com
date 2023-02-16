@@ -30,10 +30,6 @@
         <%= react_component 'DebtOwners', selectedOwners: @selected_owners || [], owners: @metric.owners %>
       </div>
       <div class="col-span-1 xl:col-span-2">
-        <% @occurrences = @metric.reports.last.occurrences %>
-        <% if @selected_owners %>
-          <% @occurrences = @occurrences.where('owners && ARRAY[?]::varchar[]', @selected_owners&.map(&:handle)) %>
-        <% end %>
         <%= react_component 'Occurrences', occurrences: @occurrences %>
       </div>
     </div>
