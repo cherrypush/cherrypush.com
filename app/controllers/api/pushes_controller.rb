@@ -93,15 +93,13 @@ class Api::PushesController < Api::ApplicationController
   end
 
   def get_value_by_owner(occurrences)
-    return nil if occurrences.empty? || occurrences.first['owners'].blank?
+    return {} if occurrences.empty? || occurrences.first['owners'].blank?
 
-    owners = {}
-    occurrences.each do |occurrence|
+    occurrences.each_with_object({}) do |occurrence, owners|
       occurrence['owners'].each do |owner|
         owners[owner] ||= 0
         owners[owner] += (occurrence['value'] || 1).to_f
       end
     end
-    owners
   end
 end
