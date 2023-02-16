@@ -1,54 +1,78 @@
 require 'application_system_test_case'
 
 class MetricsTest < ApplicationSystemTestCase
-  test 'onboarding' do
-    OmniAuth.config.test_mode = true
-    Rails.application.env_config['omniauth.auth'] = github_auth
+  let!(:user) { create(:user) }
+  let!(:project) { create(:project, user: user, name: 'rails/rails') }
+  let!(:metric) { create(:metric, project: project, name: 'rubocop') }
+  let!(:report1) do
+    create(
+      :report,
+      metric: metric,
+      value: 12,
+      date: 1.day.ago,
+      value_by_owner: {
+        '@fwuensche' => 10,
+        '@rchoquet' => 8,
+      },
+    )
+  end
+  let!(:report2) do
+    create(:report, metric: metric, value: 9, date: 2.days.ago, value_by_owner: { '@fwuensche' => 7, '@rchoquet' => 8 })
+  end
+  let!(:occurrence2a) do
+    create(
+      :occurrence,
+      name: 'filepath:1',
+      url: 'permalink/filepath:2',
+      report: report2,
+      owners: ['@fwuensche'],
+      value: 1.2,
+    )
+  end
+  let!(:occurrence2b) do
+    create(
+      :occurrence,
+      name: 'filepath:2',
+      url: 'permalink/filepath:2',
+      report: report2,
+      owners: %w[@fwuensche @rchoquet],
+      value: 2.8,
+    )
+  end
 
-    visit root_url
-    click_on 'Login with GitHub'
-    assert_text 'Signed in as Flavio Wuensche'
-    user = User.last
-    assert_text 'Create your first project'
-    assert_text 'Docs'
-
-    click_on 'Metrics'
-    assert_text 'You need to create a project first'
-
-    click_on 'Authorizations'
-    assert_text 'You first need to create a project'
-
-    project = create(:project, user: user, name: 'rails/rails')
-    metric = create(:metric, project: project, name: 'rubocop')
-    report = create(:report, metric: metric, value: 12, date: Time.current)
-    click_on 'Projects'
-    click_on 'rails/rails'
+  it 'applies filters to metrics' do
+    sign_in(user, to: user_metrics_path)
     assert_text 'Project: rails/rails'
-    click_on 'rubocop'
-    assert_text 'Metric: rubocop'
-    assert_text 'You can start using owners on your project by adding a CODEOWNERS file to your repository'
+
+    click_on 'Filter by metric'
+    within_dropdown { click_on 'rubocop' }
+
+    within(all('tr')[1]) do
+      assert_text '@rchoquet'
+      assert_text '8'
+    end
+
+    within(all('tr')[2]) do
+      assert_text '@fwuensche'
+      assert_text '7'
+    end
+
+    assert_text 'filepath:1'
+    assert_text '1.2'
+    assert_text 'filepath:2'
+    assert_text '2.8'
+
+    click_on 'Filter by owner'
+    within_dropdown { click_on '@rchoquet' }
+
+    assert_text 'filepath:2'
+    assert_no_text 'filepath:1'
   end
 
   private
 
-  def github_auth
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
-      {
-        provider: 'github',
-        uid: '12345678910',
-        info: {
-          email: 'flavio@gmail-fake.com',
-          nickname: 'fwuensche',
-          first_name: 'Flavio',
-          last_name: 'Wuensche',
-          image: 'https://avatars.githubusercontent.com/u/1740848?v=4',
-        },
-        credentials: {
-          token: 'abcdefgh12345',
-          refresh_token: '12345abcdefgh',
-          expires_at: DateTime.now,
-        },
-      },
-    )
+  # TODO: extract into a helper
+  def within_dropdown(&block)
+    within(find('[data-test-id="dropdown"]', visible: true)) { yield }
   end
 end

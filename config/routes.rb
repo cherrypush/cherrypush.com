@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     resource :settings, only: :show
     resource :favorites, only: %i[create destroy]
     resources :authorizations, only: %i[index new create destroy]
-    resources :metrics, only: %i[index destroy]
+    resources :metrics, only: %i[index show destroy]
   end
 
   get :demo, to: 'pages#demo'

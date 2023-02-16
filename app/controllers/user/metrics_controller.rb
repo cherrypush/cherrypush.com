@@ -24,6 +24,12 @@ class User::MetricsController < User::ApplicationController
     end
   end
 
+  def show
+    @metric = Metric.find(params[:id])
+    authorize @metric.project, :read?
+    render json: @metric.attributes.merge(chart_data: @metric.chart_data)
+  end
+
   def destroy
     metric = Metric.find(params[:id])
     project = metric.project
