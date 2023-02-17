@@ -21,5 +21,5 @@
 <% end %>
 
 <% if @project.reports.none? %>
-  <%= render 'backfill_instructions' %>
+  <%= react_component 'BackfillInstructions', currentUser: current_user %>
 <% end %>
