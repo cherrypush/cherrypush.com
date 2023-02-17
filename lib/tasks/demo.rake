@@ -3,21 +3,24 @@
 namespace :demo do # rubocop:disable Metrics/BlockLength
   desc 'Refresh demo data'
   task refresh: :environment do
-    METRIC_NAME_MAPPING = {
-      'Deprecated Components' => 'deprecated components',
-      'Deprecated Props' => 'deprecated methods',
-      'Legacy FS access' => 'deprecated imports',
-      'formApi' => 'RxJS',
-      '@ts-expect-error' => '@ts-expect-error',
-      'eslint-disable-next-line' => 'eslint-disable',
-      'useAsyncTask' => 'axios legacy imports',
-      'let without bang!' => 'deprecated test setup',
-    }.freeze
+    metric_names = [
+      'deprecated components',
+      'deprecated methods',
+      'deprecated imports',
+      'redux',
+      '@ts-expect-error',
+      'eslint-disable',
+      'axios legacy imports',
+      'files without test coverage',
+      'deprecated test setup',
+    ].freeze
+
+    team_names = 12.times.map { Faker::Company.industry.parameterize }
 
     ActiveRecord::Base.transaction do
       # take one existing project as reference
       base_project = Project.find_by(id: 9)
-      return if base_project.blank?
+      raise 'Project not found' if base_project.blank?
 
       # clear duplicate demo projects
       demo_projects = Project.where(name: 'demo/project')
@@ -25,41 +28,42 @@ namespace :demo do # rubocop:disable Metrics/BlockLength
 
       # update demo project attributes
       demo_project = Project.find_or_create_by(name: 'demo/project')
-      demo_project.name = 'demo/project'
       demo_project.user = User.find_by!(github_handle: 'fwuensche')
       demo_project.save
 
-      # duplicate reports with anonymized data
-      demo_project.deprecated_reports.delete_all
-      Report.insert_all(demo_reports(base_project, demo_project))
-    end
-  end
+      # delete all previous demo data
+      Occurrence.joins(report: :metric).where(metrics: { project_id: demo_project.id }).delete_all
+      Report.joins(:metric).where(metrics: { project_id: demo_project.id }).delete_all
+      demo_project.metrics.delete_all
 
-  private
+      # create demo metrics
+      base_project
+        .metrics
+        .first(metric_names.length)
+        .each_with_index do |metric, index|
+          demo_metric = Metric.create!(name: metric_names[index], project: demo_project)
 
-  def demo_reports(base_project, demo_project) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
-    base_project.deprecated_reports.map do |report|
-      new_report = report.dup
-      new_report.created_at = demo_project.created_at
-      new_report.updated_at = demo_project.updated_at
-      new_report.commit_sha = SecureRandom.uuid
-      new_report.project_id = demo_project.id
-      new_report.metrics =
-        report
-          .metrics
-          .map do |key, value|
-            next if METRIC_NAME_MAPPING[key].blank?
-            [
-              METRIC_NAME_MAPPING[key],
-              {
-                total: value['total'],
-                owners: value['owners'].transform_keys { |_| "@#{Faker::Company.industry.parameterize}" },
-              },
-            ]
+          metric.reports.map do |report|
+            new_report = report.dup
+            new_report.created_at = demo_project.created_at
+            new_report.updated_at = demo_project.updated_at
+            new_report.metric_id = demo_metric.id
+            new_report.value = report.value
+            new_report.value_by_owner = report.value_by_owner.transform_keys { |_| "@#{team_names.sample}" }
+            new_report.save!
+
+            occurrences =
+              report.occurrences.map do |_|
+                {
+                  name: Faker::File.file_name(dir: Faker::File.dir, ext: 'js'),
+                  url: Faker::Internet.url,
+                  owners: ["@#{team_names.sample}"],
+                  report_id: new_report.id,
+                }
+              end
+            Occurrence.upsert_all(occurrences) if occurrences.any?
           end
-          .compact
-          .to_h
-      new_report.attributes.except('id')
+        end
     end
   end
 end
