@@ -14,12 +14,11 @@ class OnboardingTest < ApplicationSystemTestCase
     click_on 'Authorizations'
     assert_text 'You first need to create a project'
 
-    create(
-      :report,
-      metric: create(:metric, project: create(:project, user: user, name: 'rails/rails'), name: 'rubocop'),
-      value: 12,
-      date: Time.current,
-    )
+    project = create(:project, user: user, name: 'rails/rails')
+    click_on 'Metrics'
+    assert_text 'Fill up your project with historic data by running the following command'
+
+    create(:report, metric: create(:metric, project: project, name: 'rubocop'), value: 12, date: Time.current)
 
     click_on 'Projects'
     click_on 'rails/rails'
