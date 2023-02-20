@@ -43,9 +43,7 @@ class MetricsTest < ApplicationSystemTestCase
   it 'applies filters to metrics' do
     sign_in(user, to: user_metrics_path)
     assert_text 'Project: rails/rails'
-
-    click_on 'Filter by metric'
-    within_dropdown { click_on 'rubocop' }
+    find('tr', text: 'rubocop').click
 
     within(all('tr')[1]) do
       assert_text '@rchoquet'

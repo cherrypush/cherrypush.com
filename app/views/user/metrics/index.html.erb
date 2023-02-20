@@ -8,16 +8,9 @@
                     selectedOwners: @selected_owners || [],
                     owners: @metric&.owners,
                     occurrences: @occurrences,
-                    metricId: @metric&.id
+                    metricId: @metric&.id,
+                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) }
   %>
-
-  <% if @metric.blank? %>
-    <div class="grid md:grid-cols-3 gap-3">
-      <% @project.metrics.sort_by { |metric| metric.name.in?(current_user.favorite_metric_names) ? 0 : 1}.each do |metric| %>
-        <%= render 'components/metric_card', metric: metric %>
-      <% end %>
-    </div>
-  <% end %>
 <% end %>
 
 <% if @project.reports.none? %>
