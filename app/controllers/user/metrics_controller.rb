@@ -22,6 +22,8 @@ class User::MetricsController < User::ApplicationController
         @occurrences = @occurrences.where('owners && ARRAY[?]::varchar[]', @selected_owners&.map(&:handle))
       end
     end
+
+    @metrics = @project.metrics.includes(:reports)
   end
 
   def show

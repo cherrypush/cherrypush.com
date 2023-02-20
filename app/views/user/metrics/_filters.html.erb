@@ -3,15 +3,6 @@
     render 'components/dropdown', class: 'mr-3', text: "Project: #{project.name}", entries: project_dropdown_entries
   %>
 
-  <% if project.reports.any? %>
-    <%=
-      render 'components/dropdown',
-             class: 'mr-3',
-             text: metric ? "Metric: #{metric.name}" : 'Filter by metric',
-             entries: metric_dropdown_entries(project, selected_owners)
-    %>
-  <% end %>
-
   <% if selected_owners %>
     <% selected_owners.each do |owner| %>
       <%
