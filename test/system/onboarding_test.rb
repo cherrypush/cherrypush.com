@@ -23,8 +23,7 @@ class OnboardingTest < ApplicationSystemTestCase
     click_on 'Projects'
     click_on 'rails/rails'
     assert_text 'Project: rails/rails'
-    click_on 'rubocop'
-    assert_text 'Metric: rubocop'
+    find('tr', text: 'rubocop').click
     assert_text 'You can start using owners on your project by adding a CODEOWNERS file to your repository'
   end
 end

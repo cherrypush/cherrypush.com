@@ -24,7 +24,7 @@
         <%= render 'components/alerts' %>
         <%= yield %>
         <%= render 'components/footer' %>
-        <%= render 'components/crisp' %>
+        <%= render 'components/crisp_chat' unless Rails.env.test? %>
       </div>
     </div>
   </body>

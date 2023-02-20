@@ -7,7 +7,7 @@ module SignInHelper
     visit root_path
     click_on 'Login with GitHub'
     assert_text "Signed in as #{user.name}"
-    visit to if to
+    to ? visit(to) : refresh
   end
 
   private
