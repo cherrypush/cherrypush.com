@@ -46,7 +46,7 @@ class Api::PushesController < Api::ApplicationController
           Occurrence.upsert_all(
             metric_params['occurrences'].each_with_object([]) do |occurrence, arr|
               arr << {
-                name: occurrence['text'] || occurrence['name'], # TODO: remove name once migrated all its usage
+                text: occurrence['text'] || occurrence['name'], # TODO: remove name once migrated all its usage
                 url: occurrence['url'],
                 report_id: report.id,
                 value: occurrence['value'],
