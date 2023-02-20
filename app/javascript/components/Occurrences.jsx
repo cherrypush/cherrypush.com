@@ -1,7 +1,6 @@
 import classnames from 'classnames'
 import React from 'react'
 import { useState } from 'react'
-import { truncateStart } from '../helpers/applicationHelper'
 
 const DEFAULT_MAX_OCCURRENCES = 20
 
@@ -37,14 +36,16 @@ const Occurrences = ({ occurrences }) => {
           {filteredOccurrences.map((occurrence) => (
             <tr
               key={occurrence.id}
-              className={classnames(
-                'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600',
-                { 'cursor-pointer': occurrence.url }
-              )}
-              onClick={() => occurrence.url && window.open(occurrence.url, '_blank')}
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <td scope="row" className="px-6 py-4">
-                {truncateStart(occurrence.text, 80)}
+                {occurrence.url ? (
+                  <a href={occurrence.url} target="_blank" className="text-link">
+                    {occurrence.text}
+                  </a>
+                ) : (
+                  occurrence.text
+                )}
               </td>
               {occurrence.owners && <td className="px-6 py-4">{occurrence.owners.join(', ')}</td>}
               {occurrence.value && <td className="px-6 py-4">{occurrence.value}</td>}
