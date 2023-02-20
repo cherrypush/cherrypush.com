@@ -3,6 +3,6 @@
 class Occurrence < ApplicationRecord
   belongs_to :report
 
-  validates :name, presence: true
+  validates :text, presence: true
   validates :url, presence: true
 end

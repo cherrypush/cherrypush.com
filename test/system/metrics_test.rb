@@ -22,7 +22,7 @@ class MetricsTest < ApplicationSystemTestCase
   let!(:occurrence2a) do
     create(
       :occurrence,
-      name: 'filepath:1',
+      text: 'filepath:1',
       url: 'permalink/filepath:2',
       report: report2,
       owners: ['@fwuensche'],
@@ -32,7 +32,7 @@ class MetricsTest < ApplicationSystemTestCase
   let!(:occurrence2b) do
     create(
       :occurrence,
-      name: 'filepath:2',
+      text: 'filepath:2',
       url: 'permalink/filepath:2',
       report: report2,
       owners: %w[@fwuensche @rchoquet],

@@ -13,7 +13,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal ['missing coverage', 'skipped tests'], Metric.all.map(&:name)
       assert_equal [123, 12], Report.all.map(&:value)
       assert_equal 4, Occurrence.count
-      assert_includes Occurrence.all.map(&:name), 'test/controllers/application_controller.rb:12'
+      assert_includes Occurrence.all.map(&:text), 'test/controllers/application_controller.rb:12'
       assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
     end
 

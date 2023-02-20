@@ -44,7 +44,7 @@ const Occurrences = ({ occurrences }) => {
               onClick={() => occurrence.url && window.open(occurrence.url, '_blank')}
             >
               <td scope="row" className="px-6 py-4">
-                {truncateStart(occurrence.name, 80)}
+                {truncateStart(occurrence.text, 80)}
               </td>
               {occurrence.owners && <td className="px-6 py-4">{occurrence.owners.join(', ')}</td>}
               {occurrence.value && <td className="px-6 py-4">{occurrence.value}</td>}
