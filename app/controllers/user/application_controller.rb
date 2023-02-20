@@ -3,6 +3,9 @@
 class User::ApplicationController < ApplicationController
   before_action :authenticate_user!
 
+  rescue_from Pundit::NotAuthorizedError,
+              with: -> { redirect_to request.referer, alert: 'You are not authorized to perform this action.' }
+
   private
 
   def require_premium_status
