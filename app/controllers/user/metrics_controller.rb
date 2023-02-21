@@ -24,6 +24,7 @@ class User::MetricsController < User::ApplicationController
     end
 
     @metrics = @project.metrics.includes(:reports)
+    @projects = current_user.projects
   end
 
   def show

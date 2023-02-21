@@ -42,8 +42,9 @@ class MetricsTest < ApplicationSystemTestCase
 
   it 'applies filters to metrics' do
     sign_in(user, to: user_metrics_path)
-    assert_text 'Project: rails/rails'
+    assert_text 'rails/rails'
     find('tr', text: 'rubocop').click
+    assert_text 'Debt Owners'
 
     within(all('tr')[1]) do
       assert_text '@rchoquet'
@@ -60,9 +61,7 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'filepath:2'
     assert_text '2.8'
 
-    click_on 'Filter by owner'
-    within_dropdown { click_on '@rchoquet' }
-
+    find('tr', text: '@rchoquet', match: :first).click
     assert_text 'filepath:2'
     assert_no_text 'filepath:1'
   end
