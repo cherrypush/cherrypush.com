@@ -20,9 +20,8 @@ class OnboardingTest < ApplicationSystemTestCase
 
     create(:report, metric: create(:metric, project: project, name: 'rubocop'), value: 12, date: Time.current)
 
-    click_on 'Projects'
+    within('#sidebar') { click_on 'Projects' }
     click_on 'rails/rails'
-    assert_text 'Project: rails/rails'
     find('tr', text: 'rubocop').click
     assert_text 'You can start using owners on your project by adding a CODEOWNERS file to your repository'
   end

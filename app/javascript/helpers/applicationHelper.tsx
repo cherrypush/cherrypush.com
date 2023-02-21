@@ -1,3 +1,5 @@
+import { Turbo } from '@hotwired/turbo-rails'
+
 export const truncateStart = (text, length) => {
   if (text.length > length) {
     return '...' + text.substring(text.length - length, text.length)
@@ -25,4 +27,27 @@ export const timeAgoInWords = (date) => {
   if (interval > 1) return Math.floor(interval) + ' minutes ago'
 
   return Math.floor(seconds) + ' seconds ago'
+}
+
+export const getParam = (name) => {
+  const searchParams = new URLSearchParams(window.location.search)
+  return searchParams.get(name)
+}
+
+export const appendParam = (name, value) => {
+  const searchParams = new URLSearchParams(window.location.search)
+  searchParams.append(name, value)
+  Turbo.visit(`${window.location.pathname}?${searchParams}`)
+}
+
+export const setParam = (name, value) => {
+  const searchParams = new URLSearchParams(window.location.search)
+  searchParams.set(name, value)
+  Turbo.visit(`${window.location.pathname}?${searchParams}`)
+}
+
+export const setParams = (params) => {
+  const searchParams = new URLSearchParams()
+  Object.keys(params).forEach((key) => searchParams.set(key, params[key]))
+  Turbo.visit(`${window.location.pathname}?${searchParams}`)
 }

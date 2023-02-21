@@ -1,18 +1,12 @@
 <% title "Metrics: #{[@project.name, @metric&.name, @selected_owners&.map(&:handle)].compact.join(' | ')}" %>
 
-<%= render 'filters', project: @project, metric: @metric, selected_owners: @selected_owners %>
-
-<% if @project.reports.any? %>
-  <%=
-    react_component 'MetricsIndex',
-                    selectedOwners: @selected_owners || [],
-                    owners: @metric&.owners,
-                    occurrences: @occurrences,
-                    metricId: @metric&.id,
-                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) }
-  %>
-<% end %>
-
-<% if @project.reports.none? %>
-  <%= react_component 'BackfillInstructions', currentUser: current_user %>
-<% end %>
+<%=
+  react_component 'MetricsIndex',
+                  selectedOwners: @selected_owners || [],
+                  owners: @metric&.owners,
+                  occurrences: @occurrences,
+                  metricId: @metric&.id,
+                  metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
+                  currentUser: current_user,
+                  projects: @projects
+%>
