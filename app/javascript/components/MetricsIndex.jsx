@@ -15,7 +15,7 @@ const MetricsIndex = ({ selectedOwners, owners, occurrences, metricId, metrics, 
       {hasReports && (
         <>
           {metricId ? (
-            <MetricChart metricId={metricId} />
+            <MetricChart metricId={metricId} selectedOwners={selectedOwners} />
           ) : (
             <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
           )}

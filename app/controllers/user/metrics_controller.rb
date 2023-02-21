@@ -30,7 +30,7 @@ class User::MetricsController < User::ApplicationController
   def show
     @metric = Metric.find(params[:id])
     authorize @metric.project, :read?
-    render json: @metric.attributes.merge(chart_data: @metric.chart_data)
+    render json: @metric.attributes.merge(chart_data: @metric.chart_data(owners: params[:owners]))
   end
 
   def destroy

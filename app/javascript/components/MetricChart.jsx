@@ -3,8 +3,8 @@ import React from 'react'
 import Chart from 'react-apexcharts'
 import { useMetricsShow } from '../queries/user/metrics'
 
-const MetricChart = ({ metricId }) => {
-  const { data: metric, isLoading } = useMetricsShow({ metricId })
+const MetricChart = ({ metricId, selectedOwners }) => {
+  const { data: metric, isLoading } = useMetricsShow({ metricId, owners: selectedOwners.map((o) => o.handle) })
 
   // TODO: Simplify chart data formatting on backend
   const labels = metric?.chart_data.map((data) => data[0])

@@ -1,5 +1,7 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 
-export const useMetricsShow = ({ metricId }) =>
-  useQuery(['user', 'metrics', metricId], () => fetch(`/user/metrics/${metricId}`).then((response) => response.json()))
+export const useMetricsShow = ({ metricId, owners }) =>
+  useQuery(['user', 'metrics', metricId], () =>
+    axios.get(`/user/metrics/${metricId}`, { params: { owners } }).then((response) => response.data)
+  )
