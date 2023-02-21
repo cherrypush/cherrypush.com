@@ -27,6 +27,6 @@ class Metric < ApplicationRecord
   end
 
   def get_count(report, owners)
-    owners ? owners.map { |owner| report.value_by_owner[owner.handle] || 0 }.sum : report.value
+    owners ? owners.map { |owner| report.value_by_owner[owner] || 0 }.sum : report.value
   end
 end
