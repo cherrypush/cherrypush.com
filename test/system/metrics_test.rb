@@ -4,7 +4,7 @@ class MetricsTest < ApplicationSystemTestCase
   let!(:user) { create(:user) }
   let!(:project) { create(:project, user: user, name: 'rails/rails') }
   let!(:metric) { create(:metric, project: project, name: 'rubocop') }
-  let!(:report1) do
+  let!(:last_report) do
     create(
       :report,
       metric: metric,
@@ -16,25 +16,27 @@ class MetricsTest < ApplicationSystemTestCase
       },
     )
   end
-  let!(:report2) do
+  let!(:previous_report) do
     create(:report, metric: metric, value: 9, date: 2.days.ago, value_by_owner: { '@fwuensche' => 7, '@rchoquet' => 8 })
   end
-  let!(:occurrence2a) do
+
+  let!(:occurrence_1) do
     create(
       :occurrence,
       text: 'filepath:1',
       url: 'permalink/filepath:2',
-      report: report2,
+      report: last_report,
       owners: ['@fwuensche'],
       value: 1.2,
     )
   end
-  let!(:occurrence2b) do
+
+  let!(:occurrence_2) do
     create(
       :occurrence,
       text: 'filepath:2',
       url: 'permalink/filepath:2',
-      report: report2,
+      report: last_report,
       owners: %w[@fwuensche @rchoquet],
       value: 2.8,
     )
@@ -47,13 +49,13 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'Debt Owners'
 
     within(all('tr')[1]) do
-      assert_text '@rchoquet'
-      assert_text '8'
+      assert_text '@fwuensche'
+      assert_text '10'
     end
 
     within(all('tr')[2]) do
-      assert_text '@fwuensche'
-      assert_text '7'
+      assert_text '@rchoquet'
+      assert_text '8'
     end
 
     assert_text 'filepath:1'

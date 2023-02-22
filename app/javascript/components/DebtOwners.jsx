@@ -55,7 +55,7 @@ const DebtOwners = ({ owners, selectedOwners }) => {
               <td scope="row" className="pl-3 px-6 py-4">
                 <div className="flex items-center">{owner.handle}</div>
               </td>
-              <td className="px-6 py-4 text-right">{owner.count}</td>
+              <td className="px-6 py-4 text-right">{owner.count.toLocaleString()}</td>
             </tr>
           ))}
 

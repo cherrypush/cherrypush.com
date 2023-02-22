@@ -6,9 +6,18 @@ class Metric < ApplicationRecord
 
   validates :name, presence: true
 
+  def last_report
+    reports.order(:date).last
+  end
+
+  def occurrences
+    last_report.occurrences
+  end
+
   def owners
-    return [] if reports.last.nil? || reports.last.value_by_owner.nil?
-    reports.last.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
+    return [] if last_report.nil? || last_report.value_by_owner.nil?
+
+    last_report.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
   end
 
   def chart_data(owners: nil)

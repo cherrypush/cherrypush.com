@@ -17,7 +17,7 @@ class User::MetricsController < User::ApplicationController
     authorize @project, :read?
 
     if @metric
-      @occurrences = @metric.reports.last.occurrences
+      @occurrences = @metric.occurrences
       if @selected_owners
         @occurrences = @occurrences.where('owners && ARRAY[?]::varchar[]', @selected_owners&.map(&:handle))
       end
