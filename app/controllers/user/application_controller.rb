@@ -2,6 +2,8 @@
 
 class User::ApplicationController < ApplicationController
   before_action :authenticate_user!
+  # TODO: enable CSRF check, it's disabled as XHR requests do not include it
+  skip_before_action :verify_authenticity_token
 
   rescue_from Pundit::NotAuthorizedError,
               with: -> { redirect_to request.referer, alert: 'You are not authorized to perform this action.' }
