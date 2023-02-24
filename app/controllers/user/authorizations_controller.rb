@@ -28,9 +28,7 @@ class User::AuthorizationsController < User::ApplicationController
 
   def destroy
     authorization = Authorization.find(params[:id])
-    unless authorization.project.in?(current_user.owned_projects)
-      return redirect_to user_authorizations_path, alert: 'You are not authorized to do this.'
-    end
+    return render json: {}, status: 401 unless authorization.project.in?(current_user.owned_projects)
     authorization.destroy!
   end
 
