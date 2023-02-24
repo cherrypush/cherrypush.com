@@ -28,7 +28,7 @@ class User::AuthorizationsController < User::ApplicationController
 
   def destroy
     authorization = Authorization.find(params[:id])
-    return render json: {}, status: 401 unless authorization.project.in?(current_user.owned_projects)
+    return head :unauthorized unless authorization.project.in?(current_user.owned_projects)
     authorization.destroy!
   end
 
