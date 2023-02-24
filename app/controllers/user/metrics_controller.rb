@@ -3,34 +3,32 @@
 class User::MetricsController < User::ApplicationController
   before_action :set_project, if: -> { params[:project_id].present? }
   before_action :set_metric, if: -> { params[:metric_id].present? }
-  before_action :set_owners, if: -> { params[:owner_handles].present? }
 
   def index
-    if params[:project_id].blank?
-      fallback_project = current_user.projects.first
-      return redirect_to user_metrics_path(project_id: fallback_project.id) if fallback_project
-      return redirect_to user_projects_path, alert: 'You need to create a project first.'
-    end
+    authorize(@project, :read?) if @project
 
-    return redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
-
-    authorize @project, :read?
-
-    if @metric
-      @occurrences = @metric.occurrences
-      if @selected_owners
-        @occurrences = @occurrences.where('owners && ARRAY[?]::varchar[]', @selected_owners&.map(&:handle))
+    respond_to do |format|
+      format.html do
+        if params[:project_id].blank?
+          fallback_project = current_user.projects.first
+          return redirect_to user_metrics_path(project_id: fallback_project.id) if fallback_project
+          return redirect_to user_projects_path, alert: 'You need to create a project first.'
+        end
+        redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
       end
+      format.json { render json: @project.metrics.includes(:reports).as_json(include: :last_report) }
     end
-
-    @metrics = @project.metrics.includes(:reports)
-    @projects = current_user.projects
   end
 
   def show
     @metric = Metric.find(params[:id])
     authorize @metric.project, :read?
-    render json: @metric.attributes.merge(chart_data: @metric.chart_data(owners: params[:owners]))
+    render json:
+             @metric.attributes.merge(
+               owners: @metric.owners,
+               occurrences: @metric.occurrences(params[:owner_handles]),
+               chart_data: @metric.chart_data(owners: params[:owner_handles]),
+             )
   end
 
   def destroy
@@ -42,11 +40,6 @@ class User::MetricsController < User::ApplicationController
   end
 
   private
-
-  def set_owners
-    @selected_owners = []
-    params[:owner_handles].each { |handle| @selected_owners << Owner.new(handle:) }
-  end
 
   def set_metric
     @metric = Metric.find_by(id: params[:metric_id])

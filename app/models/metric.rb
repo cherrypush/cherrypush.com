@@ -10,8 +10,10 @@ class Metric < ApplicationRecord
     reports.order(:date).last
   end
 
-  def occurrences
-    last_report.occurrences
+  def occurrences(owner_handles = [])
+    occurrences = last_report.occurrences
+    return occurrences if owner_handles.blank?
+    occurrences.where('owners && ARRAY[?]::varchar[]', owner_handles)
   end
 
   def owners

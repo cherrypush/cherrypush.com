@@ -1,18 +1,8 @@
-import { Card, Spinner } from 'flowbite-react'
+import { Card } from 'flowbite-react'
 import React from 'react'
 import Chart from 'react-apexcharts'
-import { useMetricsShow } from '../queries/user/metrics'
 
-const MetricChart = ({ metricId, selectedOwners }) => {
-  const { data: metric, isLoading } = useMetricsShow({ metricId, owners: selectedOwners.map((o) => o.handle) })
-
-  if (isLoading)
-    return (
-      <Card className="mb-3 text-center">
-        <Spinner />
-      </Card>
-    )
-
+const MetricChart = ({ metric }) => {
   const labels = metric.chart_data.map((data) => data[0])
   const series = [{ name: metric.name, data: metric.chart_data.map((data) => data[1]) }]
 

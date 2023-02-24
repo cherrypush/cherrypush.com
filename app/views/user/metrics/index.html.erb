@@ -1,20 +1,7 @@
-<% title "Metrics: #{[@project.name, @metric&.name, @selected_owners&.map(&:handle)].compact.join(' | ')}" %>
+<% title "Metrics: #{@project.name}" %>
 
 <% if @metric %>
-  <%=
-    react_component 'MetricsShow',
-                    selectedOwners: @selected_owners || [],
-                    owners: @metric&.owners,
-                    occurrences: @occurrences,
-                    metricId: @metric&.id,
-                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
-                    projects: @projects
-  %>
+  <%= react_component 'MetricsShow' %>
 <% else %>
-  <%=
-    react_component 'MetricsIndex',
-                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
-                    projects: @projects,
-                    currentUser: current_user
-  %>
+  <%= react_component 'MetricsIndex', currentUser: current_user %>
 <% end %>

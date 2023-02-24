@@ -4,7 +4,7 @@ import { setParam, timeAgoInWords } from '../helpers/applicationHelper'
 import SearchIcon from '@mui/icons-material/Search'
 import { Table, TextInput } from 'flowbite-react'
 
-const MetricsTable = ({ metrics, selectedOwners }) => {
+const MetricsTable = ({ metrics, selectedOwners = [] }) => {
   const [search, setSearch] = useState('')
 
   const filteredMetrics = _.sortBy(
