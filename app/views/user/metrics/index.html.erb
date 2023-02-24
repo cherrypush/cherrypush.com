@@ -1,12 +1,20 @@
 <% title "Metrics: #{[@project.name, @metric&.name, @selected_owners&.map(&:handle)].compact.join(' | ')}" %>
 
-<%=
-  react_component 'MetricsIndex',
-                  selectedOwners: @selected_owners || [],
-                  owners: @metric&.owners,
-                  occurrences: @occurrences,
-                  metricId: @metric&.id,
-                  metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
-                  currentUser: current_user,
-                  projects: @projects
-%>
+<% if @metric %>
+  <%=
+    react_component 'MetricsShow',
+                    selectedOwners: @selected_owners || [],
+                    owners: @metric&.owners,
+                    occurrences: @occurrences,
+                    metricId: @metric&.id,
+                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
+                    projects: @projects
+  %>
+<% else %>
+  <%=
+    react_component 'MetricsIndex',
+                    metrics: @metrics.map { |metric| metric.attributes.merge(last_report: metric.reports.last) },
+                    projects: @projects,
+                    currentUser: current_user
+  %>
+<% end %>
