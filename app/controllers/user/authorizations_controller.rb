@@ -6,33 +6,32 @@ class User::AuthorizationsController < User::ApplicationController
   before_action :require_premium_status, except: %i[index]
 
   def index
-    @authorizations = Authorization.where(project: current_user.projects)
-  end
-
-  def new
-    @authorization = Authorization.new
-  end
-
-  def create
-    authorization = Authorization.find_or_initialize_by(project: @project, user: @user)
-    if authorization.save
-      TelegramClient.send(
-        "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
-      )
-      redirect_to user_authorizations_path, notice: 'Authorization created.'
-    else
-      redirect_to user_authorizations_path, alert: authorization.errors.full_messages.to_sentence
+    respond_to do |format|
+      format.html
+      format.json do
+        json =
+          Authorization
+            .where(project: current_user.projects)
+            .includes(:user)
+            .as_json(include: { user: { only: :github_handle } })
+        render json:
+      end
     end
   end
 
+  def create
+    authorization = Authorization.find_or_create_by!(project: @project, user: @user)
+    TelegramClient.send(
+      "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
+    )
+  end
+
   def destroy
-    authorization = Authorization.find_by(id: params[:id])
-    # TODO: use a policy here
+    authorization = Authorization.find(params[:id])
     unless authorization.project.in?(current_user.owned_projects)
       return redirect_to user_authorizations_path, alert: 'You are not authorized to do this.'
     end
     authorization.destroy!
-    redirect_to user_authorizations_path, notice: 'Authorization removed.'
   end
 
   private
