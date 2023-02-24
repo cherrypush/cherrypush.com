@@ -11,17 +11,17 @@ const Occurrences = ({ occurrences }) => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           Occurrences ({occurrences.length.toLocaleString()}) 🙇🏻‍♂️
         </caption>
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 w-4/5">
               Name
             </th>
             {occurrences[0]?.owners && (
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 w-1/5">
                 Owners
               </th>
             )}
@@ -34,21 +34,22 @@ const Occurrences = ({ occurrences }) => {
         </thead>
         <tbody>
           {filteredOccurrences.map((occurrence) => (
-            <tr
-              key={occurrence.id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td scope="row" className="px-6 py-4">
+            <tr key={occurrence.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 w-full text-xs">
+              <td scope="row" className="px-4 py-2 truncate">
                 {occurrence.url ? (
-                  <a href={occurrence.url} target="_blank" className="text-link">
+                  <a href={occurrence.url} target="_blank" className="text-link" title={occurrence.text}>
                     {occurrence.text}
                   </a>
                 ) : (
                   occurrence.text
                 )}
               </td>
-              {occurrence.owners && <td className="px-6 py-4">{occurrence.owners.join(', ')}</td>}
-              {occurrence.value && <td className="px-6 py-4">{occurrence.value}</td>}
+              {occurrence.owners && (
+                <td className="px-4 py-2 truncate" title={occurrence.owners.join(', ')}>
+                  {occurrence.owners.join(', ')}
+                </td>
+              )}
+              {occurrence.value && <td className="px-4 py-2">{occurrence.value}</td>}
             </tr>
           ))}
           {!showAll && occurrences.length > DEFAULT_MAX_OCCURRENCES && (
