@@ -8,6 +8,8 @@ const Occurrences = ({ occurrences }) => {
   const [showAll, setShowAll] = useState(false)
 
   const filteredOccurrences = showAll ? occurrences : occurrences.slice(0, DEFAULT_MAX_OCCURRENCES)
+  const hasOwners = Boolean(occurrences[0]?.owners)
+  const hasValue = Boolean(occurrences[0]?.value)
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -17,15 +19,18 @@ const Occurrences = ({ occurrences }) => {
         </caption>
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3 w-4/5">
+            <th
+              scope="col"
+              className={classnames('px-6 py-3', { 'w-4/5': hasOwners || hasValue, 'w-full': !hasOwners && !hasValue })}
+            >
               Name
             </th>
-            {occurrences[0]?.owners && (
+            {hasOwners && (
               <th scope="col" className="px-6 py-3 w-1/5">
                 Owners
               </th>
             )}
-            {occurrences[0]?.value && (
+            {hasValue && (
               <th scope="col" className="px-6 py-3 w-1/5">
                 Value
               </th>
