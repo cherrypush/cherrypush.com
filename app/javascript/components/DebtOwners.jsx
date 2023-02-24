@@ -45,23 +45,23 @@ const DebtOwners = ({ owners, selectedOwners }) => {
             <tr
               key={owner.handle}
               className={classnames(
-                'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer',
+                'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer text-xs',
                 {
                   'dark:bg-blue-900': isSelected(owner),
                 }
               )}
               onClick={() => toggleOwner(owner)}
             >
-              <td scope="row" className="pl-3 px-6 py-4">
+              <td scope="row" className="pl-3 px-4 py-2">
                 <div className="flex items-center">{owner.handle}</div>
               </td>
-              <td className="px-6 py-4 text-right">{owner.count.toLocaleString()}</td>
+              <td className="px-4 py-2 text-right">{owner.count.toLocaleString()}</td>
             </tr>
           ))}
 
           {owners.length === 0 && (
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
-              <td colSpan="3" className="px-6 py-4">
+              <td colSpan="3" className="px-4 py-2">
                 You can start using owners on your project by adding a CODEOWNERS file to your repository. Learn more
                 about code owners through the official docs:{' '}
                 <a
