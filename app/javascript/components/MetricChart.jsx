@@ -6,9 +6,15 @@ import { useMetricsShow } from '../queries/user/metrics'
 const MetricChart = ({ metricId, selectedOwners }) => {
   const { data: metric, isLoading } = useMetricsShow({ metricId, owners: selectedOwners.map((o) => o.handle) })
 
-  // TODO: Simplify chart data formatting on backend
-  const labels = metric?.chart_data.map((data) => data[0])
-  const series = [{ name: metric?.name, data: metric?.chart_data.map((data) => data[1]) }]
+  if (isLoading)
+    return (
+      <Card className="mb-3 text-center">
+        <Spinner />
+      </Card>
+    )
+
+  const labels = metric.chart_data.map((data) => data[0])
+  const series = [{ name: metric.name, data: metric.chart_data.map((data) => data[1]) }]
 
   const options = {
     chart: {
@@ -35,13 +41,7 @@ const MetricChart = ({ metricId, selectedOwners }) => {
 
   return (
     <Card className="mb-3 text-center">
-      {isLoading && <Spinner />}
-      {metric && (
-        <>
-          {/* TODO: Add a button to favorite metric */}
-          <Chart type="area" height={224} options={options} series={series} />
-        </>
-      )}
+      <Chart type="area" height={224} options={options} series={series} />
     </Card>
   )
 }
