@@ -3,6 +3,11 @@
 class User::ProjectsController < User::ApplicationController
   def index
     @projects = current_user.projects.sort_by { |project| current_user.favorited?(project) ? 0 : 1 }
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @projects }
+    end
   end
 
   def destroy

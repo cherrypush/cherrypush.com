@@ -1,27 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
 
-const DebtOwners = ({ owners, selectedOwners }) => {
-  const isSelected = (owner) => selectedOwners.map((o) => o.handle).includes(owner.handle)
-
-  const select = (owner) => {
-    const searchParams = new URLSearchParams(window.location.search)
-    searchParams.append('owner_handles[]', owner.handle)
-    window.location.search = searchParams.toString()
-  }
-
-  const unselect = (owner) => {
-    const searchParams = new URLSearchParams(window.location.search)
-    searchParams.delete('owner_handles[]')
-    selectedOwners
-      .map((o) => o.handle)
-      .filter((handle) => handle !== owner.handle)
-      .forEach((handle) => {
-        searchParams.append('owner_handles[]', handle)
-      })
-    window.location.search = searchParams.toString()
-  }
-
+const DebtOwners = ({ owners, selectedOwners, setSelectedOwners }) => {
+  const isSelected = (owner) => selectedOwners.includes(owner.handle)
+  const select = (owner) => setSelectedOwners((owners) => owners.concat([owner.handle]))
+  const unselect = (owner) => setSelectedOwners((owners) => owners.filter((o) => o !== owner.handle))
   const toggleOwner = (owner) => (isSelected(owner) ? unselect(owner) : select(owner))
 
   return (
