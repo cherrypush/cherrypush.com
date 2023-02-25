@@ -6,7 +6,7 @@ import { useMetricsIndex } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
 import { getParam } from '../helpers/applicationHelper'
 
-const MetricsIndex = ({ currentUser }) => {
+const MetricsIndex = () => {
   const projectId = getParam('project_id')
 
   const { data: metrics } = useMetricsIndex({ projectId })
@@ -17,7 +17,7 @@ const MetricsIndex = ({ currentUser }) => {
   return (
     <>
       <Filters projects={projects} metrics={metrics} />
-      {metrics.length > 0 ? <MetricsTable metrics={metrics} /> : <BackfillInstructions currentUser={currentUser} />}
+      {metrics.length > 0 ? <MetricsTable metrics={metrics} /> : <BackfillInstructions />}
     </>
   )
 }

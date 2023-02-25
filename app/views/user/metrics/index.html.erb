@@ -1,7 +1,3 @@
 <% title "Metrics: #{@project.name}" %>
 
-<% if @metric %>
-  <%= react_component 'MetricsShow' %>
-<% else %>
-  <%= react_component 'MetricsIndex', currentUser: current_user %>
-<% end %>
+<%= react_component 'MetricsPage', metric: @metric %>
