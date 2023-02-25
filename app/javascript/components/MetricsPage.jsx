@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMetricsShow, useMetricsIndex } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
-import { getParam } from '../helpers/applicationHelper'
+import { getParam, setParam } from '../helpers/applicationHelper'
 import Filters from './Filters'
 import MetricChart from './MetricChart'
 import Owners from './Owners'
@@ -12,7 +12,11 @@ import BackfillInstructions from './BackfillInstructions'
 const MetricsPage = () => {
   const metricId = getParam('metric_id')
   const projectId = getParam('project_id')
-  const [selectedOwners, setSelectedOwners] = useState([])
+  const [selectedOwners, _setSelectedOwners] = useState(getParam('owners')?.split(',') ?? [])
+  const setSelectedOwners = (owners) => {
+    setParam('owners', owners.join(','), { navigate: false })
+    _setSelectedOwners(owners)
+  }
 
   const { data: metrics } = useMetricsIndex({ projectId })
   const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })

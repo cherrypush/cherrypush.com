@@ -40,10 +40,13 @@ export const appendParam = (name, value) => {
   Turbo.visit(`${window.location.pathname}?${searchParams}`)
 }
 
-export const setParam = (name, value) => {
+// Il faut migrer tout ce bordel à react router
+export const setParam = (name, value, options = { navigate: true }) => {
   const searchParams = new URLSearchParams(window.location.search)
   searchParams.set(name, value)
-  Turbo.visit(`${window.location.pathname}?${searchParams}`)
+  options.navigate
+    ? Turbo.visit(`${window.location.pathname}?${searchParams}`)
+    : history.pushState(null, '', `${window.location.pathname}?${searchParams}`)
 }
 
 export const setParams = (params) => {
