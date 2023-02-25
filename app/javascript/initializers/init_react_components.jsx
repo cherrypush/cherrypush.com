@@ -2,7 +2,13 @@ import React, { lazy } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+    },
+  },
+})
 
 document.addEventListener('turbo:load', () => {
   const nodes = document.querySelectorAll('[data-component]')
