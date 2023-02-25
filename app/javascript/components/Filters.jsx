@@ -12,7 +12,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
 
   return (
     <Card className="mb-3">
-      <Breadcrumb>
+      <Breadcrumb className="h-10 flex items-center">
         <Breadcrumb.Item>
           <button onClick={() => Turbo.visit('/user/projects')} className="hover:text-white cursor-pointer">
             Projects
@@ -42,7 +42,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             </div>
           </Breadcrumb.Item>
         )}
-        {selectedOwners.length > 0 && (
+        {selectedOwners && selectedOwners.length > 0 && (
           <Breadcrumb.Item>
             {selectedOwners.map((owner) => (
               <Button
@@ -57,7 +57,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
               </Button>
             ))}
             <Button color="light" pill size="xs" onClick={() => setSelectedOwners([])}>
-              Remove all
+              Clear
               <BackspaceIcon fontSize="inherit" className="ml-1" />
             </Button>
           </Breadcrumb.Item>
