@@ -18,9 +18,11 @@ const MetricsPage = () => {
   const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
   const { data: projects } = useProjectsIndex()
 
+  if (!projects || !metrics) return null
+
   return (
     <>
-      {metrics && projects && (
+      {metrics && projects.length > 0 && (
         <Filters
           projects={projects}
           metrics={metrics}
@@ -28,6 +30,8 @@ const MetricsPage = () => {
           setSelectedOwners={setSelectedOwners}
         />
       )}
+      {!metric && metrics.length > 0 && <MetricsTable metrics={metrics} />}
+      {!metric && metrics.length === 0 && <BackfillInstructions />}
       {metric && (
         <>
           <MetricChart metric={metric} />
@@ -45,7 +49,6 @@ const MetricsPage = () => {
           </div>
         </>
       )}
-      {metrics && metrics.length > 0 ? <MetricsTable metrics={metrics} /> : <BackfillInstructions />}
     </>
   )
 }
