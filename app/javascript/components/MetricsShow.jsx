@@ -20,7 +20,14 @@ const MetricsShow = () => {
 
   return (
     <>
-      {metrics && projects && <Filters projects={projects} metrics={metrics} />}
+      {metrics && projects && (
+        <Filters
+          projects={projects}
+          metrics={metrics}
+          selectedOwners={selectedOwners}
+          setSelectedOwners={setSelectedOwners}
+        />
+      )}
       <>
         <MetricChart metric={metric} />
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
