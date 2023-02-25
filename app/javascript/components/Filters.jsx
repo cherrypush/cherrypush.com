@@ -1,8 +1,8 @@
 import React from 'react'
-import { Breadcrumb, Card, Dropdown } from 'flowbite-react'
+import { Badge, Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
 import { getParam, setParam, setParams } from '../helpers/applicationHelper'
 
-const Filters = ({ projects, metrics }) => {
+const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
   const projectId = getParam('project_id')
   const currentProject = projects.find((project) => project.id === parseInt(projectId))
 
@@ -39,6 +39,22 @@ const Filters = ({ projects, metrics }) => {
                 ))}
               </Dropdown>
             </div>
+          </Breadcrumb.Item>
+        )}
+        {selectedOwners.length > 0 && (
+          <Breadcrumb.Item>
+            {selectedOwners.map((owner) => (
+              <Button
+                color="light"
+                pill
+                size="xs"
+                key={owner}
+                className="mr-1 cursor-pointer"
+                onClick={() => setSelectedOwners(selectedOwners.filter((o) => o !== owner))}
+              >
+                {owner}
+              </Button>
+            ))}
           </Breadcrumb.Item>
         )}
       </Breadcrumb>
