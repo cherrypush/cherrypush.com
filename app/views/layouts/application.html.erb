@@ -27,5 +27,9 @@
         <%= render 'components/crisp_chat' unless Rails.env.test? %>
       </div>
     </div>
+
+    <script>
+      window.current_user = <%= current_user.to_json.html_safe %>
+    </script>
   </body>
 </html>

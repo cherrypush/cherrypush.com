@@ -46,7 +46,7 @@ class MetricsTest < ApplicationSystemTestCase
     sign_in(user, to: user_metrics_path)
     assert_text 'rails/rails'
     find('tr', text: 'rubocop').click
-    assert_text 'Debt Owners'
+    assert_text 'Owners'
 
     within(all('tr')[1]) do
       assert_text '@fwuensche'
