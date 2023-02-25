@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import { Table } from 'flowbite-react'
 
 const DebtOwners = ({ owners, selectedOwners, setSelectedOwners }) => {
   const isSelected = (owner) => selectedOwners.includes(owner.handle)
@@ -9,23 +10,21 @@ const DebtOwners = ({ owners, selectedOwners, setSelectedOwners }) => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           Debt Owners 🧹
         </caption>
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Owner
-            </th>
-            <th scope="col" className="px-6 py-3 text-right">
-              Count
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <Table.HeadCell scope="col" className="px-6 py-3">
+            Owner
+          </Table.HeadCell>
+          <Table.HeadCell scope="col" className="px-6 py-3 text-right">
+            Count
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body>
           {owners.map((owner) => (
-            <tr
+            <Table.Row
               key={owner.handle}
               className={classnames(
                 'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer text-xs',
@@ -35,16 +34,14 @@ const DebtOwners = ({ owners, selectedOwners, setSelectedOwners }) => {
               )}
               onClick={() => toggleOwner(owner)}
             >
-              <td scope="row" className="pl-3 px-4 py-2">
-                <div className="flex items-center">{owner.handle}</div>
-              </td>
-              <td className="px-4 py-2 text-right">{owner.count.toLocaleString()}</td>
-            </tr>
+              <Table.Cell>{owner.handle}</Table.Cell>
+              <Table.Cell className="text-right">{owner.count.toLocaleString()}</Table.Cell>
+            </Table.Row>
           ))}
 
           {owners.length === 0 && (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
-              <td colSpan="3" className="px-4 py-2">
+            <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+              <Table.Cell colSpan="3" className="px-4 py-2">
                 You can start using owners on your project by adding a CODEOWNERS file to your repository. Learn more
                 about code owners through the official docs:{' '}
                 <a
@@ -53,11 +50,11 @@ const DebtOwners = ({ owners, selectedOwners, setSelectedOwners }) => {
                 >
                   About code owners
                 </a>
-              </td>
-            </tr>
+              </Table.Cell>
+            </Table.Row>
           )}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table>
     </div>
   )
 }
