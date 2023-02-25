@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import OwnersList from './OwnersList'
+import Owners from './Owners'
 import Occurrences from './Occurrences'
 import MetricChart from './MetricChart'
 import Filters from './Filters'
@@ -33,11 +33,7 @@ const MetricsShow = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
           {metric.owners && (
             <div className="col-span-1">
-              <OwnersList
-                selectedOwners={selectedOwners}
-                setSelectedOwners={setSelectedOwners}
-                owners={metric.owners}
-              />
+              <Owners selectedOwners={selectedOwners} setSelectedOwners={setSelectedOwners} owners={metric.owners} />
             </div>
           )}
           {metric.occurrences && (

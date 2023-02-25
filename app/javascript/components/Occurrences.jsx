@@ -31,7 +31,7 @@ const Occurrences = ({ occurrences }) => {
               key={occurrence.id}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 w-full text-xs"
             >
-              <Table.Cell scope="row" className="px-4 py-2 truncate">
+              <Table.Cell className="truncate">
                 {occurrence.url ? (
                   <a href={occurrence.url} target="_blank" className="text-link" title={occurrence.text}>
                     {occurrence.text}
@@ -41,11 +41,11 @@ const Occurrences = ({ occurrences }) => {
                 )}
               </Table.Cell>
               {occurrence.owners && (
-                <Table.Cell className="px-4 py-2 truncate" title={occurrence.owners.join(', ')}>
+                <Table.Cell className="truncate" title={occurrence.owners.join(', ')}>
                   {occurrence.owners.join(', ')}
                 </Table.Cell>
               )}
-              {occurrence.value && <td className="px-4 py-2">{occurrence.value}</td>}
+              {occurrence.value && <Table.Cell>{occurrence.value}</Table.Cell>}
             </Table.Row>
           ))}
           {!showAll && occurrences.length > DEFAULT_MAX_OCCURRENCES && (

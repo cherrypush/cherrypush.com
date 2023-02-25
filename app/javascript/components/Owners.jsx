@@ -2,7 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { Table } from 'flowbite-react'
 
-const OwnersList = ({ owners, selectedOwners, setSelectedOwners }) => {
+const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
   const isSelected = (owner) => selectedOwners.includes(owner.handle)
   const select = (owner) => setSelectedOwners((owners) => owners.concat([owner.handle]))
   const unselect = (owner) => setSelectedOwners((owners) => owners.filter((o) => o !== owner.handle))
@@ -15,12 +15,8 @@ const OwnersList = ({ owners, selectedOwners, setSelectedOwners }) => {
           Owners 👩🏻‍💻
         </caption>
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <Table.HeadCell scope="col" className="px-6 py-3">
-            Owner
-          </Table.HeadCell>
-          <Table.HeadCell scope="col" className="px-6 py-3 text-right">
-            Count
-          </Table.HeadCell>
+          <Table.HeadCell>Owner</Table.HeadCell>
+          <Table.HeadCell className="text-right">Count</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {owners.map((owner) => (
@@ -59,4 +55,4 @@ const OwnersList = ({ owners, selectedOwners, setSelectedOwners }) => {
   )
 }
 
-export default OwnersList
+export default Owners
