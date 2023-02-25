@@ -5,7 +5,7 @@ export const useMetricsShow = ({ id, owners }) =>
   useQuery(
     ['user', 'metrics', id, { owners }],
     () => axios.get(`/user/metrics/${id}`, { params: { owner_handles: owners } }).then((response) => response.data),
-    { keepPreviousData: true }
+    { keepPreviousData: true, enabled: Boolean(id) }
   )
 
 export const useMetricsIndex = ({ projectId }) =>
