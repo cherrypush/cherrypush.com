@@ -1,6 +1,7 @@
 import React from 'react'
 import { Badge, Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
 import { getParam, setParam, setParams } from '../helpers/applicationHelper'
+import BackspaceIcon from '@mui/icons-material/Backspace'
 
 const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
   const projectId = getParam('project_id')
@@ -49,12 +50,16 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
                 pill
                 size="xs"
                 key={owner}
-                className="mr-1 cursor-pointer"
+                className="mr-1"
                 onClick={() => setSelectedOwners(selectedOwners.filter((o) => o !== owner))}
               >
                 {owner}
               </Button>
             ))}
+            <Button color="light" pill size="xs" onClick={() => setSelectedOwners([])}>
+              Remove all
+              <BackspaceIcon fontSize="inherit" className="ml-1" />
+            </Button>
           </Breadcrumb.Item>
         )}
       </Breadcrumb>
