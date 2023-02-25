@@ -4,8 +4,8 @@ import { Table } from 'flowbite-react'
 
 const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
   const isSelected = (owner) => selectedOwners.includes(owner.handle)
-  const select = (owner) => setSelectedOwners((owners) => owners.concat([owner.handle]))
-  const unselect = (owner) => setSelectedOwners((owners) => owners.filter((o) => o !== owner.handle))
+  const select = (owner) => setSelectedOwners(selectedOwners.concat([owner.handle]))
+  const unselect = (owner) => setSelectedOwners(selectedOwners.filter((o) => o !== owner.handle))
   const toggleOwner = (owner) => (isSelected(owner) ? unselect(owner) : select(owner))
 
   return (
