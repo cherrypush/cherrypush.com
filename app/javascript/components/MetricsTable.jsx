@@ -52,10 +52,10 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
                     {metric.last_report.value.toLocaleString()}
                   </>
                 ) : (
-                  metric.last_report.value.toLocaleString()
+                  metric.last_report?.value.toLocaleString()
                 )}
               </Table.Cell>
-              <Table.Cell>{timeAgoInWords(new Date(metric.last_report.date))}</Table.Cell>
+              <Table.Cell>{metric.last_report && timeAgoInWords(new Date(metric.last_report.date))}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
