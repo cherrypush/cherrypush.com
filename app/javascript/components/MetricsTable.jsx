@@ -3,21 +3,22 @@ import _ from 'lodash'
 import { timeAgoInWords } from '../helpers/applicationHelper'
 import SearchIcon from '@mui/icons-material/Search'
 import { Table, TextInput } from 'flowbite-react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const MetricsTable = ({ metrics, selectedOwners = [] }) => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   const filteredMetrics = _.sortBy(
-    metrics.filter((metric) => metric.name.toLowerCase().includes(search.toLowerCase())),
+    metrics.filter(
+      (metric) =>
+        metric.name.toLowerCase().includes(search.toLowerCase()) ||
+        metric.project_name.toLowerCase().includes(search.toLowerCase())
+    ),
     (metric) => metric.name.toLowerCase()
   )
 
-  const handleClick = (metric) => {
-    searchParams.set('metric_id', metric.id)
-    setSearchParams(searchParams)
-  }
+  const handleClick = (metric) => navigate(`/user/metrics?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
   return (
     <>
@@ -32,7 +33,8 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
       />
       <Table>
         <Table.Head>
-          <Table.HeadCell>Metric name</Table.HeadCell>
+          <Table.HeadCell>Metric</Table.HeadCell>
+          <Table.HeadCell>Project</Table.HeadCell>
           <Table.HeadCell className="text-right">Value</Table.HeadCell>
           <Table.HeadCell>Last report</Table.HeadCell>
         </Table.Head>
@@ -45,6 +47,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               title={metric.name}
             >
               <Table.HeadCell className="dark:text-white">{metric.name}</Table.HeadCell>
+              <Table.Cell>{metric.project_name}</Table.Cell>
               <Table.Cell className="text-right">
                 {selectedOwners.length > 0 && metric.last_report ? (
                   <>

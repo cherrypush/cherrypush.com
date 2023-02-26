@@ -6,22 +6,11 @@ class User::MetricsController < User::ApplicationController
 
   def index
     authorize(@project, :read?) if @project
-
-    respond_to do |format|
-      format.html do
-        if params[:project_id].blank?
-          fallback_project = current_user.projects.first
-          return redirect_to user_metrics_path(project_id: fallback_project.id) if fallback_project
-          return redirect_to user_projects_path, alert: 'You need to create a project first.'
-        end
-        redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
-      end
-      format.json { render json: @project ? @project.metrics.as_json(include: :last_report) : current_user.metrics }
-    end
+    render json: @project ? @project.metrics.as_json(include: :last_report) : current_user.metrics
   end
 
   def show
-    @metric = Metric.find(params[:id])
+    @metric = Metric.includes(:project, :reports).find(params[:id])
     authorize @metric.project, :read?
     render json:
              @metric.attributes.merge(
@@ -46,6 +35,6 @@ class User::MetricsController < User::ApplicationController
   end
 
   def set_project
-    @project = Project.find_by(id: params[:project_id])
+    @project = Project.includes(:metrics).find_by(id: params[:project_id])
   end
 end

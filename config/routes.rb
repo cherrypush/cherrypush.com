@@ -14,14 +14,19 @@ Rails.application.routes.draw do
     resource :push, only: :create
   end
 
-  # namespace dedicated to user authenticated routes
+  # SPA ROUTES
   namespace :user do
-    resources :projects, only: %i[index update destroy]
-    resource :settings, only: :show
-    resource :favorites, only: %i[create destroy]
-    resources :authorizations, only: %i[index new create destroy]
-    resources :metrics, only: %i[index show destroy]
-    resources :users, only: %i[index]
+    constraints(->(request) { request.format == :json }) do
+      resources :projects, only: %i[index update destroy]
+      resource :favorites, only: %i[create destroy]
+      resources :authorizations, only: %i[index new create destroy]
+      resources :metrics, only: %i[index show destroy]
+      resources :users, only: %i[index]
+    end
+
+    constraints(->(request) { request.format == :html }) do
+      %w[projects projects/new metrics authorizations settings].each { |route| get route, to: 'application#spa' }
+    end
   end
 
   get :demo, to: 'pages#demo'

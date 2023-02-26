@@ -21,17 +21,19 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             Projects
           </button>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <div className="hover:text-white">
-            <Dropdown label={currentProject.name} inline>
-              {projects.map((project) => (
-                <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
-                  {project.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown>
-          </div>
-        </Breadcrumb.Item>
+        {currentProject && (
+          <Breadcrumb.Item>
+            <div className="hover:text-white">
+              <Dropdown label={currentProject.name} inline>
+                {projects.map((project) => (
+                  <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
+                    {project.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown>
+            </div>
+          </Breadcrumb.Item>
+        )}
         {currentMetric && (
           <Breadcrumb.Item>
             <div className="hover:text-white">
