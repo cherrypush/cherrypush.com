@@ -15,17 +15,14 @@
   </head>
 
   <body class="dark:bg-gray-900 text-gray-800 dark:text-white">
-    <%= render 'components/navbar' %>
-    <%= render 'components/sidebar' %>
+    <%= react_component 'Navbar' %>
 
-    <div class="md:ml-64">
-      <div class="mx-3 mt-[70px]">
-        <%= render 'components/trial_expired_banner' if current_user.trial_expired? && action_name != 'pricing' %>
-        <%= render 'components/alerts' %>
-        <%= yield %>
-        <%= render 'components/footer' %>
-        <%= render 'components/crisp_chat' unless Rails.env.test? %>
-      </div>
+    <div class="px-3 pt-3">
+      <%= render 'components/trial_expired_banner' if current_user.trial_expired? && action_name != 'pricing' %>
+      <%= render 'components/alerts' %>
+      <%= yield %>
+      <%= render 'components/footer' %>
+      <%= render 'components/crisp_chat' unless Rails.env.test? %>
     </div>
 
     <script>
