@@ -28,6 +28,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         placeholder="Filter metrics"
         onChange={(event) => setSearch(event.target.value)}
         icon={SearchIcon}
+        autoComplete="off"
       />
       <Table>
         <Table.Head>
