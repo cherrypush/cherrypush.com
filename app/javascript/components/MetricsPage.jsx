@@ -38,7 +38,7 @@ const MetricsPage = () => {
           setSelectedOwners={setSelectedOwners}
         />
       )}
-      {!metricId && metrics.length > 0 && <MetricsTable metrics={metrics} />}
+      {!metricId && metrics.length > 0 && <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />}
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
