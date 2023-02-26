@@ -6,17 +6,13 @@ class User::AuthorizationsController < User::ApplicationController
   before_action :require_premium_status, except: %i[index]
 
   def index
-    respond_to do |format|
-      format.html
-      format.json do
-        json =
-          Authorization
-            .where(project: current_user.projects)
-            .includes(:user)
-            .as_json(include: { user: { only: :github_handle } })
-        render json:
-      end
-    end
+    json =
+      Authorization
+        .where(project: current_user.projects)
+        .includes(:user)
+        .as_json(include: { user: { only: :github_handle } })
+
+    render json: json
   end
 
   def create

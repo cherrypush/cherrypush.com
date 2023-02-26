@@ -13,6 +13,9 @@ class User::ApplicationController < ApplicationController
     end
   end
 
+  def spa
+  end
+
   private
 
   def require_premium_status

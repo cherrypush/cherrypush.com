@@ -7,7 +7,7 @@ class Metric < ApplicationRecord
   validates :name, presence: true
 
   def last_report
-    reports.order(:date).last
+    reports.includes(:occurrences).order(:date).last
   end
 
   def occurrences(owner_handles = [])

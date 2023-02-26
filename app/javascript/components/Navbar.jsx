@@ -15,7 +15,7 @@ const CherryNavbar = () => {
       <CommandPalette />
 
       <Navbar fluid>
-        <Navbar.Brand onClick={() => Turbo.visit('/user/projects')} className="cursor-pointer">
+        <Navbar.Brand onClick={() => Turbo.visit('/user/projects')} className="cursor-pointer font-bold">
           🍒 Cherry
         </Navbar.Brand>
 
