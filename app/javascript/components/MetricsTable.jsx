@@ -47,12 +47,8 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               <Table.Cell className="text-right">
                 {selectedOwners.length > 0 && metric.last_report ? (
                   <>
-                    {_(metric.last_report.value_by_owner)
-                      .pick(selectedOwners.map((o) => o.handle))
-                      .values()
-                      .flatten()
-                      .sum()}{' '}
-                    / {metric.last_report.value.toLocaleString()}
+                    {_(metric.last_report.value_by_owner).pick(selectedOwners).values().flatten().sum()} /{' '}
+                    {metric.last_report.value.toLocaleString()}
                   </>
                 ) : (
                   metric.last_report.value.toLocaleString()
