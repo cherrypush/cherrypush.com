@@ -19,7 +19,7 @@
     <%= render 'components/sidebar' %>
 
     <div class="md:ml-64">
-      <div class="mx-3 mt-[74px]">
+      <div class="mx-3 mt-[70px]">
         <%= render 'components/trial_expired_banner' if current_user.trial_expired? && action_name != 'pricing' %>
         <%= render 'components/alerts' %>
         <%= yield %>
