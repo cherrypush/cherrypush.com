@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
-import { setParam, timeAgoInWords } from '../helpers/applicationHelper'
+import { timeAgoInWords } from '../helpers/applicationHelper'
 import SearchIcon from '@mui/icons-material/Search'
 import { Table, TextInput } from 'flowbite-react'
+import { useSearchParams } from 'react-router-dom'
 
 const MetricsTable = ({ metrics, selectedOwners = [] }) => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [search, setSearch] = useState('')
 
   const filteredMetrics = _.sortBy(
@@ -12,7 +14,10 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
     (metric) => metric.name.toLowerCase()
   )
 
-  const handleClick = (metric) => setParam('metric_id', metric.id)
+  const handleClick = (metric) => {
+    searchParams.set('metric_id', metric.id)
+    setSearchParams(searchParams)
+  }
 
   return (
     <>
