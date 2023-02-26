@@ -42,18 +42,6 @@ module ApplicationHelper
     cmd.join(' ')
   end
 
-  def navbar_search_items
-    current_user.projects.flat_map do |project|
-      project.metrics.map do |metric|
-        {
-          name: html_escape("#{project.name} - #{metric.name}"),
-          href: user_metrics_url(project_id: project.id, metric_id: metric.id),
-          selected: metric.name == @metric&.name && project.id == @project&.id,
-        }
-      end
-    end
-  end
-
   def github_commit_url(project_name, commit_sha)
     "https://github.com/#{project_name}/commit/#{commit_sha}"
   end

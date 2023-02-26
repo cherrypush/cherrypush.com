@@ -16,7 +16,7 @@ class User::MetricsController < User::ApplicationController
         end
         redirect_to user_projects_path, alert: 'Project not found.' if @project.nil?
       end
-      format.json { render json: @project.metrics.as_json(include: :last_report) }
+      format.json { render json: @project ? @project.metrics.as_json(include: :last_report) : current_user.metrics }
     end
   end
 

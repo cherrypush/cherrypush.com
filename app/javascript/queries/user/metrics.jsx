@@ -11,7 +11,7 @@ export const useMetricsShow = ({ id, owners }) =>
     { keepPreviousData: true }
   )
 
-export const useMetricsIndex = ({ projectId }) =>
+export const useMetricsIndex = ({ projectId } = {}) =>
   useQuery(['user', 'metrics', { projectId }], () =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
