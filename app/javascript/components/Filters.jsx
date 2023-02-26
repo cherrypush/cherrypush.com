@@ -1,13 +1,16 @@
 import React from 'react'
-import { Badge, Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
-import { getParam, setParam, setParams } from '../helpers/applicationHelper'
+import { Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
 import BackspaceIcon from '@mui/icons-material/Backspace'
+import { Turbo } from '@hotwired/turbo-rails'
+import { useSearchParams } from 'react-router-dom'
 
 const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
-  const projectId = getParam('project_id')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const projectId = searchParams.get('project_id')
   const currentProject = projects.find((project) => project.id === parseInt(projectId))
 
-  const currentMetricId = getParam('metric_id')
+  const currentMetricId = searchParams.get('metric_id')
   const currentMetric = metrics.find((metric) => metric.id === parseInt(currentMetricId))
 
   return (
@@ -22,7 +25,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
           <div className="hover:text-white">
             <Dropdown label={currentProject.name} inline>
               {projects.map((project) => (
-                <Dropdown.Item key={project.id} onClick={() => setParams({ project_id: project.id })}>
+                <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
                   {project.name}
                 </Dropdown.Item>
               ))}
@@ -34,7 +37,13 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             <div className="hover:text-white">
               <Dropdown label={currentMetric.name} inline>
                 {metrics.map((metric) => (
-                  <Dropdown.Item key={metric.id} onClick={() => setParam('metric_id', metric.id)}>
+                  <Dropdown.Item
+                    key={metric.id}
+                    onClick={() => {
+                      searchParams.set('metric_id', metric.id)
+                      setSearchParams(searchParams)
+                    }}
+                  >
                     {metric.name}
                   </Dropdown.Item>
                 ))}
