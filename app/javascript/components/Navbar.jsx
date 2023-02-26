@@ -21,11 +21,7 @@ const CherryNavbar = () => {
 
         {/* AVATAR MENU */}
         <div className="flex md:order-2">
-          <Dropdown
-            arrowIcon={false}
-            inline={true}
-            label={<Avatar alt="User settings" img={user.image} rounded={true} />}
-          >
+          <Dropdown arrowIcon={false} inline={true} label={<Avatar alt="Avatar" img={user.image} rounded={true} />}>
             <Dropdown.Header>
               <span className="block text-sm">{user.name}</span>
               <span className="block truncate text-sm font-medium">{user.email}</span>
