@@ -4,8 +4,11 @@ import axios from 'axios'
 export const useMetricsShow = ({ id, owners }) =>
   useQuery(
     ['user', 'metrics', id, { owners }],
-    () => axios.get(`/user/metrics/${id}`, { params: { owner_handles: owners } }).then((response) => response.data),
-    { keepPreviousData: true, enabled: Boolean(id) }
+    () =>
+      id
+        ? axios.get(`/user/metrics/${id}`, { params: { owner_handles: owners } }).then((response) => response.data)
+        : null,
+    { keepPreviousData: true }
   )
 
 export const useMetricsIndex = ({ projectId }) =>

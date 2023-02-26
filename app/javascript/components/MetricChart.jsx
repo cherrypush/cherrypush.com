@@ -1,6 +1,7 @@
-import { Card } from 'flowbite-react'
 import React from 'react'
 import Chart from 'react-apexcharts'
+
+const CHART_HEIGHT = 224
 
 const MetricChart = ({ metric }) => {
   const labels = metric.chart_data.map((data) => data[0])
@@ -29,11 +30,7 @@ const MetricChart = ({ metric }) => {
     },
   }
 
-  return (
-    <Card className="mb-3 text-center">
-      <Chart type="area" height={224} options={options} series={series} />
-    </Card>
-  )
+  return <Chart type="area" height={CHART_HEIGHT} options={options} series={series} />
 }
 
 export default MetricChart
