@@ -15,7 +15,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
 
   return (
     <Card className="mb-3">
-      <Breadcrumb className="h-10 flex items-center">
+      <Breadcrumb>
         <Breadcrumb.Item>
           <button onClick={() => Turbo.visit('/user/projects')} className="hover:text-white cursor-pointer">
             Projects
@@ -51,27 +51,28 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             </div>
           </Breadcrumb.Item>
         )}
-        {selectedOwners && selectedOwners.length > 0 && (
-          <Breadcrumb.Item>
-            {selectedOwners.map((owner) => (
-              <Button
-                color="light"
-                pill
-                size="xs"
-                key={owner}
-                className="mr-1"
-                onClick={() => setSelectedOwners(selectedOwners.filter((o) => o !== owner))}
-              >
-                {owner}
-              </Button>
-            ))}
-            <Button color="light" pill size="xs" onClick={() => setSelectedOwners([])}>
-              Clear
-              <BackspaceIcon fontSize="inherit" className="ml-1" />
-            </Button>
-          </Breadcrumb.Item>
-        )}
       </Breadcrumb>
+
+      {selectedOwners && selectedOwners.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selectedOwners.map((owner) => (
+            <Button
+              color="light"
+              pill
+              size="xs"
+              key={owner}
+              className=""
+              onClick={() => setSelectedOwners(selectedOwners.filter((o) => o !== owner))}
+            >
+              {owner}
+            </Button>
+          ))}
+          <Button color="light" pill size="xs" onClick={() => setSelectedOwners([])}>
+            Clear
+            <BackspaceIcon fontSize="inherit" className="ml-1" />
+          </Button>
+        </div>
+      )}
     </Card>
   )
 }
