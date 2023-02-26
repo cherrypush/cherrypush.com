@@ -1,16 +1,19 @@
 import { Turbo } from '@hotwired/turbo-rails'
+import LockPersonIcon from '@mui/icons-material/LockPerson'
+import LogoutIcon from '@mui/icons-material/Logout'
+import SettingsIcon from '@mui/icons-material/Settings'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
 import useCurrentUser from '../hooks/useCurrentUser'
-import LockPersonIcon from '@mui/icons-material/LockPerson'
-import SettingsIcon from '@mui/icons-material/Settings'
-import LogoutIcon from '@mui/icons-material/Logout'
+import CommandPalette from './CommandPalette'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
 
   return (
     <>
+      <CommandPalette />
+
       <Navbar fluid>
         <Navbar.Brand onClick={() => Turbo.visit('/user/projects')} className="cursor-pointer">
           🍒 Cherry

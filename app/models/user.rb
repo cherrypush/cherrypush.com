@@ -11,6 +11,14 @@ class User < ApplicationRecord
 
   TRIAL_DURATION = 30.days
 
+  def metrics
+    projects.flat_map do |project|
+      project.metrics.map do |metric|
+        { id: metric.id, name: metric.name, project_id: project.id, project_name: project.name }
+      end
+    end
+  end
+
   def projects
     return Project.all if admin?
     owned_projects.or(Project.where(id: authorizations.select(:project_id)))
