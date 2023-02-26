@@ -6,7 +6,7 @@ export const useMetricsShow = ({ id, owners }) =>
     ['user', 'metrics', id, { owners }],
     () =>
       id
-        ? axios.get(`/user/metrics/${id}`, { params: { owner_handles: owners } }).then((response) => response.data)
+        ? axios.get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } }).then((response) => response.data)
         : null,
     { keepPreviousData: true }
   )

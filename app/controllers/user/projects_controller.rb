@@ -2,12 +2,8 @@
 
 class User::ProjectsController < User::ApplicationController
   def index
-    @projects = current_user.projects.sort_by { |project| current_user.favorited?(project) ? 0 : 1 }
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @projects }
-    end
+    @projects = current_user.projects.includes(:user)
+    render json: @projects.includes(metrics: :reports).order(:name).as_json(include: :user)
   end
 
   def destroy
