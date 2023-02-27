@@ -1,22 +1,24 @@
-import { Turbo } from '@hotwired/turbo-rails'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SettingsIcon from '@mui/icons-material/Settings'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
+import { useNavigate } from 'react-router'
 import useCurrentUser from '../hooks/useCurrentUser'
-import CommandPalette from './CommandPalette'
+import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
+  const navigate = useNavigate()
 
   return (
     <>
       <CommandPalette />
 
       <Navbar fluid>
-        <Navbar.Brand onClick={() => Turbo.visit('/user/projects')} className="cursor-pointer font-bold">
+        <Navbar.Brand className="font-bold">
           🍒 Cherry
+          <CommandPaletteButton />
         </Navbar.Brand>
 
         {/* AVATAR MENU */}
@@ -26,10 +28,10 @@ const CherryNavbar = () => {
               <span className="block text-sm">{user.name}</span>
               <span className="block truncate text-sm font-medium">{user.email}</span>
             </Dropdown.Header>
-            <Dropdown.Item icon={LockPersonIcon} onClick={() => Turbo.visit('/user/authorizations')}>
+            <Dropdown.Item icon={LockPersonIcon} onClick={() => navigate('/user/authorizations')}>
               Authorizations
             </Dropdown.Item>
-            <Dropdown.Item icon={SettingsIcon} onClick={() => Turbo.visit('/user/settings')}>
+            <Dropdown.Item icon={SettingsIcon} onClick={() => navigate('/user/settings')}>
               My Settings
             </Dropdown.Item>
             <Dropdown.Divider />
@@ -43,21 +45,21 @@ const CherryNavbar = () => {
         {/* NAVBAR LINKS */}
         <Navbar.Collapse>
           <Navbar.Link
-            onClick={() => Turbo.visit('/user/projects')}
+            onClick={() => navigate('/user/projects')}
             active={window.location.pathname === '/user/projects'}
             className="cursor-pointer"
           >
             Projects
           </Navbar.Link>
           <Navbar.Link
-            onClick={() => Turbo.visit('/user/metrics')}
+            onClick={() => navigate('/user/metrics')}
             active={window.location.pathname === '/user/metrics'}
             className="cursor-pointer"
           >
             Metrics
           </Navbar.Link>
           <Navbar.Link
-            onClick={() => Turbo.visit('/docs')}
+            onClick={() => navigate('/user/docs')}
             active={window.location.pathname === '/docs'}
             className="cursor-pointer"
           >
