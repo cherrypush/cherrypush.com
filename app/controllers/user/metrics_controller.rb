@@ -6,7 +6,7 @@ class User::MetricsController < User::ApplicationController
 
   def index
     authorize(@project, :read?) if @project
-    render json: @project ? @project.metrics.as_json(include: :last_report) : current_user.metrics
+    render json: @project ? @project.metrics.order('LOWER(name)').as_json(include: :last_report) : current_user.metrics
   end
 
   def show
