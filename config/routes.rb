@@ -25,7 +25,9 @@ Rails.application.routes.draw do
     end
 
     constraints(->(request) { request.format == :html }) do
-      %w[projects projects/new metrics authorizations settings].each { |route| get route, to: 'application#spa' }
+      %w[docs projects projects/new metrics authorizations settings user/docs].each do |route|
+        get route, to: 'application#spa'
+      end
     end
   end
 
