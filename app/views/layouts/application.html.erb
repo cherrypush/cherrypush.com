@@ -15,15 +15,8 @@
   </head>
 
   <body class="dark:bg-gray-900 text-gray-800 dark:text-white">
-    <%= react_component 'Navbar' %>
-
-    <div class="px-3 pt-3">
-      <%= render 'components/trial_expired_banner' if current_user.trial_expired? && action_name != 'pricing' %>
-      <%= render 'components/alerts' %>
-      <%= yield %>
-      <%= render 'components/footer' %>
-      <%= render 'components/crisp_chat' unless Rails.env.test? %>
-    </div>
+    <%= yield %>
+    <%= render 'components/crisp_chat' unless Rails.env.test? %>
 
     <script>
       window.current_user = <%= current_user.to_json.html_safe %>
