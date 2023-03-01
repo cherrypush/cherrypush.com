@@ -9,6 +9,7 @@ import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
 import Occurrences from './Occurrences'
 import Owners from './Owners'
+import PageLoader from './PageLoader'
 
 const MetricsPage = () => {
   let [searchParams, setSearchParams] = useSearchParams()
@@ -24,9 +25,9 @@ const MetricsPage = () => {
     _setSelectedOwners(owners)
   }
 
-  const { data: metrics } = useMetricsIndex({ projectId })
+  const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({ projectId })
   const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
-  const { data: projects } = useProjectsIndex()
+  const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
 
   useEffect(() => {
     if (projects && projects.length === 0) {
@@ -35,7 +36,7 @@ const MetricsPage = () => {
     }
   }, [])
 
-  if (!projects || !metrics) return null
+  if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
 
   return (
     <>
