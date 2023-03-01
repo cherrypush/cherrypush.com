@@ -78,7 +78,4 @@ Rails.application.configure do
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'http://localhost:3001'
-
-  # Raise on N+1 queries
-  config.active_record.strict_loading_by_default = true
 end

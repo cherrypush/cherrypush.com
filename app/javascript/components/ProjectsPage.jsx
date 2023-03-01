@@ -17,6 +17,13 @@ const ProjectsIndex = () => {
         <Table.HeadCell>Owner</Table.HeadCell>
       </Table.Head>
       <Table.Body>
+        {projects.length === 0 && (
+          <Table.Row>
+            <Table.Cell colSpan={2} className="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              First time here? 👇
+            </Table.Cell>
+          </Table.Row>
+        )}
         {projects.map((project) => (
           <Table.Row
             key={project.id}
@@ -32,7 +39,9 @@ const ProjectsIndex = () => {
           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
         >
           <Table.Cell colSpan={2} className="text-center">
-            <AddIcon /> New Project
+            <div className="flex items-center justify-center">
+              <AddIcon /> {projects.length === 0 ? 'Create your first project' : 'New Project'}
+            </div>
           </Table.Cell>
         </Table.Row>
       </Table.Body>

@@ -5,8 +5,14 @@ class User::MetricsController < User::ApplicationController
   before_action :set_metric, if: -> { params[:metric_id].present? }
 
   def index
-    authorize(@project, :read?) if @project
-    render json: @project ? @project.metrics.order('LOWER(name)').as_json(include: :last_report) : current_user.metrics
+    if @project
+      authorize(@project, :read?)
+      metrics = @project.metrics.order('LOWER(name)').as_json(include: %i[project last_report])
+    else
+      metrics = current_user.metrics.as_json(include: %i[project last_report])
+    end
+
+    render json: metrics
   end
 
   def show
@@ -22,10 +28,9 @@ class User::MetricsController < User::ApplicationController
 
   def destroy
     metric = Metric.find(params[:id])
-    project = metric.project
-    authorize(project, :destroy?)
+    authorize(metric.project, :destroy?)
     metric.destroy!
-    redirect_to user_metrics_path(project_id: project.id), notice: 'Metric was successfully deleted.'
+    render json: { message: 'Metric deleted' }
   end
 
   private
