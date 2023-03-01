@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
-import { useMetricsShow, useMetricsIndex } from '../queries/user/metrics'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
-import Filters from './Filters'
-import MetricChart from './MetricChart'
-import Owners from './Owners'
-import Occurrences from './Occurrences'
-import MetricsTable from './MetricsTable'
 import BackfillInstructions from './BackfillInstructions'
-import { useSearchParams } from 'react-router-dom'
-import { Card } from 'flowbite-react'
+import Filters from './Filters'
+import MetricCard from './MetricCard'
+import MetricsTable from './MetricsTable'
+import Occurrences from './Occurrences'
+import Owners from './Owners'
 
 const MetricsPage = () => {
   let [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
+
   const metricId = searchParams.get('metric_id')
   const projectId = searchParams.get('project_id')
 
@@ -25,6 +27,13 @@ const MetricsPage = () => {
   const { data: metrics } = useMetricsIndex({ projectId })
   const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
   const { data: projects } = useProjectsIndex()
+
+  useEffect(() => {
+    if (projects && projects.length === 0) {
+      toast('You need to create a project first', { icon: '💡' })
+      navigate('/user/projects/new')
+    }
+  }, [])
 
   if (!projects || !metrics) return null
 
@@ -42,9 +51,7 @@ const MetricsPage = () => {
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
-          <Card className="mb-3">
-            <MetricChart metric={metric} />
-          </Card>
+          <MetricCard metric={metric} />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
               <div className="col-span-1">
