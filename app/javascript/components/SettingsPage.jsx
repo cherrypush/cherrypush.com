@@ -6,7 +6,7 @@ const SettingsPage = () => {
   const { user } = useCurrentUser()
 
   return (
-    <>
+    <div className="container">
       <h1>Settings</h1>
 
       <div className="mb-3 gap-1 flex flex-col">
@@ -28,7 +28,7 @@ const SettingsPage = () => {
         <Label htmlFor="api_key">API Key</Label>
         <TextInput type="text" id="api_key" value={user.api_key} disabled />
       </div>
-    </>
+    </div>
   )
 }
 
