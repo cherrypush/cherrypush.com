@@ -18,7 +18,6 @@
     "ninja-keys": "^1.2.2",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
-    "react-content-loader": "^6.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "^6.8.1"
