@@ -1,13 +1,18 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { Table, TextInput } from 'flowbite-react'
+import { Button, Rating, Table, TextInput } from 'flowbite-react'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { timeAgoInWords } from '../helpers/applicationHelper'
+import useCurrentUser from '../hooks/useCurrentUser'
+import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
 
 const MetricsTable = ({ metrics, selectedOwners = [] }) => {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
+  const { mutate: addFavorite } = useFavoritesCreate()
+  const { mutate: removeFavorite } = useFavoritesDestroy()
+  const { user } = useCurrentUser()
 
   const filteredMetrics = _.sortBy(
     metrics.filter(
@@ -15,10 +20,8 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         metric.name.toLowerCase().includes(search.toLowerCase()) ||
         metric.project.name.toLowerCase().includes(search.toLowerCase())
     ),
-    (metric) => metric.name.toLowerCase()
+    (metric) => (user.favorite_metric_ids.includes(metric.id) ? 0 : 1) + metric.name.toLowerCase()
   )
-
-  console.log(metrics[0])
 
   const handleClick = (metric) => navigate(`/user/metrics?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
@@ -48,7 +51,23 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               onClick={() => handleClick(metric)}
               title={metric.name}
             >
-              <Table.HeadCell className="dark:text-white">{metric.name}</Table.HeadCell>
+              <Table.HeadCell className="dark:text-white flex items-center gap-3">
+                <Button
+                  size="sm"
+                  color="dark"
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    user.favorite_metric_ids.includes(metric.id)
+                      ? removeFavorite({ id: metric.id, type: 'metric' })
+                      : addFavorite({ id: metric.id, type: 'metric' })
+                  }}
+                >
+                  <Rating>
+                    <Rating.Star filled={user.favorite_metric_ids.includes(metric.id)} />
+                  </Rating>
+                </Button>{' '}
+                {metric.name}
+              </Table.HeadCell>
               <Table.Cell>{metric.project.name}</Table.Cell>
               <Table.Cell className="text-right">
                 {selectedOwners.length > 0 && metric.last_report ? (
