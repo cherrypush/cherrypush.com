@@ -7,7 +7,7 @@ class User::ApplicationController < ApplicationController
 
   rescue_from Pundit::NotAuthorizedError do
     if request.format.json?
-      head(:forbidden)
+      render json: { error: 'You are not authorized to perform this action.' }, status: :forbidden
     else
       redirect_to(request.referer, alert: 'You are not authorized to perform this action.')
     end
