@@ -2,6 +2,7 @@ import React, { lazy } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router-dom'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,6 +20,7 @@ document.addEventListener('turbo:load', () => {
     ReactDOM.createRoot(node).render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <Component {...props} />
         </QueryClientProvider>
       </BrowserRouter>
