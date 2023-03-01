@@ -10,7 +10,7 @@ class User::AuthorizationsController < User::ApplicationController
       Authorization
         .where(project: current_user.projects)
         .includes(:user)
-        .as_json(include: { user: { only: :github_handle } })
+        .as_json(include: { user: { only: %i[name github_handle] } })
 
     render json: json
   end
@@ -24,14 +24,14 @@ class User::AuthorizationsController < User::ApplicationController
 
   def destroy
     authorization = Authorization.find(params[:id])
-    return head :unauthorized unless authorization.project.in?(current_user.owned_projects)
+    authorize authorization.project, :destroy?
     authorization.destroy!
   end
 
   private
 
   def set_project
-    @project = current_user.owned_projects.find(params[:project_id])
+    @project = authorize Project.find(params[:project_id]), :read?
   end
 
   def set_user

@@ -1,4 +1,4 @@
-import { Button, Modal } from 'flowbite-react'
+import { Button, Modal, Spinner } from 'flowbite-react'
 import React, { useState } from 'react'
 import {
   useAuthorizationsCreate,
@@ -8,26 +8,37 @@ import {
 import { useProjectsIndex } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
 import AutocompleteField from './AutocompleteField'
+import PageLoader from './PageLoader'
 
 const AddAuthorizationModal = ({ projectId, onClose }) => {
-  const { data: users } = useUsersIndex()
-  const { mutateAsync, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
+  const { data: users, isLoading } = useUsersIndex()
+  const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
 
-  if (!users) return null
+  const autocompleteItems = users
+    .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-    <Modal show onClose={onClose}>
+    <Modal show onClose={onClose} dismissible>
       <Modal.Header>Add authorization</Modal.Header>
       <Modal.Body>
         <div className="space-y-6">
-          {<AutocompleteField placeholder="Select a user..." onSelect={(user) => setUserId(user?.id)} items={users} />}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <AutocompleteField
+              placeholder="Select a user..."
+              onSelect={(user) => setUserId(user?.id)}
+              items={autocompleteItems}
+            />
+          )}
         </div>
       </Modal.Body>
       <Modal.Footer className="justify-end">
         <Button
           disabled={!userId || isCreatingAuthorization}
-          onClick={() => mutateAsync({ projectId, userId }).then(onClose)}
+          onClick={() => createAuthorization({ projectId, userId }).then(onClose)}
           className="align-right"
         >
           Create authorization
@@ -40,14 +51,14 @@ const AddAuthorizationModal = ({ projectId, onClose }) => {
 const AuthorizationsIndex = () => {
   const { data: projects } = useProjectsIndex()
   const { data: authorizations } = useAuthorizationsIndex()
-  const destroyAuthorization = useAuthorizationsDestroy()
+  const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
 
   const [editedProjectId, setEditedProjectId] = useState()
 
-  if (!projects || !authorizations) return null
+  if (!projects || !authorizations) return <PageLoader />
 
   return (
-    <div className="px-0 pt-3">
+    <div className="container">
       <h1>Authorizations</h1>
 
       <p className="mb-3">Control who has read-access to the projects you own.</p>
@@ -65,7 +76,7 @@ const AuthorizationsIndex = () => {
           </div>
         )}
       </div>
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
+      <div className="flex flex-col gap-3">
         {projects.map((project) => (
           <div className="overflow-x-auto relative" key={project.id}>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -84,15 +95,16 @@ const AuthorizationsIndex = () => {
               <tbody>
                 {authorizations
                   .filter((authorization) => authorization.project_id === project.id)
+                  .sort((a, b) => a.user.name.localeCompare(b.user.name))
                   .map((authorization) => (
                     <tr key={authorization.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @{authorization.user.github_handle}
+                        {authorization.user.name} (@{authorization.user.github_handle})
                       </th>
                       <td className="py-4 px-6 justify-end">
                         <Button
-                          onClick={() => destroyAuthorization.mutateAsync({ id: authorization.id })}
-                          disabled={destroyAuthorization.isLoading}
+                          onClick={() => destroyAuthorization({ id: authorization.id })}
+                          disabled={isLoading}
                           size="xs"
                           className="ml-auto"
                         >

@@ -2,6 +2,8 @@ import React, { useState, Fragment } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/20/solid'
 
+// TODO: Type this component
+// items = [{ id: 1, name: 'Foo' }, { id: 2, name: 'Bar' }]
 const AutocompleteField = ({ items, name, onSelect, placeholder }) => {
   const [selected, setSelected] = useState()
   const [query, setQuery] = useState('')
@@ -53,7 +55,7 @@ const AutocompleteField = ({ items, name, onSelect, placeholder }) => {
                     key={item.id}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-10 pr-4 block px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900 dark:text-gray-400'
+                        active ? 'bg-blue-600 text-white' : 'text-gray-900 dark:text-gray-400'
                       }`
                     }
                     value={item}
