@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router-dom'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { toast } from 'react-hot-toast'
 
 const queryClient = new QueryClient({
   defaultOptions: {
