@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import _ from 'lodash'
-import { timeAgoInWords } from '../helpers/applicationHelper'
 import SearchIcon from '@mui/icons-material/Search'
 import { Table, TextInput } from 'flowbite-react'
+import _ from 'lodash'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { timeAgoInWords } from '../helpers/applicationHelper'
 
 const MetricsTable = ({ metrics, selectedOwners = [] }) => {
   const [search, setSearch] = useState('')
@@ -13,10 +13,12 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
     metrics.filter(
       (metric) =>
         metric.name.toLowerCase().includes(search.toLowerCase()) ||
-        metric.project_name.toLowerCase().includes(search.toLowerCase())
+        metric.project.name.toLowerCase().includes(search.toLowerCase())
     ),
     (metric) => metric.name.toLowerCase()
   )
+
+  console.log(metrics[0])
 
   const handleClick = (metric) => navigate(`/user/metrics?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
@@ -47,7 +49,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               title={metric.name}
             >
               <Table.HeadCell className="dark:text-white">{metric.name}</Table.HeadCell>
-              <Table.Cell>{metric.project_name}</Table.Cell>
+              <Table.Cell>{metric.project.name}</Table.Cell>
               <Table.Cell className="text-right">
                 {selectedOwners.length > 0 && metric.last_report ? (
                   <>

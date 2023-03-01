@@ -5,10 +5,13 @@ class OnboardingTest < ApplicationSystemTestCase
 
   it 'goes through onboarding' do
     sign_in user
+    assert_text 'First time here?'
     assert_text 'Create your first project'
     assert_text 'Docs'
+
     find('a', text: 'Metrics').click
-    assert_text 'You need to create a project first'
+    assert_text 'You need to create a project first' # shows a toast message
+    assert_text 'Start a new project' # and redirects to '/projects/new'
 
     click_on 'Avatar'
     find('li', text: 'Authorizations').click
@@ -16,14 +19,16 @@ class OnboardingTest < ApplicationSystemTestCase
     assert_text 'You first need to create a project'
 
     project = create(:project, user: user, name: 'rails/rails')
+    refresh
     find('a', text: 'Metrics').click
-    assert_text 'rails/rails'
     assert_text 'Fill up your project with historic data by running the following command'
 
     create(:report, metric: create(:metric, project: project, name: 'rubocop'), value: 12, date: Time.current)
+    refresh
     find('a', text: 'Projects').click
-    click_on 'rails/rails'
+    find('tr', text: 'rails/rails').click
     find('tr', text: 'rubocop').click
     assert_text 'You can start using owners on your project by adding a CODEOWNERS file to your repository'
+    assert_text 'Occurrences (0)'
   end
 end

@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 export const useMetricsShow = ({ id, owners }) =>
   useQuery(
@@ -15,3 +16,15 @@ export const useMetricsIndex = ({ projectId } = {}) =>
   useQuery(['user', 'metrics', { projectId }], () =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
+
+export const useMetricsDestroy = ({ onSuccess }) => {
+  const queryClient = useQueryClient()
+
+  return useMutation((metricId) => axios.delete(`/user/metrics/${metricId}.json`), {
+    onSuccess: () => {
+      onSuccess?.()
+      queryClient.invalidateQueries(['user', 'metrics'])
+      toast.success('Metric deleted')
+    },
+  })
+}

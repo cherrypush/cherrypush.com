@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :metrics, through: :projects
 
   before_save :ensure_api_key
 
@@ -12,13 +13,7 @@ class User < ApplicationRecord
   TRIAL_DURATION = 30.days
 
   def metrics
-    projects
-      .includes(:metrics)
-      .flat_map do |project|
-        project.metrics.map do |metric|
-          { id: metric.id, name: metric.name, project_id: project.id, project_name: project.name }
-        end
-      end
+    Metric.where(project: projects)
   end
 
   def projects
