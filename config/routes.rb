@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :authorizations, only: %i[index new create destroy]
       resources :metrics, only: %i[index show destroy]
       resources :users, only: %i[index]
+      resources :owners, only: %i[index]
     end
 
     constraints(->(request) { request.format == :html }) do
