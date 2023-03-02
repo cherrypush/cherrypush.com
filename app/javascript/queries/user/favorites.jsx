@@ -17,7 +17,7 @@ export const useFavoritesCreate = () => {
 export const useFavoritesDestroy = () => {
   const invalidateUsers = useInvalidateUsersIndex()
 
-  return useMutation(({ id, type }) => httpClient.delete(`/user/favorites.json`, { data: { id, type } }), {
+  return useMutation(({ id, type }) => httpClient.delete(`/user/favorites.json`, { id, type }), {
     onSuccess: () => {
       invalidateUsers()
       toast.success('Removed from favorites')
