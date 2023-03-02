@@ -1,10 +1,10 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
+import httpClient from '../../helpers/httpClient'
 
 const INDEX_KEY = ['user', 'users']
 
 export const useUsersIndex = () =>
-  useQuery(INDEX_KEY, () => axios.get('/user/users.json').then((response) => response.data))
+  useQuery(INDEX_KEY, () => httpClient.get('/user/users.json').then((response) => response.data))
 
 export const useInvalidateUsersIndex = () => {
   const queryClient = useQueryClient()

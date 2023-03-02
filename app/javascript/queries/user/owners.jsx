@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import httpClient from '../../helpers/httpClient'
 
 export const useOwnersIndex = () =>
-  useQuery(['user', 'owners'], () => axios.get(`/user/owners.json`).then((response) => response.data))
+  useQuery(['user', 'owners'], () => httpClient.get(`/user/owners.json`).then((response) => response.data))

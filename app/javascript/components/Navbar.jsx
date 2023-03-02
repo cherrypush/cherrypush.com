@@ -17,10 +17,10 @@ const CherryNavbar = () => {
       <CommandPalette />
 
       <Navbar fluid>
-        <Navbar.Brand className="font-bold">
+        <div className="font-bold flex items-center">
           <Link to="/user/projects">🍒 Cherry</Link>
           <CommandPaletteButton />
-        </Navbar.Brand>
+        </div>
 
         {/* AVATAR MENU */}
         <div className="flex md:order-2">
