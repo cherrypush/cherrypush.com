@@ -2,9 +2,9 @@ import axios from 'axios'
 
 class httpClient {}
 
-httpClient.delete = (url) =>
-  fetch(url, {
-    method: 'DELETE',
+httpClient.delete = (url, params) =>
+  axios.delete(url, {
+    data: params,
     headers: {
       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
       'Content-type': 'application/json; charset=UTF-8',
@@ -12,9 +12,7 @@ httpClient.delete = (url) =>
   })
 
 httpClient.post = (url, params) =>
-  fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(params),
+  axios.post(url, params, {
     headers: {
       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
       'Content-type': 'application/json; charset=UTF-8',
@@ -22,9 +20,7 @@ httpClient.post = (url, params) =>
   })
 
 httpClient.put = (url, params) =>
-  fetch(url, {
-    method: 'PUT',
-    body: JSON.stringify(params),
+  axios.put(url, params, {
     headers: {
       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
       'Content-type': 'application/json; charset=UTF-8',
