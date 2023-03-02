@@ -51,10 +51,11 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               onClick={() => handleClick(metric)}
               title={metric.name}
             >
-              <Table.HeadCell className="dark:text-white flex items-center gap-3">
+              <Table.HeadCell className="dark:text-white flex items-center">
                 <Button
                   size="sm"
                   color="dark"
+                  className="mr-2"
                   onClick={(event) => {
                     event.stopPropagation()
                     user.favorite_metric_ids.includes(metric.id)
@@ -65,7 +66,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
                   <Rating>
                     <Rating.Star filled={user.favorite_metric_ids.includes(metric.id)} />
                   </Rating>
-                </Button>{' '}
+                </Button>
                 {metric.name}
               </Table.HeadCell>
               <Table.Cell>{metric.project.name}</Table.Cell>
@@ -79,7 +80,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
                   metric.last_report?.value.toLocaleString()
                 )}
               </Table.Cell>
-              <Table.Cell>{timeAgoInWords(new Date(metric.updated_at))}</Table.Cell>
+              <Table.Cell className="whitespace-nowrap">{timeAgoInWords(new Date(metric.updated_at))}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
