@@ -4,6 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
@@ -17,7 +18,7 @@ const CherryNavbar = () => {
 
       <Navbar fluid>
         <Navbar.Brand className="font-bold">
-          🍒 Cherry
+          <Link to="/user/projects">🍒 Cherry</Link>
           <CommandPaletteButton />
         </Navbar.Brand>
 
@@ -60,7 +61,7 @@ const CherryNavbar = () => {
           </Navbar.Link>
           <Navbar.Link
             onClick={() => navigate('/user/docs')}
-            active={window.location.pathname === '/docs'}
+            active={window.location.pathname === '/user/docs'}
             className="cursor-pointer"
           >
             Docs
