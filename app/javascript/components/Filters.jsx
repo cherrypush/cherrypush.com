@@ -4,6 +4,7 @@ import BackspaceIcon from '@mui/icons-material/Backspace'
 import { Turbo } from '@hotwired/turbo-rails'
 import { useSearchParams } from 'react-router-dom'
 import CloseIcon from '@mui/icons-material/Close'
+import { useOwnersIndex } from '../queries/user/owners'
 
 const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -13,6 +14,8 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
 
   const currentMetricId = searchParams.get('metric_id')
   const currentMetric = metrics.find((metric) => metric.id === parseInt(currentMetricId))
+
+  const { data: owners } = useOwnersIndex()
 
   return (
     <Card className="mb-3">
@@ -75,6 +78,37 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             </Dropdown>
           </div>
         </Breadcrumb.Item>
+
+        {/* OWNERS */}
+        {owners && (
+          <Breadcrumb.Item>
+            <div className="hover:text-white">
+              <Dropdown label={selectedOwners.length === 0 ? 'Select an owner' : 'Add an owner'} inline>
+                {selectedOwners.length > 0 && (
+                  <Dropdown.Item
+                    onClick={() => {
+                      searchParams.delete('owners')
+                      setSearchParams(searchParams)
+                    }}
+                  >
+                    <CloseIcon /> Remove selection
+                  </Dropdown.Item>
+                )}
+                {owners.map((owner) => (
+                  <Dropdown.Item
+                    key={owner.handle}
+                    onClick={() => {
+                      searchParams.set('owners', [...selectedOwners, owner.handle])
+                      setSearchParams(searchParams)
+                    }}
+                  >
+                    {owner.handle}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown>
+            </div>
+          </Breadcrumb.Item>
+        )}
       </Breadcrumb>
 
       {selectedOwners && selectedOwners.length > 0 && (
@@ -91,7 +125,15 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
               {owner}
             </Button>
           ))}
-          <Button color="light" pill size="xs" onClick={() => setSelectedOwners([])}>
+          <Button
+            color="light"
+            pill
+            size="xs"
+            onClick={() => {
+              searchParams.delete('owners')
+              setSearchParams(searchParams)
+            }}
+          >
             Clear
             <BackspaceIcon fontSize="inherit" className="ml-1" />
           </Button>

@@ -18,11 +18,10 @@ const MetricsPage = () => {
   const metricId = searchParams.get('metric_id')
   const projectId = searchParams.get('project_id')
 
-  const [selectedOwners, _setSelectedOwners] = useState(searchParams.get('owners')?.split(',') ?? [])
+  const selectedOwners = searchParams.get('owners')?.split(',') ?? []
   const setSelectedOwners = (owners) => {
     searchParams.set('owners', owners.join(','))
     setSearchParams(searchParams)
-    _setSelectedOwners(owners)
   }
 
   const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({ projectId })
