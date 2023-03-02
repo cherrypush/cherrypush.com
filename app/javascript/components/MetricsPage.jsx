@@ -34,7 +34,7 @@ const MetricsPage = () => {
       toast('You need to create a project first', { icon: '💡' })
       navigate('/user/projects/new')
     }
-  }, [])
+  }, [projects])
 
   if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
 

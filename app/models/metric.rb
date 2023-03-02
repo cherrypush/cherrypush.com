@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Metric < ApplicationRecord
-  belongs_to :project
+  belongs_to :project, touch: true
   has_many :reports, dependent: :destroy
 
   validates :name, presence: true
 
   def last_report
-    reports.includes(:occurrences).order(:date).last
+    reports.order(:date).last
   end
 
   def occurrences(owner_handles = [])
