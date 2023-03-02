@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
 import BackspaceIcon from '@mui/icons-material/Backspace'
 import { Turbo } from '@hotwired/turbo-rails'
 import { useSearchParams } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close'
 
 const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -21,19 +22,27 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
             Projects
           </button>
         </Breadcrumb.Item>
-        {currentProject && (
-          <Breadcrumb.Item>
-            <div className="hover:text-white">
-              <Dropdown label={currentProject.name} inline>
-                {projects.map((project) => (
-                  <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
-                    {project.name}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown>
-            </div>
-          </Breadcrumb.Item>
-        )}
+
+        <Breadcrumb.Item>
+          <div className="hover:text-white">
+            <Dropdown label={currentProject?.name || 'Select a project'} inline>
+              <Dropdown.Item
+                onClick={() => {
+                  searchParams.delete('project_id')
+                  setSearchParams(searchParams)
+                }}
+              >
+                <CloseIcon /> Remove selection
+              </Dropdown.Item>
+              {projects.map((project) => (
+                <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
+                  {project.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown>
+          </div>
+        </Breadcrumb.Item>
+
         {currentMetric && (
           <Breadcrumb.Item>
             <div className="hover:text-white">
