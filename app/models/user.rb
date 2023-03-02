@@ -12,6 +12,10 @@ class User < ApplicationRecord
 
   TRIAL_DURATION = 30.days
 
+  def owners
+    metrics.map(&:owners).flatten.uniq.sort_by(&:handle)
+  end
+
   def metrics
     Metric.where(project: projects)
   end
