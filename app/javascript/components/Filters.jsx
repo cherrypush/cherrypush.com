@@ -23,17 +23,20 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
           </button>
         </Breadcrumb.Item>
 
+        {/* PROJECTS */}
         <Breadcrumb.Item>
           <div className="hover:text-white">
             <Dropdown label={currentProject?.name || 'Select a project'} inline>
-              <Dropdown.Item
-                onClick={() => {
-                  searchParams.delete('project_id')
-                  setSearchParams(searchParams)
-                }}
-              >
-                <CloseIcon /> Remove selection
-              </Dropdown.Item>
+              {currentProject && (
+                <Dropdown.Item
+                  onClick={() => {
+                    searchParams.delete('project_id')
+                    setSearchParams(searchParams)
+                  }}
+                >
+                  <CloseIcon /> Remove selection
+                </Dropdown.Item>
+              )}
               {projects.map((project) => (
                 <Dropdown.Item key={project.id} onClick={() => setSearchParams({ project_id: project.id })}>
                   {project.name}
@@ -43,25 +46,35 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
           </div>
         </Breadcrumb.Item>
 
-        {currentMetric && (
-          <Breadcrumb.Item>
-            <div className="hover:text-white">
-              <Dropdown label={currentMetric.name} inline>
-                {metrics.map((metric) => (
-                  <Dropdown.Item
-                    key={metric.id}
-                    onClick={() => {
-                      searchParams.set('metric_id', metric.id)
-                      setSearchParams(searchParams)
-                    }}
-                  >
-                    {metric.name}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown>
-            </div>
-          </Breadcrumb.Item>
-        )}
+        {/* METRICS */}
+        <Breadcrumb.Item>
+          <div className="hover:text-white">
+            <Dropdown label={currentMetric?.name || 'Select a metric'} inline>
+              {currentMetric && (
+                <Dropdown.Item
+                  onClick={() => {
+                    searchParams.delete('metric_id')
+                    setSearchParams(searchParams)
+                  }}
+                >
+                  <CloseIcon /> Remove selection
+                </Dropdown.Item>
+              )}
+              {metrics.map((metric) => (
+                <Dropdown.Item
+                  key={metric.id}
+                  onClick={() => {
+                    searchParams.set('project_id', metric.project_id)
+                    searchParams.set('metric_id', metric.id)
+                    setSearchParams(searchParams)
+                  }}
+                >
+                  {metric.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown>
+          </div>
+        </Breadcrumb.Item>
       </Breadcrumb>
 
       {selectedOwners && selectedOwners.length > 0 && (
