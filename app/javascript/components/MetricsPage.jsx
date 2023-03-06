@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
@@ -12,7 +12,7 @@ import Owners from './Owners'
 import PageLoader from './PageLoader'
 
 const MetricsPage = () => {
-  let [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
 
   const metricId = searchParams.get('metric_id')
