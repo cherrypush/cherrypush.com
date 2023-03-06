@@ -27,6 +27,6 @@ httpClient.put = (url, params) =>
     },
   })
 
-httpClient.get = (url) => axios.get(url)
+httpClient.get = (...args) => axios.get(...args)
 
 export default httpClient
