@@ -5,13 +5,8 @@ class OnboardingTest < ApplicationSystemTestCase
 
   it 'goes through onboarding' do
     sign_in user
-    assert_text 'First time here?'
-    assert_text 'Create your first project'
-    assert_text 'Docs'
-
-    find('a', text: 'Metrics').click
-    assert_text 'You need to create a project first' # shows a toast message
-    assert_text 'Start a new project' # and redirects to '/projects/new'
+    find('a', text: 'Projects').click
+    assert_text 'Create a new project'
 
     click_on 'Avatar'
     find('li', text: 'Authorizations').click
@@ -20,7 +15,8 @@ class OnboardingTest < ApplicationSystemTestCase
 
     project = create(:project, user: user, name: 'rails/rails')
     refresh
-    find('a', text: 'Metrics').click
+    find('a', text: 'Projects').click
+    find('tr', text: 'rails/rails').click
     assert_text 'Fill up your project with historic data by running the following command'
 
     create(:report, metric: create(:metric, project: project, name: 'rubocop'), value: 12, date: Time.current)
