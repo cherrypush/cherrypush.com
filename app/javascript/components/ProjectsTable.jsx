@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { Table } from 'flowbite-react'
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { timeAgoInWords } from '../helpers/applicationHelper'
 import { useProjectsIndex } from '../queries/user/projects'
 
 const ProjectsTable = () => {
@@ -15,6 +16,7 @@ const ProjectsTable = () => {
       <Table.Head>
         <Table.HeadCell>Name</Table.HeadCell>
         <Table.HeadCell>Owner</Table.HeadCell>
+        <Table.HeadCell>Last report</Table.HeadCell>
       </Table.Head>
       <Table.Body>
         {projects.map((project) => (
@@ -25,13 +27,14 @@ const ProjectsTable = () => {
           >
             <Table.Cell className="text-white">{project.name}</Table.Cell>
             <Table.Cell>{project.user.name}</Table.Cell>
+            <Table.Cell>{timeAgoInWords(project.updated_at)}</Table.Cell>
           </Table.Row>
         ))}
         <Table.Row
           onClick={() => navigate('/user/projects/new')}
           className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
         >
-          <Table.Cell colSpan={2} className="text-center">
+          <Table.Cell colSpan="100%" className="text-center">
             <div className="flex items-center justify-center">
               <AddIcon /> {projects.length === 0 ? 'Create your first project' : 'New Project'}
             </div>
