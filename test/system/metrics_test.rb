@@ -54,8 +54,8 @@ class MetricsTest < ApplicationSystemTestCase
   end
 
   it 'applies filters to metrics' do
-    sign_in(user, to: user_metrics_path)
-    assert_text 'rails/rails'
+    sign_in(user, to: user_projects_path)
+    find('tr', text: 'rails/rails').click
     assert_text 'eslint'
     fill_in 'Filter metrics', with: 'rubo'
     assert_no_text 'eslint'

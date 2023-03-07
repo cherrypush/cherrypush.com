@@ -53,13 +53,6 @@ const CherryNavbar = () => {
             Projects
           </Navbar.Link>
           <Navbar.Link
-            onClick={() => navigate('/user/metrics')}
-            active={window.location.pathname === '/user/metrics'}
-            className="cursor-pointer"
-          >
-            Metrics
-          </Navbar.Link>
-          <Navbar.Link
             onClick={() => navigate('/user/docs')}
             active={window.location.pathname === '/user/docs'}
             className="cursor-pointer"
