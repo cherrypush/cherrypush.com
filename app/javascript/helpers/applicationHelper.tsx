@@ -17,10 +17,10 @@ export const timeAgoInWords = (date: Date) => {
   interval = seconds / 2592000
   if (interval > 1) return Math.floor(interval) + ` month${Math.floor(interval) > 1 ? 's' : ''} ago`
 
-  interval = seconds / 86400
+  interval = seconds / (60 * 60 * 24)
   if (interval > 1) return Math.floor(interval) + ` day${Math.floor(interval) > 1 ? 's' : ''} ago`
 
-  interval = seconds / 3600
+  interval = seconds / (60 * 60)
   if (interval > 1) return Math.floor(interval) + ` hour${Math.floor(interval) > 1 ? 's' : ''} ago`
 
   interval = seconds / 60
