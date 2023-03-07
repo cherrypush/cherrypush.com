@@ -7,14 +7,23 @@ import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
+import { LinearProgress } from '@mui/joy'
+import { useIsFetching } from '@tanstack/react-query'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
+  const isFetching = useIsFetching()
 
   return (
     <>
       <CommandPalette />
+
+      {isFetching > 0 && (
+        <div className="absolute top-0 inset-x-0">
+          <LinearProgress variant="plain" thickness={2} />
+        </div>
+      )}
 
       <Navbar fluid>
         <div className="font-bold flex items-center">

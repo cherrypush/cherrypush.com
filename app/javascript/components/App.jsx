@@ -8,6 +8,7 @@ import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
 import SettingsPage from './SettingsPage'
 import { toast, Toaster } from 'react-hot-toast'
+import { CssVarsProvider } from '@mui/joy/styles'
 
 const App = ({ alert, notice }) => {
   useEffect(() => {
@@ -16,7 +17,7 @@ const App = ({ alert, notice }) => {
   }, [])
 
   return (
-    <>
+    <CssVarsProvider defaultMode="dark">
       <Navbar />
       <div className="px-3 pt-3">
         <Routes>
@@ -41,7 +42,7 @@ const App = ({ alert, notice }) => {
           }}
         />
       </div>
-    </>
+    </CssVarsProvider>
   )
 }
 
