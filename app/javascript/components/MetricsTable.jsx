@@ -51,11 +51,11 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
               onClick={() => handleClick(metric)}
               title={metric.name}
             >
-              <Table.HeadCell className="dark:text-white flex items-center">
+              <Table.Cell className="dark:text-white flex items-center">
                 <Button
-                  size="sm"
+                  size="xs"
                   color="dark"
-                  className="mr-2"
+                  className="mr-3"
                   onClick={(event) => {
                     event.stopPropagation()
                     user.favorite_metric_ids.includes(metric.id)
@@ -68,7 +68,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
                   </Rating>
                 </Button>
                 {metric.name}
-              </Table.HeadCell>
+              </Table.Cell>
               <Table.Cell>{metric.project.name}</Table.Cell>
               <Table.Cell className="text-right">
                 {selectedOwners.length > 0 && metric.last_report ? (
