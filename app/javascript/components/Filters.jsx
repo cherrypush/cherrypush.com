@@ -10,10 +10,10 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
   const navigate = useNavigate()
 
   const projectId = searchParams.get('project_id')
-  const currentProject = projects.find((project) => project.id === parseInt(projectId))
+  const currentProject = projectId ? projects.find((project) => project.id === parseInt(projectId)) : null
 
-  const currentMetricId = searchParams.get('metric_id')
-  const currentMetric = metrics.find((metric) => metric.id === parseInt(currentMetricId))
+  const metricId = searchParams.get('metric_id')
+  const currentMetric = metricId ? metrics.find((metric) => metric.id === parseInt(metricId)) : null
 
   const { data: owners } = useOwnersIndex()
 

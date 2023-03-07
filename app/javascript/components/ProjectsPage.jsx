@@ -7,6 +7,7 @@ import BackfillInstructions from './BackfillInstructions'
 import Filters from './Filters'
 import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
+import NewProjectPage from './NewProjectPage'
 import Occurrences from './Occurrences'
 import Owners from './Owners'
 import PageLoader from './PageLoader'
@@ -33,14 +34,17 @@ const ProjectsPage = () => {
   const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
   const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
 
-  useEffect(() => {
-    if (projects && projects.length === 0) {
-      toast('You need to create a project first', { icon: '💡' })
-      navigate('/user/projects/new')
-    }
-  }, [projects])
-
   if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
+
+  if (projects && projects.length === 0) return <NewProjectPage />
+
+  if (!projectId)
+    return (
+      <>
+        <Filters projects={projects} />
+        <ProjectsTable />
+      </>
+    )
 
   return (
     <>
@@ -52,7 +56,6 @@ const ProjectsPage = () => {
           setSelectedOwners={setSelectedOwners}
         />
       )}
-      {!projectId && <ProjectsTable />}
       {projectId && !metricId && metrics.length > 0 && (
         <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
       )}
