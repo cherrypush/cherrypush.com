@@ -38,7 +38,7 @@ const CommandPalette = () => {
         id: `project-${project.id}`,
         title: project.name,
         section: 'Projects',
-        handler: () => navigate(`/user/metrics?project_id=${project.id}`),
+        handler: () => navigate(`/user/projects?project_id=${project.id}`),
       }))
     )
   }
@@ -49,7 +49,7 @@ const CommandPalette = () => {
         id: `metric-${metric.id}`,
         title: metric.name,
         section: `Metrics for ${metric.project_name}`,
-        handler: () => navigate(`/user/metrics?project_id=${metric.project_id}&metric_id=${metric.id}`),
+        handler: () => navigate(`/user/projects?project_id=${metric.project_id}&metric_id=${metric.id}`),
       }))
     )
   }

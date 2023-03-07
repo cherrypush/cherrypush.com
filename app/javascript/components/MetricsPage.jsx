@@ -10,6 +10,7 @@ import MetricsTable from './MetricsTable'
 import Occurrences from './Occurrences'
 import Owners from './Owners'
 import PageLoader from './PageLoader'
+import ProjectsTable from './ProjectsTable'
 
 const MetricsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -20,7 +21,11 @@ const MetricsPage = () => {
 
   const selectedOwners = searchParams.get('owners')?.split(',') ?? []
   const setSelectedOwners = (owners) => {
-    searchParams.set('owners', owners.join(','))
+    if (owners.length > 0) {
+      searchParams.set('owners', owners.join(','))
+    } else {
+      searchParams.delete('owners')
+    }
     setSearchParams(searchParams)
   }
 
@@ -47,7 +52,10 @@ const MetricsPage = () => {
           setSelectedOwners={setSelectedOwners}
         />
       )}
-      {!metricId && metrics.length > 0 && <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />}
+      {!projectId && <ProjectsTable />}
+      {projectId && !metricId && metrics.length > 0 && (
+        <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
+      )}
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>

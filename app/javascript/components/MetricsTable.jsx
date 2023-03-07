@@ -23,7 +23,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
     (metric) => (user.favorite_metric_ids.includes(metric.id) ? 0 : 1) + metric.name.toLowerCase()
   )
 
-  const handleClick = (metric) => navigate(`/user/metrics?project_id=${metric.project_id}&metric_id=${metric.id}`)
+  const handleClick = (metric) => navigate(`/user/projects?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
   return (
     <>

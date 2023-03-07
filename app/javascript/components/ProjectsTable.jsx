@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import { useProjectsIndex } from '../queries/user/projects'
 
-const ProjectsIndex = () => {
+const ProjectsTable = () => {
   const navigate = useNavigate()
   const { data: projects } = useProjectsIndex()
 
@@ -28,7 +28,7 @@ const ProjectsIndex = () => {
           <Table.Row
             key={project.id}
             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-            onClick={() => navigate(`/user/metrics?project_id=${project.id}`)}
+            onClick={() => navigate(`/user/projects?project_id=${project.id}`)}
           >
             <Table.Cell className="text-white">{project.name}</Table.Cell>
             <Table.Cell>{project.user.name}</Table.Cell>
@@ -49,4 +49,4 @@ const ProjectsIndex = () => {
   )
 }
 
-export default ProjectsIndex
+export default ProjectsTable
