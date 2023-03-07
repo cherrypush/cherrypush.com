@@ -2,7 +2,7 @@ import { Table } from 'flowbite-react'
 import React from 'react'
 import { useSortBy, useTable } from 'react-table/dist/react-table.development'
 
-const SortedTable = ({ columns, data, onRowClick }) => {
+const SortedTable = ({ columns, data, onRowClick, Footer }) => {
   const table = useTable({ columns, data }, useSortBy)
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = table
@@ -14,7 +14,7 @@ const SortedTable = ({ columns, data, onRowClick }) => {
           {headerGroup.headers.map((column) => (
             <Table.HeadCell key={column.getHeaderProps().key} {...column.getHeaderProps(column.getSortByToggleProps())}>
               {column.render('Header')}
-              <span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+              <span>{column.isSorted ? (column.isSortedDesc ? ' 🔼' : ' 🔽') : ''}</span>
             </Table.HeadCell>
           ))}
         </Table.Head>
@@ -39,6 +39,7 @@ const SortedTable = ({ columns, data, onRowClick }) => {
             </Table.Row>
           )
         })}
+        {Footer && <Footer />}
       </Table.Body>
     </Table>
   )
