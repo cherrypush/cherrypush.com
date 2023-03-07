@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router'
 import AuthorizationsIndex from './AuthorizationsIndex'
 import DocsPage from './DocsPage'
 import Footer from './Footer'
-import MetricsPage from './MetricsPage'
+import ProjectsPage from './ProjectsPage'
 import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
 import SettingsPage from './SettingsPage'
@@ -21,9 +21,8 @@ const App = ({ alert, notice }) => {
       <div className="px-3 pt-3">
         <Routes>
           <Route path="user">
-            {/* <Route path="projects" element={<ProjectsPage />} /> */}
             <Route path="projects/new" element={<NewProjectPage />} />
-            <Route path="projects" element={<MetricsPage />} />
+            <Route path="projects" element={<ProjectsPage />} />
             <Route path="authorizations" element={<AuthorizationsIndex />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="docs" element={<DocsPage />} />

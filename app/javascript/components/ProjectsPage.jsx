@@ -12,7 +12,7 @@ import Owners from './Owners'
 import PageLoader from './PageLoader'
 import ProjectsTable from './ProjectsTable'
 
-const MetricsPage = () => {
+const ProjectsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
 
@@ -78,4 +78,4 @@ const MetricsPage = () => {
   )
 }
 
-export default MetricsPage
+export default ProjectsPage
