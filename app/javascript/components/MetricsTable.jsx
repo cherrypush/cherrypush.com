@@ -1,11 +1,12 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { Button, Rating, Table, TextInput } from 'flowbite-react'
+import { Button, Rating, TextInput } from 'flowbite-react'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { timeAgoInWords } from '../helpers/applicationHelper'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
+import SortedTable from './SortedTable'
 
 const MetricsTable = ({ metrics, selectedOwners = [] }) => {
   const [search, setSearch] = useState('')
@@ -25,6 +26,63 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
 
   const handleClick = (metric) => navigate(`/user/projects?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Metric',
+        accessor: 'name',
+        Cell: ({ row }) => (
+          <div className="flex items-center text-white">
+            <Button
+              size="xs"
+              color="dark"
+              className="mr-3"
+              onClick={(event) => {
+                event.stopPropagation()
+                user.favorite_metric_ids.includes(row.original.id)
+                  ? removeFavorite({ id: row.original.id, type: 'metric' })
+                  : addFavorite({ id: row.original.id, type: 'metric' })
+              }}
+            >
+              <Rating>
+                <Rating.Star filled={user.favorite_metric_ids.includes(row.original.id)} />
+              </Rating>
+            </Button>
+            {row.original.name}
+          </div>
+        ),
+      },
+      {
+        Header: 'Project',
+        accessor: 'project.name',
+      },
+      {
+        Header: 'Value',
+        accessor: 'last_report.value',
+        Cell: ({ row }) => (
+          <div className="text-right">
+            {selectedOwners.length > 0 && row.original.last_report ? (
+              <>
+                {_(row.original.last_report.value_by_owner).pick(selectedOwners).values().flatten().sum()} /{' '}
+                {row.original.last_report.value.toLocaleString()}
+              </>
+            ) : (
+              row.original.last_report?.value.toLocaleString()
+            )}
+          </div>
+        ),
+      },
+      {
+        Header: 'Last report',
+        accessor: 'updated_at',
+        Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
+      },
+    ],
+    [selectedOwners, user.favorite_metric_ids]
+  )
+
+  const data = React.useMemo(() => filteredMetrics, [filteredMetrics])
+
   return (
     <>
       <TextInput
@@ -36,55 +94,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         icon={SearchIcon}
         autoComplete="off"
       />
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Metric</Table.HeadCell>
-          <Table.HeadCell>Project</Table.HeadCell>
-          <Table.HeadCell className="text-right">Value</Table.HeadCell>
-          <Table.HeadCell>Last report</Table.HeadCell>
-        </Table.Head>
-        <Table.Body>
-          {filteredMetrics.map((metric) => (
-            <Table.Row
-              key={metric.id}
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-              onClick={() => handleClick(metric)}
-              title={metric.name}
-            >
-              <Table.Cell className="dark:text-white flex items-center">
-                <Button
-                  size="xs"
-                  color="dark"
-                  className="mr-3"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    user.favorite_metric_ids.includes(metric.id)
-                      ? removeFavorite({ id: metric.id, type: 'metric' })
-                      : addFavorite({ id: metric.id, type: 'metric' })
-                  }}
-                >
-                  <Rating>
-                    <Rating.Star filled={user.favorite_metric_ids.includes(metric.id)} />
-                  </Rating>
-                </Button>
-                {metric.name}
-              </Table.Cell>
-              <Table.Cell>{metric.project.name}</Table.Cell>
-              <Table.Cell className="text-right">
-                {selectedOwners.length > 0 && metric.last_report ? (
-                  <>
-                    {_(metric.last_report.value_by_owner).pick(selectedOwners).values().flatten().sum()} /{' '}
-                    {metric.last_report.value.toLocaleString()}
-                  </>
-                ) : (
-                  metric.last_report?.value.toLocaleString()
-                )}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap">{timeAgoInWords(new Date(metric.updated_at))}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      <SortedTable data={data} columns={columns} onRowClick={handleClick}></SortedTable>
     </>
   )
 }
