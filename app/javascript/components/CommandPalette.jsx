@@ -9,7 +9,7 @@ import { Button } from 'flowbite-react'
 export const CommandPaletteButton = () => (
   <Button pill color="dark" className="ml-3" size="xs" onClick={openCommandPalette}>
     <div className="flex items-center gap-2">
-      <SearchIcon fontSize="small" />
+      <SearchIcon fontSize="md" />
       <kbd className="px-1.5 py-1 text-xs font-semibold bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">
         <span className="mr-1">⌘</span>
         <span>k</span>
