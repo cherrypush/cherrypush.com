@@ -1,52 +1,84 @@
-import AddIcon from '@mui/icons-material/Add'
-import { Table } from 'flowbite-react'
-import React from 'react'
-import { useNavigate } from 'react-router'
+import React, { useEffect } from 'react'
+import { toast } from 'react-hot-toast'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
+import BackfillInstructions from './BackfillInstructions'
+import Filters from './Filters'
+import MetricCard from './MetricCard'
+import MetricsTable from './MetricsTable'
+import NewProjectPage from './NewProjectPage'
+import Occurrences from './Occurrences'
+import Owners from './Owners'
+import PageLoader from './PageLoader'
+import ProjectsTable from './ProjectsTable'
 
-const ProjectsIndex = () => {
+const ProjectsPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { data: projects } = useProjectsIndex()
 
-  if (!projects) return null
+  const metricId = searchParams.get('metric_id')
+  const projectId = searchParams.get('project_id')
+
+  const selectedOwners = searchParams.get('owners')?.split(',') ?? []
+  const setSelectedOwners = (owners) => {
+    if (owners.length > 0) {
+      searchParams.set('owners', owners.join(','))
+    } else {
+      searchParams.delete('owners')
+    }
+    setSearchParams(searchParams)
+  }
+
+  const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({ projectId })
+  const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
+  const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
+
+  if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
+
+  if (projects && projects.length === 0) return <NewProjectPage />
+
+  if (!projectId)
+    return (
+      <>
+        <Filters projects={projects} />
+        <ProjectsTable />
+      </>
+    )
 
   return (
-    <Table>
-      <Table.Head>
-        <Table.HeadCell>Name</Table.HeadCell>
-        <Table.HeadCell>Owner</Table.HeadCell>
-      </Table.Head>
-      <Table.Body>
-        {projects.length === 0 && (
-          <Table.Row>
-            <Table.Cell colSpan={2} className="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              First time here? 👇
-            </Table.Cell>
-          </Table.Row>
-        )}
-        {projects.map((project) => (
-          <Table.Row
-            key={project.id}
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-            onClick={() => navigate(`/user/metrics?project_id=${project.id}`)}
-          >
-            <Table.Cell className="text-white">{project.name}</Table.Cell>
-            <Table.Cell>{project.user.name}</Table.Cell>
-          </Table.Row>
-        ))}
-        <Table.Row
-          onClick={() => navigate('/user/projects/new')}
-          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-        >
-          <Table.Cell colSpan={2} className="text-center">
-            <div className="flex items-center justify-center">
-              <AddIcon /> {projects.length === 0 ? 'Create your first project' : 'New Project'}
-            </div>
-          </Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table>
+    <>
+      {metrics && projects.length > 0 && (
+        <Filters
+          projects={projects}
+          metrics={metrics}
+          selectedOwners={selectedOwners}
+          setSelectedOwners={setSelectedOwners}
+        />
+      )}
+      {projectId && !metricId && metrics.length > 0 && (
+        <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
+      )}
+      {!metricId && metrics.length === 0 && <BackfillInstructions />}
+      {metricId && metric && (
+        <>
+          <MetricCard metric={metric} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
+            {metric.owners && (
+              <div className="col-span-1">
+                <Owners selectedOwners={selectedOwners} setSelectedOwners={setSelectedOwners} owners={metric.owners} />
+              </div>
+            )}
+            {metric.occurrences && (
+              <div className="col-span-1 xl:col-span-3">
+                <Occurrences occurrences={metric.occurrences} />
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </>
   )
 }
 
-export default ProjectsIndex
+export default ProjectsPage

@@ -16,6 +16,6 @@ class SessionsController < ApplicationController
   private
 
   def after_sign_in_path
-    request.env['omniauth.params']['after_sign_in_path'] || request.env['omniauth.origin'] || user_metrics_path
+    request.env['omniauth.params']['after_sign_in_path'] || request.env['omniauth.origin'] || user_projects_path
   end
 end

@@ -4,7 +4,7 @@ import NewProjectInstructions from './NewProjectInstructions'
 
 const NewProjectPage = () => (
   <Card>
-    <h1>Start a new project</h1>
+    <h1>Create a new project</h1>
     <NewProjectInstructions />
   </Card>
 )
