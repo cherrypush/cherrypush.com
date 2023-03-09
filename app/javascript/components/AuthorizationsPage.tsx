@@ -2,11 +2,13 @@ import { Button, Modal, Spinner } from 'flowbite-react'
 import React, { useState } from 'react'
 import {
   useAuthorizationsCreate,
-  useAuthorizationsIndex,
   useAuthorizationsDestroy,
+  useAuthorizationsIndex,
 } from '../queries/user/authorizations'
+import { useAuthorizationRequestsIndex } from '../queries/user/authorizationsRequests'
 import { useProjectsIndex } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
+import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
 import AutocompleteField from './AutocompleteField'
 import PageLoader from './PageLoader'
 
@@ -48,10 +50,11 @@ const AddAuthorizationModal = ({ projectId, onClose }) => {
   )
 }
 
-const AuthorizationsIndex = () => {
+const AuthorizationsPage = () => {
   const { data: projects } = useProjectsIndex()
   const { data: authorizations } = useAuthorizationsIndex()
   const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
+  const { data: authorizationRequests } = useAuthorizationRequestsIndex()
 
   const [editedProjectId, setEditedProjectId] = useState()
 
@@ -62,6 +65,12 @@ const AuthorizationsIndex = () => {
       <h1>Authorizations</h1>
 
       <p className="mb-3">Control who has read-access to the projects you own.</p>
+
+      {authorizationRequests &&
+        authorizationRequests.length > 0 &&
+        authorizationRequests.map((authorizationRequest) => (
+          <AuthorizationRequestAlert key={authorizationRequest.id} authorizationRequest={authorizationRequest} />
+        ))}
 
       <div className="flex mb-4">
         {projects.length === 0 && (
@@ -124,4 +133,4 @@ const AuthorizationsIndex = () => {
     </div>
   )
 }
-export default AuthorizationsIndex
+export default AuthorizationsPage
