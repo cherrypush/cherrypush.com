@@ -14,8 +14,7 @@ class OnboardingTest < ApplicationSystemTestCase
     assert_text 'You first need to create a project'
 
     project = create(:project, user: user, name: 'rails/rails')
-    refresh
-    find('a', text: 'Projects').click
+    visit user_projects_path
     find('tr', text: 'rails/rails').click
     assert_text 'Fill up your project with historic data by running the following command'
 
