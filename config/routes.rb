@@ -23,12 +23,11 @@ Rails.application.routes.draw do
       resources :metrics, only: %i[index show destroy]
       resources :users, only: %i[index]
       resources :owners, only: %i[index]
+      resources :authorization_requests, only: %i[index create destroy]
     end
 
     constraints(->(request) { request.format == :html }) do
-      %w[docs projects projects/new authorizations settings user/docs].each do |route|
-        get route, to: 'application#spa'
-      end
+      %w[docs projects projects/new authorizations settings user/docs].each { |route| get route, to: 'application#spa' }
     end
   end
 

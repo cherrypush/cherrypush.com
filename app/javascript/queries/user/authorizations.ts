@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import httpClient from '../../helpers/httpClient'
+import { useInvalidateAuthorizationRequestsIndex } from './authorizationsRequests'
 
 const INDEX_KEY = ['user', 'authorizations']
 
@@ -9,6 +10,7 @@ export const useAuthorizationsIndex = () =>
 
 export const useAuthorizationsCreate = () => {
   const queryClient = useQueryClient()
+  const invalidateAuthorizationRequestsIndex = useInvalidateAuthorizationRequestsIndex()
 
   return useMutation(
     ({ projectId, userId }) => httpClient.post('/user/authorizations.json', { project_id: projectId, user_id: userId }),
@@ -16,6 +18,7 @@ export const useAuthorizationsCreate = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(INDEX_KEY)
         toast.success('Authorization created')
+        invalidateAuthorizationRequestsIndex()
       },
     }
   )

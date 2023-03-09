@@ -1,14 +1,14 @@
+import { CssVarsProvider } from '@mui/joy/styles'
 import React, { useEffect } from 'react'
+import { toast, Toaster } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
-import AuthorizationsIndex from './AuthorizationsIndex'
+import AuthorizationsPage from './AuthorizationsPage'
 import DocsPage from './DocsPage'
 import Footer from './Footer'
-import ProjectsPage from './ProjectsPage'
 import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
+import ProjectsPage from './ProjectsPage'
 import SettingsPage from './SettingsPage'
-import { toast, Toaster } from 'react-hot-toast'
-import { CssVarsProvider } from '@mui/joy/styles'
 
 const App = ({ alert, notice }) => {
   useEffect(() => {
@@ -24,7 +24,7 @@ const App = ({ alert, notice }) => {
           <Route path="user">
             <Route path="projects/new" element={<NewProjectPage />} />
             <Route path="projects" element={<ProjectsPage />} />
-            <Route path="authorizations" element={<AuthorizationsIndex />} />
+            <Route path="authorizations" element={<AuthorizationsPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="docs" element={<DocsPage />} />
           </Route>

@@ -53,7 +53,7 @@ const CherryNavbar = () => {
         </div>
 
         {/* NAVBAR LINKS */}
-        <Navbar.Collapse>
+        <Navbar.Collapse className="md:mr-32">
           <Navbar.Link
             onClick={() => navigate('/user/projects')}
             active={window.location.pathname === '/user/projects'}
