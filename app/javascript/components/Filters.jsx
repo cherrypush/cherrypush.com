@@ -1,8 +1,8 @@
-import React from 'react'
-import { Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
 import BackspaceIcon from '@mui/icons-material/Backspace'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 import CloseIcon from '@mui/icons-material/Close'
+import { Breadcrumb, Button, Card, Dropdown } from 'flowbite-react'
+import React from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useOwnersIndex } from '../queries/user/owners'
 
 const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
