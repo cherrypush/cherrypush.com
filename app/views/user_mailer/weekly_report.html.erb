@@ -19,7 +19,7 @@
 
         <tr>
           <td>
-            <%= link_to metric.name, user_metrics_url(project_id: project.id, metric_id: metric.id) %>
+            <%= link_to metric.name, user_projects_url(project_id: project.id, metric_id: metric.id) %>
           </td>
           <td class="text-right"><%= number_with_delimiter report.value %></td>
           <td class="text-right">

@@ -75,7 +75,12 @@ const ProjectsPage = () => {
   if (!projectIdFromUrl)
     return (
       <>
-        <Filters projects={projects} />
+        <Filters
+          projects={projects}
+          metrics={metrics}
+          selectedOwners={selectedOwners}
+          setSelectedOwners={setSelectedOwners}
+        />
         <ProjectsTable />
       </>
     )
