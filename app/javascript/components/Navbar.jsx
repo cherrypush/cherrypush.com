@@ -1,14 +1,14 @@
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { LinearProgress } from '@mui/joy'
+import { useIsFetching } from '@tanstack/react-query'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
-import { LinearProgress } from '@mui/joy'
-import { useIsFetching } from '@tanstack/react-query'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
