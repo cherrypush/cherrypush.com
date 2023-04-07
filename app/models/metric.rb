@@ -26,7 +26,7 @@ class Metric < ApplicationRecord
     daily_reports
       .filter_map do |report|
         count = get_count(report, owners)
-        count && [report.date.to_date, get_count(report, owners)]
+        count && ["#{report.date.to_date} #{report.id}", count]
       end
       .sort_by { |date, _count| date }
   end
@@ -34,7 +34,7 @@ class Metric < ApplicationRecord
   private
 
   def daily_reports
-    reports.group_by { |report| report.date.to_date }.map { |_day, reports| reports.last }
+    reports.group_by { |report| report.date.to_date }.map { |_day, reports| reports.max_by(&:date) }
   end
 
   def get_count(report, owners)
