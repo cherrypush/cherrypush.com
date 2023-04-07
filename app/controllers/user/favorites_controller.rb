@@ -2,10 +2,14 @@
 
 class User::FavoritesController < User::ApplicationController
   def create
-    current_user.favorite_metric_ids << params[:id].to_i if params['type'] == 'metric'
+    if params['type'] == 'metric'
+      metric = Metric.find(params[:id])
+      current_user.favorite_metric_ids << metric.id
+      TelegramClient.send("#{current_user.name} added to favorites: #{metric.name}")
+    end
+
     current_user.save!
     head :ok
-    TelegramClient.send("#{current_user.name} favorited a metric: #{user_metrics_url(metric_id: params[:id])}")
   end
 
   def destroy
