@@ -48,7 +48,7 @@ const CommandPalette = () => {
       metrics.map((metric) => ({
         id: `metric-${metric.id}`,
         title: metric.name,
-        section: `Metrics for ${metric.project_name}`,
+        section: `Metrics for ${metric.project.name}`,
         handler: () => navigate(`/user/projects?project_id=${metric.project_id}&metric_id=${metric.id}`),
       }))
     )
