@@ -1,4 +1,4 @@
-import { Button, Label, Modal, Table, TextInput } from 'flowbite-react'
+import { Button, Card, Label, Modal, Table, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDashboardsCreate, useDashboardsIndex } from '../queries/user/dashboards'
@@ -72,24 +72,28 @@ const DashboardsIndexPage = () => {
         <h1>Dashboards</h1>
         <Button onClick={() => setShowNewDashboardModal(true)}>+ New Dashboard</Button>
       </div>
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Name</Table.HeadCell>
-          <Table.HeadCell>Project</Table.HeadCell>
-        </Table.Head>
-        <Table.Body>
-          {dashboards.map((dashboard) => (
-            <Table.Row
-              key={dashboard.id}
-              className="border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 cursor-pointer"
-              onClick={() => navigate(`/user/dashboards/${dashboard.id}`)}
-            >
-              <Table.Cell>{dashboard.name}</Table.Cell>
-              <Table.Cell>{dashboard.project.name}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      {dashboards.length > 0 ? (
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>Name</Table.HeadCell>
+            <Table.HeadCell>Project</Table.HeadCell>
+          </Table.Head>
+          <Table.Body>
+            {dashboards.map((dashboard) => (
+              <Table.Row
+                key={dashboard.id}
+                className="border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 cursor-pointer"
+                onClick={() => navigate(`/user/dashboards/${dashboard.id}`)}
+              >
+                <Table.Cell>{dashboard.name}</Table.Cell>
+                <Table.Cell>{dashboard.project.name}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      ) : (
+        <Card className="text-center">🕵🏻‍♂️ No dashboards yet</Card>
+      )}
       <NewDashboardModal show={showNewDashboardModal} setShow={setShowNewDashboardModal} />
     </div>
   )
