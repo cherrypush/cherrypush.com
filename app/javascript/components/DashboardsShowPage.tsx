@@ -8,11 +8,9 @@ import { useMetricsIndex } from '../queries/user/metrics'
 import ChartCard from './ChartCard'
 import DashboardMenu from './DashboardMenu'
 
-const EditDashboardButton = ({ dashboard }) => {
-  const [chart, setChart] = React.useState<{ metric_ids: number[]; dashboard_id: number }>({
-    metric_ids: [],
-    dashboard_id: dashboard.id,
-  })
+const AddNewChartButton = ({ dashboard }) => {
+  const initialChart = { metric_ids: [], dashboard_id: dashboard.id }
+  const [chart, setChart] = React.useState<{ metric_ids: number[]; dashboard_id: number }>(initialChart)
   const [show, setShow] = useState(false)
   const { data: metrics } = useMetricsIndex({ projectId: dashboard.project_id })
   const { mutate: createChart } = useChartsCreate()
@@ -41,6 +39,7 @@ const EditDashboardButton = ({ dashboard }) => {
               createChart(chart, {
                 onSuccess: () => {
                   setShow(false)
+                  setChart(initialChart)
                 },
               })
             }
@@ -68,7 +67,7 @@ const DashboardsShowPage = () => {
             <Breadcrumb.Item>{dashboard.name}</Breadcrumb.Item>
           </Breadcrumb>
           <div className="flex items-center gap-3">
-            <EditDashboardButton dashboard={dashboard} />
+            <AddNewChartButton dashboard={dashboard} />
             <DashboardMenu dashboardId={dashboard.id} />
           </div>
         </div>
