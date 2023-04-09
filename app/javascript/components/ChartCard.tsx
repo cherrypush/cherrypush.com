@@ -11,7 +11,7 @@ const ChartCard = ({ chart, className }) => {
     <Card className={className}>
       <div className="flex items-center justify-between">
         <h4>{chart.name}</h4>
-        <Dropdown arrowIcon={false} label={<HiDotsVertical />} color="dark" placement="bottom-end">
+        <Dropdown arrowIcon={false} label={<HiDotsVertical />} color="dark" placement="bottom-end" id="chart-menu">
           <Dropdown.Item
             onClick={() => removeChart({ chartId: chart.id, dashboardId: chart.dashboard_id })}
             icon={HiTrash}

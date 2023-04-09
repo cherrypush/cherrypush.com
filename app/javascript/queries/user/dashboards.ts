@@ -2,7 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import httpClient from '../../helpers/httpClient'
 
-const INDEX_KEY = ['user', 'dashboards']
+const INDEX_KEY = ['user', 'dashboards', 'index']
+const buildShowKey = (id: number) => ['user', 'dashboards', id]
 
 interface DashboardPayload {
   project_id: number
@@ -70,5 +71,5 @@ export const useInvalidateDashboardsIndex = () => {
 
 export const useInvalidateDashboardsShow = () => {
   const queryClient = useQueryClient()
-  return (id: number) => queryClient.invalidateQueries(['user', 'dashboards', id])
+  return (id: number) => queryClient.invalidateQueries(buildShowKey(id))
 }
