@@ -54,7 +54,14 @@ const DashboardMenu = ({ dashboard }: { dashboard: { id: number; name: string } 
   }
 
   return (
-    <Dropdown arrowIcon={false} label={<HiDotsVertical />} color="dark" placement="bottom-end" size="lg">
+    <Dropdown
+      arrowIcon={false}
+      label={<HiDotsVertical />}
+      color="dark"
+      placement="bottom-end"
+      size="lg"
+      id="dashboard-menu"
+    >
       <Dropdown.Item icon={HiPencil} onClick={() => setShowDashboardEditModal(true)}>
         Rename dashboard
       </Dropdown.Item>

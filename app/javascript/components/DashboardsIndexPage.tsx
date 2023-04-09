@@ -25,7 +25,7 @@ const NewDashboardModal = ({ show, setShow }: { show: boolean; setShow: (show) =
           </div>
           {projects && (
             <AutocompleteField
-              placeholder="Select a user..."
+              placeholder="Select a project..."
               onSelect={(project) => setDashboard({ ...dashboard, project_id: project.id })}
               items={projects.map((project) => ({ id: project.id, name: project.name }))}
             />
@@ -94,7 +94,9 @@ const DashboardsIndexPage = () => {
           </Table.Body>
         </Table>
       ) : (
-        <Card className="text-center">🕵🏻‍♂️ No dashboards yet</Card>
+        <Card>
+          <div className="text-center text-gray-500">No dashboards yet</div>
+        </Card>
       )}
       <NewDashboardModal show={showNewDashboardModal} setShow={setShowNewDashboardModal} />
     </div>

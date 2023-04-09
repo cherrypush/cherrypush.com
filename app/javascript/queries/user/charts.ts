@@ -15,7 +15,7 @@ export const useChartsCreate = () => {
   return useMutation((chart: ChartPayload) => httpClient.post(`/user/charts.json`, { chart }), {
     onSuccess: (_, chart) => {
       invalidateDashboard(chart.dashboard_id)
-      toast.success('Chart added to dashboard')
+      toast.success('New metric added to dashboard')
     },
   })
 }
