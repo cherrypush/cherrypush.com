@@ -20,6 +20,12 @@ class User::DashboardsController < User::ApplicationController
     project.dashboards.create!(dashboard_params)
   end
 
+  def update
+    dashboard = Dashboard.find(params[:id])
+    authorize dashboard.project, :read?
+    dashboard.update!(dashboard_params)
+  end
+
   def destroy
     dashboard = Dashboard.find(params[:id])
     authorize dashboard.project, :read?
