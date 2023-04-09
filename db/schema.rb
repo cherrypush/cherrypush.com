@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_09_185856) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_08_171347) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,31 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_185856) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "chart_metrics", force: :cascade do |t|
+    t.bigint "chart_id", null: false
+    t.bigint "metric_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chart_id"], name: "index_chart_metrics_on_chart_id"
+    t.index ["metric_id"], name: "index_chart_metrics_on_metric_id"
+  end
+
+  create_table "charts", force: :cascade do |t|
+    t.string "name"
+    t.bigint "dashboard_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dashboard_id"], name: "index_charts_on_dashboard_id"
+  end
+
+  create_table "dashboards", force: :cascade do |t|
+    t.string "name"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_dashboards_on_project_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -152,6 +177,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_185856) do
   add_foreign_key "authorization_requests", "users"
   add_foreign_key "authorizations", "projects"
   add_foreign_key "authorizations", "users"
+  add_foreign_key "chart_metrics", "charts"
+  add_foreign_key "chart_metrics", "metrics"
+  add_foreign_key "charts", "dashboards"
+  add_foreign_key "dashboards", "projects"
   add_foreign_key "memberships", "users"
   add_foreign_key "metrics", "projects"
   add_foreign_key "occurrences", "reports"
