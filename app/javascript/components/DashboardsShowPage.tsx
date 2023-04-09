@@ -76,9 +76,13 @@ const DashboardsShowPage = () => {
           </div>
         </div>
       </Card>
-      {dashboard.charts.map((chart) => (
-        <ChartCard chart={chart} key={chart.id} className="mb-3" />
-      ))}
+      {dashboard.charts.length > 0 ? (
+        dashboard.charts.map((chart) => <ChartCard chart={chart} key={chart.id} className="mb-3" />)
+      ) : (
+        <Card>
+          <div className="text-center text-gray-500">No charts yet</div>
+        </Card>
+      )}
     </div>
   )
 }
