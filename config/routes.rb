@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       resources :authorization_requests, only: %i[index create destroy]
       resources :authorizations, only: %i[index new create destroy]
       resources :charts, only: %i[create destroy]
-      resources :dashboards, only: %i[index show create destroy]
+      resources :dashboards, only: %i[index show create update destroy]
       resources :metrics, only: %i[index show destroy]
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]

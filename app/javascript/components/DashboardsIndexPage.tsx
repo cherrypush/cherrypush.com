@@ -86,7 +86,7 @@ const DashboardsIndexPage = () => {
                 className="border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 cursor-pointer"
                 onClick={() => navigate(`/user/dashboards/${dashboard.id}`)}
               >
-                <Table.Cell>{dashboard.name}</Table.Cell>
+                <Table.HeadCell className="text-white">{dashboard.name}</Table.HeadCell>
                 <Table.Cell>{dashboard.project.name}</Table.Cell>
                 <Table.Cell>{dashboard.charts.length}</Table.Cell>
               </Table.Row>
