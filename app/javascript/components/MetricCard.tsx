@@ -30,7 +30,7 @@ const MetricCard = ({ metricId, className }: { metricId: number; className?: str
           </Dropdown.Item>
         </Dropdown>
       </div>
-      {metric && <MetricChart metric={metric} />}
+      {metric && <MetricChart metricId={metricId} />}
     </Card>
   )
 }

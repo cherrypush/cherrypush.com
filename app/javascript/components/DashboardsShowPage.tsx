@@ -9,11 +9,11 @@ import ChartCard from './ChartCard'
 import DashboardMenu from './DashboardMenu'
 
 const AddNewChartButton = ({ dashboard }) => {
-  const initialChart = { metric_ids: [], dashboard_id: dashboard.id }
-  const [chart, setChart] = React.useState<{ metric_ids: number[]; dashboard_id: number }>(initialChart)
+  const initialChart = { metric_ids: [], dashboard_id: dashboard.id, name: 'New chart' }
+  const [chart, setChart] = React.useState<{ metric_ids: number[]; dashboard_id: number; name: string }>(initialChart)
   const [show, setShow] = useState(false)
   const { data: metrics } = useMetricsIndex({ projectId: dashboard.project_id })
-  const { mutate: createChart } = useChartsCreate()
+  const { mutateAsync: createChart } = useChartsCreate()
 
   return (
     <>
@@ -27,7 +27,9 @@ const AddNewChartButton = ({ dashboard }) => {
               <Autocomplete
                 variant="soft"
                 placeholder="Select a metric..."
-                onChange={(_, metric) => setChart({ ...chart, metric_ids: [...chart.metric_ids, metric.id] })}
+                onChange={(_, metric) =>
+                  setChart({ ...chart, metric_ids: [...chart.metric_ids, metric.id], name: metric.label })
+                }
                 options={metrics.map((metric) => ({ id: metric.id, label: metric.name }))}
               />
             )}
