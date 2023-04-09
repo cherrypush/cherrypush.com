@@ -77,6 +77,7 @@ const DashboardsIndexPage = () => {
           <Table.Head>
             <Table.HeadCell>Name</Table.HeadCell>
             <Table.HeadCell>Project</Table.HeadCell>
+            <Table.HeadCell># of Charts</Table.HeadCell>
           </Table.Head>
           <Table.Body>
             {dashboards.map((dashboard) => (
@@ -87,6 +88,7 @@ const DashboardsIndexPage = () => {
               >
                 <Table.Cell>{dashboard.name}</Table.Cell>
                 <Table.Cell>{dashboard.project.name}</Table.Cell>
+                <Table.Cell>{dashboard.charts.length}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>

@@ -2,10 +2,10 @@ import { Card, Dropdown } from 'flowbite-react'
 import React from 'react'
 import { HiDotsVertical, HiTrash } from 'react-icons/hi'
 import { useChartsDestroy } from '../queries/user/charts'
-import MetricCard from './MetricCard'
+import MetricChart from './MetricChart'
 
 const ChartCard = ({ chart, className }) => {
-  const { mutate: removeChart } = useChartsDestroy()
+  const { mutateAsync: removeChart } = useChartsDestroy()
 
   return (
     <Card className={className}>
@@ -22,7 +22,7 @@ const ChartCard = ({ chart, className }) => {
       </div>
 
       {chart.chart_metrics.map((chartMetric) => (
-        <MetricCard key={chartMetric.id} metricId={chartMetric.metric_id} />
+        <MetricChart key={chartMetric.id} metricId={chartMetric.metric_id} />
       ))}
     </Card>
   )

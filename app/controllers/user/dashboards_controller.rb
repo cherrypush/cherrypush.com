@@ -3,7 +3,10 @@
 class User::DashboardsController < User::ApplicationController
   def index
     render json:
-             Dashboard.where(project: current_user.projects).order(:name).as_json(include: { project: { only: :name } })
+             Dashboard
+               .where(project: current_user.projects)
+               .order(:name)
+               .as_json(include: [:charts, { project: { only: :name } }])
   end
 
   def show
