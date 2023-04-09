@@ -17,17 +17,21 @@ Rails.application.routes.draw do
   # SPA ROUTES
   namespace :user do
     constraints(->(request) { request.format == :json }) do
-      resources :projects, only: %i[index update destroy]
       resource :favorites, only: %i[create destroy]
-      resources :authorizations, only: %i[index new create destroy]
-      resources :metrics, only: %i[index show destroy]
-      resources :users, only: %i[index]
-      resources :owners, only: %i[index]
       resources :authorization_requests, only: %i[index create destroy]
+      resources :authorizations, only: %i[index new create destroy]
+      resources :charts, only: %i[create destroy]
+      resources :dashboards, only: %i[index show create update destroy]
+      resources :metrics, only: %i[index show destroy]
+      resources :owners, only: %i[index]
+      resources :projects, only: %i[index update destroy]
+      resources :users, only: %i[index]
     end
 
     constraints(->(request) { request.format == :html }) do
-      %w[docs projects projects/new authorizations settings user/docs].each { |route| get route, to: 'application#spa' }
+      %w[docs projects dashboards dashboards/:id projects/new authorizations settings user/docs].each do |route|
+        get route, to: 'application#spa'
+      end
     end
   end
 

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import 'ninja-keys'
-import { useProjectsIndex } from '../queries/user/projects'
-import { useMetricsIndex } from '../queries/user/metrics'
-import { useNavigate } from 'react-router'
 import SearchIcon from '@mui/icons-material/Search'
 import { Button } from 'flowbite-react'
+import 'ninja-keys'
+import React, { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router'
+import { useMetricsIndex } from '../queries/user/metrics'
+import { useProjectsIndex } from '../queries/user/projects'
 
 export const CommandPaletteButton = () => (
   <Button pill color="dark" className="ml-3" size="xs" onClick={openCommandPalette}>
@@ -25,7 +25,7 @@ const openCommandPalette = () => {
 
 const CommandPalette = () => {
   const { data: projects } = useProjectsIndex()
-  const { data: metrics } = useMetricsIndex()
+  const { data: metrics } = useMetricsIndex({})
   const navigate = useNavigate()
 
   const ninjaKeys = useRef(null)

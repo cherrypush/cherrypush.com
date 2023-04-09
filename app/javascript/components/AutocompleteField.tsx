@@ -1,10 +1,17 @@
-import React, { useState, Fragment } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import React, { Fragment, useState } from 'react'
+
+interface Props {
+  items: { id: number; name: string }[]
+  inputName?: string
+  onSelect: (item: { id: number; name: string }) => void
+  placeholder?: string
+}
 
 // TODO: Type this component
 // items = [{ id: 1, name: 'Foo' }, { id: 2, name: 'Bar' }]
-const AutocompleteField = ({ items, name, onSelect, placeholder }) => {
+const AutocompleteField = ({ items, onSelect, placeholder }: Props) => {
   const [selected, setSelected] = useState()
   const [query, setQuery] = useState('')
 
@@ -32,12 +39,11 @@ const AutocompleteField = ({ items, name, onSelect, placeholder }) => {
               onChange={(event) => setQuery(event.target.value)}
               placeholder={placeholder || 'Start typing to autocomplete...'}
               type="search"
-              spellCheck="off"
+              spellCheck={false}
               autoComplete="off"
               autoCorrect="off"
               required
             />
-            <input type="text" className="hidden" name={name} value={selected?.id} />
           </Combobox.Button>
           <Transition
             as={Fragment}

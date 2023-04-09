@@ -7,10 +7,11 @@ class Metric < ApplicationRecord
   validates :name, presence: true
 
   def last_report
-    reports.order(:date).last
+    @last_report ||= reports.order(:date).last
   end
 
   def occurrences(owner_handles = [])
+    return [] if last_report.nil?
     occurrences = last_report.occurrences
     return occurrences if owner_handles.blank?
     occurrences.where('owners && ARRAY[?]::varchar[]', owner_handles)
