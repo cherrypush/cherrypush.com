@@ -19,6 +19,6 @@ class User::ChartsController < User::ApplicationController
   private
 
   def chart_params
-    params.require(:chart).permit(:dashboard_id)
+    params.require(:chart).permit(:dashboard_id, :name)
   end
 end

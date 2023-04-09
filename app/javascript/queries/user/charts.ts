@@ -6,6 +6,7 @@ import { useInvalidateDashboardsShow } from './dashboards'
 interface ChartPayload {
   dashboard_id: number
   metric_ids: number[]
+  name: string
 }
 
 export const useChartsCreate = () => {

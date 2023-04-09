@@ -1,9 +1,14 @@
 import React from 'react'
 import Chart from 'react-apexcharts'
+import { useMetricsShow } from '../queries/user/metrics'
 
 const CHART_HEIGHT = 224
 
-const MetricChart = ({ metric }) => {
+const MetricChart = ({ metricId }) => {
+  const { data: metric } = useMetricsShow({ id: metricId })
+
+  if (!metric) return null
+
   const labels = metric.chart_data.map((data) => data[0])
   const series = [{ name: metric.name, data: metric.chart_data.map((data) => data[1]) }]
 
