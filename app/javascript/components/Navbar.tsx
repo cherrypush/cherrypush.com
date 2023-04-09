@@ -55,6 +55,13 @@ const CherryNavbar = () => {
         {/* NAVBAR LINKS */}
         <Navbar.Collapse className="md:mr-32">
           <Navbar.Link
+            onClick={() => navigate('/user/dashboards')}
+            active={window.location.pathname.includes('/user/dashboards')}
+            className="cursor-pointer"
+          >
+            Dashboards
+          </Navbar.Link>
+          <Navbar.Link
             onClick={() => navigate('/user/projects')}
             active={window.location.pathname === '/user/projects'}
             className="cursor-pointer"
