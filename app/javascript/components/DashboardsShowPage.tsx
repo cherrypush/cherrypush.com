@@ -66,11 +66,13 @@ const DashboardsShowPage = () => {
         <div className="flex justify-between items-center">
           <Breadcrumb>
             <Breadcrumb.Item href="/user/dashboards">Dashboards</Breadcrumb.Item>
-            <Breadcrumb.Item>{dashboard.name}</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <span className="text-white">{dashboard.name}</span>
+            </Breadcrumb.Item>
           </Breadcrumb>
           <div className="flex items-center gap-3">
             <AddNewChartButton dashboard={dashboard} />
-            <DashboardMenu dashboardId={dashboard.id} />
+            <DashboardMenu dashboard={dashboard} />
           </div>
         </div>
       </Card>
