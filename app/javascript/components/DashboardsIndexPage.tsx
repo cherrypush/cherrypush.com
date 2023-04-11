@@ -5,56 +5,56 @@ import { useDashboardsCreate, useDashboardsIndex } from '../queries/user/dashboa
 import { useProjectsIndex } from '../queries/user/projects'
 import AutocompleteField from './AutocompleteField'
 
-const NewDashboardModal = ({ show, setShow }: { show: boolean; setShow: (show) => void }) => {
+const NewDashboardModal = ({ onClose }: { onClose: () => void }) => {
   const { data: projects } = useProjectsIndex()
   const { mutateAsync: createDashboard } = useDashboardsCreate()
-
-  const initialDashboard = { project_id: null, name: '' }
-  const [dashboard, setDashboard] = useState<{
-    project_id: number | null
-    name: string
-  }>(initialDashboard)
+  const [name, setName] = useState('')
+  const [projectId, setProjectId] = useState<number | null>(null)
 
   return (
-    <Modal show={show} onClose={() => setShow(false)} dismissible>
-      <Modal.Header>New Dashboard</Modal.Header>
-      <Modal.Body className="flex flex-col gap-4">
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="project" value="Project" />
+    <Modal show onClose={onClose} dismissible>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          createDashboard({ name, project_id: projectId })
+          onClose()
+        }}
+      >
+        <Modal.Header>New Dashboard</Modal.Header>
+        <Modal.Body className="flex flex-col gap-4">
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="project" value="Project" />
+            </div>
+            {projects && (
+              <AutocompleteField
+                placeholder="Select a project..."
+                onSelect={(project) => setProjectId(project.id)}
+                items={projects.map((project) => ({ id: project.id, name: project.name }))}
+              />
+            )}
           </div>
-          {projects && (
-            <AutocompleteField
-              placeholder="Select a project..."
-              onSelect={(project) => setDashboard({ ...dashboard, project_id: project.id })}
-              items={projects.map((project) => ({ id: project.id, name: project.name }))}
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="name" value="Dashboard name" />
+            </div>
+            <TextInput
+              id="name"
+              type="text"
+              required={true}
+              autoComplete="off"
+              onChange={(event) => setName(event.target.value)}
             />
-          )}
-        </div>
-
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name" value="Dashboard name" />
           </div>
-          <TextInput
-            id="name"
-            type="text"
-            required={true}
-            autoComplete="off"
-            onChange={(event) => setDashboard({ ...dashboard, name: event.target.value })}
-          />
-        </div>
+        </Modal.Body>
 
-        <Button
-          onClick={() => {
-            createDashboard(dashboard)
-            setShow(false)
-            setDashboard(initialDashboard)
-          }}
-        >
-          Create
-        </Button>
-      </Modal.Body>
+        <Modal.Footer>
+          <Button type="submit" disabled={!projectId || !name} className="w-full">
+            Create
+          </Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   )
 }
@@ -98,7 +98,7 @@ const DashboardsIndexPage = () => {
           <div className="text-center text-gray-500">No dashboards yet</div>
         </Card>
       )}
-      <NewDashboardModal show={showNewDashboardModal} setShow={setShowNewDashboardModal} />
+      {showNewDashboardModal && <NewDashboardModal onClose={() => setShowNewDashboardModal(false)} />}
     </div>
   )
 }
