@@ -11,6 +11,7 @@ const NewDashboardModal = ({ onClose }: { onClose: () => void }) => {
   const { mutateAsync: createDashboard } = useDashboardsCreate()
   const [name, setName] = useState('')
   const [projectId, setProjectId] = useState<number | null>(null)
+  const navigate = useNavigate()
 
   return (
     <Modal show onClose={onClose} dismissible>
@@ -18,8 +19,14 @@ const NewDashboardModal = ({ onClose }: { onClose: () => void }) => {
         onSubmit={(event) => {
           event.preventDefault()
           invariant(projectId, 'Project ID is required')
-          createDashboard({ name, project_id: projectId })
-          onClose()
+          createDashboard(
+            { name, project_id: projectId },
+            {
+              onSuccess: (response) => {
+                navigate(`/user/dashboards/${response.data.id}`)
+              },
+            }
+          )
         }}
       >
         <Modal.Header>New Dashboard</Modal.Header>

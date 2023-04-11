@@ -17,7 +17,7 @@ class User::DashboardsController < User::ApplicationController
 
   def create
     project = authorize Project.find(params[:dashboard][:project_id]), :read?
-    project.dashboards.create!(dashboard_params)
+    render json: project.dashboards.create!(dashboard_params)
   end
 
   def update
