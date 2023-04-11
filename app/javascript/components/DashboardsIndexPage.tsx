@@ -1,6 +1,7 @@
 import { Button, Card, Label, Modal, Table, TextInput } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import invariant from 'tiny-invariant'
 import { useDashboardsCreate, useDashboardsIndex } from '../queries/user/dashboards'
 import { useProjectsIndex } from '../queries/user/projects'
 import AutocompleteField from './AutocompleteField'
@@ -16,6 +17,7 @@ const NewDashboardModal = ({ onClose }: { onClose: () => void }) => {
       <form
         onSubmit={(event) => {
           event.preventDefault()
+          invariant(projectId, 'Project ID is required')
           createDashboard({ name, project_id: projectId })
           onClose()
         }}
