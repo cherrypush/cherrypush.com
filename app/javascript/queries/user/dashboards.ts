@@ -37,13 +37,15 @@ export const useDashboardsShow = ({ id }: { id: number | undefined }) =>
 
 export const useDashboardsUpdate = () => {
   const invalidateDashboards = useInvalidateDashboardsIndex()
+  const invalidateDashboard = useInvalidateDashboardsShow()
 
   return useMutation(
     ({ id, dashboard }: { id: number; dashboard: { name: string } }) =>
       httpClient.put(`/user/dashboards/${id}.json`, { dashboard }).then((response) => response.data),
     {
-      onSuccess: () => {
+      onSuccess: (_, { id }) => {
         invalidateDashboards()
+        invalidateDashboard(id)
         toast.success('Dashboard updated')
       },
     }
