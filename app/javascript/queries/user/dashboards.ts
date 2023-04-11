@@ -5,6 +5,10 @@ import httpClient from '../../helpers/httpClient'
 const INDEX_KEY = ['user', 'dashboards', 'index']
 const buildShowKey = (id: number) => ['user', 'dashboards', id]
 
+interface DashboardType {
+  id: number
+}
+
 interface DashboardPayload {
   project_id: number
   name: string
