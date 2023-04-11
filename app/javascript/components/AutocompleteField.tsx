@@ -3,16 +3,19 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 import React, { Fragment, useState } from 'react'
 
 interface Props {
-  items: { id: number; name: string }[]
+  items: ItemType[]
   inputName?: string
-  onSelect: (item: { id: number; name: string }) => void
+  onSelect: (item: ItemType) => void
   placeholder?: string
 }
 
-// TODO: Type this component
-// items = [{ id: 1, name: 'Foo' }, { id: 2, name: 'Bar' }]
+interface ItemType {
+  id: number
+  name: string
+}
+
 const AutocompleteField = ({ items, onSelect, placeholder }: Props) => {
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState<ItemType | null>(null)
   const [query, setQuery] = useState('')
 
   const filteredItems =
@@ -26,7 +29,7 @@ const AutocompleteField = ({ items, onSelect, placeholder }: Props) => {
     <div className="top-16">
       <Combobox
         value={selected}
-        onChange={(item) => {
+        onChange={(item: ItemType) => {
           setSelected(item)
           onSelect?.(item)
         }}
@@ -35,7 +38,7 @@ const AutocompleteField = ({ items, onSelect, placeholder }: Props) => {
           <Combobox.Button className="w-full">
             <Combobox.Input
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              displayValue={(item) => item.name}
+              displayValue={(item: ItemType) => item?.name}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={placeholder || 'Start typing to autocomplete...'}
               type="search"
