@@ -6,6 +6,7 @@ import { useInvalidateDashboardsShow } from './dashboards'
 export enum ChartKind {
   Area = 'area',
   StackedArea = 'stacked_area',
+  StackedPercentageArea = 'stacked_percentage_area',
   Line = 'line',
 }
 
