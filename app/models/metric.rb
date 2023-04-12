@@ -27,9 +27,9 @@ class Metric < ApplicationRecord
     daily_reports
       .filter_map do |report|
         count = get_count(report, owners)
-        count && ["#{report.date.to_date} #{report.id}", count]
+        count && { date: report.date.to_date, value: count }
       end
-      .sort_by { |date, _count| date }
+      .sort_by { |item| item[:date] }
   end
 
   private
