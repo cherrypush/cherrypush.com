@@ -1,55 +1,18 @@
-import { Autocomplete } from '@mui/joy'
-import { Breadcrumb, Button, Card, Label, Modal } from 'flowbite-react'
+import { Breadcrumb, Button, Card } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useChartsCreate } from '../queries/user/charts'
 import { useDashboardsShow } from '../queries/user/dashboards'
-import { useMetricsIndex } from '../queries/user/metrics'
 import ChartCard from './ChartCard'
-import DashboardMenu from './DashboardMenu'
+import ChartDrawer from './ChartDrawer'
+import DashboardActionsMenu from './DashboardActionsMenu'
 
 const AddNewChartButton = ({ dashboard }) => {
-  const initialChart = { metric_ids: [], dashboard_id: dashboard.id, name: 'New chart' }
-  const [chart, setChart] = React.useState<{ metric_ids: number[]; dashboard_id: number; name: string }>(initialChart)
   const [show, setShow] = useState(false)
-  const { data: metrics } = useMetricsIndex({ projectId: dashboard.project_id })
-  const { mutateAsync: createChart } = useChartsCreate()
 
   return (
     <>
-      <Button onClick={() => setShow(true)}>+ Add Metric</Button>
-      <Modal show={show} onClose={() => setShow(false)} dismissible>
-        <Modal.Header>Add Metric</Modal.Header>
-        <Modal.Body>
-          <div>
-            <Label htmlFor="metric" value="Metric" className="block mb-2" />
-            {metrics && (
-              <Autocomplete
-                variant="soft"
-                placeholder="Select a metric..."
-                onChange={(_, metric) =>
-                  setChart({ ...chart, metric_ids: [...chart.metric_ids, metric.id], name: metric.label })
-                }
-                options={metrics.map((metric) => ({ id: metric.id, label: metric.name }))}
-              />
-            )}
-          </div>
-        </Modal.Body>
-        <Modal.Footer className="justify-end">
-          <Button
-            onClick={() =>
-              createChart(chart, {
-                onSuccess: () => {
-                  setShow(false)
-                  setChart(initialChart)
-                },
-              })
-            }
-          >
-            Add Metric
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Button onClick={() => setShow(true)}>+ Add Chart</Button>
+      <ChartDrawer show={show} dashboard={dashboard} onClose={() => setShow(false)} />
     </>
   )
 }
@@ -72,7 +35,7 @@ const DashboardsShowPage = () => {
           </Breadcrumb>
           <div className="flex items-center gap-3">
             <AddNewChartButton dashboard={dashboard} />
-            <DashboardMenu dashboard={dashboard} />
+            <DashboardActionsMenu dashboard={dashboard} />
           </div>
         </div>
       </Card>

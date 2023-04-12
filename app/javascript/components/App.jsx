@@ -1,6 +1,6 @@
-import { CssVarsProvider } from '@mui/joy/styles'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 import React, { useEffect } from 'react'
-import { toast, Toaster } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
 import AuthorizationsPage from './AuthorizationsPage'
 import DashboardsIndexPage from './DashboardsIndexPage'
@@ -12,6 +12,12 @@ import NewProjectPage from './NewProjectPage'
 import ProjectsPage from './ProjectsPage'
 import SettingsPage from './SettingsPage'
 
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+})
+
 const App = ({ alert, notice }) => {
   useEffect(() => {
     if (alert) toast.error(alert)
@@ -19,7 +25,7 @@ const App = ({ alert, notice }) => {
   }, [])
 
   return (
-    <CssVarsProvider defaultMode="dark">
+    <ThemeProvider theme={darkTheme}>
       <Navbar />
       <div className="px-3 pt-3">
         <Routes>
@@ -46,7 +52,7 @@ const App = ({ alert, notice }) => {
           }}
         />
       </div>
-    </CssVarsProvider>
+    </ThemeProvider>
   )
 }
 
