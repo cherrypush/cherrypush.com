@@ -4,7 +4,7 @@ import _ from 'lodash'
 import React from 'react'
 import Chart from 'react-apexcharts'
 import httpClient from '../helpers/httpClient'
-import { ChartKinds } from '../queries/user/charts'
+import { ChartKind } from '../queries/user/charts'
 
 const CHART_HEIGHT = 224
 const ONE_DAY = 1000 * 60 * 60 * 24
@@ -20,6 +20,7 @@ const kindToType = {
   area: 'area',
   line: 'line',
   stacked_area: 'area',
+  stacked_percentage_area: 'area',
 }
 
 const getMinDate = (metrics) =>
@@ -33,6 +34,28 @@ const getMaxDate = (metrics) =>
     .flatMap((metric) => metric.chart_data[metric.chart_data.length - 1].date)
     .sort()
     .last()
+
+const buildSeries = (metrics, kind) => {
+  const series =
+    metrics.length > 1
+      ? metrics.map((metric) => fillGaps(metric.chart_data, getMinDate(metrics), getMaxDate(metrics)))
+      : [metrics[0].chart_data]
+
+  if (kind === ChartKind.StackedPercentageArea && metrics.length > 1) {
+    series[0].forEach((point, index) => {
+      const total = series.reduce((sum, serie) => sum + serie[index].value, 0)
+      series.forEach((serie) => (serie[index].value = (serie[index].value / total) * 100))
+    })
+  }
+
+  return series.map((serie, index) => ({
+    name: metrics[index].name,
+    data: serie.map((item) => ({
+      x: item.date,
+      y: item.value,
+    })),
+  }))
+}
 
 const fillGaps = (array: ChartData, startDate: string, endDate: string) => {
   const filledArray: { date: string; value: number }[] = []
@@ -66,34 +89,29 @@ const MetricChart = ({ metricIds, kind }: { metricIds: number[]; kind: ChartKind
 
   const metrics = results.map((result) => result.data)
 
-  const series = metrics.map((metric) => ({
-    name: metric.name,
-    data: (metrics.length > 1
-      ? fillGaps(metric.chart_data, getMinDate(metrics), getMaxDate(metrics))
-      : metric.chart_data
-    ).map((item) => ({
-      x: item.date,
-      y: item.value,
-    })),
-  }))
+  const series = buildSeries(metrics, kind)
 
   const options = {
     chart: {
       background: 'none',
       type: kindToType[kind],
-      stacked: kind === 'stacked_area',
+      stacked: kind === 'stacked_area' || kind === 'stacked_percentage_area',
       animations: { enabled: false },
       zoom: { enabled: false },
       toolbar: { show: false },
     },
     dataLabels: { enabled: false },
-    theme: { mode: 'dark', palette: 'palette2' },
+    theme: { mode: 'dark', palette: 'palette6' },
     grid: { show: false },
     xaxis: { tickAmount: 6, labels: { show: true, rotate: 0 }, type: 'datetime' },
     yaxis: {
       min: 0,
-      forceNiceScale: true,
-      labels: { formatter: (value) => value.toFixed(0) },
+      forceNiceScale: kind !== ChartKind.StackedPercentageArea,
+      labels: {
+        formatter: (value) =>
+          kind === ChartKind.StackedPercentageArea ? value.toFixed(0).toString() + '%' : value.toFixed(0).toString(),
+      },
+      max: kind === ChartKind.StackedPercentageArea ? 100 : undefined,
     },
     markers: {
       size: 0,
@@ -104,8 +122,6 @@ const MetricChart = ({ metricIds, kind }: { metricIds: number[]; kind: ChartKind
     //   horizontalAlign: 'left',
     // },
   }
-
-  console.log(options.chart)
 
   return <Chart type={kindToType[kind]} height={CHART_HEIGHT} options={options} series={series} />
 }
