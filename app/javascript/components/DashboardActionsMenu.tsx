@@ -18,33 +18,34 @@ const DashboardEditModal = ({
 
   return (
     <Modal show={show} onClose={() => setShow(false)} dismissible>
-      <Modal.Header>Rename dashboard</Modal.Header>
-      <Modal.Body>
-        <div>
-          <Label htmlFor="name" value="Name" className="block mb-2" />
-          <TextInput
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Dashboard name"
-            className="w-full"
-          />
-        </div>
-      </Modal.Body>
-      <Modal.Footer className="justify-end">
-        <Button
-          onClick={() => {
-            updateDashboard({ id: dashboard.id, dashboard: { name } }, { onSuccess: () => setShow(false) })
-          }}
-        >
-          Rename
-        </Button>
-      </Modal.Footer>
+      <form
+        onSubmit={(event) => {
+          event.preventDefault()
+          updateDashboard({ id: dashboard.id, dashboard: { name } }, { onSuccess: () => setShow(false) })
+        }}
+      >
+        <Modal.Header>Rename dashboard</Modal.Header>
+        <Modal.Body>
+          <div>
+            <Label htmlFor="name" value="Name" className="block mb-2" />
+            <TextInput
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Dashboard name"
+              className="w-full"
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="justify-end">
+          <Button type="submit">Rename</Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   )
 }
 
-const DashboardMenu = ({ dashboard }: { dashboard: { id: number; name: string } }) => {
+const DashboardActionsMenu = ({ dashboard }: { dashboard: { id: number; name: string } }) => {
   const { mutate: deleteDashboard } = useDashboardsDestroy()
   const navigate = useNavigate()
   const [showDashboardEditModal, setShowDashboardEditModal] = useState(false)
@@ -73,4 +74,4 @@ const DashboardMenu = ({ dashboard }: { dashboard: { id: number; name: string } 
   )
 }
 
-export default DashboardMenu
+export default DashboardActionsMenu

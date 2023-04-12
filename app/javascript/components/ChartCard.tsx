@@ -20,10 +20,7 @@ const ChartCard = ({ chart, className }) => {
           </Dropdown.Item>
         </Dropdown>
       </div>
-
-      {chart.chart_metrics.map((chartMetric) => (
-        <MetricChart key={chartMetric.id} metricId={chartMetric.metric_id} />
-      ))}
+      <MetricChart kind={chart.kind} metricIds={chart.chart_metrics.map((metric) => metric.metric_id)} />
     </Card>
   )
 }
