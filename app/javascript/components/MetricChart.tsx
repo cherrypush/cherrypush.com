@@ -22,6 +22,18 @@ const kindToType = {
   stacked_area: 'area',
 }
 
+const getMinDate = (metrics) =>
+  _(metrics)
+    .flatMap((metric) => metric.chart_data[0].date)
+    .sort()
+    .first()
+
+const getMaxDate = (metrics) =>
+  _(metrics)
+    .flatMap((metric) => metric.chart_data[metric.chart_data.length - 1].date)
+    .sort()
+    .last()
+
 const fillGaps = (array: ChartData, startDate: string, endDate: string) => {
   const filledArray: { date: string; value: number }[] = []
   let previousValue = 0
@@ -54,19 +66,15 @@ const MetricChart = ({ metricIds, kind }: { metricIds: number[]; kind: ChartKind
 
   const metrics = results.map((result) => result.data)
 
-  const minDate = _(metrics)
-    .flatMap((metric) => metric.chart_data[0].date)
-    .sort()
-    .first()
-
-  const maxDate = _(metrics)
-    .flatMap((metric) => metric.chart_data[metric.chart_data.length - 1].date)
-    .sort()
-    .last()
-
   const series = metrics.map((metric) => ({
     name: metric.name,
-    data: fillGaps(metric.chart_data, minDate, maxDate).map((item) => ({ x: item.date, y: item.value })),
+    data: (metrics.length > 1
+      ? fillGaps(metric.chart_data, getMinDate(metrics), getMaxDate(metrics))
+      : metric.chart_data
+    ).map((item) => ({
+      x: item.date,
+      y: item.value,
+    })),
   }))
 
   const options = {
