@@ -2,7 +2,7 @@
 
 # TODO: remove once we stop using this endpoint from the CLI
 class Api::ReportsController < Api::ApplicationController
-  include ProjectScoped
+  include Api::ProjectScoped
 
   def last
     render json: nil
