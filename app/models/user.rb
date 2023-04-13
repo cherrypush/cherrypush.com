@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  ADMIN_GITHUB_HANDLES = ENV.fetch('ADMIN_GITHUB_HANDLES', '').split(',')
+
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
@@ -38,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def premium?
-    true # While it's only used at Doctolib
+    true
     # memberships.any?
   end
 
@@ -71,12 +73,11 @@ class User < ApplicationRecord
     return resource.id.in?(favorite_project_ids) if resource.is_a?(Project)
     return resource.name.in?(favorite_metric_names) if resource.is_a?(Metric)
     return resource.handle.in?(favorite_owner_handles) if resource.is_a?(Owner)
-    return false
+    false
   end
 
-  # TODO: make this a real feature
   def admin?
-    github_handle.in?(%w[fwuensche rchoquet])
+    github_handle.in? ADMIN_GITHUB_HANDLES
   end
 
   private
