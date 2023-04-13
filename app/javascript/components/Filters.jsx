@@ -34,32 +34,7 @@ const Filters = ({ projects, metrics, selectedOwners, setSelectedOwners }) => {
 
         {currentMetric && (
           <Breadcrumb.Item>
-            <div className="hover:text-white">
-              <Dropdown label={currentMetric?.name || 'Select a metric'} inline>
-                {currentMetric && (
-                  <Dropdown.Item
-                    onClick={() => {
-                      searchParams.delete('metric_id')
-                      setSearchParams(searchParams)
-                    }}
-                  >
-                    <CloseIcon /> Remove selection
-                  </Dropdown.Item>
-                )}
-                {metrics.map((metric) => (
-                  <Dropdown.Item
-                    key={metric.id}
-                    onClick={() => {
-                      searchParams.set('project_id', metric.project_id)
-                      searchParams.set('metric_id', metric.id)
-                      setSearchParams(searchParams)
-                    }}
-                  >
-                    {metric.name}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown>
-            </div>
+            <div className="hover:text-white">{currentMetric.name}</div>
           </Breadcrumb.Item>
         )}
 
