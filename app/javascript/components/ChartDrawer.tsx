@@ -1,22 +1,49 @@
 import { Autocomplete, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import { Button } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { ChartKind, useChartsCreate } from '../queries/user/charts'
+import { DashboardType } from '../queries/user/dashboards'
 import { useMetricsIndex } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
-const ChartDrawer = ({ onClose, dashboard, show }) => {
+interface Props {
+  open: boolean
+  onClose: () => void
+  dashboard: DashboardType
+}
+
+const ChartDrawer = ({ onClose, dashboard, open }: Props) => {
+  const { chartId } = useParams()
+  const isNewChart = !chartId
+  const currentChart = chartId ? dashboard.charts.find((chart) => chart.id === parseInt(chartId)) : undefined
+
   const [name, setName] = useState('')
   const [kind, setKind] = useState<ChartKind>(ChartKind.Area)
-  const { data: metrics } = useMetricsIndex({ projectId: dashboard.project_id })
   const [metricIds, setMetricIds] = useState<number[]>([])
+
+  const { data: metrics } = useMetricsIndex({ projectId: dashboard.project_id })
   const { mutate: createChart } = useChartsCreate()
+
+  useEffect(() => {
+    if (!chartId) {
+      setName('')
+      setKind(ChartKind.Area)
+      setMetricIds([])
+    } else {
+      setName(currentChart?.name || '')
+      setKind(currentChart?.kind || ChartKind.Area)
+      setMetricIds(currentChart?.chart_metrics.map((chartMetric) => chartMetric.metric_id) || [])
+    }
+  }, [chartId])
 
   if (!metrics) return null
 
+  const metricOptions = metrics.map((metric) => ({ id: metric.id, label: metric.name }))
+
   return (
-    <Drawer anchor="right" open={show} onClose={onClose} SlideProps={{ className: 'w-11/12 p-12' }}>
+    <Drawer anchor="right" open={open} onClose={onClose} SlideProps={{ className: 'w-11/12 p-12' }}>
       <form
         onSubmit={(event) => {
           event.preventDefault()
@@ -24,7 +51,7 @@ const ChartDrawer = ({ onClose, dashboard, show }) => {
           onClose()
         }}
       >
-        <h1>New Chart</h1>
+        <h1>{isNewChart ? 'New Chart' : 'Edit Chart'}</h1>
         <Stack spacing={3}>
           <FormControl fullWidth>
             <TextField
@@ -38,7 +65,8 @@ const ChartDrawer = ({ onClose, dashboard, show }) => {
           <FormControl fullWidth>
             <Autocomplete
               multiple
-              options={metrics.map((metric) => ({ id: metric.id, label: metric.name }))}
+              value={metricOptions.filter((metric) => metricIds.includes(metric.id))}
+              options={metricOptions}
               renderInput={(params) => <TextField {...params} label="Metrics" />}
               onChange={(_event, items) => {
                 setMetricIds(items.map((item) => item.id))
