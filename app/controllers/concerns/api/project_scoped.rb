@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ProjectScoped
+module Api::ProjectScoped
   extend ActiveSupport::Concern
 
   def current_project
