@@ -1,8 +1,12 @@
-import React from 'react'
+import BackspaceIcon from '@mui/icons-material/Backspace'
 import classnames from 'classnames'
-import { Table } from 'flowbite-react'
+import { Button, Table } from 'flowbite-react'
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const isSelected = (owner) => selectedOwners.includes(owner.handle)
   const select = (owner) => setSelectedOwners(selectedOwners.concat([owner.handle]))
   const unselect = (owner) => setSelectedOwners(selectedOwners.filter((o) => o !== owner.handle))
@@ -13,6 +17,21 @@ const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
       <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           Owners 👩🏻‍💻
+          {selectedOwners.length > 0 && (
+            <Button
+              className="inline-block float-right"
+              color="light"
+              pill
+              size="xs"
+              onClick={() => {
+                searchParams.delete('owners')
+                setSearchParams(searchParams)
+              }}
+            >
+              Clear ({selectedOwners.length})
+              <BackspaceIcon fontSize="inherit" className="ml-1" />
+            </Button>
+          )}
         </caption>
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <Table.HeadCell>Owner</Table.HeadCell>
