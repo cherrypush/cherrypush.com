@@ -7,7 +7,7 @@ import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRe
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
-import Filters from './Filters'
+import Breadcrumb from './Breadcrumb'
 import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
 import NewProjectPage from './NewProjectPage'
@@ -75,26 +75,14 @@ const ProjectsPage = () => {
   if (!projectIdFromUrl)
     return (
       <>
-        <Filters
-          projects={projects}
-          metrics={metrics}
-          selectedOwners={selectedOwners}
-          setSelectedOwners={setSelectedOwners}
-        />
+        <Breadcrumb projects={projects} metrics={metrics} />
         <ProjectsTable />
       </>
     )
 
   return (
     <>
-      {metrics && projects && projects.length > 0 && (
-        <Filters
-          projects={projects}
-          metrics={metrics}
-          selectedOwners={selectedOwners}
-          setSelectedOwners={setSelectedOwners}
-        />
-      )}
+      {metrics && projects && projects.length > 0 && <Breadcrumb projects={projects} metrics={metrics} />}
       {projectIdFromUrl && !metricId && metrics.length > 0 && (
         <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
       )}
