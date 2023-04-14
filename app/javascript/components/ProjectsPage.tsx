@@ -57,7 +57,7 @@ const ProjectsPage = () => {
     setSearchParams(searchParams)
   }
 
-  const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
+  const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null)
   const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
   const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({
     projectId: projectIdFromUrl
@@ -101,7 +101,7 @@ const ProjectsPage = () => {
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
-          <MetricCard metricId={metric.id} className="mb-3" />
+          <MetricCard metricId={metric.id} owners={selectedOwners} className="mb-3" />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
               <div className="col-span-1">

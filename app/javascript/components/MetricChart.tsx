@@ -3,8 +3,8 @@ import { Spinner } from 'flowbite-react'
 import _ from 'lodash'
 import React from 'react'
 import Chart from 'react-apexcharts'
-import httpClient from '../helpers/httpClient'
 import { ChartKind } from '../queries/user/charts'
+import { metricShowOptions } from '../queries/user/metrics'
 
 const CHART_HEIGHT = 224
 const ONE_DAY = 1000 * 60 * 60 * 24
@@ -74,16 +74,22 @@ const fillGaps = (array: ChartData, startDate: string, endDate: string) => {
   return filledArray
 }
 
-const MetricChart = ({ metricIds, kind }: { metricIds: number[]; kind: ChartKinds }) => {
-  const results = useQueries({
-    queries: metricIds.map((id) => ({
-      queryKey: ['user', 'metrics', id],
-      queryFn: () => httpClient.get(`/user/metrics/${id}.json`).then((response) => response.data),
-    })),
-  })
+interface Props {
+  metricIds: number[]
+  kind: ChartKind
+  owners?: string[]
+}
+
+const MetricChart = ({ metricIds, kind, owners }: Props) => {
+  const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
 
   const isLoading = results.some((result) => result.isLoading)
-  if (isLoading) return <Spinner />
+  if (isLoading)
+    return (
+      <div className={`h-[${CHART_HEIGHT}px]`}>
+        <Spinner />
+      </div>
+    )
 
   if (metricIds.length === 0) return null
 
@@ -117,10 +123,6 @@ const MetricChart = ({ metricIds, kind }: { metricIds: number[]; kind: ChartKind
       size: 0,
       style: 'hollow',
     },
-    // legend: {
-    //   position: 'top',
-    //   horizontalAlign: 'left',
-    // },
   }
 
   return <Chart type={kindToType[kind]} height={CHART_HEIGHT} options={options} series={series} />
