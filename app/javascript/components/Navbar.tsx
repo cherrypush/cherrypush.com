@@ -1,7 +1,7 @@
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import LogoutIcon from '@mui/icons-material/Logout'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { LinearProgress } from '@mui/joy'
+import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
@@ -21,7 +21,7 @@ const CherryNavbar = () => {
 
       {isFetching > 0 && (
         <div className="absolute top-0 inset-x-0">
-          <LinearProgress variant="plain" thickness={2} />
+          <LinearProgress variant="indeterminate" thickness={2} />
         </div>
       )}
 

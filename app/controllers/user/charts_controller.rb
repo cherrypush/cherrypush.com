@@ -10,6 +10,16 @@ class User::ChartsController < User::ApplicationController
     params[:chart][:metric_ids].each { |metric_id| chart.chart_metrics.create!(metric_id: metric_id) }
   end
 
+  def update
+    chart = Chart.find(params[:id])
+    authorize chart.dashboard.project, :read?
+    chart.update!(chart_params)
+
+    return if chart.chart_metric_ids == params[:chart][:metric_ids]
+    chart.chart_metrics.destroy_all
+    params[:chart][:metric_ids].each { |metric_id| chart.chart_metrics.create!(metric_id: metric_id) }
+  end
+
   def destroy
     chart = Chart.find(params[:id])
     authorize chart.dashboard.project, :read?
@@ -19,6 +29,6 @@ class User::ChartsController < User::ApplicationController
   private
 
   def chart_params
-    params.require(:chart).permit(:dashboard_id, :name)
+    params.require(:chart).permit(:dashboard_id, :name, :kind)
   end
 end

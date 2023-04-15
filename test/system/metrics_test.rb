@@ -81,7 +81,7 @@ class MetricsTest < ApplicationSystemTestCase
     find('tr', text: '@rchoquet', match: :first).click
     assert_text 'filepath:2'
     assert_no_text 'filepath:1'
-    assert_text '@rchoquet', count: 3 # once in each section: Owners, Occurrences, Filters
+    assert_text '@rchoquet', count: 2
     assert_text 'Clear'
   end
 end

@@ -64,12 +64,6 @@ jobs:
         run: npm i -g cherrypush
       - name: Push metrics
         run: cherry push --api-key=\${{ secrets.CHERRY_API_KEY }}`}</pre>
-    <h1>Integrate with Pull Requests</h1>
-    <p>
-      Useful for validating changes directly on your pull requests. A red build will be shown if the pull request
-      introduces a new occurrence of your tracked metrics.
-    </p>
-    <pre>{`Useful for validating changes directly on your pull requests. A red build will be shown if the pull request introduces a new occurrence of your tracked metrics.`}</pre>
     <h1>Live demo 🔴</h1>
     <p>
       Here you can watch a <a href="https://www.cherrypush.com/demo">live demo</a> of the product.

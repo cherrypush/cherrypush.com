@@ -2,12 +2,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import { Button, Card } from 'flowbite-react'
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
-import Filters from './Filters'
+import Breadcrumb from './Breadcrumb'
 import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
 import NewProjectPage from './NewProjectPage'
@@ -43,6 +43,7 @@ const RequestAccessCard = ({ projectId }: { projectId: number }) => {
 
 const ProjectsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   const metricId = searchParams.get('metric_id')
   const projectIdFromUrl = searchParams.get('project_id')
@@ -57,15 +58,15 @@ const ProjectsPage = () => {
     setSearchParams(searchParams)
   }
 
-  const { data: metric } = useMetricsShow({ id: metricId, owners: selectedOwners })
-  const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
-  const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({
+  const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null, selectedOwners)
+  const { data: projects } = useProjectsIndex()
+  const { data: metrics } = useMetricsIndex({
     projectId: projectIdFromUrl
       ? projects?.find((project) => project.id === parseInt(projectIdFromUrl))?.id
       : undefined,
   })
 
-  if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
+  if (!metrics || !projects) return <PageLoader />
 
   if (projectIdFromUrl && projects && projects.some((project) => project.id === parseInt(projectIdFromUrl)) === false)
     return <RequestAccessCard projectId={parseInt(projectIdFromUrl)} />
@@ -74,34 +75,26 @@ const ProjectsPage = () => {
 
   if (!projectIdFromUrl)
     return (
-      <>
-        <Filters
-          projects={projects}
-          metrics={metrics}
-          selectedOwners={selectedOwners}
-          setSelectedOwners={setSelectedOwners}
-        />
+      <div className="container">
+        <div className="flex items-center justify-between">
+          <h1>Projects</h1>
+          <Button onClick={() => navigate('/user/projects/new')}>+ New Project</Button>
+        </div>
+
         <ProjectsTable />
-      </>
+      </div>
     )
 
   return (
     <>
-      {metrics && projects && projects.length > 0 && (
-        <Filters
-          projects={projects}
-          metrics={metrics}
-          selectedOwners={selectedOwners}
-          setSelectedOwners={setSelectedOwners}
-        />
-      )}
+      {metrics && projects && projects.length > 0 && <Breadcrumb projects={projects} metrics={metrics} />}
       {projectIdFromUrl && !metricId && metrics.length > 0 && (
         <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
       )}
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
-          <MetricCard metricId={metric.id} className="mb-3" />
+          <MetricCard metricId={metric.id} owners={selectedOwners} className="mb-3" />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
               <div className="col-span-1">

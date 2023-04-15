@@ -1,12 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import httpClient from '../../helpers/httpClient'
+import { ChartKind } from './charts'
 
 const INDEX_KEY = ['user', 'dashboards', 'index']
 const buildShowKey = (id: number) => ['user', 'dashboards', id]
 
-interface DashboardType {
+export interface ChartMetricType {
   id: number
+  chart_id: number
+  metric_id: number
+  updated_at: string
+  created_at: string
+}
+
+export interface ChartType {
+  id: number
+  name: string | null
+  kind: ChartKind
+  chart_metrics: ChartMetricType[]
+  dashboard_id: number
+  updated_at: string
+  created_at: string
+}
+
+export interface DashboardType {
+  id: number
+  name: string | null
+  project_id: number
+  updated_at: string
+  created_at: string
+  charts: ChartType[]
 }
 
 interface DashboardPayload {
@@ -15,12 +39,12 @@ interface DashboardPayload {
 }
 
 export const useDashboardsIndex = () =>
-  useQuery(INDEX_KEY, () => httpClient.get(`/user/dashboards.json`).then((response) => response.data))
+  useQuery(INDEX_KEY, () => axios.get(`/user/dashboards.json`).then((response) => response.data))
 
 export const useDashboardsCreate = () => {
   const invalidateDashboards = useInvalidateDashboardsIndex()
 
-  return useMutation((dashboard: DashboardPayload) => httpClient.post(`/user/dashboards.json`, { dashboard }), {
+  return useMutation((dashboard: DashboardPayload) => axios.post(`/user/dashboards.json`, { dashboard }), {
     onSuccess: () => {
       invalidateDashboards()
       toast.success('Dashboard created')
@@ -35,7 +59,7 @@ export const useDashboardsCreate = () => {
 export const useDashboardsShow = ({ id }: { id: number | undefined }) =>
   useQuery(
     ['user', 'dashboards', id],
-    () => httpClient.get(`/user/dashboards/${id}.json`).then((response) => response.data),
+    () => axios.get(`/user/dashboards/${id}.json`).then((response) => response.data),
     { enabled: !!id }
   )
 
@@ -45,7 +69,7 @@ export const useDashboardsUpdate = () => {
 
   return useMutation(
     ({ id, dashboard }: { id: number; dashboard: { name: string } }) =>
-      httpClient.put(`/user/dashboards/${id}.json`, { dashboard }).then((response) => response.data),
+      axios.put(`/user/dashboards/${id}.json`, { dashboard }).then((response) => response.data),
     {
       onSuccess: (_, { id }) => {
         invalidateDashboards()
@@ -60,7 +84,7 @@ export const useDashboardsDestroy = () => {
   const invalidateDashboards = useInvalidateDashboardsIndex()
 
   return useMutation(
-    ({ id }: { id: number }) => httpClient.delete(`/user/dashboards/${id}.json`).then((response) => response.data),
+    ({ id }: { id: number }) => axios.delete(`/user/dashboards/${id}.json`).then((response) => response.data),
     {
       onSuccess: () => {
         invalidateDashboards()

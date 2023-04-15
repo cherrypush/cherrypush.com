@@ -5,8 +5,14 @@ import { useSearchParams } from 'react-router-dom'
 import { useMetricsDestroy, useMetricsShow } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
-const MetricCard = ({ metricId, className }: { metricId: number; className?: string }) => {
-  const { data: metric } = useMetricsShow({ id: metricId })
+interface Props {
+  metricId: number
+  className?: string
+  owners?: string[]
+}
+
+const MetricCard = ({ metricId, className, owners }: Props) => {
+  const { data: metric } = useMetricsShow(metricId, owners)
   const [searchParams, setSearchParams] = useSearchParams()
 
   const { mutate: deleteMetric } = useMetricsDestroy({
@@ -30,7 +36,7 @@ const MetricCard = ({ metricId, className }: { metricId: number; className?: str
           </Dropdown.Item>
         </Dropdown>
       </div>
-      {metric && <MetricChart metricId={metricId} />}
+      <MetricChart kind="area" metricIds={[metricId]} owners={owners} />
     </Card>
   )
 }

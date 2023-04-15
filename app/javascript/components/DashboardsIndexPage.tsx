@@ -1,10 +1,12 @@
-import { Button, Card, Label, Modal, Table, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import { Button, Card, Label, Modal, TextInput } from 'flowbite-react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import invariant from 'tiny-invariant'
+import { timeAgoInWords } from '../helpers/applicationHelper'
 import { useDashboardsCreate, useDashboardsIndex } from '../queries/user/dashboards'
 import { useProjectsIndex } from '../queries/user/projects'
 import AutocompleteField from './AutocompleteField'
+import SortedTable from './SortedTable'
 
 const NewDashboardModal = ({ onClose }: { onClose: () => void }) => {
   const { data: projects } = useProjectsIndex()
@@ -73,6 +75,30 @@ const DashboardsIndexPage = () => {
   const [showNewDashboardModal, setShowNewDashboardModal] = useState(false)
   const navigate = useNavigate()
 
+  const data = useMemo(() => dashboards, [dashboards])
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Project',
+        accessor: 'project.name',
+      },
+      {
+        Header: '# of charts',
+        accessor: 'charts.length',
+      },
+      {
+        Header: 'Last update',
+        accessor: 'updated_at',
+        Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
+      },
+    ],
+    []
+  )
+
   if (!dashboards) return null
 
   return (
@@ -82,26 +108,11 @@ const DashboardsIndexPage = () => {
         <Button onClick={() => setShowNewDashboardModal(true)}>+ New Dashboard</Button>
       </div>
       {dashboards.length > 0 ? (
-        <Table>
-          <Table.Head>
-            <Table.HeadCell>Name</Table.HeadCell>
-            <Table.HeadCell>Project</Table.HeadCell>
-            <Table.HeadCell># of Charts</Table.HeadCell>
-          </Table.Head>
-          <Table.Body>
-            {dashboards.map((dashboard) => (
-              <Table.Row
-                key={dashboard.id}
-                className="border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 cursor-pointer"
-                onClick={() => navigate(`/user/dashboards/${dashboard.id}`)}
-              >
-                <Table.HeadCell className="text-white">{dashboard.name}</Table.HeadCell>
-                <Table.Cell>{dashboard.project.name}</Table.Cell>
-                <Table.Cell>{dashboard.charts.length}</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+        <SortedTable
+          data={data}
+          columns={columns}
+          onRowClick={(dashboard) => navigate(`/user/dashboards/${dashboard.id}`)}
+        />
       ) : (
         <Card>
           <div className="text-center text-gray-500">No dashboards yet</div>

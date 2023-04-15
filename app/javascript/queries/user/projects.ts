@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import httpClient from '../../helpers/httpClient'
+import axios from 'axios'
 
 interface Project {
   id: number
@@ -11,6 +11,4 @@ interface Project {
 }
 
 export const useProjectsIndex = () =>
-  useQuery<Project[]>(['user', 'projects'], () =>
-    httpClient.get('/user/projects.json').then((response) => response.data)
-  )
+  useQuery<Project[]>(['user', 'projects'], () => axios.get('/user/projects.json').then((response) => response.data))

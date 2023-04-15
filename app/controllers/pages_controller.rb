@@ -9,7 +9,7 @@ class PagesController < ApplicationController
     if current_user
       redirect_to demo_project_path
     else
-      redirect_to github_sign_in_path(after_sign_in_path: demo_project_path)
+      redirect_to request.referer, alert: 'Please sign in to access the demo'
     end
   end
 
