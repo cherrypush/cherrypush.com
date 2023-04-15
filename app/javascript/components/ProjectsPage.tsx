@@ -2,7 +2,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import { Button, Card } from 'flowbite-react'
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
@@ -43,6 +43,7 @@ const RequestAccessCard = ({ projectId }: { projectId: number }) => {
 
 const ProjectsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   const metricId = searchParams.get('metric_id')
   const projectIdFromUrl = searchParams.get('project_id')
@@ -58,14 +59,14 @@ const ProjectsPage = () => {
   }
 
   const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null, selectedOwners)
-  const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
-  const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({
+  const { data: projects } = useProjectsIndex()
+  const { data: metrics } = useMetricsIndex({
     projectId: projectIdFromUrl
       ? projects?.find((project) => project.id === parseInt(projectIdFromUrl))?.id
       : undefined,
   })
 
-  if (isLoadingMetrics || isLoadingProjects) return <PageLoader />
+  if (!metrics || !projects) return <PageLoader />
 
   if (projectIdFromUrl && projects && projects.some((project) => project.id === parseInt(projectIdFromUrl)) === false)
     return <RequestAccessCard projectId={parseInt(projectIdFromUrl)} />
@@ -74,10 +75,14 @@ const ProjectsPage = () => {
 
   if (!projectIdFromUrl)
     return (
-      <>
-        <Breadcrumb projects={projects} metrics={metrics} />
+      <div className="container">
+        <div className="flex items-center justify-between">
+          <h1>Projects</h1>
+          <Button onClick={() => navigate('/user/projects/new')}>+ New Project</Button>
+        </div>
+
         <ProjectsTable />
-      </>
+      </div>
     )
 
   return (
