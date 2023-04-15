@@ -79,6 +79,7 @@ const ChartDrawer = ({ onClose, dashboard, open }: Props) => {
           <FormControl fullWidth>
             <InputLabel id="chart-kind-label">Chart Type</InputLabel>
             <Select
+              name="kind"
               labelId="chart-kind-label"
               value={kind}
               defaultValue={kind}

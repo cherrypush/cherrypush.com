@@ -14,7 +14,7 @@ class DashboardsTest < ApplicationSystemTestCase
   let!(:_report3) { create(:report, metric: metric2, value: 12, date: 10.day.ago) }
   let!(:_report4) { create(:report, metric: metric2, value: 9, date: 5.days.ago) }
 
-  it 'allows new users to request access to projects' do
+  it 'allows new users to request access to projects' do # rubocop:disable Metrics/BlockLength
     sign_in(user, to: user_dashboards_path)
 
     # dashboards/index
@@ -36,12 +36,26 @@ class DashboardsTest < ApplicationSystemTestCase
     find('li', text: 'JS LOC').click
     fill_in 'Metrics', with: 'TS LOC'
     find('li', text: 'TS LOC').click
-
-    click_on 'Add Chart'
+    mui_select('Line', from: 'kind')
+    click_on 'Create'
     assert_text 'New chart added to dashboard'
+    assert_equal 'line', project.dashboards.sole.charts.sole.kind
     assert_text 'Javascript'
     assert_text 'JS LOC'
     assert_text 'TS LOC'
+
+    # Edit chart
+    find('#chart-menu').click
+    find('li', text: 'Edit').click
+    fill_in 'Title', with: ''
+    fill_in 'Title', with: 'Typescript'
+    find('[role="button"]', text: 'JS LOC').find('[data-testid="CancelIcon"]').click
+    mui_select('Area', from: 'kind')
+    click_on 'Update'
+    assert_text 'Chart updated'
+    assert_text 'Typescript'
+    assert_equal 'area', project.dashboards.sole.charts.sole.kind
+    assert_equal 'TS LOC', project.dashboards.sole.charts.sole.chart_metrics.sole.metric.name
 
     # Delete chart
     find('#chart-menu').click
