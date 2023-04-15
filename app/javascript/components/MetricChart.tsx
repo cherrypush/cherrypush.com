@@ -1,20 +1,14 @@
 import { useQueries } from '@tanstack/react-query'
 import { Spinner } from 'flowbite-react'
 import _ from 'lodash'
-import React from 'react'
+import React, { useMemo } from 'react'
 import Chart from 'react-apexcharts'
 import { ChartKind } from '../queries/user/charts'
 import { metricShowOptions } from '../queries/user/metrics'
 
 const CHART_HEIGHT = 224
-const ONE_DAY = 1000 * 60 * 60 * 24
 
-interface ChartDataPoint {
-  date: string
-  value: number
-}
-
-type ChartData = ChartDataPoint[]
+type ChartData = { [date: string]: number }
 
 const kindToType = {
   area: 'area',
@@ -23,56 +17,43 @@ const kindToType = {
   stacked_percentage_area: 'area',
 }
 
-const getMinDate = (metrics) =>
-  _(metrics)
-    .flatMap((metric) => metric.chart_data[0].date)
-    .sort()
-    .first()
-
-const getMaxDate = (metrics) =>
-  _(metrics)
-    .flatMap((metric) => metric.chart_data[metric.chart_data.length - 1].date)
-    .sort()
-    .last()
-
 const buildSeries = (metrics, kind) => {
-  const series =
-    metrics.length > 1
-      ? metrics.map((metric) => fillGaps(metric.chart_data, getMinDate(metrics), getMaxDate(metrics)))
-      : [metrics[0].chart_data]
+  const chartsData = metrics.map((metric) => metric.chart_data)
+  if (chartsData.length > 1) fillGaps(chartsData)
+  if (kind === ChartKind.StackedPercentageArea) toPercentages(chartsData)
 
-  if (kind === ChartKind.StackedPercentageArea && metrics.length > 1) {
-    series[0].forEach((point, index) => {
-      const total = series.reduce((sum, serie) => sum + serie[index].value, 0)
-      series.forEach((serie) => (serie[index].value = (serie[index].value / total) * 100))
+  return toApexChartsData(metrics, chartsData)
+}
+
+const fillGaps = (chartsData: ChartData[]) => {
+  const allDays = _.uniq(chartsData.flatMap((chartData) => Object.keys(chartData))).sort()
+  chartsData.forEach((chartData) => {
+    let previousValue = 0
+    allDays.forEach((day) => {
+      if (chartData[day] === undefined) chartData[day] = previousValue
+      previousValue = chartData[day]
     })
-  }
+  })
+}
+  
+const toPercentages = (chartsData: ChartData[]) => {
+  Object.keys(chartsData[0]).forEach((day) => {
+    const total = chartsData.reduce((sum, serie) => sum + serie[day], 0)
+    chartsData.forEach((serie) => (serie[day] = (serie[day] / total) * 100))
+  })
+}
 
-  return series.map((serie, index) => ({
+const toApexChartsData = (metrics, chartsData: ChartData[]) =>
+  chartsData.map((chartData, index) => ({
     name: metrics[index].name,
-    data: serie.map((item) => ({
-      x: item.date,
-      y: item.value,
-    })),
+    data: _.sortBy(
+      Object.entries(chartData).map(([day, value]) => ({
+        x: day,
+        y: value,
+      })),
+      'x'
+    ),
   }))
-}
-
-const fillGaps = (array: ChartData, startDate: string, endDate: string) => {
-  const filledArray: { date: string; value: number }[] = []
-  let previousValue = 0
-
-  const startTime = new Date(startDate).getTime()
-  const endTime = new Date(endDate).getTime()
-
-  for (let time = startTime; time <= endTime; time += ONE_DAY) {
-    const date = new Date(time).toISOString().substr(0, 10)
-    const currentValue = array.find((item) => item.date === date)?.value ?? previousValue
-    filledArray.push({ date, value: currentValue })
-    previousValue = currentValue
-  }
-
-  return filledArray
-}
 
 interface Props {
   metricIds: number[]
@@ -83,7 +64,12 @@ interface Props {
 const MetricChart = ({ metricIds, kind, owners }: Props) => {
   const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
 
+  const metrics = results.map((result) => result.data)
+
   const isLoading = results.some((result) => result.isLoading)
+
+  const series = useMemo(() => (metrics.every(Boolean) ? buildSeries(metrics, kind) : []), [metrics, kind])
+
   if (isLoading)
     return (
       <div className={`h-[${CHART_HEIGHT}px]`}>
@@ -92,10 +78,6 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
     )
 
   if (metricIds.length === 0) return null
-
-  const metrics = results.map((result) => result.data)
-
-  const series = buildSeries(metrics, kind)
 
   const options = {
     chart: {
