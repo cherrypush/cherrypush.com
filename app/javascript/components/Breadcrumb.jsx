@@ -29,7 +29,7 @@ const Breadcrumb = ({ projects, metrics }) => {
 
         {currentMetric && (
           <BaseBreadcrumb.Item>
-            <div className="hover:text-white">{currentMetric.name}</div>
+            <div className="text-white">{currentMetric.name}</div>
           </BaseBreadcrumb.Item>
         )}
       </BaseBreadcrumb>
