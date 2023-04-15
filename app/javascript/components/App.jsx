@@ -1,4 +1,5 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles'
+import axios from 'axios'
 import React, { useEffect } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
@@ -11,6 +12,11 @@ import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
 import ProjectsPage from './ProjectsPage'
 import SettingsPage from './SettingsPage'
+
+axios.defaults.headers.common['X-CSRF-Token'] = document
+  .querySelector('meta[name="csrf-token"]')
+  ?.getAttribute('content')
+axios.defaults.headers.common['Content-type'] = 'application/json; charset=UTF-8'
 
 const darkTheme = createTheme({
   palette: {
