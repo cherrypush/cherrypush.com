@@ -6,5 +6,3 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            Rails.application.credentials.dig(Rails.env.to_sym, :github, :client_secret),
            scope: 'user:email'
 end
-
-OmniAuth.config.allowed_request_methods = %i[get]
