@@ -29,9 +29,18 @@ Rails.application.routes.draw do
     end
 
     constraints(->(request) { request.format == :html }) do
-      %w[docs projects dashboards dashboards/:id dashboards/:dashboard_id/charts/new dashboards/:dashboard_id/charts/:chart_id/edit projects/new authorizations settings user/docs].each do |route|
-        get route, to: 'application#spa'
-      end
+      %w[
+        docs
+        projects
+        dashboards
+        dashboards/:id
+        dashboards/:dashboard_id/charts/new
+        dashboards/:dashboard_id/charts/:chart_id/edit
+        projects/new
+        authorizations
+        settings
+        user/docs
+      ].each { |route| get route, to: 'application#spa' }
     end
   end
 
