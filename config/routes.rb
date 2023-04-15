@@ -8,9 +8,6 @@ Rails.application.routes.draw do
   get '/auth/github', as: :github_sign_in
 
   namespace :api do
-    resources :reports, only: [] do # TODO: remove this controller
-      get :last, on: :collection
-    end
     resource :push, only: :create
   end
 
