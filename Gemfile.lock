@@ -108,8 +108,6 @@ GEM
     crass (1.0.6)
     date (3.3.3)
     debug (1.7.1)
-      irb (>= 1.5.0)
-      reline (>= 0.3.1)
     debug_inspector (1.1.0)
     dry-cli (1.0.0)
     errbase (0.2.2)
@@ -137,9 +135,6 @@ GEM
     importmap-rails (1.1.5)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
-    io-console (0.6.0)
-    irb (1.6.3)
-      reline (>= 0.3.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -190,6 +185,9 @@ GEM
       rack-protection
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
+      omniauth (~> 2.0)
+    omniauth-rails_csrf_protection (1.0.1)
+      actionpack (>= 4.2)
       omniauth (~> 2.0)
     parallel (1.22.1)
     parity (3.5.0)
@@ -243,8 +241,6 @@ GEM
     rake (13.0.6)
     redcarpet (3.5.1)
     regexp_parser (2.6.2)
-    reline (0.3.2)
-      io-console (~> 0.5)
     rexml (3.2.5)
     rubocop (1.44.0)
       json (~> 2.3)
@@ -347,6 +343,7 @@ DEPENDENCIES
   minitest-spec-rails
   omniauth
   omniauth-github!
+  omniauth-rails_csrf_protection
   parity
   pg (~> 1.1)
   pry

@@ -16,6 +16,7 @@ gem 'sprockets-rails'
 # authentication
 gem 'omniauth'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
+gem 'omniauth-rails_csrf_protection'
 
 # project-specific dependencies
 gem 'blazer'

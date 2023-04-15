@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class StaticPagesTest < ApplicationSystemTestCase
@@ -14,5 +16,6 @@ class StaticPagesTest < ApplicationSystemTestCase
     click_on 'Docs'
     assert_text 'npm install -g cherrypush'
     click_on 'Demo'
+    assert_text 'Please sign in to access the demo'
   end
 end
