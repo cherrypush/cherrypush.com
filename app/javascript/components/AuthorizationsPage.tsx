@@ -1,4 +1,4 @@
-import { Button, Modal, Spinner } from 'flowbite-react'
+import { Button, Modal, Spinner, Table } from 'flowbite-react'
 import React, { useState } from 'react'
 import {
   useAuthorizationsCreate,
@@ -64,7 +64,7 @@ const AuthorizationsPage = () => {
     <div className="container">
       <h1>Authorizations</h1>
 
-      <p className="mb-3">Control who has read-access to the projects you own.</p>
+      <p className="mb-3">Control who has read and write access to your projects.</p>
 
       {authorizationRequests &&
         authorizationRequests.length > 0 &&
@@ -88,29 +88,28 @@ const AuthorizationsPage = () => {
       <div className="flex flex-col gap-3">
         {projects.map((project) => (
           <div className="overflow-x-auto relative" key={project.id}>
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th scope="col" className="py-3 px-6 text-gray-700 uppercase dark:text-gray-400">
-                    {project.name}
-                  </th>
-                  <th scope="col" className="py-3 px-6 flex justify-end">
-                    <a className="cursor-pointer text-link" onClick={() => setEditedProjectId(project.id)}>
-                      + Add Authorization
-                    </a>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+            <Table>
+              <Table.Head>
+                <Table.HeadCell>{project.name}</Table.HeadCell>
+                <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end">
+                  <a className="cursor-pointer text-link" onClick={() => setEditedProjectId(project.id)}>
+                    + Add Authorization
+                  </a>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body>
                 {authorizations
                   .filter((authorization) => authorization.project_id === project.id)
                   .sort((a, b) => a.user.name.localeCompare(b.user.name))
                   .map((authorization) => (
-                    <tr key={authorization.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <Table.Row
+                      key={authorization.id}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    >
+                      <Table.Cell>
                         {authorization.user.name} (@{authorization.user.github_handle})
-                      </th>
-                      <td className="py-4 px-6 justify-end">
+                      </Table.Cell>
+                      <Table.Cell className="justify-end">
                         <Button
                           onClick={() => destroyAuthorization({ id: authorization.id })}
                           disabled={isLoading}
@@ -119,11 +118,11 @@ const AuthorizationsPage = () => {
                         >
                           Remove
                         </Button>
-                      </td>
-                    </tr>
+                      </Table.Cell>
+                    </Table.Row>
                   ))}
-              </tbody>
-            </table>
+              </Table.Body>
+            </Table>
           </div>
         ))}
         {editedProjectId && (
