@@ -24,14 +24,13 @@ export const useMetricsDestroy = ({ onSuccess }) => {
   })
 }
 
-export const useMetricsShow = ({ id, owners }: { id: number; owners?: string[] }) =>
-  useQuery(
-    ['user', 'metrics', id, { owners }],
-    () =>
-      id
-        ? httpClient
-            .get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } })
-            .then((response) => response.data)
-        : null,
-    { keepPreviousData: true }
-  )
+export const metricShowOptions = (id: number | null, owners: string[] = []) => ({
+  queryKey: ['user', 'metrics', id, { owners }],
+  queryFn: () =>
+    httpClient.get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } }).then((response) => response.data),
+  staleTime: 1000 * 60,
+  enabled: Boolean(id),
+  keepPreviousData: true,
+})
+
+export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
