@@ -1,25 +1,17 @@
 import { Breadcrumb, Button, Card } from 'flowbite-react'
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDashboardsShow } from '../queries/user/dashboards'
 import ChartCard from './ChartCard'
 import ChartDrawer from './ChartDrawer'
 import DashboardActionsMenu from './DashboardActionsMenu'
 
-const AddNewChartButton = ({ dashboard }) => {
-  const [show, setShow] = useState(false)
-
-  return (
-    <>
-      <Button onClick={() => setShow(true)}>+ Add Chart</Button>
-      <ChartDrawer show={show} dashboard={dashboard} onClose={() => setShow(false)} />
-    </>
-  )
-}
-
 const DashboardsShowPage = () => {
-  const { id } = useParams()
-  const { data: dashboard } = useDashboardsShow({ id: id ? parseInt(id) : undefined })
+  const { dashboardId, chartId } = useParams()
+  const isNewChartPage = !chartId && window.location.pathname.endsWith('new')
+  const navigate = useNavigate()
+
+  const { data: dashboard } = useDashboardsShow({ id: dashboardId ? parseInt(dashboardId) : undefined })
 
   if (!dashboard) return null
 
@@ -34,7 +26,7 @@ const DashboardsShowPage = () => {
             </Breadcrumb.Item>
           </Breadcrumb>
           <div className="flex items-center gap-3">
-            <AddNewChartButton dashboard={dashboard} />
+            <Button onClick={() => navigate(`/user/dashboards/${dashboard.id}/charts/new`)}>+ Add Chart</Button>
             <DashboardActionsMenu dashboard={dashboard} />
           </div>
         </div>
@@ -46,6 +38,11 @@ const DashboardsShowPage = () => {
           <div className="text-center text-gray-500">No charts yet</div>
         </Card>
       )}
+      <ChartDrawer
+        open={!!chartId || isNewChartPage}
+        dashboard={dashboard}
+        onClose={() => navigate(`/user/dashboards/${dashboard.id}`)}
+      />
     </div>
   )
 }

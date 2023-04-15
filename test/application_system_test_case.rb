@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include SignInHelper
+  include NavigationHelper
 
   Capybara.register_driver :headless_chrome do |app|
     options = Selenium::WebDriver::Chrome::Options.new(args: %w[headless window-size=1400,1000])
