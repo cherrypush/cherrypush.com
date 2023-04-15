@@ -25,17 +25,15 @@ class Metric < ApplicationRecord
 
   def chart_data(owners: nil)
     daily_reports
-      .filter_map do |report|
-        count = get_count(report, owners)
-        count && { date: report.date.to_date, value: count }
-      end
-      .sort_by { |item| item[:date] }
+      .index_with { |report| get_count(report, owners) }
+      .compact
+      .transform_keys { |report| report.date.iso8601[0...10] }
   end
 
   private
 
   def daily_reports
-    reports.group_by { |report| report.date.to_date }.map { |_day, reports| reports.max_by(&:date) }
+    reports.group_by { |report| report.date.to_date }.map { |_day, reports| reports.max_by(&:date) }.sort_by(&:date)
   end
 
   def get_count(report, owners)
