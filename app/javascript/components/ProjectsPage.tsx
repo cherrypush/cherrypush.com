@@ -57,7 +57,7 @@ const ProjectsPage = () => {
     setSearchParams(searchParams)
   }
 
-  const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null)
+  const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null, selectedOwners)
   const { data: projects, isLoading: isLoadingProjects } = useProjectsIndex()
   const { data: metrics, isLoading: isLoadingMetrics } = useMetricsIndex({
     projectId: projectIdFromUrl
