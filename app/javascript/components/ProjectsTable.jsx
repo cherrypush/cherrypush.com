@@ -1,5 +1,3 @@
-import AddIcon from '@mui/icons-material/Add'
-import { Table } from 'flowbite-react'
 import React from 'react'
 import { useNavigate } from 'react-router'
 import { timeAgoInWords } from '../helpers/applicationHelper'
@@ -12,6 +10,7 @@ const ProjectsTable = () => {
 
   if (!projects) return null
 
+  const data = React.useMemo(() => projects, [projects])
   const columns = React.useMemo(
     () => [
       {
@@ -33,22 +32,7 @@ const ProjectsTable = () => {
 
   const handleClick = (project) => navigate(`/user/projects?project_id=${project.id}`)
 
-  const Footer = () => (
-    <Table.Row
-      onClick={() => navigate('/user/projects/new')}
-      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-    >
-      <Table.Cell colSpan="100%" className="text-center">
-        <div className="flex items-center justify-center">
-          <AddIcon /> {projects.length === 0 ? 'Create your first project' : 'New Project'}
-        </div>
-      </Table.Cell>
-    </Table.Row>
-  )
-
-  const data = React.useMemo(() => projects, [projects])
-
-  return <SortedTable data={data} columns={columns} onRowClick={handleClick} Footer={Footer} />
+  return <SortedTable data={data} columns={columns} onRowClick={handleClick} />
 }
 
 export default ProjectsTable

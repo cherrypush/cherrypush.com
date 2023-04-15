@@ -1,12 +1,14 @@
-import React from 'react'
 import { Card } from 'flowbite-react'
+import React from 'react'
 import NewProjectInstructions from './NewProjectInstructions'
 
 const NewProjectPage = () => (
-  <Card>
-    <h1>Create a new project</h1>
-    <NewProjectInstructions />
-  </Card>
+  <div className="container">
+    <Card>
+      <h1>Create a new project</h1>
+      <NewProjectInstructions />
+    </Card>
+  </div>
 )
 
 export default NewProjectPage
