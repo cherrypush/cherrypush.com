@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resource :favorites, only: %i[create destroy]
       resources :authorization_requests, only: %i[index create destroy]
       resources :authorizations, only: %i[index new create destroy]
-      resources :charts, only: %i[create destroy]
+      resources :charts, only: %i[create update destroy]
       resources :dashboards, only: %i[index show create update destroy]
       resources :metrics, only: %i[index show destroy]
       resources :owners, only: %i[index]

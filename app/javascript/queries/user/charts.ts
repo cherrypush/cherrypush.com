@@ -10,20 +10,34 @@ export enum ChartKind {
   Line = 'line',
 }
 
-interface ChartPayload {
+type Chart = {
+  id: number
   dashboard_id: number
   metric_ids: number[]
   name: string
   kind: ChartKind
 }
 
+type CreateChartPayload = Omit<Chart, 'id'>
+
 export const useChartsCreate = () => {
   const invalidateDashboard = useInvalidateDashboardsShow()
 
-  return useMutation((chart: ChartPayload) => httpClient.post(`/user/charts.json`, { chart }), {
+  return useMutation((chart: CreateChartPayload) => httpClient.post(`/user/charts.json`, { chart }), {
     onSuccess: (_, chart) => {
       invalidateDashboard(chart.dashboard_id)
       toast.success('New chart added to dashboard')
+    },
+  })
+}
+
+export const useChartsUpdate = () => {
+  const invalidateDashboard = useInvalidateDashboardsShow()
+
+  return useMutation((chart: Chart) => httpClient.put(`/user/charts/${chart.id}.json`, { chart }), {
+    onSuccess: (_, chart) => {
+      invalidateDashboard(chart.dashboard_id)
+      toast.success('Chart updated')
     },
   })
 }
