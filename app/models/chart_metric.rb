@@ -2,5 +2,5 @@
 
 class ChartMetric < ApplicationRecord
   belongs_to :chart
-  has_one :metric
+  belongs_to :metric
 end

@@ -32,7 +32,9 @@ const App = ({ alert, notice }) => {
           <Route path="user">
             <Route path="projects/new" element={<NewProjectPage />} />
             <Route path="dashboards" element={<DashboardsIndexPage />} />
-            <Route path="dashboards/:id" element={<DashboardsShowPage />} />
+            <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />
+            <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
+            <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={<DashboardsShowPage />} />
             <Route path="projects" element={<ProjectsPage />} />
             <Route path="authorizations" element={<AuthorizationsPage />} />
             <Route path="settings" element={<SettingsPage />} />
