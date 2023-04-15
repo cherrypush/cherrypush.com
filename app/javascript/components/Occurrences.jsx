@@ -1,7 +1,6 @@
 import classnames from 'classnames'
 import { Table } from 'flowbite-react'
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 const DEFAULT_MAX_OCCURRENCES = 20
 
