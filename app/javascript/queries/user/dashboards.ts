@@ -1,12 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-hot-toast'
 import httpClient from '../../helpers/httpClient'
+import { ChartKind } from './charts'
 
 const INDEX_KEY = ['user', 'dashboards', 'index']
 const buildShowKey = (id: number) => ['user', 'dashboards', id]
 
-interface DashboardType {
+export interface ChartMetricType {
   id: number
+  chart_id: number
+  metric_id: number
+  updated_at: string
+  created_at: string
+}
+
+export interface ChartType {
+  id: number
+  name: string | null
+  kind: ChartKind
+  chart_metrics: ChartMetricType[]
+  dashboard_id: number
+  updated_at: string
+  created_at: string
+}
+
+export interface DashboardType {
+  id: number
+  name: string | null
+  project_id: number
+  updated_at: string
+  created_at: string
+  charts: ChartType[]
 }
 
 interface DashboardPayload {
