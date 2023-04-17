@@ -6,9 +6,10 @@ import { useOwnersIndex } from '../queries/user/owners'
 const OwnerSelector = () => {
   const { selectedOwners, setSelectedOwners } = useSelectedOwners()
   const { data: owners } = useOwnersIndex()
-  const ownerOptions = owners?.map((owner) => ({ id: owner.handle, label: owner.handle })) ?? []
 
   if (!owners) return null
+
+  const ownerOptions = owners.map((owner) => ({ id: owner.handle, label: owner.handle })) ?? []
 
   return (
     <Autocomplete
