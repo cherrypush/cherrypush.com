@@ -5,6 +5,7 @@ import { useDashboardsShow } from '../queries/user/dashboards'
 import ChartCard from './ChartCard'
 import ChartDrawer from './ChartDrawer'
 import DashboardActionsMenu from './DashboardActionsMenu'
+import OwnerSelector from './OwnerSelector'
 
 const DashboardsShowPage = () => {
   const { dashboardId, chartId } = useParams()
@@ -32,7 +33,14 @@ const DashboardsShowPage = () => {
         </div>
       </Card>
       {dashboard.charts.length > 0 ? (
-        dashboard.charts.map((chart) => <ChartCard chart={chart} key={chart.id} className="mb-3" />)
+        <>
+          <Card className="mb-3">
+            <OwnerSelector />
+          </Card>
+          {dashboard.charts.map((chart) => (
+            <ChartCard chart={chart} key={chart.id} className="mb-3" />
+          ))}
+        </>
       ) : (
         <Card>
           <div className="text-center text-gray-500">No charts yet</div>
