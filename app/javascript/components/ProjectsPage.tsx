@@ -5,6 +5,7 @@ import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
+import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
 import Breadcrumb from './Breadcrumb'
@@ -65,6 +66,7 @@ const ProjectsPage = () => {
       ? projects?.find((project) => project.id === parseInt(projectIdFromUrl))?.id
       : undefined,
   })
+  const { data: occurrences } = useOccurrencesIndex(metricId ? parseInt(metricId) : null, selectedOwners)
 
   if (!metrics || !projects) return <PageLoader />
 
@@ -101,9 +103,9 @@ const ProjectsPage = () => {
                 <Owners selectedOwners={selectedOwners} setSelectedOwners={setSelectedOwners} owners={metric.owners} />
               </div>
             )}
-            {metric.occurrences && (
+            {occurrences && (
               <div className="col-span-1 xl:col-span-3">
-                <Occurrences occurrences={metric.occurrences} />
+                <Occurrences occurrences={occurrences} />
               </div>
             )}
           </div>
