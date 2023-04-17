@@ -2,12 +2,20 @@ import { Card, Dropdown } from 'flowbite-react'
 import React from 'react'
 import { HiDotsVertical, HiPencil, HiTrash } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
+import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useChartsDestroy } from '../queries/user/charts'
+import { ChartType } from '../queries/user/dashboards'
 import MetricChart from './MetricChart'
 
-const ChartCard = ({ chart, className }) => {
+interface Props {
+  chart: ChartType
+  className?: string
+}
+
+const ChartCard = ({ chart, className }: Props) => {
   const { mutateAsync: removeChart } = useChartsDestroy()
   const navigate = useNavigate()
+  const { selectedOwners } = useSelectedOwners()
 
   return (
     <Card className={className}>
@@ -29,7 +37,11 @@ const ChartCard = ({ chart, className }) => {
           </Dropdown.Item>
         </Dropdown>
       </div>
-      <MetricChart kind={chart.kind} metricIds={chart.chart_metrics.map((metric) => metric.metric_id)} />
+      <MetricChart
+        kind={chart.kind}
+        metricIds={chart.chart_metrics.map((metric) => metric.metric_id)}
+        owners={selectedOwners}
+      />
     </Card>
   )
 }

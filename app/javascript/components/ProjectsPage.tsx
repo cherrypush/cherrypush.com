@@ -3,6 +3,7 @@ import LockPersonIcon from '@mui/icons-material/LockPerson'
 import { Button, Card } from 'flowbite-react'
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
@@ -42,21 +43,12 @@ const RequestAccessCard = ({ projectId }: { projectId: number }) => {
 }
 
 const ProjectsPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
   const metricId = searchParams.get('metric_id')
   const projectIdFromUrl = searchParams.get('project_id')
-
-  const selectedOwners = searchParams.get('owners')?.split(',') ?? []
-  const setSelectedOwners = (owners) => {
-    if (owners.length > 0) {
-      searchParams.set('owners', owners.join(','))
-    } else {
-      searchParams.delete('owners')
-    }
-    setSearchParams(searchParams)
-  }
+  const { selectedOwners } = useSelectedOwners()
 
   const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null, selectedOwners)
   const { data: projects } = useProjectsIndex()
@@ -98,7 +90,7 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
               <div className="col-span-1">
-                <Owners selectedOwners={selectedOwners} setSelectedOwners={setSelectedOwners} owners={metric.owners} />
+                <Owners owners={metric.owners} />
               </div>
             )}
             {metric.occurrences && (
