@@ -3,9 +3,11 @@ import classnames from 'classnames'
 import { Button, Table } from 'flowbite-react'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
+import useSelectedOwners from '../hooks/useSelectedOwners'
 
-const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
+const Owners = ({ owners }: { owners: { handle: string; count: number }[] }) => {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { selectedOwners, setSelectedOwners } = useSelectedOwners()
 
   const isSelected = (owner) => selectedOwners.includes(owner.handle)
   const select = (owner) => setSelectedOwners(selectedOwners.concat([owner.handle]))
@@ -56,7 +58,7 @@ const Owners = ({ owners, selectedOwners, setSelectedOwners }) => {
 
           {owners.length === 0 && (
             <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
-              <Table.Cell colSpan="3" className="px-4 py-2">
+              <Table.Cell colSpan={100} className="px-4 py-2">
                 You can start using owners on your project by adding a CODEOWNERS file to your repository. Learn more
                 about code owners through the official docs:{' '}
                 <a

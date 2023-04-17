@@ -2,6 +2,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { Card, Dropdown } from 'flowbite-react'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { ChartKind } from '../queries/user/charts'
 import { useMetricsDestroy, useMetricsShow } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
@@ -36,7 +37,7 @@ const MetricCard = ({ metricId, className, owners }: Props) => {
           </Dropdown.Item>
         </Dropdown>
       </div>
-      <MetricChart kind="area" metricIds={[metricId]} owners={owners} />
+      <MetricChart kind={ChartKind.Area} metricIds={[metricId]} owners={owners} />
     </Card>
   )
 }
