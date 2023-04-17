@@ -63,9 +63,7 @@ interface Props {
 
 const MetricChart = ({ metricIds, kind, owners }: Props) => {
   const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
-
   const metrics = results.map((result) => result.data)
-
   const isLoading = results.some((result) => result.isLoading)
 
   const series = useMemo(() => (metrics.every(Boolean) ? buildSeries(metrics, kind) : []), [metrics, kind])
