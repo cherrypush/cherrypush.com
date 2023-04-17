@@ -16,13 +16,9 @@ import SettingsPage from './SettingsPage'
 axios.defaults.headers.common['X-CSRF-Token'] = document
   .querySelector('meta[name="csrf-token"]')
   ?.getAttribute('content')
-axios.defaults.headers.common['Content-type'] = 'application/json; charset=UTF-8'
+axios.defaults.headers.common['Accept'] = 'application/json'
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
+const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
 const App = ({ alert, notice }) => {
   useEffect(() => {
