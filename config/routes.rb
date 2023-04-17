@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'route_utils'
+
 Rails.application.routes.draw do
   mount Blazer::Engine, at: 'blazer' # authentication method set in blazer.yml
 
@@ -19,7 +21,9 @@ Rails.application.routes.draw do
       resources :authorizations, only: %i[index new create destroy]
       resources :charts, only: %i[create update destroy]
       resources :dashboards, only: %i[index show create update destroy]
-      resources :metrics, only: %i[index show destroy]
+      nested_resources :metrics, only: %i[index show destroy] do
+        resources :occurrences, only: %i[index]
+      end
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resources :users, only: %i[index]

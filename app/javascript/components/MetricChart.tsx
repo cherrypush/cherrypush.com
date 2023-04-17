@@ -35,7 +35,7 @@ const fillGaps = (chartsData: ChartData[]) => {
     })
   })
 }
-  
+
 const toPercentages = (chartsData: ChartData[]) => {
   Object.keys(chartsData[0]).forEach((day) => {
     const total = chartsData.reduce((sum, serie) => sum + serie[day], 0)
