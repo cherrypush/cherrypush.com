@@ -3,6 +3,7 @@ import { Button } from 'flowbite-react'
 import 'ninja-keys'
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router'
+import { useDashboardsIndex } from '../queries/user/dashboards'
 import { useMetricsIndex } from '../queries/user/metrics'
 import { useProjectsIndex } from '../queries/user/projects'
 
@@ -26,11 +27,24 @@ const openCommandPalette = () => {
 const CommandPalette = () => {
   const { data: projects } = useProjectsIndex()
   const { data: metrics } = useMetricsIndex({})
+  const { data: dashboards } = useDashboardsIndex()
+
   const navigate = useNavigate()
 
   const ninjaKeys = useRef(null)
 
   let hotkeys = []
+
+  if (dashboards) {
+    hotkeys = hotkeys.concat(
+      dashboards.map((dashboard) => ({
+        id: `dashboard-${dashboard.id}`,
+        title: dashboard.name,
+        section: 'Dashboards',
+        handler: () => navigate(`/user/dashboards/${dashboard.id}`),
+      }))
+    )
+  }
 
   if (projects) {
     hotkeys = hotkeys.concat(
