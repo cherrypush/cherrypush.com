@@ -18,14 +18,15 @@ const kindToType = {
 }
 
 const buildSeries = (metrics, kind) => {
-  const chartsData = metrics.map((metric) => metric.chart_data)
-  if (chartsData.length > 1) fillGaps(chartsData)
-  if (kind === ChartKind.StackedPercentageArea) toPercentages(chartsData)
+  let chartsData = metrics.map((metric) => metric.chart_data)
+  if (chartsData.length > 1) chartsData = fillGaps(chartsData)
+  if (kind === ChartKind.StackedPercentageArea) chartsData = toPercentages(chartsData)
 
   return toApexChartsData(metrics, chartsData)
 }
 
-const fillGaps = (chartsData: ChartData[]) => {
+const fillGaps = (inputChartsData: ChartData[]) => {
+  const chartsData = _.cloneDeep(inputChartsData)
   const allDays = _.uniq(chartsData.flatMap((chartData) => Object.keys(chartData))).sort()
   chartsData.forEach((chartData) => {
     let previousValue = 0
@@ -34,23 +35,23 @@ const fillGaps = (chartsData: ChartData[]) => {
       previousValue = chartData[day]
     })
   })
+  return chartsData
 }
 
-const toPercentages = (chartsData: ChartData[]) => {
+const toPercentages = (inputChartsData: ChartData[]) => {
+  const chartsData = _.cloneDeep(inputChartsData)
   Object.keys(chartsData[0]).forEach((day) => {
     const total = chartsData.reduce((sum, serie) => sum + serie[day], 0)
     chartsData.forEach((serie) => (serie[day] = (serie[day] / total) * 100))
   })
+  return chartsData
 }
 
 const toApexChartsData = (metrics, chartsData: ChartData[]) =>
   chartsData.map((chartData, index) => ({
     name: metrics[index].name,
     data: _.sortBy(
-      Object.entries(chartData).map(([day, value]) => ({
-        x: day,
-        y: value,
-      })),
+      Object.entries(chartData).map(([day, value]) => ({ x: day, y: value })),
       'x'
     ),
   }))
