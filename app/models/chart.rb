@@ -3,7 +3,7 @@
 class Chart < ApplicationRecord
   belongs_to :dashboard, touch: true
   has_many :chart_metrics, dependent: :destroy
-  validates :name, presence: true
+
   enum kind: {
          line: 'line',
          area: 'area',

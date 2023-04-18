@@ -31,7 +31,6 @@ class DashboardsTest < ApplicationSystemTestCase
     assert_text 'TS Migration'
     assert_text 'No charts yet'
     click_on 'Add Chart'
-    fill_in 'Title', with: 'Javascript'
     fill_in 'Metrics', with: 'JS LOC'
     find('li', text: 'JS LOC').click
     fill_in 'Metrics', with: 'TS LOC'
@@ -40,7 +39,6 @@ class DashboardsTest < ApplicationSystemTestCase
     click_on 'Create'
     assert_text 'New chart added to dashboard'
     assert_equal 'line', project.dashboards.sole.charts.sole.kind
-    assert_text 'Javascript'
     assert_text 'JS LOC'
     assert_text 'TS LOC'
 
@@ -57,13 +55,10 @@ class DashboardsTest < ApplicationSystemTestCase
     # Edit chart
     find('#chart-menu').click
     find('li', text: 'Edit').click
-    fill_in 'Title', with: ''
-    fill_in 'Title', with: 'Typescript'
     find('[role="button"]', text: 'JS LOC').find('[data-testid="CancelIcon"]').click
     mui_select('Area', from: 'kind')
     click_on 'Update'
     assert_text 'Chart updated'
-    assert_text 'Typescript'
     assert_equal 'area', project.dashboards.sole.charts.sole.kind
     assert_equal 'TS LOC', project.dashboards.sole.charts.sole.chart_metrics.sole.metric.name
 
@@ -71,7 +66,6 @@ class DashboardsTest < ApplicationSystemTestCase
     find('#chart-menu').click
     find('li', text: 'Delete').click
     assert_text 'Chart deleted'
-    assert_no_text 'Javascript'
 
     # Rename dashboard
     find('#dashboard-menu').click

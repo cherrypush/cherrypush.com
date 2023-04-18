@@ -4,13 +4,13 @@ import { Button } from 'flowbite-react'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ChartKind, useChartsCreate, useChartsUpdate } from '../queries/user/charts'
-import { ChartType, DashboardType } from '../queries/user/dashboards'
+import { Chart, DashboardType } from '../queries/user/dashboards'
 import { Metric, useMetricsIndex } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
 interface ChartFormProps {
   metrics: Metric[]
-  chart?: ChartType
+  chart?: Chart
   dashboard: DashboardType
   onClose: () => void
 }
@@ -18,7 +18,6 @@ interface ChartFormProps {
 const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
   const { mutate: createChart } = useChartsCreate()
   const { mutate: updateChart } = useChartsUpdate()
-  const [name, setName] = useState(chart?.name || '')
   const [kind, setKind] = useState<ChartKind>(chart?.kind || ChartKind.Area)
   const [metricIds, setMetricIds] = useState<number[]>(
     chart?.chart_metrics.map((chartMetric) => chartMetric.metric_id) || []
@@ -38,15 +37,6 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
     >
       <h1>{id ? 'Edit Chart' : 'New Chart'}</h1>
       <Stack spacing={3}>
-        <FormControl fullWidth>
-          <TextField
-            fullWidth
-            autoFocus
-            label="Title"
-            value={name}
-            onChange={(event) => setName(event?.target.value)}
-          />
-        </FormControl>
         <FormControl fullWidth>
           <Autocomplete
             multiple
@@ -78,7 +68,7 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
           </Select>
         </FormControl>
         <MetricChart kind={kind} metricIds={metricIds} />
-        <Button type="submit" disabled={!name || !kind || metricIds.length === 0}>
+        <Button type="submit" disabled={!kind || metricIds.length === 0}>
           {id ? 'Update' : 'Create'}
         </Button>
       </Stack>

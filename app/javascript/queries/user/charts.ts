@@ -14,7 +14,6 @@ type Chart = {
   id: number
   dashboard_id: number
   metric_ids: number[]
-  name: string
   kind: ChartKind
 }
 

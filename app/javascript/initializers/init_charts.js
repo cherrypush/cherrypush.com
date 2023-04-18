@@ -1,4 +1,5 @@
 import ApexCharts from 'apexcharts'
+import './apexcharts.css'
 
 // For more customization options: https://apexcharts.com/docs/chart-types/area-chart/
 document.addEventListener('turbo:load', () => {

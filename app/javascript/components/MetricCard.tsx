@@ -8,11 +8,10 @@ import MetricChart from './MetricChart'
 
 interface Props {
   metricId: number
-  className?: string
   owners?: string[]
 }
 
-const MetricCard = ({ metricId, className, owners }: Props) => {
+const MetricCard = ({ metricId, owners }: Props) => {
   const { data: metric } = useMetricsShow(metricId, owners)
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -24,9 +23,8 @@ const MetricCard = ({ metricId, className, owners }: Props) => {
   })
 
   return (
-    <Card className={className}>
-      <div className="flex justify-between items-center px-4">
-        <h4>{metric && metric.name}</h4>
+    <Card className="mb-3 relative">
+      <div className="absolute top-3 right-3 px-4 z-10">
         <Dropdown arrowIcon={false} inline={true} label={<MenuIcon />}>
           <Dropdown.Item
             onClick={() => {

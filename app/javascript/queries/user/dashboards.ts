@@ -14,9 +14,8 @@ export interface ChartMetricType {
   created_at: string
 }
 
-export interface ChartType {
+export interface Chart {
   id: number
-  name: string | null
   kind: ChartKind
   chart_metrics: ChartMetricType[]
   dashboard_id: number
@@ -30,7 +29,7 @@ export interface DashboardType {
   project_id: number
   updated_at: string
   created_at: string
-  charts: ChartType[]
+  charts: Chart[]
 }
 
 interface DashboardPayload {
