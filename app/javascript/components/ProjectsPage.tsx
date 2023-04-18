@@ -88,7 +88,7 @@ const ProjectsPage = () => {
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
-          <MetricCard metricId={metric.id} owners={selectedOwners} className="mb-3" />
+          <MetricCard metricId={metric.id} owners={selectedOwners} />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
               <div className="col-span-1">

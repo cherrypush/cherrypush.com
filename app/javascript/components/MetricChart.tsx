@@ -3,6 +3,7 @@ import { Spinner } from 'flowbite-react'
 import _ from 'lodash'
 import React, { useMemo } from 'react'
 import Chart from 'react-apexcharts'
+import { useNavigate } from 'react-router-dom'
 import { ChartKind } from '../queries/user/charts'
 import { metricShowOptions } from '../queries/user/metrics'
 
@@ -63,6 +64,7 @@ interface Props {
 }
 
 const MetricChart = ({ metricIds, kind, owners }: Props) => {
+  const navigate = useNavigate()
   const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
   const metrics = results.map((result) => result.data)
   const isLoading = results.some((result) => result.isLoading)
@@ -86,6 +88,11 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
       animations: { enabled: false },
       zoom: { enabled: false },
       toolbar: { show: false },
+      events: {
+        legendClick: (chartContext, seriesIndex) => {
+          navigate(`/user/projects?project_id=${metrics[seriesIndex].project_id}&metric_id=${metrics[seriesIndex].id}`)
+        },
+      },
     },
     dataLabels: { enabled: false },
     theme: { mode: 'dark', palette: 'palette6' },
@@ -103,6 +110,16 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
     markers: {
       size: 0,
       style: 'hollow',
+    },
+    legend: {
+      showForSingleSeries: true,
+      show: true,
+      position: 'top',
+      horizontalAlign: 'left',
+      fontSize: '16px',
+      onItemClick: {
+        toggleDataSeries: false,
+      },
     },
   }
 
