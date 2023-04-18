@@ -7,7 +7,9 @@ const DEFAULT_MAX_OCCURRENCES = 20
 const Occurrences = ({ occurrences }) => {
   const [showAll, setShowAll] = useState(false)
 
-  const filteredOccurrences = showAll ? occurrences : occurrences.slice(0, DEFAULT_MAX_OCCURRENCES)
+  const sortedOccurrences = occurrences.sort((a, b) => b.value - a.value)
+  const filteredOccurrences = showAll ? sortedOccurrences : sortedOccurrences.slice(0, DEFAULT_MAX_OCCURRENCES)
+
   const hasOwners = Boolean(occurrences[0]?.owners)
   const hasValue = Boolean(occurrences[0]?.value)
 
@@ -32,7 +34,13 @@ const Occurrences = ({ occurrences }) => {
             >
               <Table.Cell className="truncate">
                 {occurrence.url ? (
-                  <a href={occurrence.url} target="_blank" className="text-link" title={occurrence.text}>
+                  <a
+                    href={occurrence.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-link"
+                    title={occurrence.text}
+                  >
                     {occurrence.text}
                   </a>
                 ) : (
@@ -52,7 +60,7 @@ const Occurrences = ({ occurrences }) => {
               onClick={() => setShowAll(true)}
               className="border-b dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600 cursor-pointer"
             >
-              <Table.Cell colSpan="100%" className="text-center">
+              <Table.Cell colSpan={100} className="text-center">
                 Show all
               </Table.Cell>
             </Table.Row>
