@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_18_151418) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_18_155540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -171,6 +171,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_18_151418) do
     t.string "favorite_metric_names", default: [], array: true
     t.string "favorite_owner_handles", default: [], array: true
     t.integer "favorite_metric_ids", default: [], array: true
+    t.boolean "weekly_report", default: true
   end
 
   add_foreign_key "authorization_requests", "projects"
