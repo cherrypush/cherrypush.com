@@ -11,6 +11,7 @@ import Footer from './Footer'
 import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
 import ProjectsPage from './ProjectsPage'
+import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
 
 axios.defaults.headers.common['X-CSRF-Token'] = document
@@ -30,19 +31,21 @@ const App = ({ alert, notice }) => {
     <ThemeProvider theme={darkTheme}>
       <Navbar />
       <div className="px-3 pt-3">
-        <Routes>
-          <Route path="user">
-            <Route path="projects/new" element={<NewProjectPage />} />
-            <Route path="dashboards" element={<DashboardsIndexPage />} />
-            <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />
-            <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
-            <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={<DashboardsShowPage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="authorizations" element={<AuthorizationsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-            <Route path="docs" element={<DocsPage />} />
-          </Route>
-        </Routes>
+        <ScrollToTop>
+          <Routes>
+            <Route path="user">
+              <Route path="projects/new" element={<NewProjectPage />} />
+              <Route path="dashboards" element={<DashboardsIndexPage />} />
+              <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />
+              <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
+              <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={<DashboardsShowPage />} />
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="authorizations" element={<AuthorizationsPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="docs" element={<DocsPage />} />
+            </Route>
+          </Routes>
+        </ScrollToTop>
         <Footer />
         <Toaster
           containerClassName="mt-12"
