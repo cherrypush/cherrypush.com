@@ -9,18 +9,16 @@ import MetricChart from './MetricChart'
 
 interface Props {
   chart: ChartType
-  className?: string
 }
 
-const ChartCard = ({ chart, className }: Props) => {
+const ChartCard = ({ chart }: Props) => {
   const { mutateAsync: removeChart } = useChartsDestroy()
   const navigate = useNavigate()
   const { selectedOwners } = useSelectedOwners()
 
   return (
-    <Card className={className}>
-      <div className="flex items-center justify-between">
-        <h4>{chart.name}</h4>
+    <Card className="mb-3 relative">
+      <div className="absolute right-3 top-3 items-center justify-end z-10">
         <Dropdown arrowIcon={false} label={<HiDotsVertical />} color="dark" placement="bottom-end" id="chart-menu">
           <Dropdown.Item
             onClick={() => navigate(`/user/dashboards/${chart.dashboard_id}/charts/${chart.id}/edit`)}
