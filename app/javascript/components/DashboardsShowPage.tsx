@@ -38,7 +38,7 @@ const DashboardsShowPage = () => {
             <OwnerSelector />
           </Card>
           {dashboard.charts.map((chart) => (
-            <ChartCard chart={chart} key={chart.id} className="mb-3" />
+            <ChartCard chart={chart} key={chart.id} />
           ))}
         </>
       ) : (
