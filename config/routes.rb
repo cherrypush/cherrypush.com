@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       end
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
+      resource :settings, only: %i[update]
       resources :users, only: %i[index]
     end
 
