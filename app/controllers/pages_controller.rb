@@ -9,7 +9,7 @@ class PagesController < ApplicationController
     if current_user
       redirect_to demo_project_path
     else
-      redirect_to request.referer, alert: 'Please sign in to access the demo'
+      redirect_to root_path, alert: 'Please sign in to access the demo'
     end
   end
 
