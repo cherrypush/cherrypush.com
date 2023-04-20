@@ -44,9 +44,10 @@ const Owners = ({ owners }: { owners: { handle: string; count: number }[] }) => 
             <Table.Row
               key={owner.handle}
               className={classnames(
-                'bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer text-xs',
+                'bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer text-xs',
                 {
                   'dark:bg-blue-900': isSelected(owner),
+                  'dark:bg-gray-800': !isSelected(owner),
                 }
               )}
               onClick={() => toggleOwner(owner)}
