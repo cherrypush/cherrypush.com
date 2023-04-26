@@ -18,16 +18,16 @@ const OwnerSelector = ({ projectId, metricId }: { projectId?: number; metricId?:
       options={ownerOptions}
       renderInput={(params) => <TextField {...params} label="Filter by owners" />}
       onChange={(_event, items) => setSelectedOwners(items.flatMap((item) => (item ? item.id : [])))}
-      renderTags={(tagValue, getTagProps) => {
-        return tagValue.map((option, index) => (
+      renderTags={(tagValue, getTagProps) =>
+        tagValue.map((option, index) => (
           <Chip
             {...getTagProps({ index })}
             key={option.id}
             label={option.label}
-            onClick={() => setSelectedOwners([option.label])}
+            onClick={() => setSelectedOwners([option.id])}
           />
         ))
-      }}
+      }
     />
   )
 }
