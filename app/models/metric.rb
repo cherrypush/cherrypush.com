@@ -3,6 +3,7 @@
 class Metric < ApplicationRecord
   belongs_to :project, touch: true
   has_many :reports, dependent: :destroy
+  has_many :contributions, dependent: :destroy
 
   validates :name, presence: true
 
