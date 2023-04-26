@@ -1,4 +1,5 @@
 import { Autocomplete, Chip, TextField } from '@mui/material'
+import _ from 'lodash'
 import React from 'react'
 import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useOwnersIndex } from '../queries/user/owners'
@@ -9,7 +10,10 @@ const OwnerSelector = ({ projectId, metricId }: { projectId?: number; metricId?:
 
   if (!owners) return null
 
-  const ownerOptions = owners.map((owner) => ({ id: owner.handle, label: `${owner.handle} (${owner.count})` })) ?? []
+  const ownerOptions =
+    _.sortBy(owners, 'count')
+      .reverse()
+      .map((owner) => ({ id: owner.handle, label: `${owner.handle} (${owner.count})` })) ?? []
 
   return (
     <Autocomplete
