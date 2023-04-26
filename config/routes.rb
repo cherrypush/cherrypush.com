@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resource :push, only: :create
+    resources :contributions, only: :create
   end
 
   # SPA ROUTES
