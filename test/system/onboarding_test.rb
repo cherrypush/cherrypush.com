@@ -23,7 +23,9 @@ class OnboardingTest < ApplicationSystemTestCase
     find('a', text: 'Projects').click
     find('tr', text: 'rails/rails').click
     find('tr', text: 'rubocop').click
-    assert_text 'You can start using owners on your project by adding a CODEOWNERS file to your repository'
+
+    assert_text 'Contributions'
+    assert_text 'You can start tracking your contributions by running'
     assert_text 'Occurrences (0)'
   end
 end

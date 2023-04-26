@@ -53,35 +53,30 @@ class MetricsTest < ApplicationSystemTestCase
     )
   end
 
+  let!(:contribution) do
+    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago)
+  end
+
   it 'applies filters to metrics' do
     sign_in(user, to: user_projects_path)
     find('tr', text: 'rails/rails').click
     assert_text 'eslint'
     fill_in 'Filter metrics', with: 'rubo'
     assert_no_text 'eslint'
-
     find('tr', text: 'rubocop').click
-    assert_text 'Owners'
 
-    within(all('tr')[1]) do
-      assert_text '@fwuensche'
-      assert_text '10'
-    end
+    # Contributions
+    assert_text 'Contributions'
+    assert_text 'Flavinho'
+    assert_text '1 week ago'
 
-    within(all('tr')[2]) do
-      assert_text '@rchoquet'
-      assert_text '8'
-    end
+    # Occurrences
+    assert_equal ['filepath:2 @fwuensche, @rchoquet 2.8', 'filepath:1 @fwuensche 1.2'], all('tr').map(&:text).last(2)
 
-    assert_text 'filepath:1'
-    assert_text '1.2'
-    assert_text 'filepath:2'
-    assert_text '2.8'
-
+    # Apply filters
     find('tr', text: '@rchoquet', match: :first).click
-    assert_text 'filepath:2'
-    assert_no_text 'filepath:1'
-    assert_text '@rchoquet', count: 3 # left sidesbar, owner selector, and occurrences table
-    assert_text 'Clear'
+    fill_in('Filter by owners', with: '@rchoquet')
+    find('li', text: '@rchoquet (8)').click
+    assert_equal ['NAME OWNERS VALUE', 'filepath:2 @fwuensche, @rchoquet 2.8'], all('tr').map(&:text).last(2)
   end
 end
