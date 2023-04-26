@@ -22,18 +22,29 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
       assert_equal ['dea2fe473f86df94d1103e3c20e5cbdb3f18aad9'], Contribution.all.map(&:commit_sha).uniq
       assert_equal ['2023-02-07T21:33:15.000Z'], Contribution.all.map(&:commit_date).uniq
     end
+
+    it 'updates previous data if pushed twice' do
+      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -20, ts_diff: +22) }, as: :json)
+      assert_response :ok
+      assert_equal [-20, +22], Contribution.all.map(&:diff).sort
+      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -30, ts_diff: +33) }, as: :json)
+      assert_equal [-30, +33], Contribution.all.map(&:diff).sort
+    end
   end
 
   private
 
-  def payload
+  def payload(js_diff: -12, ts_diff: +14)
     {
       project_name: 'cherrypush/cherry-app',
       author_name: 'Flavio Wuensche',
       author_email: 'f.wuensche@gmail.com',
       commit_sha: 'dea2fe473f86df94d1103e3c20e5cbdb3f18aad9',
       commit_date: '2023-02-07T21:33:15.000Z',
-      contributions: [{ metric_name: 'JavaScript LoC', diff: -12 }, { metric_name: 'TypeScript LoC', diff: +14 }],
+      contributions: [
+        { metric_name: 'JavaScript LoC', diff: js_diff },
+        { metric_name: 'TypeScript LoC', diff: ts_diff },
+      ],
     }
   end
 end
