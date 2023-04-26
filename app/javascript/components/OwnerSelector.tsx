@@ -3,13 +3,13 @@ import React from 'react'
 import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useOwnersIndex } from '../queries/user/owners'
 
-const OwnerSelector = () => {
+const OwnerSelector = ({ projectId, metricId }: { projectId?: number; metricId?: number }) => {
   const { selectedOwners, setSelectedOwners } = useSelectedOwners()
-  const { data: owners } = useOwnersIndex()
+  const { data: owners } = useOwnersIndex({ projectId, metricId })
 
   if (!owners) return null
 
-  const ownerOptions = owners.map((owner) => ({ id: owner.handle, label: owner.handle })) ?? []
+  const ownerOptions = owners.map((owner) => ({ id: owner.handle, label: `${owner.handle} (${owner.count})` })) ?? []
 
   return (
     <Autocomplete
