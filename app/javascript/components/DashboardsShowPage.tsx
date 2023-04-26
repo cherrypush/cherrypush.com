@@ -35,7 +35,7 @@ const DashboardsShowPage = () => {
       {dashboard.charts.length > 0 ? (
         <>
           <Card className="mb-3">
-            <OwnerSelector />
+            <OwnerSelector projectId={dashboard.project_id} />
           </Card>
           {dashboard.charts.map((chart) => (
             <ChartCard chart={chart} key={chart.id} />
