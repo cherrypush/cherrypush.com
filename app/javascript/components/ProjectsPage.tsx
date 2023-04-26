@@ -14,6 +14,7 @@ import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
 import NewProjectPage from './NewProjectPage'
 import Occurrences from './Occurrences'
+import OwnerSelector from './OwnerSelector'
 import Owners from './Owners'
 import PageLoader from './PageLoader'
 import ProjectsTable from './ProjectsTable'
@@ -88,6 +89,9 @@ const ProjectsPage = () => {
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {metricId && metric && (
         <>
+          <Card className="mb-3">
+            <OwnerSelector projectId={parseInt(projectIdFromUrl)} metricId={parseInt(metricId)} />
+          </Card>
           <MetricCard metricId={metric.id} owners={selectedOwners} />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metric.owners && (
