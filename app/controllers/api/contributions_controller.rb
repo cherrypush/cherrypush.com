@@ -3,7 +3,7 @@
 class Api::ContributionsController < Api::ApplicationController
   include Api::ProjectScoped
 
-  def create
+  def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     ActiveRecord::Base.transaction do
       params
         .require(:contributions)
