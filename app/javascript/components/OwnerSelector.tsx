@@ -13,7 +13,8 @@ const OwnerSelector = ({ projectId, metricId }: { projectId?: number; metricId?:
   const ownerOptions =
     _.sortBy(owners, 'count')
       .reverse()
-      .map((owner) => ({ id: owner.handle, label: `${owner.handle} (${owner.count})` })) ?? []
+      .map((owner) => ({ id: owner.handle, label: `${owner.handle} (${owner.count})` }))
+      .concat(selectedOwners.map((owner) => ({ id: owner, label: `${owner} (0)` }))) ?? []
 
   return (
     <Autocomplete
