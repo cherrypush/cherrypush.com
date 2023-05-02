@@ -4,14 +4,10 @@ import { HiDotsVertical, HiPencil, HiTrash } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useChartsDestroy } from '../queries/user/charts'
-import { ChartType } from '../queries/user/dashboards'
+import { Chart } from '../queries/user/dashboards'
 import MetricChart from './MetricChart'
 
-interface Props {
-  chart: ChartType
-}
-
-const ChartCard = ({ chart }: Props) => {
+const ChartCard = ({ chart }: { chart: Chart }) => {
   const { mutateAsync: removeChart } = useChartsDestroy()
   const navigate = useNavigate()
   const { selectedOwners } = useSelectedOwners()
