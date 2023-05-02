@@ -3,8 +3,7 @@ import { Spinner } from 'flowbite-react'
 import _ from 'lodash'
 import React, { useMemo } from 'react'
 import Chart from 'react-apexcharts'
-import { useNavigate } from 'react-router-dom'
-import useSelectedOwners from '../hooks/useSelectedOwners'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ChartKind } from '../queries/user/charts'
 import { metricShowOptions } from '../queries/user/metrics'
 
@@ -69,7 +68,7 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
   const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
   const metrics = results.map((result) => result.data)
   const isLoading = results.some((result) => result.isLoading)
-  const { selectedOwners, setSelectedOwners } = useSelectedOwners()
+  const [searchParams] = useSearchParams()
 
   const series = useMemo(() => (metrics.every(Boolean) ? buildSeries(metrics, kind) : []), [metrics, kind])
 
@@ -93,7 +92,8 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
       events: {
         legendClick: (chartContext, seriesIndex) => {
           let url = `/user/projects?project_id=${metrics[seriesIndex].project_id}&metric_id=${metrics[seriesIndex].id}`
-          url += selectedOwners.length > 0 ? `&owners=${selectedOwners.join(',')}` : ''
+          const owners = searchParams.get('owners')
+          url += owners ? `&owners=${owners}` : ''
           navigate(url)
         },
       },
