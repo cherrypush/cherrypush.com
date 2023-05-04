@@ -29,6 +29,6 @@ class PagesController < ApplicationController
   private
 
   def demo_project_path
-    user_metrics_path(project_id: Project.find_by(name: 'demo/project')&.id)
+    user_projects_path(project_id: Project.find_by(name: 'demo/project')&.id)
   end
 end
