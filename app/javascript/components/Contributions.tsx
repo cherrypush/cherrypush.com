@@ -1,4 +1,4 @@
-import { Table } from 'flowbite-react'
+import { Table, Tooltip } from 'flowbite-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { buildCommitUrl, timeAgoInWords } from '../helpers/applicationHelper'
@@ -16,9 +16,9 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
           Contributions 🤗
         </caption>
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <Table.HeadCell>Author</Table.HeadCell>
+          <Table.HeadCell>Commit Author</Table.HeadCell>
           <Table.HeadCell className="text-right">Diff</Table.HeadCell>
-          <Table.HeadCell className="text-right">Commit Date</Table.HeadCell>
+          <Table.HeadCell className="text-right">Date</Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {contributions.map((contribution) => (
@@ -27,7 +27,9 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
               className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
               onClick={() => window.open(buildCommitUrl({ projectName, commitSha: contribution.commit_sha }), '_blank')}
             >
-              <Table.Cell>{`${contribution.author_name} <${contribution.author_email}>`}</Table.Cell>
+              <Table.Cell>
+                <Tooltip content={contribution.author_email}>{contribution.author_name}</Tooltip>
+              </Table.Cell>
               <Table.Cell className="text-right">{contribution.diff}</Table.Cell>
               <Table.Cell className="text-right">{timeAgoInWords(contribution.commit_date)}</Table.Cell>
             </Table.Row>
