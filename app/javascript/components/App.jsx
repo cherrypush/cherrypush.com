@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
 import AuthorizationsPage from './AuthorizationsPage'
+import ContributionsPage from './ContributionsPage'
 import DashboardsIndexPage from './DashboardsIndexPage'
 import DashboardsShowPage from './DashboardsShowPage'
 import DocsPage from './DocsPage'
@@ -43,6 +44,7 @@ const App = ({ alert, notice }) => {
               <Route path="authorizations" element={<AuthorizationsPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="docs" element={<DocsPage />} />
+              <Route path="contributions" element={<ContributionsPage />} />
             </Route>
           </Routes>
         </ScrollToTop>

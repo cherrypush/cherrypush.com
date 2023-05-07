@@ -80,6 +80,14 @@ class User < ApplicationRecord
     github_handle.in? ADMIN_GITHUB_HANDLES
   end
 
+  def contributions
+    scope = Contribution.joins(metric: :project).where(metric: { project: projects })
+    scope
+      .where(author_name: name)
+      .or(scope.where(author_email: email))
+      .or(scope.where('author_email like ?', "%#{github_handle}%"))
+  end
+
   private
 
   def ensure_api_key
