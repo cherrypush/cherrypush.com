@@ -30,3 +30,5 @@ export const timeAgoInWords = (date: Date) => {
 
 export const buildCommitUrl = ({ projectName, commitSha }: { projectName: string; commitSha: string }) =>
   `https://github.com/${projectName}/commit/${commitSha}`
+
+export const formatDiff = (number) => (number < 0 ? '' : '+') + number
