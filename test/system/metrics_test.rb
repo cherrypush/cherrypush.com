@@ -1,7 +1,7 @@
 require 'application_system_test_case'
 
 class MetricsTest < ApplicationSystemTestCase
-  let!(:user) { create(:user) }
+  let!(:user) { create(:user, name: 'Flavio Wuensche', email: 'f.wuensche@gmail.com', github_handle: 'fwuensche') }
   let!(:project) { create(:project, user: user, name: 'rails/rails') }
   let!(:eslint_metric) { create(:metric, project: project, name: 'eslint') }
   let!(:eslint_report) { create(:report, metric: eslint_metric, value: 60, date: 4.days.ago) }
@@ -31,7 +31,7 @@ class MetricsTest < ApplicationSystemTestCase
     )
   end
 
-  let!(:occurrence_1) do
+  let!(:occurrence_one) do
     create(
       :occurrence,
       text: 'filepath:1',
@@ -42,7 +42,7 @@ class MetricsTest < ApplicationSystemTestCase
     )
   end
 
-  let!(:occurrence_2) do
+  let!(:occurrence_two) do
     create(
       :occurrence,
       text: 'filepath:2',
@@ -78,5 +78,20 @@ class MetricsTest < ApplicationSystemTestCase
     fill_in('Filter by owners', with: '@rchoquet')
     find('li', text: '@rchoquet (8)').click
     assert_equal ['NAME OWNERS VALUE', 'filepath:2 @fwuensche, @rchoquet 2.8'], all('tr').map(&:text).last(2)
+
+    # My Contributions - does not show contributions from other users
+    click_on 'Avatar'
+    find('li', text: 'My Contributions').click
+    assert_text 'My Contributions'
+    assert_equal 1, all('tr').count
+
+    # My Contributions - shows contributions matching name, email, or github handle
+    create(:contribution, author_name: 'Flavio Wuensche', metric: rubocop_metric, diff: 42)
+    create(:contribution, author_email: 'f.wuensche@gmail.com', metric: rubocop_metric, diff: -12)
+    create(:contribution, author_email: 'fwuensche@github-whatever.com', metric: rubocop_metric, diff: 36)
+    refresh
+    assert_text '+42'
+    assert_text '-12'
+    assert_text '+36'
   end
 end

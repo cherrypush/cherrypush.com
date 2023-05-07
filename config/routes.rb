@@ -34,16 +34,16 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
     constraints(->(request) { request.format == :html }) do
       %w[
+        authorizations
+        contributions
+        dashboards
+        dashboards/:dashboard_id/charts/:chart_id/edit
+        dashboards/:dashboard_id/charts/new
+        dashboards/:id
         docs
         projects
-        dashboards
-        dashboards/:id
-        dashboards/:dashboard_id/charts/new
-        dashboards/:dashboard_id/charts/:chart_id/edit
         projects/new
-        authorizations
         settings
-        user/docs
       ].each { |route| get route, to: 'application#spa' }
     end
   end
