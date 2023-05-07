@@ -1,10 +1,8 @@
-import LockPersonIcon from '@mui/icons-material/LockPerson'
-import LogoutIcon from '@mui/icons-material/Logout'
-import SettingsIcon from '@mui/icons-material/Settings'
 import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
 import { Avatar, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
+import { MdLockPerson, MdLogout, MdSettings } from 'react-icons/md'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -38,14 +36,14 @@ const CherryNavbar = () => {
               <span className="block text-sm">{user.name}</span>
               <span className="block truncate text-sm font-medium">{user.email}</span>
             </Dropdown.Header>
-            <Dropdown.Item icon={LockPersonIcon} onClick={() => navigate('/user/authorizations')}>
+            <Dropdown.Item icon={MdLockPerson} onClick={() => navigate('/user/authorizations')}>
               Authorizations
             </Dropdown.Item>
-            <Dropdown.Item icon={SettingsIcon} onClick={() => navigate('/user/settings')}>
+            <Dropdown.Item icon={MdSettings} onClick={() => navigate('/user/settings')}>
               My Settings
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item icon={LogoutIcon} onClick={() => (window.location = '/sign_out')}>
+            <Dropdown.Item icon={MdLogout} onClick={() => (window.location = '/sign_out')}>
               Sign out
             </Dropdown.Item>
           </Dropdown>
