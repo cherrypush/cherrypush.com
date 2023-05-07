@@ -21,7 +21,7 @@ const CherryNavbar = () => {
 
       {isFetching > 0 && (
         <div className="absolute top-0 inset-x-0">
-          <LinearProgress variant="indeterminate" thickness={2} />
+          <LinearProgress variant="indeterminate" sx={{ height: 2 }} />
         </div>
       )}
 
