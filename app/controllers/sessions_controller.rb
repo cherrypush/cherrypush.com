@@ -5,7 +5,6 @@ class SessionsController < ApplicationController
     user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
     session[:user_id] = user.id
     redirect_to after_sign_in_path, notice: "Signed in as #{user.name}"
-    TelegramClient.send("#{user.name} just signed in")
   end
 
   def destroy
