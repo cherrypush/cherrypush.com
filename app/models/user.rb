@@ -44,21 +44,6 @@ class User < ApplicationRecord
     # memberships.any?
   end
 
-  def self.find_or_create_with_omniauth(auth)
-    user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
-    user.update_dynamic_attributes(auth)
-    UserMailer.with(user: user).weekly_report.deliver_now if user.new_record? && user.valid?
-    user.save!
-    user
-  end
-
-  def self.initialize_from_omniauth(auth)
-    new do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-    end
-  end
-
   def update_dynamic_attributes(auth)
     self.name = auth.info.name
     self.github_handle = auth.info.nickname
@@ -92,5 +77,33 @@ class User < ApplicationRecord
 
   def ensure_api_key
     self.api_key ||= SecureRandom.uuid
+  end
+
+  class << self
+    def find_or_create_with_omniauth(auth)
+      user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
+      user.update_dynamic_attributes(auth)
+      report_sign_in(user)
+      UserMailer.with(user: user).welcome.deliver_now if user.new_record? && user.valid?
+      user.save!
+      user
+    end
+
+    def initialize_from_omniauth(auth)
+      new do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+      end
+    end
+
+    private
+
+    def report_sign_in(user)
+      if user.new_record?
+        TelegramClient.send("Creating a new user: #{user.name} (#{user.email})")
+      else
+        TelegramClient.send("Signing in: #{user.name} (#{user.email})")
+      end
+    end
   end
 end
