@@ -10,8 +10,6 @@ const NotificationsPage = () => {
 
   if (!notifications || !metrics) return null
 
-  console.log({ notifications })
-
   return (
     <div className="container">
       <h1>Notifications</h1>
