@@ -9,4 +9,9 @@ class Contribution < ApplicationRecord
   validates :author_email, presence: true
   validates :diff, presence: true
   validates :diff, numericality: { only_integer: true }
+
+  def notify_watchers!
+    # TODO: We should batch the creation of these notifications
+    metric.watcher_ids.each { |user_id| Notification.create!(user_id: user_id, item: self) }
+  end
 end

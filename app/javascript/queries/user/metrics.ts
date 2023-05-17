@@ -24,8 +24,10 @@ export const useMetricsDestroy = ({ onSuccess }) => {
   })
 }
 
+const buildShowKey = (id: number | null, owners: string[] = []) => ['user', 'metrics', id, { owners }]
+
 export const metricShowOptions = (id: number | null, owners: string[] = []) => ({
-  queryKey: ['user', 'metrics', id, { owners }],
+  queryKey: buildShowKey(id, owners),
   queryFn: () =>
     axios.get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } }).then((response) => response.data),
   staleTime: 1000 * 60,
@@ -34,3 +36,13 @@ export const metricShowOptions = (id: number | null, owners: string[] = []) => (
 })
 
 export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
+
+export const useInvalidateMetricsShow = () => {
+  const queryClient = useQueryClient()
+  return (metricId: number) => queryClient.invalidateQueries(buildShowKey(metricId))
+}
+
+export const useInvalidateMetricsIndex = () => {
+  const queryClient = useQueryClient()
+  return () => queryClient.invalidateQueries(['user', 'metrics'])
+}
