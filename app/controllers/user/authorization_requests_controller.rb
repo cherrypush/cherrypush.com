@@ -7,7 +7,15 @@ class User::AuthorizationRequestsController < User::ApplicationController
 
   def create
     project = Project.find(params[:project_id])
-    AuthorizationRequest.create!(project: project, user: current_user)
+    authorization_request = AuthorizationRequest.find_or_create_by!(project: project, user: current_user)
+
+    # TODO: Move this to a background job. Once we have a background job, we can remove the `if` statement.
+    if authorization_request.new_record?
+      project.users.each do |user|
+        UserMailer.with(user: user, authorization_request: authorization_request).new_authorization_request.deliver_now
+      end
+    end
+
     head :ok
   end
 
