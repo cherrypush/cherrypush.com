@@ -11,6 +11,7 @@ import DocsPage from './DocsPage'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import NewProjectPage from './NewProjectPage'
+import NotificationsPage from './NotificationsPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
@@ -35,6 +36,7 @@ const App = ({ alert, notice }) => {
         <ScrollToTop>
           <Routes>
             <Route path="user">
+              <Route path="notifications" element={<NotificationsPage />} />
               <Route path="projects/new" element={<NewProjectPage />} />
               <Route path="dashboards" element={<DashboardsIndexPage />} />
               <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />

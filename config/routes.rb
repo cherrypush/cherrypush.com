@@ -26,6 +26,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       nested_resources :metrics, only: %i[index show destroy] do
         resources :occurrences, only: %i[index]
       end
+      resource :metric_watchers, only: %i[create destroy]
+      resources :notifications, only: %i[index]
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]
@@ -41,6 +43,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
         dashboards/:dashboard_id/charts/new
         dashboards/:id
         docs
+        notifications
         projects
         projects/new
         settings

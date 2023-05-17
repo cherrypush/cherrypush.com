@@ -1,6 +1,7 @@
+import NotificationsIcon from '@mui/icons-material/Notifications'
 import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
-import { Avatar, Dropdown, Navbar } from 'flowbite-react'
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
 import React from 'react'
 import { MdFavorite, MdLockPerson, MdLogout, MdSettings } from 'react-icons/md'
 import { useNavigate } from 'react-router'
@@ -31,6 +32,9 @@ const CherryNavbar = () => {
 
         {/* AVATAR MENU */}
         <div className="flex md:order-2 gap-3">
+          <Button size="sm" color="dark" onClick={() => navigate('/user/notifications')} className="cursor-pointer">
+            <NotificationsIcon />
+          </Button>
           <Dropdown arrowIcon={false} inline={true} label={<Avatar alt="Avatar" img={user.image} rounded={true} />}>
             <Dropdown.Header>
               <span className="block text-sm">{user.name}</span>
