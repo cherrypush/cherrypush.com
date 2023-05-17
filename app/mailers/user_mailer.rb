@@ -14,4 +14,10 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     mail(to: @user.email, subject: 'Welcome to Cherry 🍒')
   end
+
+  def new_authorization_request
+    @user = params[:user]
+    @authorization_request = params[:authorization_request]
+    mail(to: @user.email, subject: 'New authorization request')
+  end
 end

@@ -14,4 +14,8 @@ class Project < ApplicationRecord
   def owners
     metrics.map(&:owners).flatten.uniq.sort_by(&:handle)
   end
+
+  def users
+    User.where(id: authorizations.pluck(:user_id) + [user_id].uniq)
+  end
 end
