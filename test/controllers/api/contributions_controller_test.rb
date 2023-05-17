@@ -30,6 +30,14 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
       post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -30, ts_diff: +33) }, as: :json)
       assert_equal [-30, +33], Contribution.all.map(&:diff).sort
     end
+
+    it 'notifies watchers' do
+      project = create(:project, user: user, name: 'cherrypush/cherry-app')
+      create(:metric, watcher_ids: [user.id], project: project, name: 'JavaScript LoC')
+      post(api_contributions_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 1, Notification.count
+      assert_equal user.id, Notification.last.user_id
+    end
   end
 
   private

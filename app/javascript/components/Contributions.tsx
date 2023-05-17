@@ -13,8 +13,11 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-          Contributions 🤗
+          <div className="flex justify-between">
+            <span>Contributions 🤗</span>
+          </div>
         </caption>
+
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <Table.HeadCell>Commit Author</Table.HeadCell>
           <Table.HeadCell className="text-right">Diff</Table.HeadCell>
