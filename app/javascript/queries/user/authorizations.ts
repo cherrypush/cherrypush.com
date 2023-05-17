@@ -13,7 +13,8 @@ export const useAuthorizationsCreate = () => {
   const invalidateAuthorizationRequestsIndex = useInvalidateAuthorizationRequestsIndex()
 
   return useMutation(
-    ({ projectId, userId }) => axios.post('/user/authorizations.json', { project_id: projectId, user_id: userId }),
+    ({ projectId, userId }: { projectId: number; userId: number }) =>
+      axios.post('/user/authorizations.json', { project_id: projectId, user_id: userId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(INDEX_KEY)
@@ -27,7 +28,7 @@ export const useAuthorizationsCreate = () => {
 export const useAuthorizationsDestroy = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(({ id }) => axios.delete(`/user/authorizations/${id}.json`), {
+  return useMutation(({ id }: { id: number }) => axios.delete(`/user/authorizations/${id}.json`), {
     onSuccess: () => {
       queryClient.invalidateQueries(INDEX_KEY)
       toast.success('Authorization revoked')
