@@ -7,7 +7,7 @@ export interface Metric {
   name: string
 }
 
-export const useMetricsIndex = ({ projectId }: { projectId?: number }) =>
+export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
   useQuery<Metric[]>(['user', 'metrics', { projectId }], () =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
