@@ -6,7 +6,6 @@ import { useSettingsUpdate } from '../queries/user/settings'
 
 const SettingsPage = () => {
   const { user } = useCurrentUser()
-  // const [weeklyReport, setWeeklyReport] = useState(user.weekly_report)
   const { mutate: updateUser } = useSettingsUpdate()
 
   return (
