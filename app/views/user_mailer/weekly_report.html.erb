@@ -16,12 +16,13 @@
         <% report = metric.reports.order(:date).last %>
         <% previous_report = metric.reports.where('date < ?', 7.days.ago).order(:date).last %>
         <% next if previous_report.nil? %>
+        <% next if previous_report == report %>
 
         <tr>
           <td>
             <%= link_to metric.name, user_projects_url(project_id: project.id, metric_id: metric.id) %>
           </td>
-          <td class="text-right"><%= number_with_delimiter report.value %></td>
+          <td class="text-right"><%= number_with_delimiter report.value.round %></td>
           <td class="text-right">
             <%= number_to_diff(report.value - previous_report.value) %>
           </td>
