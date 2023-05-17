@@ -8,8 +8,6 @@ const ContributionsPage = () => {
 
   if (!contributions) return null
 
-  console.log({ contributions })
-
   return (
     <div className="container">
       <h1>My Contributions</h1>
