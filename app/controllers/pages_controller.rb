@@ -14,7 +14,6 @@ class PagesController < ApplicationController
   end
 
   def docs
-    @content = HTTParty.get('https://raw.githubusercontent.com/cherrypush/cherry-cli/master/README.md').body
   end
 
   def terms
