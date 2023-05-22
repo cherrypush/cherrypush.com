@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const DocsPage = () => (
   <div className="container prose dark:prose-invert">
@@ -7,7 +8,9 @@ const DocsPage = () => (
     <p>Create your .cherry.js configuration file:</p>
     <pre>cherry init</pre>
     <p>Add your API key into a .env file at the root of your project:</p>
-    <pre>CHERRY_API_KEY=16eo4cac-77a3-4005-a90b-eedcd3117b9f</pre>
+    <pre>
+      CHERRY_API_KEY=16eo4cac-77a3-4005-a90b-eedcd3117b9f <Link to="/user/settings">(find your real API key here)</Link>
+    </pre>
 
     <h1>Running commands 🏃🏻‍♂️</h1>
     <h2>cherry run</h2>
