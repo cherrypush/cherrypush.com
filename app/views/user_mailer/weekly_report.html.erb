@@ -24,7 +24,7 @@
           </td>
           <td class="text-right"><%= number_with_delimiter report.value.round %></td>
           <td class="text-right">
-            <%= number_to_diff(report.value - previous_report.value) %>
+            <%= number_to_diff((report.value - previous_report.value).round) %>
           </td>
         </tr>
       <% end %>
