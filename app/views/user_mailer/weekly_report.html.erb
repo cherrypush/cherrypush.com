@@ -17,6 +17,7 @@
         <% previous_report = metric.reports.where('date < ?', 7.days.ago).order(:date).last %>
         <% next if previous_report.nil? %>
         <% next if previous_report == report %>
+        <% next if report.value == previous_report.value %>
 
         <tr>
           <td>
