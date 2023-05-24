@@ -18,6 +18,17 @@ export const useNotificationsMarkAsSeen = () => {
   })
 }
 
+export const useNotificationsMarkAllAsSeen = () => {
+  const invalidateNotificationsIndex = useInvalidateNotificationsIndex()
+
+  return useMutation(() => axios.put(`/user/notifications/mark_all_as_seen.json`), {
+    onSuccess: () => {
+      toast.success('Notifications marked as seen')
+      invalidateNotificationsIndex()
+    },
+  })
+}
+
 export const useInvalidateNotificationsIndex = () => {
   const queryClient = useQueryClient()
   return () => queryClient.invalidateQueries(INDEX_KEY)

@@ -1,20 +1,32 @@
-import { Card } from 'flowbite-react'
+import { Button, Card } from 'flowbite-react'
 import React from 'react'
 import { buildCommitUrl, formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 import { useMetricsIndex } from '../queries/user/metrics'
-import { useNotificationsIndex, useNotificationsMarkAsSeen } from '../queries/user/notifications'
+import {
+  useNotificationsIndex,
+  useNotificationsMarkAllAsSeen,
+  useNotificationsMarkAsSeen,
+} from '../queries/user/notifications'
 
 const NotificationsPage = () => {
   const { data: notifications } = useNotificationsIndex()
   const { data: metrics } = useMetricsIndex()
   const { mutate: markAsSeen } = useNotificationsMarkAsSeen()
+  const { mutate: markAllAsSeen } = useNotificationsMarkAllAsSeen()
 
   if (!notifications || !metrics) return null
 
   return (
     <div className="container">
-      <h1>Notifications</h1>
-      <p className="mb-3">To be notified about contributions to a metric, go to its page and watch for changes.</p>
+      <div className="md:flex items-center justify-between">
+        <div>
+          <h1>Notifications</h1>
+          <p className="mb-3">To be notified about contributions to a metric, go to its page and watch for changes.</p>
+        </div>
+        <Button className="md:mb-3" onClick={() => markAllAsSeen()}>
+          Mark all as seen
+        </Button>
+      </div>
       {notifications.length > 0 ? (
         notifications.map((notification) => {
           const metric = metrics.find((metric) => metric.id === notification.item.metric_id)
