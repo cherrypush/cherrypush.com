@@ -1,0 +1,15 @@
+<h1>New Notifications</h1>
+
+<p>
+  <b>You had <%= @notifications.count %> new notifications during the last 24 hours.</b>
+  <p><a href="<%= user_notifications_url %>" class='btn'>Go to notifications page</a></p>
+
+  <p>Here's a quick overview:</p>
+  <% @notifications.each do |notification| %>
+    <li>
+      <%= notification.message %>
+      <%= link_to notification.unsubscribe_text, notification.unsubscribe_url, style: 'font-size:12px;' %>
+    </li>
+  <% end %>
+</p>
+

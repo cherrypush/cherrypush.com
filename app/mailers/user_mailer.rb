@@ -4,7 +4,6 @@ class UserMailer < ApplicationMailer
   include ApplicationHelper
   helper :application
 
-  # TODO: fix the view to rely on the new metrics and reports model
   def weekly_report
     @user = params[:user]
     mail(to: @user.email, subject: "Cherry Report: #{Time.current.strftime('%b %d, %Y')} 🍒")
@@ -26,5 +25,12 @@ class UserMailer < ApplicationMailer
     @to_user = params[:to]
     @project = params[:project]
     mail(to: @to_user.email, subject: 'Cherry - Authorization Granted')
+  end
+
+  def daily_notifications_report
+    @user = params[:user]
+    @notifications = @user.notifications.unseen.recent.order(created_at: :desc)
+    return if @notifications.none?
+    mail(to: @user.email, subject: "Cherry - New Notifications (#{@notifications.count})")
   end
 end
