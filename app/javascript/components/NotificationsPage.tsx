@@ -2,11 +2,12 @@ import { Card } from 'flowbite-react'
 import React from 'react'
 import { buildCommitUrl, formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 import { useMetricsIndex } from '../queries/user/metrics'
-import { useNotificationsIndex } from '../queries/user/notifications'
+import { useNotificationsIndex, useNotificationsMarkAsSeen } from '../queries/user/notifications'
 
 const NotificationsPage = () => {
   const { data: notifications } = useNotificationsIndex()
   const { data: metrics } = useMetricsIndex()
+  const { mutate: markAsSeen } = useNotificationsMarkAsSeen()
 
   if (!notifications || !metrics) return null
 
@@ -22,15 +23,17 @@ const NotificationsPage = () => {
 
           return (
             <Card
-              className="mb-3 dark:hover:bg-gray-700 cursor-pointer"
+              className="mb-3 dark:hover:bg-gray-700 cursor-pointer relative"
               key={notification.id}
-              onClick={() =>
+              onClick={() => {
                 window.open(
                   buildCommitUrl({ projectName: metric.project.name, commitSha: notification.item.commit_sha }),
                   '_blank'
                 )
-              }
+                markAsSeen(notification.id)
+              }}
             >
+              {!notification.seen_at && <div className="absolute -top-1 -right-1 bg-red-500 w-3 h-3 rounded-full" />}
               <div>
                 {notification.item.author_name} contributed to the metric {metric.name} :{' '}
                 {formatDiff(notification.item.diff)}
