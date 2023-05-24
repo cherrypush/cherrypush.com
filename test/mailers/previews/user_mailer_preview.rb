@@ -17,4 +17,9 @@ class UserMailerPreview < ActionMailer::Preview
   def authorization_granted
     UserMailer.with(from: User.first, to: User.last, project: Project.first).authorization_granted
   end
+
+  def daily_notifications_report
+    Notification.create!(user: User.first, item: Contribution.first) if Notification.unseen.none?
+    UserMailer.with(user: User.first).daily_notifications_report
+  end
 end
