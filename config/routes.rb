@@ -29,6 +29,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resource :metric_watchers, only: %i[create destroy]
       resources :notifications, only: %i[index] do
         put 'mark_as_seen', on: :member
+        put 'mark_all_as_seen', on: :collection
       end
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]

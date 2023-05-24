@@ -10,4 +10,9 @@ class User::NotificationsController < User::ApplicationController
     notification.update!(seen_at: Time.current)
     head :no_content
   end
+
+  def mark_all_as_seen
+    current_user.notifications.update_all(seen_at: Time.current)
+    head :no_content
+  end
 end
