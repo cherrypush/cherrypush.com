@@ -7,12 +7,15 @@ import { MdFavorite, MdLockPerson, MdLogout, MdSettings } from 'react-icons/md'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
+import { useNotificationsIndex } from '../queries/user/notifications'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   const isFetching = useIsFetching()
+  const { data: notifications } = useNotificationsIndex()
+  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length
 
   return (
     <>
@@ -34,6 +37,11 @@ const CherryNavbar = () => {
         <div className="flex md:order-2 gap-3">
           <Button size="sm" color="dark" onClick={() => navigate('/user/notifications')} className="cursor-pointer">
             <NotificationsIcon />
+            {unSeenNotificationsCount > 0 && (
+              <span className="ml-1.5 text-xs font-semibold bg-red-500 text-white px-1.5 rounded-full">
+                {unSeenNotificationsCount}
+              </span>
+            )}
           </Button>
           <Dropdown arrowIcon={false} inline={true} label={<Avatar alt="Avatar" img={user.image} rounded={true} />}>
             <Dropdown.Header>
