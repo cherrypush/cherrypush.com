@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 namespace :mailers do
+  # This is run every day at 7 AM UTC by Heroku Scheduler, but emails are only sent on Mondays.
   desc 'Deliver weekly report'
   task deliver_weekly_report: :environment do
     next unless Time.current.monday?
@@ -13,6 +14,7 @@ namespace :mailers do
     end
   end
 
+  # This is run every day at 7 PM UTC by Heroku Scheduler, but emails are only sent when there are notifications.
   desc 'Deliver daily notifications'
   task deliver_daily_notifications: :environment do
     next unless Time.current.monday?
