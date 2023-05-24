@@ -1,0 +1,23 @@
+const JS_FILES = '**/*.{js,jsx,ts,tsx}'
+const RUBY_FILES = '**/*.{rb,rake,erb,slim,jbuilder}'
+
+module.exports = {
+  project_name: 'PROJECT_NAME',
+  plugins: ['loc'],
+  metrics: [
+    {
+      name: 'TODO/FIXME',
+      pattern: /(TODO|FIXME):/i, // the i flag makes the regex case insensitive
+    },
+    {
+      name: 'rubocop:disable',
+      pattern: /rubocop:disable/,
+      include: RUBY_FILES,
+    },
+    {
+      name: 'eslint-disable',
+      pattern: /eslint-disable/,
+      include: JS_FILES,
+    },
+  ],
+}
