@@ -5,8 +5,19 @@ class MetricsTest < ApplicationSystemTestCase
   let!(:project) { create(:project, user: user, name: 'rails/rails') }
   let!(:new_user) { create(:user, name: 'Prabhakar', github_handle: 'prabs') }
 
-  it 'allows new users to request access to projects' do
+  it 'allows new users to request access to projects from projects' do
     sign_in(new_user, to: user_projects_path(project_id: project.id))
+    assert_text "You don't have access to this project"
+    click_on 'Request Access'
+    assert_text 'Access request sent' # toast message
+    assert_text 'Your request has been sent' # text inside the disabled button
+    assert_equal new_user.id, AuthorizationRequest.last.user_id
+    assert_equal project.id, AuthorizationRequest.last.project_id
+  end
+
+  it 'allows new users to request access to projects from dashboards' do
+    dashboard = create(:dashboard, project: project, name: 'TS Migration')
+    sign_in(new_user, to: user_dashboard_path(dashboard))
     assert_text "You don't have access to this project"
     click_on 'Request Access'
     assert_text 'Access request sent' # toast message

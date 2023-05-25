@@ -1,10 +1,7 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import LockPersonIcon from '@mui/icons-material/LockPerson'
 import { Button, Card } from 'flowbite-react'
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useSelectedOwners from '../hooks/useSelectedOwners'
-import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
 import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
 import { useProjectsIndex } from '../queries/user/projects'
@@ -18,31 +15,7 @@ import Occurrences from './Occurrences'
 import OwnerSelector from './OwnerSelector'
 import PageLoader from './PageLoader'
 import ProjectsTable from './ProjectsTable'
-
-const RequestAccessCard = ({ projectId }: { projectId: number }) => {
-  const { mutateAsync: requestAccess, isLoading, isSuccess } = useAuthorizationRequestsCreate()
-
-  return (
-    <Card className="max-w-xl text-center mx-auto">
-      <p>
-        {"You don't have access to this project."}
-        <br />
-        {'Please request access to the project members.'}
-      </p>
-      {isSuccess ? (
-        <Button color="success" disabled>
-          <CheckCircleIcon />
-          <span className="ml-2">Your request has been sent.</span>
-        </Button>
-      ) : (
-        <Button disabled={isLoading} onClick={() => requestAccess({ projectId })}>
-          <LockPersonIcon />
-          <span className="ml-2">Request Access</span>
-        </Button>
-      )}
-    </Card>
-  )
-}
+import RequestAccessCard from './RequestAccessCard'
 
 const ProjectsPage = () => {
   const [searchParams] = useSearchParams()
