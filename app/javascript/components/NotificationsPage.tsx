@@ -23,7 +23,7 @@ const NotificationsPage = () => {
           <h1>Notifications</h1>
           <p className="mb-3">To be notified about contributions to a metric, go to its page and watch for changes.</p>
         </div>
-        <Button className="md:mb-3" onClick={() => markAllAsSeen()}>
+        <Button className="mb-3 md:mb-0" onClick={() => markAllAsSeen()}>
           Mark all as seen
         </Button>
       </div>
