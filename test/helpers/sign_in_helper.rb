@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def sign_in(user, to: nil)
+  def sign_in(user, to: nil, controller_test: false)
     OmniAuth.config.test_mode = true
     Rails.application.env_config['omniauth.auth'] = github_auth(user)
-    visit root_path
-    click_on 'Login with GitHub'
-    assert_text "Signed in as #{user.name}"
-    to ? visit(to) : refresh
+    if controller_test
+      get '/auth/github/callback'
+    else
+      visit root_path
+      click_on 'Login with GitHub'
+      assert_text "Signed in as #{user.name}"
+      to ? visit(to) : refresh
+    end
   end
 
   private
