@@ -1,4 +1,4 @@
-import { Breadcrumb as BaseBreadcrumb, Button, Card, Dropdown } from 'flowbite-react'
+import { Breadcrumb as BaseBreadcrumb, Button, Card, Dropdown, Tooltip } from 'flowbite-react'
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -43,9 +43,14 @@ const Breadcrumb = ({ projects, metrics }) => {
                   <Dropdown.Item onClick={() => unwatchMetric({ metricId })}>Unwatch</Dropdown.Item>
                 </Dropdown>
               ) : (
-                <Button size="sm" onClick={() => watchMetric({ metricId })}>
-                  Watch
-                </Button>
+                <Tooltip
+                  placement="right"
+                  content="By watching you'll be alerted about new contributions to this metric."
+                >
+                  <Button size="sm" onClick={() => watchMetric({ metricId })}>
+                    Watch
+                  </Button>
+                </Tooltip>
               )}
             </div>
           </BaseBreadcrumb.Item>
