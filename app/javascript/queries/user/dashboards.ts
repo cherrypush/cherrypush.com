@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { ChartKind } from './charts'
 
 const INDEX_KEY = ['user', 'dashboards', 'index']
@@ -55,12 +56,20 @@ export const useDashboardsCreate = () => {
   })
 }
 
-export const useDashboardsShow = ({ id }: { id: number | undefined }) =>
-  useQuery(
+export const useDashboardsShow = ({ id }: { id: number | undefined }) => {
+  const navigate = useNavigate()
+
+  return useQuery(
     ['user', 'dashboards', id],
     () => axios.get(`/user/dashboards/${id}.json`).then((response) => response.data),
-    { enabled: !!id }
+    {
+      enabled: !!id,
+      onError: (error) => {
+        if (error.request.status === 401) navigate(error.response.data.redirect_url)
+      },
+    }
   )
+}
 
 export const useDashboardsUpdate = () => {
   const invalidateDashboards = useInvalidateDashboardsIndex()
