@@ -11,8 +11,12 @@ class User::DashboardsController < User::ApplicationController
 
   def show
     dashboard = Dashboard.find(params[:id])
-    authorize dashboard.project, :read?
-    render json: dashboard.as_json(include: [:project, { charts: { include: :chart_metrics } }])
+
+    if ProjectPolicy.new(current_user, dashboard.project).read?
+      render json: dashboard.as_json(include: [:project, { charts: { include: :chart_metrics } }])
+    else
+      render json: { redirect_url: user_projects_path(project_id: dashboard.project.id) }, status: :unauthorized
+    end
   end
 
   def create
