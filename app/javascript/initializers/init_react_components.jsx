@@ -13,7 +13,7 @@ const queryClient = new QueryClient({
   },
 })
 
-document.addEventListener('turbo:load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const nodes = document.querySelectorAll('[data-component]')
   Array.from(nodes).forEach((node) => {
     const Component = lazy(() => import(`../components/${node.getAttribute('data-component')}.tsx`))

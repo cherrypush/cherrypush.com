@@ -33,12 +33,6 @@ gem 'sentry-ruby'
 gem 'tailwindcss-rails'
 gem 'vite_rails'
 
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-# gem 'importmap-rails'
-
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem 'turbo-rails'
-
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 # gem 'stimulus-rails'
 
@@ -97,5 +91,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
-
-gem 'importmap-rails', '~> 1.1'
