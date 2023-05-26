@@ -3,6 +3,8 @@
 class User::ApplicationController < ApplicationController
   before_action :authenticate_user!
 
+  layout 'application'
+
   rescue_from Pundit::NotAuthorizedError do
     if request.format.json?
       render json: { error: 'You are not authorized to perform this action.' }, status: :forbidden

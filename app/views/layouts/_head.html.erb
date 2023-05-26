@@ -1,0 +1,10 @@
+<title><%= content_for(:title) || 'Cherry' %></title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<%= render 'components/favicons' %>
+
+<%= vite_client_tag %>
+<%= vite_javascript_tag 'application.jsx' %>
+<%= stylesheet_link_tag 'application', 'inter-font' %>
+<%= stylesheet_link_tag 'tailwind', 'inter-font' %>

@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  before_action -> { redirect_to user_projects_path }, if: -> { current_user }
+
   def home
-    redirect_to user_projects_path if current_user
   end
 
   def demo
