@@ -5,12 +5,14 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  layout -> { current_user ? 'application' : 'landing' }
+  layout 'landing'
 
   before_action :set_sentry_context, if: -> { current_user.present? }
 
+  # Used to control access to blazer dashboards
   def require_admin
-    redirect_to '/' unless current_user&.admin?
+    return if current_user&.admin?
+    redirect_to '/'
   end
 
   private

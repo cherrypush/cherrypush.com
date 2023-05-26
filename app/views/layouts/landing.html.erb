@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || 'Cherry' %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= render 'components/favicons' %>
-
-    <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.turbo.js"></script>
-    <%= vite_client_tag %>
-    <%= vite_javascript_tag 'application.jsx' %>
-    <%= stylesheet_link_tag 'application', 'inter-font', 'data-turbo-track': 'reload' %>
-    <%= stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload' %>
+    <%= render 'layouts/head' %>
   </head>
 
   <body class="dark:bg-gray-900 text-gray-800 dark:text-white">

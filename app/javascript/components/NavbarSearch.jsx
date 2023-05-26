@@ -1,15 +1,16 @@
-import React, { useState, Fragment } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
-import { Turbo } from '@hotwired/turbo-rails'
 import { CheckIcon } from '@heroicons/react/20/solid'
+import React, { Fragment, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const NavbarSearch = ({ items }) => {
   const [query, setQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(items.find((item) => item.selected))
+  const navigate = useNavigate()
 
   const navigateToItem = (item) => {
     setSelectedItem(item)
-    Turbo.visit(item.href)
+    navigate(item.href)
   }
 
   const filteredItems =
