@@ -42,6 +42,6 @@ export const commitShaAt = async (date, branch) =>
 
 export const checkout = async (sha) => await git(`checkout ${sha}`)
 
-export const branchName = async () => (await git(`branch --show-current  `))[0]
+export const branchName = async () => (await git(`branch --show-current`))[0]
 
 export const uncommittedFiles = async () => await git('status --porcelain=v1')

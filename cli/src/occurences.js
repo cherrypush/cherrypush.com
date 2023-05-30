@@ -2,11 +2,11 @@ import _ from 'lodash'
 import minimatch from 'minimatch'
 import pLimit from 'p-limit'
 import Spinnies from 'spinnies'
-import rubocop from './plugins/rubocop.js'
-import eslint from './plugins/eslint.js'
-import loc from './plugins/loc.js'
 import { panic } from './error.js'
 import { buildPermalink } from './github.js'
+import eslint from './plugins/eslint.js'
+import loc from './plugins/loc.js'
+import rubocop from './plugins/rubocop.js'
 
 const spinnies = new Spinnies()
 
@@ -69,11 +69,11 @@ const findFileOccurences = async (file, metrics) => {
 const matchPatterns = (files, metrics) => {
   if (!files.length || !metrics.length) return []
 
-  spinnies.add('patterns', { text: 'Matching patterns...' })
+  spinnies.add('patterns', { text: 'Matching line patterns...', indent: 2 })
   // Limit number of concurrently opened files to avoid "Error: spawn EBADF"
   const limit = pLimit(10)
   const promise = Promise.all(files.map((file) => limit(() => findFileOccurences(file, metrics))))
-  promise.then(() => spinnies.succeed('patterns', { text: 'Matching patterns' }))
+  promise.then(() => spinnies.succeed('patterns', { text: 'Matching line patterns' }))
 
   return promise
 }
@@ -81,10 +81,10 @@ const matchPatterns = (files, metrics) => {
 const runEvals = (metrics) => {
   if (!metrics.length) return []
 
-  spinnies.add('evals', { text: 'Running eval()...' })
+  spinnies.add('evals', { text: 'Running eval()...', indent: 2 })
   const promise = Promise.all(
     metrics.map(async (metric) => {
-      spinnies.add(`metric_${metric.name}`, { text: `${metric.name}...`, indent: 2 })
+      spinnies.add(`metric_${metric.name}`, { text: `${metric.name}...`, indent: 4 })
       const result = (await metric.eval()).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
       spinnies.succeed(`metric_${metric.name}`, { text: metric.name })
       return result
@@ -98,12 +98,12 @@ const runEvals = (metrics) => {
 const runPlugins = async (plugins) => {
   if (!plugins.length) return []
 
-  spinnies.add('plugins', { text: 'Running plugins...' })
+  spinnies.add('plugins', { text: 'Running plugins...', indent: 2 })
   const promise = Promise.all(
     plugins.map(async (pluginName) => {
       const plugin = PLUGINS[pluginName]
       if (!plugin) panic(`Unsupported '${pluginName}' plugin`)
-      spinnies.add(`plugin_${pluginName}`, { text: `${pluginName}...`, indent: 2 })
+      spinnies.add(`plugin_${pluginName}`, { text: `${pluginName}...`, indent: 4 })
       const result = await plugin.run()
       spinnies.succeed(`plugin_${pluginName}`, { text: pluginName })
       return result
