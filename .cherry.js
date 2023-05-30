@@ -1,6 +1,6 @@
 module.exports = {
-  project_name: 'cherrypush/cherry-app',
-  plugins: ['rubocop'],
+  project_name: 'cherrypush/cherry',
+  plugins: ['rubocop', 'eslint', 'loc'],
   metrics: [
     {
       name: 'todo',
