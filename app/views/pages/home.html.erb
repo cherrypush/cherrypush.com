@@ -43,55 +43,95 @@
   </div>
 </section>
 
-<section class="rounded-xl bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
-  <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
-    <%=
-      image_tag 'screenshot_metrics.png',
-                class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl'
-    %>
-    <div class="mt-4 md:mt-0">
-      <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        Stay on top of your code migrations 🏔
-      </h2>
-      <p class="font-light text-gray-500 md:text-lg dark:text-gray-400">
-        Visualize the progress of your migrations. <br />
-        Watch out for new technical debt.
-      </p>
-    </div>
-  </div>
-</section>
+<%=
+  render 'feature_section',
+         title: 'Stay on top of your code migrations 🏔',
+         text: 'Visualize the progress of your migrations. Watch out for new technical debt.',
+         image: 'ss_code_migration.png'
+%>
 
-<section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
-  <div class="gap-16 items-center mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
-    <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-      <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        No sensitive data collected 🤫
-      </h2>
-      <p class="mb-4">
-        Cherry relies on an <a href="http://npmjs.com/package/cherrypush">open-source CLI</a>. <br />We don't even have
-        access to your code base.
-      </p>
-    </div>
-    <%= image_tag 'cli.gif', class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl' %>
-  </div>
-</section>
+<%=
+  render 'feature_section',
+         title: 'Integrate with GitHub Actions 🤖',
+         text: 'Copy and paste a few lines of code, and your metrics are updated on every commit.',
+         image: 'ss_github_action.png'
+%>
 
-<section class="rounded-xl bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
-  <div class="gap-8 items-center mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2">
-    <%=
-      image_tag 'screenshot_github_actions.png',
-                class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl'
-    %>
-    <div class="mt-4 md:mt-0">
-      <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-        Integrate with GitHub Actions 🤖
-      </h2>
-      <p class="font-light text-gray-500 md:text-lg dark:text-gray-400">
-        Copy and paste a few lines of code, and your metrics are updated on every commit.
-      </p>
-    </div>
-  </div>
-</section>
+<%=
+  render 'feature_section',
+         title: 'No sensitive data collected 🤫',
+         text:
+           'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We don\'t even have access to your code base.'
+             .html_safe,
+         image: 'cli.gif'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Recognize the work of your top team members 🏆',
+         text: 'Cherry highlights top developers based on the contributions they make.',
+         image: 'ss_top_contributors.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Keep an eye on a per team basis 👀',
+         text: 'With our fine-grained team monitoring, you can follow how much work is left per team.',
+         image: 'ss_owners.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Empower your senior developers 🧙‍♂️',
+         text: 'We provide all the tools they need to keep a good codebase hygiene and ensure code quality.',
+         image: 'ss_dashboards.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Low-code setup and configuration 😌',
+         text:
+           'Everything is done via the .cherry.js file. You can use our built-in plugins or write your own trackers in JavaScript. No need to learn a new stack.',
+         image: 'ss_docs.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Document without writing any docs 📝',
+         text: 'We regroup commits so your devs can easily find references to pull request and learn by example.',
+         image: 'ss_contributions.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Effortlessly onboard new devs 🚀',
+         text:
+           'In a single page you can see the current state of your codebase, find experts to reach out to, get references to pull requests, and  concrete next steps on how to contribute.',
+         image: 'ss_metric_page.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Show off your work with smoking hot charts ❤️‍🔥',
+         text:
+           'Share your charts or embed them to presentations. Cherry is the perfect tool to show off your team\'s work.',
+         image: 'ss_slides.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Get more accurate ETAs 🤞',
+         text:
+           'We help you see all the remaining work at a glance so you can provide better estimates to stakeholders.',
+         image: 'ss_occurrences.png'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Be alerted about critical changes 🚨',
+         text: 'Watch metrics to receive live notifications and never miss out another critical change.',
+         image: 'ss_notifications.png'
+%>
 
 <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
   <%= render 'components/pricing' %>
