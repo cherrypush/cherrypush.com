@@ -1,20 +1,20 @@
 #! /usr/bin/env node
 
-import dotenv from 'dotenv'
 import axios from 'axios'
 import { program } from 'commander'
-import { findOccurrences } from '../src/occurences.js'
-import { configurationExists, getConfiguration, createConfigurationFile } from '../src/configuration.js'
+import dotenv from 'dotenv'
+import _ from 'lodash'
 import prompt from 'prompt'
-import { guessProjectName } from '../src/git.js'
-import * as git from '../src/git.js'
+import Codeowners from '../src/codeowners.js'
+import { configurationExists, createConfigurationFile, getConfiguration } from '../src/configuration.js'
+import { computeContributions } from '../src/contributions.js'
 import { substractDays, toISODate } from '../src/date.js'
 import { panic } from '../src/error.js'
 import { getFiles } from '../src/files.js'
-import Codeowners from '../src/codeowners.js'
+import * as git from '../src/git.js'
+import { guessProjectName } from '../src/git.js'
 import { setVerboseMode } from '../src/log.js'
-import _ from 'lodash'
-import { computeContributions } from '../src/contributions.js'
+import { findOccurrences } from '../src/occurences.js'
 
 dotenv.config()
 
@@ -62,39 +62,33 @@ program
   .action(async (options) => {
     const configuration = await getConfiguration()
     const apiKey = options.apiKey || process.env.CHERRY_API_KEY
-    try {
-      const files = await getFiles()
-      const codeOwners = new Codeowners()
-      const occurrences = await findOccurrences({ configuration, files, codeOwners })
-      const committedAt = await git.commitDate(await git.sha())
-
-      await upload(apiKey, configuration.project_name, committedAt, occurrences)
-    } catch (error) {
-      console.error(error)
-      process.exit(1)
-    }
-    console.log('Your dashboard is available at https://www.cherrypush.com/user/projects')
-  })
-
-program
-  .command('push-contributions')
-  .option('--api-key <api_key>', 'Your cherrypush.com api key')
-  .action(async (options) => {
-    const configuration = await getConfiguration()
-    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    const initialBranch = await git.branchName()
+    if (!initialBranch) panic('Not on a branch, checkout a branch before pushing metrics.')
     const sha = await git.sha()
-    const branchName = await git.branchName()
-    const codeOwners = new Codeowners()
 
+    let error
     try {
-      console.log('Computing metrics on current commit...')
-      const occurences = await findOccurrences({ configuration, files: await getFiles(), codeOwners })
+      console.log('Computing metrics for current commit...')
+      const occurrences = await findOccurrences({
+        configuration,
+        files: await getFiles(),
+        codeOwners: new Codeowners(),
+      })
+      console.log(`  Uploading metrics...`)
+      await upload(apiKey, configuration.project_name, await git.commitDate(sha), occurrences)
+
+      console.log('')
+      console.log('Computing metrics for previous commit...')
       await git.checkout(`${sha}~`)
-      console.log('Computing metrics on previous commit...')
-      const previousOccurrences = await findOccurrences({ configuration, files: await getFiles(), codeOwners })
-      const contributions = computeContributions(occurences, previousOccurrences)
-      if (contributions.length === 0) console.log('No contribution found for this commit')
-      else {
+      const previousOccurrences = await findOccurrences({
+        configuration,
+        files: await getFiles(),
+        codeOwners: new Codeowners(),
+      })
+      const contributions = computeContributions(occurrences, previousOccurrences)
+
+      if (contributions.length) {
+        console.log(`  Uploading contributions...`)
         await uploadContributions(
           apiKey,
           configuration.project_name,
@@ -104,15 +98,18 @@ program
           await git.commitDate(sha),
           contributions
         )
-        console.log('Contributions successfully uploaded!')
-      }
-    } catch (error) {
+      } else console.log('No contribution found, skipping')
+    } catch (exception) {
+      error = exception
+    } finally {
+      git.checkout(initialBranch)
+    }
+    if (error) {
       console.error(error)
-      await git.checkout(branchName || sha)
       process.exit(1)
     }
 
-    await git.checkout(branchName || sha)
+    console.log('Your dashboard is available at https://www.cherrypush.com/user/projects')
   })
 
 program
@@ -184,12 +181,11 @@ const formatApiError = async (callback) => {
 const upload = (apiKey, projectName, date, occurrences) => {
   if (!projectName) panic('specify a project_name in your cherry.js configuration file before pushing metrics')
 
-  formatApiError(async () => {
-    console.log(`Uploading metrics...`)
-    return axios
+  return formatApiError(() =>
+    axios
       .post(API_BASE_URL + '/push', buildPushPayload(projectName, date, occurrences), { params: { api_key: apiKey } })
       .then(({ data }) => data)
-  })
+  )
 }
 
 const buildPushPayload = (projectName, date, occurences) => {
@@ -207,16 +203,15 @@ const buildPushPayload = (projectName, date, occurences) => {
 }
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>
-  formatApiError(async () => {
-    console.log(`Uploading contributions...`)
-    return axios
+  formatApiError(() =>
+    axios
       .post(
         API_BASE_URL + '/contributions',
         buildContributionsPayload(projectName, authorName, authorEmail, sha, date, contributions),
         { params: { api_key: apiKey } }
       )
       .then(({ data }) => data)
-  })
+  )
 
 const buildContributionsPayload = (projectName, authorName, authorEmail, sha, date, contributions) => ({
   project_name: projectName,
