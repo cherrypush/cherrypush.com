@@ -27,6 +27,3 @@ jobs:
 
       - name: Push metrics
         run: cherry push --api-key=${{ secrets.CHERRY_API_KEY }}
-
-      - name: Push contributions
-        run: cherry push-contributions --api-key=${{ secrets.CHERRY_API_KEY }}
