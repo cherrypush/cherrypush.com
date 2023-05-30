@@ -6,5 +6,6 @@ FactoryBot.define do
   factory :report do
     date { Time.current }
     value { Faker::Number.number(digits: 3) }
+    metric
   end
 end
