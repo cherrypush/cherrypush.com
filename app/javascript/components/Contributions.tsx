@@ -1,6 +1,5 @@
 import { Table, Tooltip } from 'flowbite-react'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { buildCommitUrl, timeAgoInWords } from '../helpers/applicationHelper'
 import { useContributionsIndex } from '../queries/user/contributions'
 
@@ -40,8 +39,7 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
           {contributions.length === 0 && (
             <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
               <Table.Cell colSpan={100} className="px-4 py-2">
-                You can start tracking your contributions by running the `cherry push-contributions` command in your
-                terminal. Learn more from our <Link to="/user/docs">docs</Link>.
+                No contribution yet.
               </Table.Cell>
             </Table.Row>
           )}
