@@ -44,7 +44,7 @@ const DocsPage = () => {
               <div className="prose dark:prose-invert w-full max-w-full py-4 pr-3">
                 <h1 id="installation">Quick Installation ⚡️</h1>
                 <pre>npm install -g cherrypush</pre>
-                <p>Create your .cherry.js configuration file:</p>
+                <p>Create your .cherry.js configuration file with:</p>
                 <pre>cherry init</pre>
                 <p>Add your API key into a .env file at the root of your project:</p>
                 <pre>
@@ -62,7 +62,9 @@ const DocsPage = () => {
                 <hr />
                 <h1 id="commands">Simple CLI commands 😌</h1>
                 <h2 id="cherry-run">cherry run</h2>
-                <p>Outputs stats for current commit. Useful for debugging your config file.</p>
+                <p>The run command accepts a couple of different options:</p>
+                <pre>{`cherry run [--metric=<metric>] [--owner=<owners>]`}</pre>
+                <p>When used without options, it logs ALL metric stats for your project:</p>
                 <pre>
                   {`$ cherry run
 ┌─────────┬────────┐
@@ -74,10 +76,12 @@ const DocsPage = () => {
 │ eslint  │   13   │
 └─────────┴────────┘`}
                 </pre>
-                <p>You can also filter occurrences by metrics and owners:</p>
-                <pre>cherry run --metric=eslint --owner=@fwuensche,@rchoquet</pre>
+                <p>To filter metrics, you can combine the different options such as:</p>
+                <pre>{`cherry run --metric="Skipped tests"`}</pre>
+                <pre>{`cherry run --owner=@fwuensche,@rchoquet`}</pre>
+                <pre>{`cherry run --metric="Skipped tests" --owner=@fwuensche,@rchoquet`}</pre>
                 <h2 id="cherry-push">cherry push</h2>
-                <p>Submits stats to cherrypush.com:</p>
+                <p>{`Your most used command. It submits current project stats to cherrypush.com:`}</p>
 
                 <pre>{`$ cherry push
 Uploading 42 occurrences...
@@ -85,12 +89,23 @@ Response: { status: 'ok' }
 Your dashboard is available at https://www.cherrypush.com/user/projects
 `}</pre>
                 <h2 id="cherry-backfill">cherry backfill</h2>
-                <p>Submits historic data to cherrypush.com:</p>
-                <pre>$ cherry backfill --since=2023-01-01</pre>
-                <p>If you want to limit to a certain date range you can provide an additional param:</p>
-                <pre>$ cherry backfill --since=2023-01-01 --until=2022-01-07</pre>
-                <p>If the date range is too wide, you might want to set a custom interval (defaults to 1 day):</p>
-                <pre>$ cherry backfill --since=2023-01-01 --until=2023-12-01 --interval=30</pre>
+                <p>Totally optional. This will submit your historic data to cherrypush.com:</p>
+                <pre>{`cherry backfill [--since=<date>] [--until=<date>] [--interval=<days>]`}</pre>
+                <ul>
+                  <li>
+                    <b>--since</b> will default to a month ago
+                  </li>
+                  <li>
+                    <b>--until</b> will default to today
+                  </li>
+                  <li>
+                    <b>--interval</b> will default to 1 day
+                  </li>
+                </ul>
+                <p>Use the options to customize the dates you want to generate reports for:</p>
+                <pre>cherry backfill --since=2023-01-01 --until=2022-01-07</pre>
+                <p>If the range is too wide, increase your interval to save time:</p>
+                <pre>cherry backfill --since=2023-01-01 --until=2023-12-01 --interval=30</pre>
 
                 <hr />
                 <h1 id="integrations">Integrations 🧩</h1>
