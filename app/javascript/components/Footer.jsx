@@ -37,7 +37,7 @@ const Footer = () => (
           </svg>
         </a>
         <a
-          href="https://github.com/cherrypush/cherry-cli"
+          href="https://github.com/cherrypush/cherry"
           className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
