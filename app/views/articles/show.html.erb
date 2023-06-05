@@ -1,0 +1,16 @@
+<%= link_to '← Back to Articles', articles_path, class: 'btn-light' %>
+
+<div class="my-16 text-center card p-16">
+  <h1 class="mb-0"><%= @article.title %></h1>
+</div>
+
+<div class="prose mx-auto">
+  <%= markdown @article.content %>
+</div>
+
+<div class="card my-16 p-9 text-center">
+  <p class="mb-8 font-light text-gray-500 md:text-lg dark:text-gray-400">
+    Cherry helps you track and visualize your code migrations with close to zero setup.
+  </p>
+  <%= render 'components/main_cta_buttons' %>
+</div>
