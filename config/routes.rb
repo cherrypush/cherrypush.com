@@ -5,10 +5,12 @@ require_relative 'route_utils'
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   mount Blazer::Engine, at: 'blazer' # authentication method set in blazer.yml
 
+  # AUTHENTICATION ROUTES
   get 'auth/:provider/callback', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy', as: :signout
   get '/auth/github', as: :github_sign_in
 
+  # CLI ROUTES
   namespace :api do
     resource :push, only: :create
     resources :contributions, only: :create
@@ -54,11 +56,14 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
+  # STATIC ROUTES
   get :demo, to: 'pages#demo'
   get :docs, to: 'pages#docs'
   get :pricing, to: 'pages#pricing'
   get :privacy, to: 'pages#privacy'
   get :terms, to: 'pages#terms'
+
+  resources :articles, only: %i[index show]
 
   root 'pages#home'
 end
