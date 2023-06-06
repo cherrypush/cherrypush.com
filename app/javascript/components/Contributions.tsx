@@ -39,7 +39,7 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
           {contributions.length === 0 && (
             <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
               <Table.Cell colSpan={100} className="px-4 py-2">
-                No contribution yet.
+                No contributions yet
               </Table.Cell>
             </Table.Row>
           )}
