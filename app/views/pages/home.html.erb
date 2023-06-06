@@ -52,22 +52,6 @@
 
 <%=
   render 'feature_section',
-         title: 'No sensitive data collected 🤫',
-         text:
-           'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We don\'t even have access to your code base.'
-             .html_safe,
-         image: 'cli.gif'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Recognize the work of your top team members 🏆',
-         text: 'Cherry highlights top developers based on the contributions they make.',
-         image: 'ss_top_contributors.png'
-%>
-
-<%=
-  render 'feature_section',
          title: 'Keep an eye on a per team basis 👀',
          text: 'With our fine-grained team monitoring, you can follow how much work is left per team.',
          image: 'ss_owners.png'
@@ -75,32 +59,9 @@
 
 <%=
   render 'feature_section',
-         title: 'Empower your senior developers 🧙‍♂️',
-         text: 'We provide all the tools they need to keep a good codebase hygiene and ensure code quality.',
-         image: 'ss_dashboards.png'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Low-code setup and configuration 😌',
-         text:
-           'Everything is done via the .cherry.js file. You can use our built-in plugins or write your own trackers in JavaScript. No need to learn a new stack.',
-         image: 'ss_docs.png'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Document without writing any docs 📝',
-         text: 'We regroup commits so your devs can easily find references to pull request and learn by example.',
-         image: 'ss_contributions.png'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Effortlessly onboard new devs 🚀',
-         text:
-           'In a single page you can see the current state of your codebase, find experts to reach out to, get references to pull requests, and  concrete next steps on how to contribute.',
-         image: 'ss_metric_page.png'
+         title: 'Be alerted about critical changes 🚨',
+         text: 'Watch metrics to receive live notifications and never miss out another critical change.',
+         image: 'ss_notifications.png'
 %>
 
 <%=
@@ -111,19 +72,69 @@
          image: 'ss_slides.png'
 %>
 
+<section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <%= render 'components/pricing' %>
+</section>
+
+<%=
+  render 'feature_section',
+         title: 'No sensitive data collected 🤫',
+         text:
+           'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We have no access to your code base.'
+             .html_safe,
+         image: 'cli.gif',
+         position: 'right'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Recognize the work of your top team members 🏆',
+         text: 'Cherry highlights top developers based on the contributions they make.',
+         image: 'ss_top_contributors.png',
+         position: 'left'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Empower your senior developers 🧙‍♂️',
+         text: 'We provide all the tools they need to keep a good codebase hygiene and ensure code quality.',
+         image: 'ss_dashboards.png',
+         position: 'right'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Low-code setup and configuration 😌',
+         text:
+           'Everything is done via the .cherry.js file. You can use our built-in plugins or write your own trackers in JavaScript. No need to learn a new stack.',
+         image: 'ss_docs.png',
+         position: 'left'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Document without writing docs 📝',
+         text: 'We regroup commits so your devs can easily find references to pull request and learn by example.',
+         image: 'ss_contributions.png',
+         position: 'right'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Effortlessly onboard new devs 🚀',
+         text:
+           'In a single page they can get a sense of the current state of your codebase, find experts to reach out to, get references to pull requests, and  concrete next steps on how to contribute.',
+         image: 'ss_metric_page.png',
+         position: 'left'
+%>
+
 <%=
   render 'feature_section',
          title: 'Get more accurate ETAs 🤞',
          text:
            'We help you see all the remaining work at a glance so you can provide better estimates to stakeholders.',
-         image: 'ss_occurrences.png'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Be alerted about critical changes 🚨',
-         text: 'Watch metrics to receive live notifications and never miss out another critical change.',
-         image: 'ss_notifications.png'
+         image: 'ss_occurrences.png',
+         position: 'right'
 %>
 
 <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
