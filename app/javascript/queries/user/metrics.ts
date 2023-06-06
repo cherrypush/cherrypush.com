@@ -7,24 +7,29 @@ export interface Metric {
   name: string
 }
 
+const buildIndexKey = ({ projectId }: { projectId?: number } = {}) =>
+  projectId ? ['user', 'metrics', 'index', { projectId }] : ['user', 'metrics', 'index']
+
+const buildShowKey = (id: number | null, owners: string[] = []) => ['user', 'metrics', 'show', id, { owners }]
+
 export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
-  useQuery<Metric[]>(['user', 'metrics', { projectId }], () =>
+  useQuery<Metric[]>(buildIndexKey({ projectId }), () =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
 
+export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
+
 export const useMetricsDestroy = ({ onSuccess }) => {
-  const queryClient = useQueryClient()
+  const invalidateIndex = useInvalidateMetricsIndex()
 
   return useMutation((metricId) => axios.delete(`/user/metrics/${metricId}.json`), {
     onSuccess: () => {
       onSuccess?.()
-      queryClient.invalidateQueries(['user', 'metrics'])
+      invalidateIndex()
       toast.success('Metric deleted')
     },
   })
 }
-
-const buildShowKey = (id: number | null, owners: string[] = []) => ['user', 'metrics', id, { owners }]
 
 export const metricShowOptions = (id: number | null, owners: string[] = []) => ({
   queryKey: buildShowKey(id, owners),
@@ -35,8 +40,6 @@ export const metricShowOptions = (id: number | null, owners: string[] = []) => (
   keepPreviousData: true,
 })
 
-export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
-
 export const useInvalidateMetricsShow = () => {
   const queryClient = useQueryClient()
   return (metricId: number) => queryClient.invalidateQueries(buildShowKey(metricId))
@@ -44,5 +47,5 @@ export const useInvalidateMetricsShow = () => {
 
 export const useInvalidateMetricsIndex = () => {
   const queryClient = useQueryClient()
-  return () => queryClient.invalidateQueries(['user', 'metrics'])
+  return () => queryClient.invalidateQueries(buildIndexKey())
 }
