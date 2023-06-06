@@ -4,15 +4,11 @@ module.exports = {
   metrics: [
     {
       name: 'todo',
-      pattern: /TODO:/i, // the i flag makes the regex case insensitive
+      pattern: /TODO:/i, // i for case insensitive
     },
     {
       name: 'fixme',
       pattern: /FIXME:/i,
-    },
-    {
-      name: 'eslint',
-      pattern: /eslint-disable/,
     },
   ],
 }
