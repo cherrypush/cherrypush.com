@@ -24,7 +24,7 @@ const MetricCard = ({ metricId, owners }: Props) => {
 
   return (
     <Card className="mb-3 relative">
-      <div className="absolute top-3 right-3 px-4 z-10">
+      <div className="absolute top-3 right-3 px-4 z-10" id="metric-menu">
         <Dropdown arrowIcon={false} inline={true} label={<MenuIcon />}>
           <Dropdown.Item
             onClick={() => {
