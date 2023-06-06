@@ -5,7 +5,7 @@ require 'application_system_test_case'
 class StaticPagesTest < ApplicationSystemTestCase
   test 'navigates through all pages' do
     visit root_url
-    assert_text 'Track and manage your technical debt with ease'
+    assert_text 'Track and visualize your technical debt with ease'
     assert_text 'TRY CHERRY FOR FREE'
     find('a[data-modal-toggle="contact-modal"]').click
     assert_text '@fwuensche'
