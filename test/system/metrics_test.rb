@@ -94,4 +94,15 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text '-12'
     assert_text '+36'
   end
+
+  it 'deletes metrics' do
+    sign_in(user, to: user_projects_path)
+    visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
+    assert_text 'eslint'
+    assert_equal 2, Metric.count
+    find('#metric-menu').click
+    accept_confirm { find('li', text: 'Delete this metric').click }
+    assert_text 'Metric deleted'
+    assert_equal 1, Metric.count
+  end
 end
