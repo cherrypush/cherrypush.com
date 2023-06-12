@@ -31,34 +31,31 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.2.1
+          bundler-cache: true
 
       - name: Set up node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.13.1
-
-      - name: Install ruby dependencies
-        run: bundle install
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Prepare database
         run: bundle exec rails db:schema:load
 
       - name: Install node dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run unit tests
         run: bundle exec rails test
 
-      - name: Install chrome headless
-        run: |
-          sudo apt-get update
-          sudo apt-get install google-chrome-stable
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: beta
 
       - name: Run system tests
         run: HEADLESS=1 bundle exec rails test:system
