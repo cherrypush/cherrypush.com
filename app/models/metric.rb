@@ -7,10 +7,6 @@ class Metric < ApplicationRecord
 
   validates :name, presence: true
 
-  def value
-    last_report.value
-  end
-
   def last_report
     @last_report ||= reports.order(:date).last
   end
