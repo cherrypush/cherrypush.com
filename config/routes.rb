@@ -14,6 +14,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   namespace :api do
     resource :push, only: :create
     resources :contributions, only: :create
+    resources :projects, only: [], param: :name do
+      resources :metrics, only: :show, param: :metric_name
+    end
   end
 
   # SPA ROUTES
