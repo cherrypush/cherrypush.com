@@ -18,7 +18,7 @@ const run = async () => {
       file.offenses.map((offense) => ({
         text: `${file.path}:${offense.location.line}`,
         filePath: file.path,
-        metricName: `rubocop ${offense.cop_name}`,
+        metricName: `[rubocop] ${offense.cop_name}`,
       }))
     )
 }

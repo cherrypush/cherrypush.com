@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import * as git from '../git.js'
 import { promises as fs } from 'fs'
+import _ from 'lodash'
 import pLimit from 'p-limit'
+import * as git from '../git.js'
 
 const EXTENSIONS = {
   '.abap': 'ABAP',
@@ -933,7 +933,7 @@ const run = async () => {
   return Object.entries(locByLang).map(([lang, loc]) => ({
     text: lang,
     value: loc,
-    metricName: `loc ${lang}`,
+    metricName: `[loc] ${lang}`,
   }))
 }
 

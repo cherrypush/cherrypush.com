@@ -21,7 +21,7 @@ const run = async () => {
       file.messages.map((message) => ({
         text: `${file.filePath}:${message.line}`,
         filePath: file.filePath,
-        metricName: `eslint ${message.ruleId}`,
+        metricName: `[eslint] ${message.ruleId}`,
       }))
     )
 }
