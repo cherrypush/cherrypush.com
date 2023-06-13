@@ -3,8 +3,7 @@
 require 'factory_bot'
 
 FactoryBot.define do
-  factory :dashboard do
-    name { Faker::Lorem.word }
-    project
+  factory :chart do
+    dashboard
   end
 end
