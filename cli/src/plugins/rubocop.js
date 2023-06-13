@@ -2,7 +2,7 @@ import { panic } from '../error.js'
 import sh from '../sh.js'
 
 const run = async () => {
-  const out = await sh('rubocop --format=json', { throwOnError: false })
+  const out = await sh('bundle exec rubocop --format=json', { throwOnError: false })
   let report
   try {
     report = JSON.parse(out)
