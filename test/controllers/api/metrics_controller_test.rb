@@ -54,6 +54,6 @@ class Api::MetricsControllerTest < ActionDispatch::IntegrationTest
   private
 
   def get_metric(project_name: 'rails/rails', metric_name: 'rubocop', api_key: user.api_key)
-    get(api_project_metric_path({ project_name: project_name, metric_name: metric_name, api_key: api_key }), as: :json)
+    get("/api/metrics?project_name=#{project_name}&metric_name=#{metric_name}&api_key=#{api_key}", as: :json)
   end
 end

@@ -3,7 +3,7 @@
 class Api::MetricsController < Api::ApplicationController
   include Api::ProjectScoped
 
-  def show
+  def index
     project = @user.projects.find_by(name: params[:project_name])
     return head :not_found if project.nil?
 
