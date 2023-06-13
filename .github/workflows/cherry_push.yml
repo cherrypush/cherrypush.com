@@ -18,10 +18,11 @@ jobs:
 
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
       - name: Install dependencies
         run: |
-          bundle install
           npm install
           npm install -g cherrypush
 
