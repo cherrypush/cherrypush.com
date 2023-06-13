@@ -28,6 +28,7 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
 
   return (
     <form
+      id="chart-drawer-form"
       onSubmit={(event) => {
         event.preventDefault()
         const params = { dashboard_id: dashboard.id, name, kind, metric_ids: metricIds }
