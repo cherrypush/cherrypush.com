@@ -51,7 +51,7 @@ const NotificationsPage = () => {
                 {formatDiff(notification.item.diff)}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
-                {timeAgoInWords(notification.item.created_at)}
+                {metric.project.name} • {timeAgoInWords(notification.item.created_at)}
               </div>
             </Card>
           )
