@@ -55,8 +55,11 @@ class DashboardsTest < ApplicationSystemTestCase
     # Edit chart
     find('#chart-menu').click
     find('li', text: 'Edit').click
+    assert_text 'Edit Chart'
     find('[role="button"]', text: 'JS LOC').find('[data-testid="CancelIcon"]').click
+    within('#chart-drawer-form') { assert_no_text 'JS LOC' }
     mui_select('Area', from: 'kind')
+    all('[role="button"]').map(&:text).include?('JS LOC')
     click_on 'Update'
     assert_text 'Chart updated'
     assert_equal 'area', project.dashboards.sole.charts.sole.kind
