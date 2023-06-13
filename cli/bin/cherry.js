@@ -113,6 +113,32 @@ program
   })
 
 program
+  .command('diff')
+  .requiredOption('--metric <metric>')
+  .option('--api-key <api_key>', 'Your cherrypush.com api key')
+  .action(async (options) => {
+    const configuration = await getConfiguration()
+    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    const metric = options.metric
+
+    let lastMetricValue
+    try {
+      const params = { project_name: configuration.project_name, metric_name: metric, api_key: apiKey }
+      lastMetricValue = (await axios.get(API_BASE_URL + '/metrics', { params })).data.value
+      if (!Number.isInteger(lastMetricValue)) process.exit(0)
+    } catch (e) {
+      process.exit(0)
+    }
+
+    const currentMetricValue =
+      countByMetric(
+        await findOccurrences({ configuration, files: await getFiles(), codeOwners: new Codeowners(), metric })
+      )[metric] || 0
+
+    console.log(`diff:${currentMetricValue - lastMetricValue}`)
+  })
+
+program
   .command('backfill')
   .option('--api-key <api_key>', 'Your cherrypush.com api key')
   .option('--since <since>', 'yyyy-mm-dd | The date at which the backfill will start (defaults to 90 days ago)')
