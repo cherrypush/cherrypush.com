@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - use-bundler
 
 jobs:
   cherry:
