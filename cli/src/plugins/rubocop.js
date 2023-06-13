@@ -8,7 +8,7 @@ const run = async () => {
     report = JSON.parse(out)
   } catch (error) {
     panic(
-      'An error happened while executing rubocop\n- Make sure the `rubocop` command works\n- Make sure to `bundle install` if you are using bundler'
+      'An error happened while executing rubocop\n- Make sure the `bundle exec rubocop` command works\n- Make sure to `bundle install` if you are using bundler'
     )
   }
 
