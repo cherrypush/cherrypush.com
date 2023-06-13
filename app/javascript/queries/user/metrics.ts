@@ -1,11 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import { Project } from './projects'
 
 export interface Metric {
   id: number
   name: string
+  project_id: number
+  updated_at: string
+  created_at: string
+  watcher_ids: number[]
 }
+
+type MetricIndexReponse = (Metric & { project: Project })[]
 
 const buildIndexKey = ({ projectId }: { projectId?: number } = {}) =>
   projectId ? ['user', 'metrics', 'index', { projectId }] : ['user', 'metrics', 'index']
@@ -13,7 +20,7 @@ const buildIndexKey = ({ projectId }: { projectId?: number } = {}) =>
 const buildShowKey = (id: number | null, owners: string[] = []) => ['user', 'metrics', 'show', id, { owners }]
 
 export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
-  useQuery<Metric[]>(buildIndexKey({ projectId }), () =>
+  useQuery<MetricIndexReponse>(buildIndexKey({ projectId }), () =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
 
