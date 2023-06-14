@@ -36,6 +36,11 @@ class Metric < ApplicationRecord
       .transform_keys { |report| report.date.iso8601[0...10] }
   end
 
+  def delete_old_occurrences!
+    old_reports = reports.where.not(id: last_report.id)
+    Occurrence.where(report: old_reports).delete_all
+  end
+
   private
 
   def daily_reports
