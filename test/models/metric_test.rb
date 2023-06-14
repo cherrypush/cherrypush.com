@@ -25,4 +25,39 @@ class ProjectTest < ActiveSupport::TestCase
       assert_equal 0, Metric.count
     end
   end
+
+  describe '#delete_old_occurrences!' do
+    let!(:metric1) { create(:metric) }
+    let!(:report1A) { create(:report, metric: metric1, date: 6.days.ago) }
+    let!(:report1B) { create(:report, metric: metric1, date: 3.hours.ago) }
+    let!(:report1C) { create(:report, metric: metric1, date: Time.current) }
+
+    let!(:metric2) { create(:metric) }
+    let!(:report2A) { create(:report, metric: metric2, date: 60.days.ago) }
+
+    before do
+      add_occurrences(report1A)
+      add_occurrences(report1B)
+      add_occurrences(report1C)
+      add_occurrences(report2A)
+    end
+
+    it 'deletes all occurrences except the most recent one' do
+      assert_equal 2, Project.count
+      assert_equal 12, Occurrence.count
+      Metric.all.each(&:delete_old_occurrences!)
+      assert_equal 0, report1A.occurrences.count
+      assert_equal 0, report1B.occurrences.count
+      assert_equal 3, report1C.occurrences.count
+      assert_equal 3, report2A.occurrences.count
+    end
+  end
+
+  private
+
+  def add_occurrences(report)
+    create(:occurrence, report: report)
+    create(:occurrence, report: report)
+    create(:occurrence, report: report)
+  end
 end
