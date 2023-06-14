@@ -30,7 +30,6 @@ class UserMailer < ApplicationMailer
   def daily_notifications_report
     @user = params[:user]
     @notifications = @user.notifications.unseen.recent.order(created_at: :desc)
-    return if @notifications.none?
     mail(to: @user.email, subject: "Cherry - New Notifications (#{@notifications.count})")
   end
 end

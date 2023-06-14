@@ -9,5 +9,6 @@ FactoryBot.define do
     diff { Faker::Number.number(digits: 2) }
     commit_sha { Faker::Crypto.sha1 }
     commit_date { Faker::Date.backward }
+    metric
   end
 end
