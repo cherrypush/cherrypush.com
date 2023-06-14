@@ -1,6 +1,6 @@
 {
   "name": "cherrypush",
-  "version": "1.0.75",
+  "version": "1.0.76",
   "description": "CLI for the cherrypush app",
   "main": "index.js",
   "type": "module",
