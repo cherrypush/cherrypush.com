@@ -1,6 +1,6 @@
 {
   "name": "cherrypush",
-  "version": "1.0.76",
+  "version": "1.0.79",
   "description": "CLI for the cherrypush app",
   "main": "index.js",
   "type": "module",
@@ -8,7 +8,7 @@
     "cherry": "./bin/cherry.js"
   },
   "scripts": {
-    "bump": "npm version patch && npm publish",
+    "bump": "npm version patch && npm publish && git add package.json package-lock.json && git commit -m 'bump version' && git push",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "watch_test": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll"
   },
