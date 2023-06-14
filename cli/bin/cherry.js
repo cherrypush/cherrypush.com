@@ -3,6 +3,7 @@
 import axios from 'axios'
 import { program } from 'commander'
 import dotenv from 'dotenv'
+import fs from 'fs'
 import _ from 'lodash'
 import prompt from 'prompt'
 import Codeowners from '../src/codeowners.js'
@@ -40,6 +41,7 @@ program
   .command('run')
   .option('--owner <owner>', 'only consider given owner code')
   .option('--metric <metric>', 'only consider given metric')
+  .option('--json', 'export stats into a local json file')
   .action(async (options) => {
     const configuration = await getConfiguration()
     const codeOwners = new Codeowners()
@@ -54,6 +56,17 @@ program
 
       displayedOccurrences.forEach((occurrence) => console.log(`👉 ${occurrence.text}`))
     } else console.table(countByMetric(occurrences))
+
+    if (options.json) {
+      const metrics = buildMetricsPayload(occurrences)
+      const filepath = process.cwd() + `/cherry.json`
+      const content = JSON.stringify(metrics, null, 2)
+
+      fs.writeFile(filepath, content, 'utf8', function (err) {
+        if (err) panic(err)
+        console.log(`JSON file has been saved as ${filepath}`)
+      })
+    }
   })
 
 program
@@ -214,8 +227,8 @@ const upload = (apiKey, projectName, date, occurrences) => {
   )
 }
 
-const buildPushPayload = (projectName, date, occurences) => {
-  const metrics = _(occurences)
+const buildMetricsPayload = (occurrences) =>
+  _(occurrences)
     .groupBy('metricName')
     .mapValues((occurrences, metricName) => ({
       name: metricName,
@@ -225,8 +238,11 @@ const buildPushPayload = (projectName, date, occurences) => {
     .flatten()
     .value()
 
-  return { project_name: projectName, date: date.toISOString(), metrics }
-}
+const buildPushPayload = (projectName, date, occurrences) => ({
+  project_name: projectName,
+  date: date.toISOString(),
+  metrics: buildMetricsPayload(occurrences),
+})
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>
   formatApiError(() =>
