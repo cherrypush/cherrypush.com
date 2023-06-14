@@ -19,11 +19,10 @@ namespace :mailers do
   # Run via: https://dashboard.heroku.com/apps/cherrypush-production/scheduler
   desc 'Deliver daily notifications'
   task deliver_daily_notifications: :environment do
-    next unless Time.current.monday?
-
     User.all.each do |user|
       next if user.email.blank?
       next if user.projects.none?
+      next if user.notifications.unseen.none?
 
       UserMailer.with(user: user).daily_notifications_report.deliver_now
     end
