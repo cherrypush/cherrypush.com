@@ -17,10 +17,10 @@ class ProjectTest < ActiveSupport::TestCase
 
   describe '#delete_old_occurrences!' do
     let!(:metric1) { create(:metric) }
-    let!(:report1) { create(:report, metric: metric1, date: 60.days.ago) }
-    let!(:report2) { create(:report, metric: metric1, date: 40.days.ago) }
-    let!(:recent_report) { create(:report, metric: metric1, date: 2.days.ago) }
-    let!(:most_recent_report1) { create(:report, metric: metric1, date: 1.day.ago) }
+    let!(:report1) { create(:report, metric: metric1, date: 6.days.ago) }
+    let!(:report2) { create(:report, metric: metric1, date: 3.days.ago) }
+    let!(:recent_report) { create(:report, metric: metric1, date: 6.hours.ago) }
+    let!(:most_recent_report1) { create(:report, metric: metric1, date: 3.hours.ago) }
 
     let!(:metric2) { create(:metric) }
     let!(:most_recent_report2) { create(:report, metric: metric2, date: 60.days.ago) }
