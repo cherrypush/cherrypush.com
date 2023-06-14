@@ -6,7 +6,11 @@ import { useContributionsIndex } from '../queries/user/contributions'
 const Contributions = ({ metricId, projectName }: { metricId: number; projectName: string }) => {
   const { data: contributions } = useContributionsIndex({ metricId })
 
+  const [showAll, setShowAll] = React.useState(false)
+
   if (!contributions) return null
+
+  const contributionsToShow = showAll ? contributions : contributions.slice(0, 6)
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -23,7 +27,7 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
           <Table.HeadCell className="text-right">Date</Table.HeadCell>
         </Table.Head>
         <Table.Body>
-          {contributions.map((contribution) => (
+          {contributionsToShow.map((contribution) => (
             <Table.Row
               key={contribution.id}
               className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
@@ -43,6 +47,14 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
               </Table.Cell>
             </Table.Row>
           )}
+          <Table.Row
+            className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
+            onClick={() => setShowAll(!showAll)}
+          >
+            <Table.Cell colSpan={100} className="px-4 py-2">
+              <div className="flex justify-center">{showAll ? 'Show less' : 'Show all'}</div>
+            </Table.Cell>
+          </Table.Row>
         </Table.Body>
       </Table>
     </div>
