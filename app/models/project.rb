@@ -21,7 +21,7 @@ class Project < ApplicationRecord
 
   def delete_old_occurrences!
     most_recent_report = reports.order(date: :desc).first
-    old_reports = reports.where('date < ?', 1.week.ago).where.not(id: most_recent_report.id)
+    old_reports = reports.where('date < ?', 2.days.ago).where.not(id: most_recent_report.id)
     Occurrence.where(report: old_reports).delete_all
   end
 end
