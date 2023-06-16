@@ -5,6 +5,7 @@ import Spinnies from 'spinnies'
 import { panic } from './error.js'
 import { buildPermalink } from './github.js'
 import eslint from './plugins/eslint.js'
+import jsCircularDependencies from './plugins/js_circular_dependencies.js'
 import loc from './plugins/loc.js'
 import rubocop from './plugins/rubocop.js'
 
@@ -14,6 +15,7 @@ const PLUGINS = {
   rubocop,
   eslint,
   loc,
+  jsCircularDependencies,
 }
 
 const minimatchCache = {}
@@ -96,16 +98,16 @@ const runEvals = (metrics) => {
 }
 
 const runPlugins = async (plugins) => {
-  if (!plugins.length) return []
+  if (!Object.keys(plugins).length) return []
 
   spinnies.add('plugins', { text: 'Running plugins...', indent: 2 })
   const promise = Promise.all(
-    plugins.map(async (pluginName) => {
-      const plugin = PLUGINS[pluginName]
-      if (!plugin) panic(`Unsupported '${pluginName}' plugin`)
-      spinnies.add(`plugin_${pluginName}`, { text: `${pluginName}...`, indent: 4 })
-      const result = await plugin.run()
-      spinnies.succeed(`plugin_${pluginName}`, { text: pluginName })
+    Object.entries(plugins).map(async ([name, options]) => {
+      const plugin = PLUGINS[name]
+      if (!plugin) panic(`Unsupported '${name}' plugin`)
+      spinnies.add(`plugin_${name}`, { text: `${name}...`, indent: 4 })
+      const result = await plugin.run(options)
+      spinnies.succeed(`plugin_${name}`, { text: name })
       return result
     })
   )
@@ -118,11 +120,11 @@ export const findOccurrences = async ({ configuration, files, metric, codeOwners
   let metrics = configuration.metrics
   if (metric) metrics = metrics.filter(({ name }) => name === metric)
   const [evalMetrics, fileMetrics] = _.partition(metrics, (metric) => metric.eval)
-  const promise = Promise.all([
-    matchPatterns(files, fileMetrics),
-    runEvals(evalMetrics),
-    runPlugins(configuration.plugins || []),
-  ])
+  let plugins = configuration.plugins || {}
+  // From ['loc'] to { 'loc': {} } to handle deprecated array configuration for plugins
+  if (Array.isArray()) plugins = plugins.reduce((acc, value) => ({ ...acc, [value]: {} }), {})
+
+  const promise = Promise.all([matchPatterns(files, fileMetrics), runEvals(evalMetrics), runPlugins(plugins)])
 
   return _.flattenDeep(await promise).map(({ text, value, metricName, filePath, lineNumber, url, owners }) => ({
     text,
