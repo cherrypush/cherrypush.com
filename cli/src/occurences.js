@@ -122,7 +122,7 @@ export const findOccurrences = async ({ configuration, files, metric, codeOwners
   const [evalMetrics, fileMetrics] = _.partition(metrics, (metric) => metric.eval)
   let plugins = configuration.plugins || {}
   // From ['loc'] to { 'loc': {} } to handle deprecated array configuration for plugins
-  if (Array.isArray()) plugins = plugins.reduce((acc, value) => ({ ...acc, [value]: {} }), {})
+  if (Array.isArray(plugins)) plugins = plugins.reduce((acc, value) => ({ ...acc, [value]: {} }), {})
 
   const promise = Promise.all([matchPatterns(files, fileMetrics), runEvals(evalMetrics), runPlugins(plugins)])
 
