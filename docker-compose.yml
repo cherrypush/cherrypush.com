@@ -1,0 +1,10 @@
+version: "3"
+services:
+  database:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cherry_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

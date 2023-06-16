@@ -16,6 +16,14 @@ development restore production
 
 # Usage
 
+Start required services
+
+```sh
+brew services start postgresql@14
+# or if using docker
+docker compose up -d
+```
+
 ```sh
 bin/dev
 ```

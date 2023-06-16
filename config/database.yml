@@ -2,6 +2,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['PGHOST'] || '127.0.0.1' %>
+  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
+  password: <%= ENV["POSTGRES_PASSWORD"] || 'postgres' %>
 
 development:
   <<: *default
@@ -10,11 +13,9 @@ development:
 test:
   <<: *default
   database: <%= ENV['POSTGRES_DB'] || 'cherry_test' %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
 
 production:
   <<: *default
-  database: cherry_production
-  username: cherry
-  password: <%= ENV["CHERRY_DATABASE_PASSWORD"] %>
+  database: <%= ENV['POSTGRES_DB'] || 'cherry_production' %>
+  username: <%= ENV['POSTGRES_USER'] || 'cherry' %>
+  password: <%= ENV["POSTGRES_PASSWORD"] || ENV["CHERRY_DATABASE_PASSWORD"] %>
