@@ -1,6 +1,6 @@
 {
   "name": "cherrypush",
-  "version": "1.0.79",
+  "version": "1.0.82",
   "description": "CLI for the cherrypush app",
   "main": "index.js",
   "type": "module",
@@ -29,6 +29,7 @@
     "find-up": "^6.3.0",
     "glob": "^8.1.0",
     "lodash": "^4.17.21",
+    "madge": "^6.1.0",
     "minimatch": "^6.1.6",
     "p-limit": "^4.0.0",
     "prompt": "^1.3.0",
