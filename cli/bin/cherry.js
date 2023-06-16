@@ -129,6 +129,7 @@ program
   .command('diff')
   .requiredOption('--metric <metric>')
   .option('--api-key <api_key>', 'Your cherrypush.com api key')
+  .option('--error-if-increase', 'Return an error status code (1) if the metric increased since its last report')
   .action(async (options) => {
     const configuration = await getConfiguration()
     const apiKey = options.apiKey || process.env.CHERRY_API_KEY
@@ -138,8 +139,13 @@ program
     try {
       const params = { project_name: configuration.project_name, metric_name: metric, api_key: apiKey }
       lastMetricValue = (await axios.get(API_BASE_URL + '/metrics', { params })).data.value
-      if (!Number.isInteger(lastMetricValue)) process.exit(0)
+      if (!Number.isInteger(lastMetricValue)) {
+        console.log('No last value found for this metric, aborting.')
+        process.exit(0)
+      }
+      console.log(`Last metric value: ${lastMetricValue}`)
     } catch (e) {
+      console.error(e)
       process.exit(0)
     }
 
@@ -147,8 +153,12 @@ program
       countByMetric(
         await findOccurrences({ configuration, files: await getFiles(), codeOwners: new Codeowners(), metric })
       )[metric] || 0
+    console.log(`Current metric value: ${currentMetricValue}`)
 
-    console.log(`diff:${currentMetricValue - lastMetricValue}`)
+    const diff = currentMetricValue - lastMetricValue
+    console.log(`Difference: ${diff}`)
+
+    if (diff > 0 && options.errorIfIncrease) process.exit(1)
   })
 
 program
