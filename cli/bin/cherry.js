@@ -41,7 +41,7 @@ program
   .command('run')
   .option('--owner <owner>', 'only consider given owner code')
   .option('--metric <metric>', 'only consider given metric')
-  .option('--json', 'export stats into a local json file')
+  .option('-o, --output <output>', 'export stats into a local json file')
   .action(async (options) => {
     const configuration = await getConfiguration()
     const codeOwners = new Codeowners()
@@ -57,9 +57,9 @@ program
       displayedOccurrences.forEach((occurrence) => console.log(`👉 ${occurrence.text}`))
     } else console.table(countByMetric(occurrences))
 
-    if (options.json) {
+    if (options.output) {
       const metrics = buildMetricsPayload(occurrences)
-      const filepath = process.cwd() + `/cherry.json`
+      const filepath = process.cwd() + '/' + options.output
       const content = JSON.stringify(metrics, null, 2)
 
       fs.writeFile(filepath, content, 'utf8', function (err) {
