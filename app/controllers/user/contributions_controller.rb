@@ -3,11 +3,14 @@
 class User::ContributionsController < User::ApplicationController
   before_action :set_contributions, only: :index
 
+  DEFAULT_LIMIT = 20
+
   def index
     render json:
              @contributions
                .strict_loading
                .includes(metric: :project)
+               .limit(DEFAULT_LIMIT)
                .order(commit_date: :desc)
                .as_json(include: { metric: { include: :project } })
   end

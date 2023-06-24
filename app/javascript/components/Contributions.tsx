@@ -3,6 +3,8 @@ import React from 'react'
 import { buildCommitUrl, timeAgoInWords } from '../helpers/applicationHelper'
 import { useContributionsIndex } from '../queries/user/contributions'
 
+const INITIALLY_VISIBLE_CONTRIBUTIONS = 5
+
 const Contributions = ({ metricId, projectName }: { metricId: number; projectName: string }) => {
   const { data: contributions } = useContributionsIndex({ metricId })
 
@@ -10,7 +12,7 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
 
   if (!contributions) return null
 
-  const contributionsToShow = showAll ? contributions : contributions.slice(0, 6)
+  const contributionsToShow = showAll ? contributions : contributions.slice(0, INITIALLY_VISIBLE_CONTRIBUTIONS)
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -47,14 +49,16 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
               </Table.Cell>
             </Table.Row>
           )}
-          <Table.Row
-            className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
-            onClick={() => setShowAll(!showAll)}
-          >
-            <Table.Cell colSpan={100} className="px-4 py-2">
-              <div className="flex justify-center">{showAll ? 'Show less' : 'Show all'}</div>
-            </Table.Cell>
-          </Table.Row>
+          {contributions.length > INITIALLY_VISIBLE_CONTRIBUTIONS && (
+            <Table.Row
+              className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
+              onClick={() => setShowAll(!showAll)}
+            >
+              <Table.Cell colSpan={100} className="px-4 py-2">
+                <div className="flex justify-center">{showAll ? 'Show less' : 'Show more'}</div>
+              </Table.Cell>
+            </Table.Row>
+          )}
         </Table.Body>
       </Table>
     </div>
