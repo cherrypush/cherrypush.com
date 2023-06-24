@@ -85,12 +85,12 @@ class User < ApplicationRecord
   def fetch_github_organizations(auth)
     return [] unless auth.try(:extra, :raw_info, :organizations_url)
 
-    JSON.parse(
-      URI.open(
-        auth.extra.raw_info.organizations_url,
+    HTTParty.get(
+      auth.extra.raw_info.organizations_url,
+      headers: {
         'Accept' => 'application/vnd.github.v3+json',
         'Authorization' => "token #{auth.credentials.token}",
-      ).read,
+      },
     ).pluck('login')
   end
 
