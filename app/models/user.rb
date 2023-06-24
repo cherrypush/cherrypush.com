@@ -48,6 +48,8 @@ class User < ApplicationRecord
   def update_dynamic_attributes(auth)
     self.name = auth.info.name
     self.github_handle = auth.info.nickname
+    self.github_organizations = fetch_github_organizations(auth)
+
     # TODO: maybe we should get all emails from github and let the user choose one for notifications
     # TODO: remember to pick the verified ones, and set the primary as default
     # auth.extra.all_emails.filter(&:verified).map(&:email)
@@ -78,6 +80,18 @@ class User < ApplicationRecord
 
   def ensure_api_key
     self.api_key ||= SecureRandom.uuid
+  end
+
+  def fetch_github_organizations(auth)
+    return [] unless auth.try(:extra, :raw_info, :organizations_url)
+
+    JSON.parse(
+      URI.open(
+        auth.extra.raw_info.organizations_url,
+        'Accept' => 'application/vnd.github.v3+json',
+        'Authorization' => "token #{auth.credentials.token}",
+      ).read,
+    ).pluck('login')
   end
 
   class << self
