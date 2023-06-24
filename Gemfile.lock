@@ -265,7 +265,6 @@ GEM
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
-    ruby_http_client (3.5.5)
     rubyzip (2.3.2)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
@@ -273,8 +272,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sendgrid-ruby (6.6.2)
-      ruby_http_client (~> 3.4)
     sentry-rails (5.9.0)
       railties (>= 5.0)
       sentry-ruby (~> 5.9.0)
@@ -360,7 +357,6 @@ DEPENDENCIES
   redcarpet
   rubocop
   selenium-webdriver
-  sendgrid-ruby
   sentry-rails
   sentry-ruby
   sprockets-rails
