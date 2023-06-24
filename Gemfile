@@ -27,7 +27,6 @@ gem 'heroicon'
 gem 'httparty'
 gem 'pundit'
 gem 'redcarpet' # for markdown rendering
-gem 'sendgrid-ruby'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'tailwindcss-rails'
