@@ -22,7 +22,7 @@ namespace :mailers do
     User.all.each do |user|
       next if user.email.blank?
       next if user.projects.none?
-      next if user.notifications.unseen.none?
+      next if user.notifications.unseen.recent.none?
 
       UserMailer.with(user: user).daily_notifications_report.deliver_now
     end
