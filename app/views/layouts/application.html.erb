@@ -6,7 +6,7 @@
 
   <body class="dark:bg-gray-900 text-gray-800 dark:text-white">
     <%= yield %>
-    <%= render 'components/crisp_chat' unless Rails.env.test? %>
+    <%= render 'components/live_chat' unless Rails.env.test? %>
 
     <script>
       window.current_user = <%= current_user.to_json.html_safe %>
