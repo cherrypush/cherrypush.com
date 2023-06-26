@@ -111,6 +111,8 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     debug_inspector (1.1.0)
+    dockerfile-rails (1.5.1)
+      rails
     dry-cli (1.0.0)
     erubi (1.12.0)
     factory_bot (6.2.1)
@@ -331,6 +333,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-22
   x86_64-darwin-22
   x86_64-linux
 
@@ -342,6 +345,7 @@ DEPENDENCIES
   capybara
   chartkick
   debug
+  dockerfile-rails
   factory_bot_rails
   faker
   groupdate
