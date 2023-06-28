@@ -55,6 +55,7 @@ program
       if (options.metric) displayedOccurrences = displayedOccurrences.filter((o) => o.metricName === options.metric)
 
       displayedOccurrences.forEach((occurrence) => console.log(`👉 ${occurrence.text}`))
+      console.log('Total occurrences:', displayedOccurrences.length)
     } else console.table(countByMetric(occurrences))
 
     if (options.output) {
