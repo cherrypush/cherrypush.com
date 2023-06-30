@@ -1,8 +1,8 @@
 # Manually comparing the diff between two cherry runs
 
-This is specially useful when you're running cherry diff inside a PR, and it fails. By default, the `cherry diff` command will only show you the difference in number of occurrences.
-
-For instance, if you're checking for the difference in circular dependencies, it'll say:
+This is specially useful when you're running cherry diff inside a PR, and it fails. By default, the `cherry diff`
+command will only show you the difference in number of occurrences. For instance, if you're checking for the difference
+in circular dependencies, it'll say:
 
 ```
 Last metric value: 484
@@ -34,25 +34,21 @@ cherry run --metric="JS circular dependencies" --output=results_2.json
 
 This will only run the selected metrics, and will export a JSON file with all the occurrences.
 
-## 3. Calculate the diff
+## 3. Find the diff
 
-Finally, you can use the diff command to figure out the difference between the two:
+Finally, you can use the `diff` command to figure out the difference:
 
 ```
 diff results_1.json results_2.json | grep text
 ```
 
-Note that we're grepping the `text` field only, just to remove the noise from the output.
-
-Now you should get something like:
+We'll also grep the `text` field only, so we remove the noise:
 
 ```
-<         "text": "app/assets/javascript/useFormBuilder.ts > app/assets/javascript/Input.tsx",
->         "text": "app/assets/javascript/useFormBuilder.ts > app/assets/javascript/PostForm.tsx",
->         "text": "app/assets/javascript/useFormVariant.ts > app/assets/javascript/PostList.tsx",
->         "text": "packages/@blob/src/useChartModule.ts > packages/@blob/src/ChartContainer.tsx",
+< "text": "app/assets/javascript/useFormBuilder.ts > app/assets/javascript/Input.tsx",
+> "text": "app/assets/javascript/useFormBuilder.ts > app/assets/javascript/PostForm.tsx",
+> "text": "app/assets/javascript/useFormVariant.ts > app/assets/javascript/PostList.tsx",
+> "text": "packages/@blob/src/useChartModule.ts > packages/@blob/src/ChartContainer.tsx",
 ```
 
-where `<` represents the parts that have been removed, and `>` is what's been added.
-
-Hope that helps! If you have further questions or suggestions, contact me at flavio@cherrypush.com 👋
+Note that `<` stands for the removed parts, and `>` is what's been added.
