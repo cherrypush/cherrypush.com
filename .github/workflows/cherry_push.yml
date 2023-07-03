@@ -1,4 +1,4 @@
-name: Cherry Push
+name: Push metrics to Cherry
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   cherry:
-    name: Cherry Push
+    name: Push metrics to Cherry
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
@@ -26,5 +26,5 @@ jobs:
           npm install
           npm i ./cli
 
-      - name: Push metrics
+      - name: Push metrics to Cherry
         run: ./cli/bin/cherry.js push --api-key=${{ secrets.CHERRY_API_KEY }}
