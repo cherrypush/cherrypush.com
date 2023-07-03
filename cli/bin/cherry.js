@@ -156,13 +156,14 @@ program
       process.exit(0)
     }
 
-    const newOccurrences = await findOccurrences({
+    const occurrences = await findOccurrences({
       configuration,
       files: await getFiles(),
       codeOwners: new Codeowners(),
       metric,
     })
-    const currentMetricValue = countByMetric(newOccurrences)[metric] || 0
+
+    const currentMetricValue = countByMetric(occurrences)[metric] || 0
     console.log(`Current metric value: ${currentMetricValue}`)
 
     const diff = currentMetricValue - lastMetricValue
@@ -170,8 +171,8 @@ program
 
     if (diff > 0) {
       console.log('Added occurrences:')
-      const newOccurrencesTexts = newOccurrences.map((o) => o.text)
       const previousOccurrencesTexts = previousOccurrences.map((o) => o.text)
+      const newOccurrencesTexts = occurrences.filter((o) => o.metricName === metric).map((o) => o.text)
       console.log(newOccurrencesTexts.filter((x) => !previousOccurrencesTexts.includes(x)))
     }
 

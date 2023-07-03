@@ -13,10 +13,6 @@ import AutocompleteField from './AutocompleteField'
 import PageLoader from './PageLoader'
 
 const AddAuthorizationModal = ({ projectId, onClose }) => {
-  // TODO - another way to do this would be to use a formik form
-  // TODO - another way to do this would be to use a formik form
-  // TODO - another way to do this would be to use a formik form
-
   const { data: users, isLoading } = useUsersIndex()
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
