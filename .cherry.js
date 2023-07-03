@@ -4,11 +4,11 @@ module.exports = {
   metrics: [
     {
       name: 'todo',
-      pattern: /TODO:/i, // i for case insensitive
+      pattern: /TODO/i, // i for case insensitive
     },
     {
       name: 'fixme',
-      pattern: /FIXME:/i,
+      pattern: /FIXME/i,
     },
   ],
 }
