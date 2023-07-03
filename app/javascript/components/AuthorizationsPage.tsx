@@ -17,6 +17,8 @@ const AddAuthorizationModal = ({ projectId, onClose }) => {
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
 
+  // TODO - this should be done in the backend
+
   const autocompleteItems = users
     .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
     .sort((a, b) => a.name.localeCompare(b.name))
@@ -58,7 +60,6 @@ const AuthorizationsPage = () => {
 
   const [editedProjectId, setEditedProjectId] = useState()
 
-  // TODO: add error handling
   if (!projects || !authorizations) return <PageLoader />
 
   return (

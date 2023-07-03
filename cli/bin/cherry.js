@@ -140,9 +140,12 @@ program
     const metric = options.metric
 
     let lastMetricValue
+    let previousOccurrences
     try {
       const params = { project_name: configuration.project_name, metric_name: metric, api_key: apiKey }
-      lastMetricValue = (await axios.get(API_BASE_URL + '/metrics', { params })).data.value
+      const response = await axios.get(API_BASE_URL + '/metrics', { params })
+      lastMetricValue = response.data.value
+      previousOccurrences = response.data.occurrences
       if (!Number.isInteger(lastMetricValue)) {
         console.log('No last value found for this metric, aborting.')
         process.exit(0)
@@ -153,14 +156,22 @@ program
       process.exit(0)
     }
 
-    const currentMetricValue =
-      countByMetric(
-        await findOccurrences({ configuration, files: await getFiles(), codeOwners: new Codeowners(), metric })
-      )[metric] || 0
+    const newOccurrences = await findOccurrences({
+      configuration,
+      files: await getFiles(),
+      codeOwners: new Codeowners(),
+      metric,
+    })
+    const currentMetricValue = countByMetric(newOccurrences)[metric] || 0
     console.log(`Current metric value: ${currentMetricValue}`)
 
     const diff = currentMetricValue - lastMetricValue
     console.log(`Difference: ${diff}`)
+
+    console.log('Added occurrences:')
+    const newOccurrencesTexts = newOccurrences.map((o) => o.text)
+    const previousOccurrencesTexts = previousOccurrences.map((o) => o.text)
+    console.log(_.difference(newOccurrencesTexts, previousOccurrencesTexts))
 
     if (diff > 0 && options.errorIfIncrease) process.exit(1)
   })
