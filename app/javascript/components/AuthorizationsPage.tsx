@@ -13,17 +13,15 @@ import AutocompleteField from './AutocompleteField'
 import PageLoader from './PageLoader'
 
 const AddAuthorizationModal = ({ projectId, onClose }) => {
+  // TODO - another way to do this would be to use a formik form
+
   const { data: users, isLoading } = useUsersIndex()
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
 
-  // TODO - this should be done in the backend
-
   const autocompleteItems = users
     .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
     .sort((a, b) => a.name.localeCompare(b.name))
-
-  // TODO - another way to do this would be to use a formik form
 
   return (
     <Modal show onClose={onClose} dismissible>
