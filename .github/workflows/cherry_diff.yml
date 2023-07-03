@@ -1,0 +1,29 @@
+name: Cherry Diff
+
+on:
+  push:
+    branches:
+      - main
+      - show-diffs-on-cherry-diff
+
+jobs:
+  cherry:
+    name: Cherry Diff
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm i ./cli
+
+      - name: Push metrics
+        run: |
+          ./cli/bin/cherry.js diff --metric='[loc] TypeScript'
