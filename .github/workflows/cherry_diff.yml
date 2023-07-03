@@ -1,13 +1,10 @@
-name: cherry diff
+name: Check for new violations
 
 on:
-  push:
-    branches:
-      - main
-      - show-diffs-on-cherry-diff
+  pull_request:
 
 jobs:
-  cherry:
+  cherry_diff:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo

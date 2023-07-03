@@ -1,4 +1,4 @@
-name: cherry push
+name: Track codebase stats
 
 on:
   push:
@@ -6,8 +6,7 @@ on:
       - main
 
 jobs:
-  cherry:
-    name: Push metrics to Cherry
+  cherry_push:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
