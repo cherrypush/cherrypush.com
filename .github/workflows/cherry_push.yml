@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - use-bundler
+      - show-diffs-on-cherry-diff
 
 jobs:
   cherry:
-    name: Push metrics and contributions
+    name: Cherry Push
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
@@ -27,4 +27,6 @@ jobs:
           npm i ./cli
 
       - name: Push metrics
-        run: ./cli/bin/cherry.js push --api-key=${{ secrets.CHERRY_API_KEY }}
+        run: |
+          ./cli/bin/cherry.js run
+          ./cli/bin/cherry.js push --api-key=${{ secrets.CHERRY_API_KEY }}
