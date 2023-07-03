@@ -25,5 +25,4 @@ jobs:
           npm i ./cli
 
       - name: Push metrics
-        run: |
-          ./cli/bin/cherry.js diff --metric='[loc] TypeScript'
+        run: ./cli/bin/cherry.js diff --metric='[loc] TypeScript' --api-key=${{ secrets.CHERRY_API_KEY }}
