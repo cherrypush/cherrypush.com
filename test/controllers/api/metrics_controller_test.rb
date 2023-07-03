@@ -12,7 +12,7 @@ class Api::MetricsControllerTest < ActionDispatch::IntegrationTest
     it 'returns the value of a metric' do
       get_metric
       assert_response :ok
-      assert_equal({ 'value' => 12 }, JSON.parse(response.body))
+      assert_equal({ 'value' => 12, 'occurrences' => [] }, JSON.parse(response.body))
     end
 
     it 'raises when project not found' do
@@ -29,7 +29,7 @@ class Api::MetricsControllerTest < ActionDispatch::IntegrationTest
       Report.delete_all
       get_metric
       assert_response :ok
-      assert_equal({ 'value' => nil }, JSON.parse(response.body))
+      assert_equal({ 'value' => nil, 'occurrences' => [] }, JSON.parse(response.body))
     end
 
     it 'raises when api key missing' do
@@ -47,7 +47,7 @@ class Api::MetricsControllerTest < ActionDispatch::IntegrationTest
       _new_report = create(:report, metric: metric, value: 14, date: 1.day.from_now)
       get_metric
       assert_response :ok
-      assert_equal({ 'value' => 14 }, JSON.parse(response.body))
+      assert_equal({ 'value' => 14, 'occurrences' => [] }, JSON.parse(response.body))
     end
   end
 

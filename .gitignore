@@ -43,6 +43,7 @@
 # project-specific
 /node_modules
 /vendor/cache
+/vendor/bundle
 .env
 cherry.json
 .rbenv-vars
