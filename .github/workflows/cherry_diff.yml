@@ -1,18 +1,14 @@
-name: Track codebase stats
+name: Check for new violations
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
 
 jobs:
-  cherry_push:
+  cherry_diff:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
@@ -24,5 +20,5 @@ jobs:
           npm install
           npm i ./cli
 
-      - name: Push metrics to Cherry
-        run: ./cli/bin/cherry.js push --api-key=${{ secrets.CHERRY_API_KEY }}
+      - name: Raise if new JS code added
+        run: ./cli/bin/cherry.js diff --metric='todo' --api-key=${{ secrets.CHERRY_API_KEY }} --error-if-increase

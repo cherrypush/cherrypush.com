@@ -129,7 +129,10 @@ program
 program
   .command('diff')
   .requiredOption('--metric <metric>')
-  .option('--api-key <api_key>', 'Your cherrypush.com api key')
+  .requiredOption(
+    '--api-key <api_key>',
+    'Your cherrypush.com API key (available on https://www.cherrypush.com/user/settings)'
+  )
   .option('--error-if-increase', 'Return an error status code (1) if the metric increased since its last report')
   .action(async (options) => {
     const configuration = await getConfiguration()
@@ -137,9 +140,12 @@ program
     const metric = options.metric
 
     let lastMetricValue
+    let previousOccurrences
     try {
       const params = { project_name: configuration.project_name, metric_name: metric, api_key: apiKey }
-      lastMetricValue = (await axios.get(API_BASE_URL + '/metrics', { params })).data.value
+      const response = await axios.get(API_BASE_URL + '/metrics', { params })
+      lastMetricValue = response.data.value
+      previousOccurrences = response.data.occurrences
       if (!Number.isInteger(lastMetricValue)) {
         console.log('No last value found for this metric, aborting.')
         process.exit(0)
@@ -150,14 +156,25 @@ program
       process.exit(0)
     }
 
-    const currentMetricValue =
-      countByMetric(
-        await findOccurrences({ configuration, files: await getFiles(), codeOwners: new Codeowners(), metric })
-      )[metric] || 0
+    const occurrences = await findOccurrences({
+      configuration,
+      files: await getFiles(),
+      codeOwners: new Codeowners(),
+      metric,
+    })
+
+    const currentMetricValue = countByMetric(occurrences)[metric] || 0
     console.log(`Current metric value: ${currentMetricValue}`)
 
     const diff = currentMetricValue - lastMetricValue
     console.log(`Difference: ${diff}`)
+
+    if (diff > 0) {
+      console.log('Added occurrences:')
+      const previousOccurrencesTexts = previousOccurrences.map((o) => o.text)
+      const newOccurrencesTexts = occurrences.filter((o) => o.metricName === metric).map((o) => o.text)
+      console.log(newOccurrencesTexts.filter((x) => !previousOccurrencesTexts.includes(x)))
+    }
 
     if (diff > 0 && options.errorIfIncrease) process.exit(1)
   })
