@@ -1,10 +1,9 @@
-name: Push metrics to Cherry
+name: cherry push
 
 on:
   push:
     branches:
       - main
-      - show-diffs-on-cherry-diff
 
 jobs:
   cherry:
