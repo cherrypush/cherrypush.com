@@ -10,6 +10,6 @@ class Api::MetricsController < Api::ApplicationController
     metric = project.metrics.find_by(name: params[:metric_name])
     return head :not_found if metric.nil?
 
-    render json: { value: metric.value }
+    render json: { value: metric.value, occurrences: metric.occurrences }
   end
 end
