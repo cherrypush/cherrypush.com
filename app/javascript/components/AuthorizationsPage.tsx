@@ -23,6 +23,8 @@ const AddAuthorizationModal = ({ projectId, onClose }) => {
     .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
     .sort((a, b) => a.name.localeCompare(b.name))
 
+  // TODO - another way to do this would be to use a formik form
+
   return (
     <Modal show onClose={onClose} dismissible>
       <Modal.Header>Add authorization</Modal.Header>
