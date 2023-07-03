@@ -24,4 +24,4 @@ jobs:
           npm i ./cli
 
       - name: Raise if new JS code added
-        run: ./cli/bin/cherry.js diff --metric='[loc] TypeScript' --api-key=${{ secrets.CHERRY_API_KEY }}
+        run: ./cli/bin/cherry.js diff --metric='todo' --api-key=${{ secrets.CHERRY_API_KEY }} --error-if-increase

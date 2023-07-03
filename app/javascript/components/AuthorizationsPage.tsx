@@ -58,6 +58,7 @@ const AuthorizationsPage = () => {
 
   const [editedProjectId, setEditedProjectId] = useState()
 
+  // TODO: add error handling
   if (!projects || !authorizations) return <PageLoader />
 
   return (
