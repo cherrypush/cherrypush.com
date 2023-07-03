@@ -171,7 +171,7 @@ program
     console.log('Added occurrences:')
     const newOccurrencesTexts = newOccurrences.map((o) => o.text)
     const previousOccurrencesTexts = previousOccurrences.map((o) => o.text)
-    console.log(_.difference(newOccurrencesTexts, previousOccurrencesTexts))
+    console.log(newOccurrencesTexts.filter((x) => !previousOccurrencesTexts.includes(x)))
 
     if (diff > 0 && options.errorIfIncrease) process.exit(1)
   })
