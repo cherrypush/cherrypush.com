@@ -18,7 +18,7 @@ const NewProjectInstructions = () => (
     </div>
     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">You can now upload your metrics:</p>
     <div className="prose dark:prose-invert max-w-none mb-3">
-      <pre className="mt-3">cherry push --api-key=current_user.api_key</pre>
+      <pre className="mt-3">cherry push --api-key={current_user.api_key}</pre>
     </div>
   </>
 )
