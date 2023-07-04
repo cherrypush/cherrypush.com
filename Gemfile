@@ -21,7 +21,7 @@ gem 'omniauth-rails_csrf_protection'
 # project-specific dependencies
 gem 'blazer'
 gem 'chartkick'
-gem 'faker' # also used by production code via rake demo:refresh
+gem 'faker'
 gem 'groupdate'
 gem 'heroicon'
 gem 'httparty'
