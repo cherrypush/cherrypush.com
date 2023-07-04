@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  before_action -> { redirect_to user_projects_path }, if: -> { current_user }
-
   def home
+    redirect_to user_projects_path if current_user
   end
 
   def demo
@@ -29,6 +28,6 @@ class PagesController < ApplicationController
   private
 
   def demo_project_path
-    user_projects_path(project_id: Project.find_by(name: 'demo/project')&.id)
+    user_projects_path(project_id: Project.find_by(name: 'cherrypush/cherry')&.id)
   end
 end
