@@ -1,0 +1,19 @@
+name: Track codebase stats
+
+on:
+  push:
+    branches:
+      - ${{ github.event.repository.default_branch }}
+
+jobs:
+  cherry_push:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i -g cherrypush
+
+      - name: Push metrics to Cherry
+        run: cherry push --api-key=${{ secrets.CHERRY_API_KEY }}

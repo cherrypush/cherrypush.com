@@ -1,0 +1,12 @@
+// Refer to the docs here: https://www.cherrypush.com/docs
+
+module.exports = {
+  project_name: 'PROJECT_NAME',
+  plugins: ['loc'],
+  metrics: [
+    {
+      name: 'TODO/FIXME',
+      pattern: /(TODO|FIXME):/i, // the i flag makes the regex case insensitive
+    },
+  ],
+}

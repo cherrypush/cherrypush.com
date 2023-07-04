@@ -7,7 +7,13 @@ import fs from 'fs'
 import _ from 'lodash'
 import prompt from 'prompt'
 import Codeowners from '../src/codeowners.js'
-import { configurationExists, createConfigurationFile, getConfiguration } from '../src/configuration.js'
+import {
+  configurationExists,
+  createConfigurationFile,
+  createWorkflowFile,
+  getConfiguration,
+  workflowExists,
+} from '../src/configuration.js'
 import { computeContributions } from '../src/contributions.js'
 import { substractDays, toISODate } from '../src/date.js'
 import { panic } from '../src/error.js'
@@ -29,12 +35,17 @@ program.command('init').action(async () => {
 
   prompt.message = ''
   prompt.start()
-  const defaultProjectName = await guessProjectName()
-  const { repo } = await prompt.get({
-    properties: { repo: { message: 'Enter your project name', default: defaultProjectName, required: true } },
-  })
-  createConfigurationFile(repo)
-  console.log('.cherry.js file successfully created! You can now run `cherry run` to test it')
+
+  let projectName = await guessProjectName()
+  if (!projectName) {
+    projectName = await prompt.get({
+      properties: { repo: { message: 'Enter your project name', required: true } },
+    }).repo
+  }
+  createConfigurationFile(projectName)
+
+  if (!workflowExists()) createWorkflowFile()
+  console.log('Your initial setup is done! Now try the command `cherry run` to see your first metrics.')
 })
 
 program
