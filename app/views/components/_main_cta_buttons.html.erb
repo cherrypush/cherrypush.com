@@ -1,10 +1,13 @@
 <div class="md:flex justify-center">
-  <a
-    href="<%= github_sign_in_path %>"
-    class="btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center"
-  >
-    <span class="mr-2">Try Cherry for free</span>
-    <%= heroicon 'arrow-right', options: { class: 'inline' } %>
-  </a>
+  <%= form_tag(github_sign_in_path, method: 'post') do %>
+    <button
+      type="submit"
+      class="btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center"
+    >
+      <span class="mr-2">Try Cherry for free</span>
+      <%= heroicon 'arrow-right', options: { class: 'inline' } %>
+    </button>
+  <% end %>
+
   <%= render 'components/watch_the_video_button' %>
 </div>
