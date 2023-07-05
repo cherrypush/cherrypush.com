@@ -3,7 +3,7 @@
 class Article
   class << self
     def all
-      Dir.glob("#{Rails.root}/content/articles/*.md").map { |path| build(path) }
+      Dir.glob("#{Rails.root}/public/articles/*.md").map { |path| build(path) }
     end
 
     def find(permalink)
