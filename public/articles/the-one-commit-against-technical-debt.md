@@ -1,33 +1,35 @@
-# Wage war against your technical debt in a single commit
+# Wage war against your technical debt with a single commit
 
-Hello there. I’m Flavio from Cherry, and I’m going to show you how you can wage war against your technical debt in a
+Hello there. I’m Flavio from Cherry, and I’m going to show you how you can wage war against your technical debt, in a
 single commit. (wow such a badass intro) 😎
 
 ## 1. Sign up with GitHub
 
-First, go ahead and create your free account:
+First off, let's go ahead and create a free account for you:
 
 ![click on login with github](wage_war_login_with_github.png)
 
-You'll be prompted with a GitHub OAuth page. Make sure you read and understand the information we're asking access to.
+You'll be prompted with a GitHub OAuth page. If you'd like to see exactly how we use your personal information, you can
+check it out
+[here](https://github.com/cherrypush/cherry/blob/aa754662a7b232a229b2607439457283a9aab3c0/app/models/user.rb#L48-L58).
 If you agree, then accept it :)
 
 ## 2. Set up your first project
 
-Since this is your first time, you should see the [onboarding page](https://www.cherrypush.com/user/projects/new) below,
-with a very clear step-by-step guide with ready-to-use command-line commands that could get you up and running in just
-about a minute:
+Now you're logged in! Since it's your first time here, you'll be redirected to the
+[onboarding page](https://www.cherrypush.com/user/projects/new) below. There you'll find a very clear step-by-step guide
+with ready-to-use CLI commands to get you up and running in just about a minute:
 
 ![create a new project page with ready-to-use command-line commands](image-2.png)
 
-Note that they're all ready to copy & paste into your terminal. It contains your real API key and all. Just go ahead and
-paste each of one these commands into your terminal.
+Note that they're all ready to copy & paste into your terminal. It also contains your real API key. We've made
+everything to smoothen your onboarding experience.
 
 And that's it! You're good to go. ⚡️
 
 ---
 
-If you look inside your commit, you'll see that we're adding two files:
+As a side note, if you look inside your commit, you'll see that we're adding two files:
 
 - a configuration file -> .cherry.js
 - and a workflow file -> .github/workflows/cherry_push.yml
@@ -59,16 +61,16 @@ team to make the metrics move in the right direction. The great thing is, while 
 **capture the value of your work** and support you and your team to **show off your achievements**.
 
 > NOTE: This section would be better off in a separate article and replaced here with instructions on how to backfill
-> data. We already have a `cherry backfill` command, so all it takes is to submit a nice PR with these changes :)
-> https://github.com/cherrypush/cherry
+> data, and we already have a `cherry backfill` command. Feel free to suggest changes
+> [here](https://github.com/cherrypush/cherry/blob/aa754662a7b232a229b2607439457283a9aab3c0/public/articles/the-one-commit-against-technical-debt.md#L64).
 
 ## 4. Share access with your team
 
-I'm sure you're feeling motivated already. Pumped up. Ready to start contributing and make those charts look great. But
-I'm also sure you'll be better off if you work together with your development team.
+I'm sure you're feeling motivated already. All pumped up. Ready to start contributing and make your charts look great.
+But you'll probably be better off with some help from your team.
 
-Cherry makes it simple and safe for you to do so. Just head up to the
-[Authorizations page](https://www.cherrypush.com/user/authorizations) and start sharing access with your teammates.
+So let's go to the [Authorizations page](https://www.cherrypush.com/user/authorizations) and start sharing access with
+your team.
 
 ![authorizations page with a couple of created authorizations](authorizations.png)
 
@@ -83,11 +85,10 @@ it to track what's most important for you.
 
 Here's a non-exhaustive list of things that you might want to do next:
 
-- Create a migration dashboard
-- Recognize your Top Contributors, a.k.a. your Metric Champions 🏆
-- Watch changes to critical metrics
-- Block pull requests that introduce new occurrences of critical metrics
-
-All and all, Cherry is a sharp knife better placed in the hands of well-rounded Engineer Managers and Lead Developers,
-so they can have a clear overview of their codebase, watch out for undesired patterns, and wage war agains their
-technical debt. ⚔️
+- Backfill your project data with historic data (<- write an article and link it here)
+- Create your first dashboard (<- write an article and link it here)
+- Recognize your Top Contributors 🏆 (<- write an article and link it here)
+- Watch changes to critical metrics (<- write an article and link it here)
+- Block PRs introducing new violations (<- write an article and link it here)
+- Activate plugins such as rubocop or eslint (<- write an article and link it here)
+- Create custom integrations via the Cherry API (<- write an article and link it here)
