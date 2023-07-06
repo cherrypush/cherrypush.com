@@ -20,6 +20,10 @@ const NewProjectInstructions = () => (
     <div className="prose dark:prose-invert max-w-none mb-3">
       <pre className="mt-3">cherry push --api-key={current_user.api_key}</pre>
     </div>
+    <p className="text-sm font-normal text-gray-500 dark:text-gray-400">And commit changes to your repo:</p>
+    <div className="prose dark:prose-invert max-w-none mb-3">
+      <pre className="mt-3">{`git add . && git commit -m 'setup cherry'`}</pre>
+    </div>
   </>
 )
 
