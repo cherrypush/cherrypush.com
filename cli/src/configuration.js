@@ -18,8 +18,10 @@ export const createConfigurationFile = (projectName) =>
     fs.readFileSync(CONFIG_TEMPLATE_PATH).toString().replace('PROJECT_NAME', projectName)
   )
 
-export const createWorkflowFile = () =>
+export const createWorkflowFile = () => {
+  fs.mkdirSync(`${process.cwd()}/.github/workflows`, { recursive: true })
   fs.writeFileSync(WORKFLOW_FILE_FULL_PATH, fs.readFileSync(WORKFLOW_TEMPLATE_PATH).toString())
+}
 
 export const configurationExists = () => fs.existsSync(CONFIG_FILE_FULL_PATH)
 export const workflowExists = () => fs.existsSync(WORKFLOW_FILE_FULL_PATH)
