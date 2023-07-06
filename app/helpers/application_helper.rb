@@ -29,7 +29,6 @@ module ApplicationHelper
       quote
       footnotes
       highlight
-      underline
     ]
     Markdown.new(text, *options).to_html.html_safe
   end
