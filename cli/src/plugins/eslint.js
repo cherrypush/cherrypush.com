@@ -2,14 +2,13 @@ import { panic } from '../error.js'
 import sh from '../sh.js'
 
 const run = async () => {
-  const out = await sh(
-    './node_modules/eslint/bin/eslint.js . --format=json --ext .js,.jsx,.ts,.tsx --no-inline-config',
-    {
-      throwOnError: false,
-    }
-  )
   let files
+
   try {
+    const out = await sh(
+      './node_modules/eslint/bin/eslint.js . --format=json --ext .js,.jsx,.ts,.tsx --no-inline-config',
+      { throwOnError: false }
+    )
     files = JSON.parse(out)
   } catch (error) {
     panic('An error happened while executing eslint\n- Make sure eslint is properly installed')
