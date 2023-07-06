@@ -31,12 +31,17 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
       assert_equal [-30, +33], Contribution.all.map(&:diff).sort
     end
 
-    it 'notifies watchers' do
+    it 'notifies watchers when the diffs are positive' do
       project = create(:project, user: user, name: 'cherrypush/cherry-app')
+
+      # add a watcher id so we can submit notifications
       create(:metric, watcher_ids: [user.id], project: project, name: 'JavaScript LoC')
+      create(:metric, watcher_ids: [user.id], project: project, name: 'TypeScript LoC')
+
       post(api_contributions_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_equal 1, Notification.count
-      assert_equal user.id, Notification.last.user_id
+      assert_equal user.id, Notification.sole.user_id
+      assert_equal 'TypeScript LoC', Notification.sole.item.metric.name
     end
   end
 
