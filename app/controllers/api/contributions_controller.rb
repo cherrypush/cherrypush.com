@@ -11,15 +11,16 @@ class Api::ContributionsController < Api::ApplicationController
           metric = Metric.find_or_create_by!(name: contribution_params.require('metric_name'), project: current_project)
 
           contribution = metric.contributions.find_or_initialize_by(commit_sha: params[:commit_sha])
+          diff = contribution_params.require('diff')
 
           contribution.update!(
             author_name: params[:author_name],
             author_email: params[:author_email],
             commit_date: params[:commit_date],
-            diff: contribution_params.require('diff'),
+            diff: diff,
           )
 
-          contribution.notify_watchers!
+          contribution.notify_watchers! if diff.positive?
         end
     end
 
