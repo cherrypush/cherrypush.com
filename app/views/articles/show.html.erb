@@ -8,9 +8,26 @@
   <%= markdown @article.content %>
 </div>
 
-<div class="card my-16 p-9 text-center">
+<div class="card my-16 py-9 px-12 text-center">
   <p class="mb-8 font-light text-gray-500 md:text-lg dark:text-gray-400">
-    Cherry helps you track and visualize your code migrations with close to zero setup.
+    Cherry is a sharp knife better placed in the hands of well-rounded Managers and Staff+ Engineers, so they can have a
+    clear overview of their technical debt, and watch out for undesired patterns.
   </p>
   <%= render 'components/main_cta_buttons' %>
 </div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "<%= @article.title %>",
+    "image": <%= raw @article.images %>,
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Flavio Wuensche",
+        "url": "https://twitter.com/fwuensche"
+      }
+    ]
+  }
+</script>
