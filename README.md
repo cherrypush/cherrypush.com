@@ -12,29 +12,20 @@ bundle install
 npm install
 ```
 
-If you have access to the Heroku project in production:
+Start your database:
 
-```
-# add heroku production to your git remote
-git remote add production https://git.heroku.com/cherrypush-production.git
-
-# start postgres using brew
-brew services start postgresql@14
-
-# backup production database
-production backup
-
-# restore database from production
-development restore production
-```
-
-If you DON'T have access to Heroku production, then you can use Docker.
-
-In this case, your local database will have no initial data, but it's super simple:
-
-```sh
+```bash
 docker compose up -d
+rails db:setup
 ```
+
+Setup your local env vars:
+
+```bash
+cp .rbenv-vars.template .rbenv-vars
+```
+
+> If you don't have rbenv-vars plugin, check the docs here: https://github.com/rbenv/rbenv-vars
 
 Finally, you can launch your server with:
 
