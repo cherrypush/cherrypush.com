@@ -5,16 +5,15 @@
 
 version: 2
 updates:
-  - package-ecosystem: "bundler"
-    directory: "/"
+  - package-ecosystem: 'bundler'
+    directory: '/'
     schedule:
       interval: 'daily'
       time: '09:00'
     versioning-strategy: 'lockfile-only'
   - package-ecosystem: 'npm'
-    directory: "/"
+    directory: '/'
     schedule:
       interval: 'daily'
       time: '09:00'
     versioning-strategy: 'increase'
-
