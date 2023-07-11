@@ -67,7 +67,7 @@ program
 
       displayedOccurrences.forEach((occurrence) => console.log(`👉 ${occurrence.text}`))
       console.log('Total occurrences:', displayedOccurrences.length)
-    } else console.table(countByMetric(occurrences))
+    } else console.table(sortObject(countByMetric(occurrences)))
 
     if (options.output) {
       const metrics = buildMetricsPayload(occurrences)
@@ -305,6 +305,8 @@ const buildContributionsPayload = (projectName, authorName, authorEmail, sha, da
     diff: contribution.diff,
   })),
 })
+
+const sortObject = (object) => _(object).toPairs().sortBy(0).fromPairs().value()
 
 const countByMetric = (occurrences) =>
   _(occurrences)
