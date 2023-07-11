@@ -19,11 +19,15 @@ const PLUGINS = {
 }
 
 const minimatchCache = {}
-const matchPattern = (path, pattern) => {
-  const key = `${path}&&&${pattern}`
-  if (!(key in minimatchCache)) minimatchCache[key] = minimatch(path, pattern)
+const matchPattern = (path, patternOrPatterns) => {
+  const patterns = Array.isArray(patternOrPatterns) ? patternOrPatterns : [patternOrPatterns]
 
-  return minimatchCache[key]
+  return patterns.some((pattern) => {
+    const key = `${path}&&&${pattern}`
+    if (!(key in minimatchCache)) minimatchCache[key] = minimatch(path, pattern)
+
+    return minimatchCache[key]
+  })
 }
 
 const findFileOccurences = async (file, metrics) => {
