@@ -1,3 +1,5 @@
+<%# TODO: to make it more personal, the welcome email should be written in plain text %>
+
 <p>Hello <%= @user.name.split.first %>! Welcome to Cherry!</p>
 
 <p>
@@ -11,6 +13,7 @@
   first project!
 </p>
 
+<%# TODO: use image from within the project, if any %>
 <img
   style="max-width: 100% !important; height: auto !important"
   src="https://i.imgur.com/ihhJZCZ.png"
@@ -29,7 +32,7 @@
 </ol>
 
 <%#
-  Write another email on day 2 to explain how to customize the metrics tracked.
+  TODO: Write another email on day 2 to explain how to customize the metrics tracked.
   <p>
     If you want to customize the metrics you track, you can edit the
     <code>.cherry.js</code> file, created at the root of your project. Just add new patterns as you wish, and run the
@@ -38,7 +41,7 @@
 %>
 
 <!--
-  Write another email on day 3 to explain how to automate the data submission.
+  TODO: Write another email on day 3 to explain how to automate the data submission.
   <p>
     Lastly, if you want to automate the data submission, there's a one-step process on how to
     <a href="<%= docs_url %>">Integrate with GitHub Actions</a> available in our docs.

@@ -53,15 +53,15 @@ docker run \
 
 ## Contributing
 
-The best way to get started is by watching some of the live sessions where we implement together some of the Cherry
-features that you currently use in production.
+In addition to the above-mentioned docs, a good way to get started contributing is to watch some of the live sessions
+below. This should give you insights on how to navigate the codebase and help you with your first few steps.
 
-#### Cherry CLI (JavaScript)
+Cherry CLI (JavaScript):
 
 - Add support for array of globs: https://youtu.be/zPrVUFDcQ5Y
 - Sort results of cherry run: https://youtu.be/ZjJqDBLbM-E
 
-#### Cherry App (Ruby on Rails)
+Cherry App (Ruby on Rails):
 
 - Add a new API endpoint + controller tests: https://youtu.be/vh1bCTe16Bs
 
