@@ -5,7 +5,7 @@ import { useContributionsIndex } from '../queries/user/contributions'
 
 const INITIALLY_VISIBLE_CONTRIBUTIONS = 5
 
-const Contributions = ({ metricId, projectName }: { metricId: number; projectName: string }) => {
+const RecentCommits = ({ metricId, projectName }: { metricId: number; projectName: string }) => {
   const { data: contributions } = useContributionsIndex({ metricId })
 
   const [showAll, setShowAll] = React.useState(false)
@@ -19,7 +19,7 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
       <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           <div className="flex justify-between">
-            <span>Contributions 🤗</span>
+            <span>Recent Commits 🤗</span>
           </div>
         </caption>
 
@@ -65,4 +65,4 @@ const Contributions = ({ metricId, projectName }: { metricId: number; projectNam
   )
 }
 
-export default Contributions
+export default RecentCommits

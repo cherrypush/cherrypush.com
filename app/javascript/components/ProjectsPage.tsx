@@ -7,7 +7,6 @@ import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
 import Breadcrumb from './Breadcrumb'
-import Contributions from './Contributions'
 import MetricCard from './MetricCard'
 import MetricsTable from './MetricsTable'
 import NewProjectPage from './NewProjectPage'
@@ -15,7 +14,9 @@ import Occurrences from './Occurrences'
 import OwnerSelector from './OwnerSelector'
 import PageLoader from './PageLoader'
 import ProjectsTable from './ProjectsTable'
+import RecentCommits from './RecentCommits'
 import RequestAccessCard from './RequestAccessCard'
+import TopContributors from './TopContributors'
 
 const ProjectsPage = () => {
   const [searchParams] = useSearchParams()
@@ -71,7 +72,8 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metricId && (
               <div className="col-span-1">
-                <Contributions projectName={currentProject.name} metricId={parseInt(metricId)} />
+                <TopContributors metricId={parseInt(metricId)} />
+                <RecentCommits projectName={currentProject.name} metricId={parseInt(metricId)} />
               </div>
             )}
             {occurrences && (
