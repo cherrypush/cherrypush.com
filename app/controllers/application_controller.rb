@@ -9,12 +9,6 @@ class ApplicationController < ActionController::Base
 
   before_action :set_sentry_context, if: -> { current_user.present? }
 
-  # Used to control access to blazer dashboards
-  def require_admin
-    return if current_user&.admin?
-    redirect_to '/'
-  end
-
   private
 
   def current_user

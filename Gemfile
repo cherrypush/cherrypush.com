@@ -18,8 +18,11 @@ gem 'omniauth'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 gem 'omniauth-rails_csrf_protection'
 
-# project-specific dependencies
+# admin
 gem 'blazer'
+gem 'rails_admin'
+
+# project-specific dependencies
 gem 'chartkick'
 gem 'faker'
 gem 'groupdate'
@@ -93,3 +96,4 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
+gem "sassc-rails"
