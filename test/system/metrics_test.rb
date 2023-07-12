@@ -54,7 +54,8 @@ class MetricsTest < ApplicationSystemTestCase
   end
 
   let!(:contribution) do
-    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago)
+    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -12)
+    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -10)
   end
 
   it 'applies filters to metrics' do
@@ -65,10 +66,14 @@ class MetricsTest < ApplicationSystemTestCase
     assert_no_text 'eslint'
     find('tr', text: 'rubocop').click
 
-    # Contributions
-    assert_text 'Contributions'
+    # Recent Commmits
+    assert_text 'Recent Commits'
     assert_text 'Flavinho'
     assert_text '1 week ago'
+
+    # Top Contributors
+    assert_text 'Top Contributors'
+    assert_text 'Flavinho -22'
 
     # Occurrences
     assert_equal ['filepath:2 @fwuensche, @rchoquet 2.8', 'filepath:1 @fwuensche 1.2'], all('tr').map(&:text).last(2)
