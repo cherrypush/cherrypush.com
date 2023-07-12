@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'route_utils'
+require_relative 'constraints/admin_constraint'
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   constraints(AdminConstraint) do

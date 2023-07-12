@@ -21,6 +21,7 @@ gem 'omniauth-rails_csrf_protection'
 # admin
 gem 'blazer'
 gem 'rails_admin'
+gem 'sassc-rails' # required by rails_admin
 
 # project-specific dependencies
 gem 'chartkick'
@@ -96,4 +97,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
-gem "sassc-rails"
