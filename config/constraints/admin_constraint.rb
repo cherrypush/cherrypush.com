@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class AdminConstraint
-  def self.matches?(request)
-    user_id = request.env['rack.session']['user_id']
-    return false if user_id.nil?
-    User.find_by(id: user_id)&.admin?
+  class << self
+    def matches?(request)
+      user_id = request.env.dig('rack.session', 'user_id')
+      User.find_by(id: user_id)&.admin?
+    end
   end
 end
