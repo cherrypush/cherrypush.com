@@ -29,7 +29,10 @@ const TopContributors = ({ metricId }: { metricId: number }) => {
         </Table.Head>
         <Table.Body>
           {contributors.map((contributor, index) => (
-            <Table.Row key={contributor.id} className="bg-white border-b dark:border-gray-700 text-xs dark:bg-gray-800">
+            <Table.Row
+              key={contributor.name}
+              className="bg-white border-b dark:border-gray-700 text-xs dark:bg-gray-800"
+            >
               <Table.Cell>
                 {getMedalFor(index)} {contributor.name}
               </Table.Cell>
