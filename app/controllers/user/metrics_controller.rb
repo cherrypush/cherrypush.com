@@ -9,7 +9,7 @@ class User::MetricsController < User::ApplicationController
       authorize(@project, :read?)
       metrics = @project.metrics.order('LOWER(name)').as_json(include: %i[project last_report])
     else
-      metrics = current_user.metrics.as_json(include: %i[project last_report])
+      metrics = current_user.metrics.includes(:project).as_json(include: %i[project])
     end
 
     render json: metrics
