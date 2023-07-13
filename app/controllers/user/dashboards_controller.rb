@@ -4,6 +4,7 @@ class User::DashboardsController < User::ApplicationController
   def index
     render json:
              Dashboard
+               .includes(:charts, :project)
                .where(project: current_user.projects)
                .order(:name)
                .as_json(include: [:charts, { project: { only: :name } }])
