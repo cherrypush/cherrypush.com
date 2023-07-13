@@ -7,7 +7,7 @@ class StaticPagesTest < ApplicationSystemTestCase
     visit root_url
     assert_text 'Track and visualize your technical debt with ease'
     assert_text 'TRY CHERRY FOR FREE'
-    find('a[data-modal-toggle="contact-modal"]').click
+    find('a[data-modal-toggle="contact-modal"]', match: :first).click
     assert_text '@fwuensche'
     click_on 'Close modal'
     click_on 'Terms'

@@ -36,6 +36,7 @@ bin/dev
 ## Running in Production
 
 The current stack is :
+
 - a PostgreSQL database
 - the cherry app itself
 
@@ -49,3 +50,23 @@ docker run \
   -e DATABASE_URL=postgresql://<user>:<pass>@<host>:5432/<db_name> \
   cherrypush/cherry
 ```
+
+## Contributing
+
+In addition to the above-mentioned docs, a good way to get started contributing is to watch some of the live sessions
+below. This should give you insights on how to navigate the codebase and help you with your first few steps.
+
+Cherry CLI (JavaScript):
+
+- Add support for array of globs: https://youtu.be/zPrVUFDcQ5Y
+- Sort results of cherry run: https://youtu.be/ZjJqDBLbM-E
+
+Cherry App (Ruby on Rails):
+
+- Add a new API endpoint + controller tests: https://youtu.be/vh1bCTe16Bs
+- Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
+- Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
+
+## Any questions or suggestions?
+
+Just shoot me a message on Twitter 🐥 [@fwuensche](https://twitter.com/intent/user?screen_name=fwuensche)
