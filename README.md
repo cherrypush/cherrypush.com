@@ -64,6 +64,8 @@ Cherry CLI (JavaScript):
 Cherry App (Ruby on Rails):
 
 - Add a new API endpoint + controller tests: https://youtu.be/vh1bCTe16Bs
+- Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
+- Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
 
 ## Any questions or suggestions?
 
