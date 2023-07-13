@@ -57,22 +57,6 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         accessor: 'project.name',
       },
       {
-        Header: 'Value',
-        accessor: 'last_report.value',
-        Cell: ({ row }) => (
-          <div className="text-right">
-            {selectedOwners.length > 0 && row.original.last_report ? (
-              <>
-                {_(row.original.last_report.value_by_owner).pick(selectedOwners).values().flatten().sum()} /{' '}
-                {row.original.last_report.value.toLocaleString()}
-              </>
-            ) : (
-              row.original.last_report?.value.toLocaleString()
-            )}
-          </div>
-        ),
-      },
-      {
         Header: 'Last report',
         accessor: 'updated_at',
         Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
