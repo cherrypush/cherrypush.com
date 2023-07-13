@@ -2,6 +2,13 @@ import { Table } from 'flowbite-react'
 import React from 'react'
 import { useContributorsIndex } from '../queries/user/contributors'
 
+const getMedalFor = (index: number): string => {
+  if (index === 0) return '🥇'
+  if (index === 1) return '🥈'
+  if (index === 2) return '🥉'
+  return ''
+}
+
 const TopContributors = ({ metricId }: { metricId: number }) => {
   const { data: contributors } = useContributorsIndex({ metricId })
 
@@ -21,12 +28,14 @@ const TopContributors = ({ metricId }: { metricId: number }) => {
           <Table.HeadCell className="text-right">Diff</Table.HeadCell>
         </Table.Head>
         <Table.Body>
-          {contributors.map((contributor) => (
+          {contributors.map((contributor, index) => (
             <Table.Row
               key={contributor.id}
               className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
             >
-              <Table.Cell>{contributor.name}</Table.Cell>
+              <Table.Cell>
+                {getMedalFor(index)} {contributor.name}
+              </Table.Cell>
               <Table.Cell className="text-right">{contributor.diff}</Table.Cell>
             </Table.Row>
           ))}
