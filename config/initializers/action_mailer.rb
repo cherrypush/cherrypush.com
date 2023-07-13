@@ -4,7 +4,7 @@ if Rails.application.config.action_mailer.perform_deliveries
   ActionMailer::Base.smtp_settings = {
     user_name: 'f.wuensche@gmail.com',
     password: ENV.fetch('BREVO_API_KEY'),
-    address: 'smtp-relay.sendinblue.com',
+    address: 'smtp-relay.brevo.com',
     port: 587,
     domain: 'cherrypush.com',
     authentication: :plain,
