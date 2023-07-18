@@ -17,5 +17,10 @@ class User::ArticlesControllerTest < ApplicationIntegrationTest
       get(article_path(article.permalink))
       assert_select 'h1', article.title
     end
+
+    it 'redirect to articles if article not found' do
+      get(article_path('not-found'))
+      assert_redirected_to articles_path
+    end
   end
 end
