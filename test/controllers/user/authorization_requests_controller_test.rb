@@ -11,7 +11,7 @@ class User::AuthorizationRequestsControllerTest < ApplicationIntegrationTest
   describe '#create' do
     it 'blocks requests if not authenticated' do
       post(user_authorization_requests_path, params: project.id, as: :json)
-      assert_redirected_to root_path
+      assert_response :forbidden
     end
 
     it 'creates contributions' do
