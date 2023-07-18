@@ -37,10 +37,6 @@
     "vite": "^4.3.9",
     "vite-plugin-ruby": "^3.2.1"
   },
-  "//": "semver vulnerable to Regular Expression Denial of Service - https://github.com/advisories/GHSA-c2qf-rxjj-qqgw",
-  "overrides": {
-    "semver": "^7.5.3"
-  },
   "scripts": {
     "build": "vite build --outDir public"
   }
