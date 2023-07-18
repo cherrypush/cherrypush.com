@@ -5,13 +5,7 @@ class User::ApplicationController < ApplicationController
 
   layout 'application'
 
-  rescue_from Pundit::NotAuthorizedError do
-    if request.format.json?
-      render json: { error: 'You are not authorized to perform this action.' }, status: :forbidden
-    else
-      redirect_to(request.referer, alert: 'You are not authorized to perform this action.')
-    end
-  end
+  rescue_from(Pundit::NotAuthorizedError) { redirect_with_error('You are not authorized to perform this action.') }
 
   def spa
   end
@@ -23,7 +17,15 @@ class User::ApplicationController < ApplicationController
   end
 
   def authenticate_user!
-    alert = 'You must be logged in to access this page'
-    redirect_to(root_path, alert:) if current_user.nil?
+    return if current_user
+    redirect_with_error('You must be logged in to perform this action.')
+  end
+
+  def redirect_with_error(message)
+    if request.format.json?
+      render json: { error: message }, status: :forbidden
+    else
+      redirect_back(fallback_location: root_path, alert: message)
+    end
   end
 end
