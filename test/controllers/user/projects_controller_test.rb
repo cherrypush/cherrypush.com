@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class User::AuthorizationRequestsControllerTest < ApplicationIntegrationTest
+class User::ProjectsControllerTest < ApplicationIntegrationTest
   let!(:user) { create(:user, name: 'Flavio Wuensche') }
   let!(:project) { create(:project, user: user) }
 
