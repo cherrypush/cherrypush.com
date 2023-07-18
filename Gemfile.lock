@@ -60,6 +60,10 @@ GEM
       globalid (>= 0.3.6)
     activemodel (7.0.6)
       activesupport (= 7.0.6)
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
+      builder (~> 3.1)
     activerecord (7.0.6)
       activemodel (= 7.0.6)
       activesupport (= 7.0.6)
@@ -126,6 +130,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
+    ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
     groupdate (6.3.0)
@@ -146,6 +151,18 @@ GEM
       activesupport (>= 5.0.0)
     json (2.6.3)
     jwt (2.7.1)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
     loofah (2.21.3)
       crass (~> 1.0.2)
@@ -163,8 +180,10 @@ GEM
     minitest-spec-rails (7.0.0)
       minitest (>= 5.0)
       railties (>= 4.1)
+    minitest-stub-const (0.6)
     msgpack (1.7.1)
     multi_xml (0.6.0)
+    nested_form (0.3.2)
     net-imap (0.3.6)
       date
       net-protocol
@@ -242,6 +261,12 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails_admin (3.1.2)
+      activemodel-serializers-xml (>= 1.0)
+      kaminari (>= 0.14, < 2.0)
+      nested_form (~> 0.3)
+      rails (>= 6.0, < 8)
+      turbo-rails (~> 1.0)
     railties (7.0.6)
       actionpack (= 7.0.6)
       activesupport (= 7.0.6)
@@ -274,6 +299,14 @@ GEM
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     safely_block (0.4.0)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -302,7 +335,12 @@ GEM
     tailwindcss-rails (2.0.30-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.2.2)
+    tilt (2.2.0)
     timeout (0.4.0)
+    turbo-rails (1.4.0)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
@@ -353,6 +391,7 @@ DEPENDENCIES
   httparty
   jbuilder
   minitest-spec-rails
+  minitest-stub-const
   omniauth
   omniauth-github!
   omniauth-rails_csrf_protection
@@ -362,8 +401,10 @@ DEPENDENCIES
   puma (~> 5.0)
   pundit
   rails (~> 7.0.4)
+  rails_admin
   redcarpet
   rubocop
+  sassc-rails
   selenium-webdriver
   sentry-rails
   sentry-ruby

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
+  layout 'landing'
+
   def index
     @articles = Article.all
   end

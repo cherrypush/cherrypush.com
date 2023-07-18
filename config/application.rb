@@ -18,5 +18,11 @@ module Cherry
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # PROJECT-SPECIFIC
+
+    # To prevent an error while precompiling assets. First happened after adding sassc-rails gem.
+    # Read: https://github.com/tailwindlabs/tailwindcss/discussions/6738#discussioncomment-2010199
+    config.assets.css_compressor = nil
   end
 end

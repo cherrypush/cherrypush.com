@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require_relative '../config/environment'
 require 'rails/test_help'
+require 'minitest/stub_const'
 
 # PROJECT SPECIFIC
 require 'minitest/mock'
