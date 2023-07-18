@@ -18,8 +18,12 @@ gem 'omniauth'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 gem 'omniauth-rails_csrf_protection'
 
-# project-specific dependencies
+# admin
 gem 'blazer'
+gem 'rails_admin'
+gem 'sassc-rails' # required by rails_admin
+
+# project-specific dependencies
 gem 'chartkick'
 gem 'faker'
 gem 'groupdate'
@@ -87,6 +91,7 @@ end
 
 group :test do
   gem 'minitest-spec-rails' # for rspec-like syntax
+  gem 'minitest-stub-const' # for stubbing constants
 
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'

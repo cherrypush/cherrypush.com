@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  layout 'landing'
+
   def home
     redirect_to user_projects_path if current_user
   end
