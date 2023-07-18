@@ -6,7 +6,7 @@ require_relative 'constraints/admin_constraint'
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   constraints(AdminConstraint) do
     mount Blazer::Engine, at: 'blazer'
-    mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+    mount RailsAdmin::Engine, at: 'admin', as: 'rails_admin'
   end
 
   # AUTHENTICATION ROUTES
