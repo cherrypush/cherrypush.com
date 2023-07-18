@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  layout 'landing'
-
   before_action :set_sentry_context, if: -> { current_user.present? }
 
   private

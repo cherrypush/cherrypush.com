@@ -24,9 +24,6 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Compress CSS using a preprocessor.
-  # config.assets.css_compressor = :sass
-
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
@@ -89,6 +86,10 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # PROJECT SPECIFIC SETTINGS
+
+  # To prevent an error while precompiling assets. First happened after adding sassc-rails gem.
+  # Read: https://github.com/tailwindlabs/tailwindcss/discussions/6738#discussioncomment-2010199
+  config.assets.css_compressor = nil
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'https://cherrypush.com'
