@@ -26,7 +26,7 @@ export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
 
 export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
 
-export const useMetricsDestroy = ({ onSuccess }) => {
+export const useMetricsDestroy = ({ onSuccess }: { onSuccess: () => void }) => {
   const invalidateIndex = useInvalidateMetricsIndex()
 
   return useMutation((metricId) => axios.delete(`/user/metrics/${metricId}.json`), {

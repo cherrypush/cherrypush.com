@@ -1,5 +1,4 @@
 import { Breadcrumb, Button, Card } from 'flowbite-react'
-import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDashboardsShow } from '../queries/user/dashboards'
 import ChartCard from './ChartCard'
