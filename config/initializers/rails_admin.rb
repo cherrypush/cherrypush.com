@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 RailsAdmin.config do |config|
   config.asset_source = :sprockets
 
   config.parent_controller = '::ApplicationController'
-  config.authorize_with { |_controller| redirect_to main_app.root_path unless current_user.admin? }
+  config.authorize_with { require_admin }
 
   ## == PaperTrail ==
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0

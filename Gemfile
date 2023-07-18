@@ -91,6 +91,7 @@ end
 
 group :test do
   gem 'minitest-spec-rails' # for rspec-like syntax
+  gem 'minitest-stub-const' # for stubbing constants
 
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'

@@ -4,10 +4,8 @@ require_relative 'route_utils'
 require_relative 'constraints/admin_constraint'
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
-  constraints(AdminConstraint) do
-    mount Blazer::Engine, at: 'blazer'
-    mount RailsAdmin::Engine, at: 'admin', as: 'rails_admin'
-  end
+  mount Blazer::Engine, at: 'blazer'
+  mount RailsAdmin::Engine, at: 'admin', as: 'rails_admin'
 
   # AUTHENTICATION ROUTES
   get 'auth/:provider/callback', to: 'sessions#create'

@@ -180,6 +180,7 @@ GEM
     minitest-spec-rails (7.0.0)
       minitest (>= 5.0)
       railties (>= 4.1)
+    minitest-stub-const (0.6)
     msgpack (1.7.1)
     multi_xml (0.6.0)
     nested_form (0.3.2)
@@ -390,6 +391,7 @@ DEPENDENCIES
   httparty
   jbuilder
   minitest-spec-rails
+  minitest-stub-const
   omniauth
   omniauth-github!
   omniauth-rails_csrf_protection
