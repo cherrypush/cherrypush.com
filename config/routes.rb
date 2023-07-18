@@ -29,6 +29,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resources :authorizations, only: %i[index new create destroy]
       resources :charts, only: %i[create update destroy]
       resources :contributions, only: %i[index]
+      resources :contributors, only: %i[index]
       resources :dashboards, only: %i[index show create update destroy]
       nested_resources :metrics, only: %i[index show destroy] do
         resources :occurrences, only: %i[index]

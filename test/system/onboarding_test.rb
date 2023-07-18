@@ -24,7 +24,7 @@ class OnboardingTest < ApplicationSystemTestCase
     find('tr', text: 'rails/rails').click
     find('tr', text: 'rubocop').click
 
-    assert_text 'Contributions'
+    assert_text 'Recent Commits'
     assert_text 'No contributions yet'
     assert_text 'Occurrences (0)'
   end
