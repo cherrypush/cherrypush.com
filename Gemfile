@@ -23,6 +23,10 @@ gem 'blazer'
 gem 'rails_admin'
 gem 'sassc-rails' # required by rails_admin
 
+# caching
+gem 'redis'
+gem 'hiredis'
+
 # project-specific dependencies
 gem 'chartkick'
 gem 'faker'
