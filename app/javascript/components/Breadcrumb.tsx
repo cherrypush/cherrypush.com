@@ -62,7 +62,13 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
                   <Avatar.Group>
                     {watchers.map((watcher: User) => (
                       <Tooltip key={watcher.id} content={watcher.name} arrow={false}>
-                        <Avatar img={watcher.image} rounded stacked />
+                        <Avatar
+                          img={watcher.image}
+                          rounded
+                          stacked
+                          className="cursor-pointer"
+                          onClick={() => navigate(`/user/users/${watcher.id}`)}
+                        />
                       </Tooltip>
                     ))}
                   </Avatar.Group>

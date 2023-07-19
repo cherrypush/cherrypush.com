@@ -18,6 +18,9 @@ export const useUsersIndex = ({ ids, enabled }: { ids?: number[]; enabled?: bool
     }
   )
 
+export const useUsersShow = (id: number) =>
+  useQuery(['user', 'users', id], () => axios.get(`/user/users/${id}.json`).then((response) => response.data))
+
 export const useInvalidateUsersIndex = () => {
   const queryClient = useQueryClient()
   return () => queryClient.invalidateQueries(buildIndexKey())
