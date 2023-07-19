@@ -61,7 +61,9 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
                 <>
                   <Avatar.Group>
                     {watchers.map((watcher: User) => (
-                      <Avatar key={watcher.id} img={watcher.image} rounded stacked />
+                      <Tooltip key={watcher.id} content={watcher.name}>
+                        <Avatar img={watcher.image} rounded stacked />
+                      </Tooltip>
                     ))}
                   </Avatar.Group>
                   {watchers.length} {watchers.length > 1 ? 'people watch' : 'person watches'} this metric
