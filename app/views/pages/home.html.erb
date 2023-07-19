@@ -14,25 +14,27 @@
   </div>
 
   <section class="text-center rounded-lg bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
-    <div class="text-gray-500 dark:text-gray-400 mb-9">
-      Since our first beta user, <%= time_ago_in_words Date.new(2022, 12, 29) %> ago 🎉
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="text-gray-500 dark:text-gray-400 mb-9">Scaling the work of your top motivated developers 💪🏻</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="flex card flex-col items-center justify-center">
-        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_to_human(Report.all.map(&:value).sum) %>
-        </dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">tracked issues</dd>
-      </div>
-      <div class="flex card flex-col items-center justify-center">
-        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_to_human Report.count %>
-        </dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">submitted reports</dd>
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human Project.count %></dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">projects</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">active users</dd>
+        <dd class="font-light text-gray-500 dark:text-gray-400">developers</dd>
+      </div>
+      <div class="flex card flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
+          <%= number_to_human Metric.count %>
+        </dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">tracked metrics</dd>
+      </div>
+      <div class="flex card flex-col items-center justify-center">
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
+          <%= number_to_human Occurrence.count %>
+        </dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">detected issues</dd>
       </div>
     </div>
   </section>
