@@ -41,8 +41,8 @@ class User < ApplicationRecord
   end
 
   def premium?
-    true
     # memberships.any?
+    true
   end
 
   def update_dynamic_attributes(auth)

@@ -6,4 +6,8 @@ class User::UsersController < User::ApplicationController
 
     render json: users.order(:github_handle)
   end
+
+  def show
+    render json: User.find(params[:id])
+  end
 end
