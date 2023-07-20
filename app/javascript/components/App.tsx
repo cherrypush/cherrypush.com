@@ -1,10 +1,9 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Toaster, toast } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
 import AuthorizationsPage from './AuthorizationsPage'
-import ContributionsPage from './ContributionsPage'
 import DashboardsIndexPage from './DashboardsIndexPage'
 import DashboardsShowPage from './DashboardsShowPage'
 import DocsPage from './DocsPage'
@@ -15,6 +14,7 @@ import NotificationsPage from './NotificationsPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
+import UserPage from './UserPage'
 
 axios.defaults.headers.common['X-CSRF-Token'] = document
   .querySelector('meta[name="csrf-token"]')
@@ -23,7 +23,7 @@ axios.defaults.headers.common['Accept'] = 'application/json'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
-const App = ({ alert, notice }) => {
+const App = ({ alert, notice }: { alert: string; notice: string }) => {
   useEffect(() => {
     if (alert) toast.error(alert)
     if (notice) toast.success(notice)
@@ -36,17 +36,17 @@ const App = ({ alert, notice }) => {
         <ScrollToTop>
           <Routes>
             <Route path="user">
-              <Route path="notifications" element={<NotificationsPage />} />
-              <Route path="projects/new" element={<NewProjectPage />} />
+              <Route path="authorizations" element={<AuthorizationsPage />} />
               <Route path="dashboards" element={<DashboardsIndexPage />} />
               <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />
-              <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
               <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={<DashboardsShowPage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="authorizations" element={<AuthorizationsPage />} />
-              <Route path="settings" element={<SettingsPage />} />
+              <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
               <Route path="docs" element={<DocsPage />} />
-              <Route path="contributions" element={<ContributionsPage />} />
+              <Route path="notifications" element={<NotificationsPage />} />
+              <Route path="projects" element={<ProjectsPage />} />
+              <Route path="projects/new" element={<NewProjectPage />} />
+              <Route path="settings" element={<SettingsPage />} />
+              <Route path="users/:userId" element={<UserPage />} />
             </Route>
           </Routes>
         </ScrollToTop>

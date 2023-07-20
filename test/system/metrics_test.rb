@@ -84,13 +84,14 @@ class MetricsTest < ApplicationSystemTestCase
     find('li', text: '@rchoquet (8)').click
     assert_equal ['NAME OWNERS VALUE', 'filepath:2 @fwuensche, @rchoquet 2.8'], all('tr').map(&:text).last(2)
 
-    # My Contributions - does not show contributions from other users
+    # Profile does not show contributions from other users
     click_on 'Avatar'
-    find('li', text: 'My Contributions').click
-    assert_text 'My Contributions'
+    find('li', text: 'Profile').click
+    assert_text 'Flavio Wuensche'
+    assert_text '@fwuensche'
     assert_equal 1, all('tr').count
 
-    # My Contributions - shows contributions matching name, email, or github handle
+    # Profile shows contributions matching name, email, or github handle
     create(:contribution, author_name: 'Flavio Wuensche', metric: rubocop_metric, diff: 42)
     create(:contribution, author_email: 'f.wuensche@gmail.com', metric: rubocop_metric, diff: -12)
     create(:contribution, author_email: 'fwuensche@github-whatever.com', metric: rubocop_metric, diff: 36)

@@ -39,7 +39,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]
-      resources :users, only: %i[index]
+      resources :users, only: %i[index show]
     end
 
     constraints(->(request) { request.format == :html }) do
@@ -55,6 +55,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
         projects
         projects/new
         settings
+        users/:user_id
       ].each { |route| get route, to: 'application#spa' }
     end
   end
