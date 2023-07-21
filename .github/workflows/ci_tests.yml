@@ -50,12 +50,16 @@ jobs:
       - name: Install node dependencies
         run: npm ci
 
+      - name: Precompile assets
+        run: bundle exec rake assets:precompile
+
       - name: Run unit tests
         run: bundle exec rails test
 
-      - uses: browser-actions/setup-chrome@v1
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: beta
+          chrome-version: stable
 
       - name: Run system tests
         run: HEADLESS=1 bundle exec rails test:system
