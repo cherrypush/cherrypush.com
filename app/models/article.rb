@@ -24,7 +24,7 @@ class Article
     end
 
     def content(path)
-      @content ||= File.read(path).lines[1..].join
+      File.read(path).lines[1..].join
     end
 
     def title(path)
