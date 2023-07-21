@@ -1,4 +1,4 @@
-import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Card, Dropdown, Tooltip } from 'flowbite-react'
+import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
@@ -25,8 +25,8 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
   const isWatching = currentMetric && currentMetric.watcher_ids.includes(user.id)
 
   return (
-    <Card className="mb-3">
-      <BaseBreadcrumb>
+    <div className="card mb-3 flex flex-col md:flex-row md:items-center gap-3">
+      <BaseBreadcrumb className="">
         <BaseBreadcrumb.Item>
           <button onClick={() => navigate('/user/projects')} className="hover:text-white cursor-pointer">
             Projects
@@ -43,43 +43,45 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
           <BaseBreadcrumb.Item>
             <div className="gap-3 flex items-center">
               <span className="text-white">{currentMetric.name}</span>
-              {isWatching ? (
-                <Dropdown size="sm" label="Watching">
-                  <Dropdown.Item onClick={() => unwatchMetric({ metricId })}>Unwatch</Dropdown.Item>
-                </Dropdown>
-              ) : (
-                <Tooltip
-                  placement="right"
-                  content="By watching you'll be alerted about new contributions to this metric."
-                >
-                  <Button size="sm" onClick={() => watchMetric({ metricId })}>
-                    Watch
-                  </Button>
-                </Tooltip>
-              )}
-              {watchers && (
-                <>
-                  <Avatar.Group>
-                    {watchers.map((watcher: User) => (
-                      <Tooltip key={watcher.id} content={watcher.name} arrow={false}>
-                        <Avatar
-                          img={watcher.image}
-                          rounded
-                          stacked
-                          className="cursor-pointer"
-                          onClick={() => navigate(`/user/users/${watcher.id}`)}
-                        />
-                      </Tooltip>
-                    ))}
-                  </Avatar.Group>
-                  {watchers.length} {watchers.length > 1 ? 'people watch' : 'person watches'} this metric
-                </>
-              )}
             </div>
           </BaseBreadcrumb.Item>
         )}
       </BaseBreadcrumb>
-    </Card>
+
+      {currentMetric && metricId && (
+        <div className="flex gap-3 items-center">
+          {isWatching ? (
+            <Dropdown size="sm" label="Watching">
+              <Dropdown.Item onClick={() => unwatchMetric({ metricId })}>Unwatch</Dropdown.Item>
+            </Dropdown>
+          ) : (
+            <Tooltip placement="right" content="By watching you'll be alerted about new contributions to this metric.">
+              <Button size="sm" onClick={() => watchMetric({ metricId })}>
+                Watch
+              </Button>
+            </Tooltip>
+          )}
+          {watchers && (
+            <>
+              <Avatar.Group>
+                {watchers.map((watcher: User) => (
+                  <Tooltip key={watcher.id} content={watcher.name} arrow={false}>
+                    <Avatar
+                      img={watcher.image}
+                      rounded
+                      stacked
+                      className="cursor-pointer"
+                      onClick={() => navigate(`/user/users/${watcher.id}`)}
+                    />
+                  </Tooltip>
+                ))}
+              </Avatar.Group>
+              {watchers.length} {watchers.length > 1 ? 'watchers' : 'watcher'}
+            </>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 export default Breadcrumb
