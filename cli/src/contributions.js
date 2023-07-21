@@ -1,7 +1,9 @@
 import _ from 'lodash'
 
 const toCountByMetricName = (occurrences) =>
-  _.mapValues(_.groupBy(occurrences, 'metricName'), (occurrences) => occurrences.length)
+  _.mapValues(_.groupBy(occurrences, 'metricName'), (occurrences) =>
+    _.sum(occurrences.map((occurrence) => occurrence.value || 1))
+  )
 
 export const computeContributions = (occurrences, previousOccurrences) => {
   const counts = toCountByMetricName(occurrences)
