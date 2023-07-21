@@ -35,10 +35,11 @@ bin/dev
 
 ## Running in Production
 
-The current stack is :
+The current stack is:
 
-- a PostgreSQL database
-- the cherry app itself
+- PostgreSQL
+- Redis (TODO: update docker file to include redis)
+- the Cherry app itself
 
 ### Using Docker
 
