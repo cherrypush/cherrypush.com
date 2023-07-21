@@ -24,27 +24,30 @@ export interface Chart {
   created_at: string
 }
 
-export interface DashboardType {
+export interface UseDashboardsIndexResponse {
+  charts: Chart[]
+  created_at: string
   id: number
   name: string | null
+  project: { name: string }
   project_id: number
   updated_at: string
-  created_at: string
-  charts: Chart[]
 }
 
-interface DashboardPayload {
+interface DashboardCreatePayload {
   project_id: number
   name: string
 }
 
 export const useDashboardsIndex = () =>
-  useQuery(INDEX_KEY, () => axios.get(`/user/dashboards.json`).then((response) => response.data))
+  useQuery<UseDashboardsIndexResponse[]>(INDEX_KEY, () =>
+    axios.get(`/user/dashboards.json`).then((response) => response.data)
+  )
 
 export const useDashboardsCreate = () => {
   const invalidateDashboards = useInvalidateDashboardsIndex()
 
-  return useMutation((dashboard: DashboardPayload) => axios.post(`/user/dashboards.json`, { dashboard }), {
+  return useMutation((dashboard: DashboardCreatePayload) => axios.post(`/user/dashboards.json`, { dashboard }), {
     onSuccess: () => {
       invalidateDashboards()
       toast.success('Dashboard created')
