@@ -4,6 +4,12 @@ inherit_gem:
 AllCops:
   NewCops: enable
 
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*.rb
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*.rb
 Style/Documentation:
   Enabled: false
 Style/StringLiterals:
