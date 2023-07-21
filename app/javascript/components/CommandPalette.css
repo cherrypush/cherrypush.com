@@ -1,0 +1,9 @@
+ninja-keys {
+  --ninja-modal-background: #1f2a37;
+  --ninja-accent-color: #3f83f8;
+  --ninja-group-text-color: #fff;
+}
+
+ninja-keys::part(ninja-input) {
+  color: #fff;
+}
