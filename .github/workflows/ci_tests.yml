@@ -50,13 +50,10 @@ jobs:
       - name: Install node dependencies
         run: npm ci
 
-      - name: Run unit tests
-        run: bundle exec rails test
-
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
 
-      - name: Run system tests
-        run: HEADLESS=1 bundle exec rails test:system
+      - name: Run all tests
+        run: HEADLESS=1 bundle exec rails test:all
