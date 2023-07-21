@@ -2,10 +2,35 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
+interface Contribution {
+  author_email: string
+  author_name: string
+  commit_date: string
+  commit_sha: string
+  created_at: string
+  diff: number
+  id: number
+  metric_id: number
+  updated_at: string
+}
+
+type Item = Contribution
+
+interface Notification {
+  created_at: string
+  id: number
+  item_id: number
+  item: Item
+  seen_at: string
+  title: string
+  updated_at: string
+  user_id: number
+}
+
 const INDEX_KEY = ['user', 'notifications', 'index']
 
 export const useNotificationsIndex = () =>
-  useQuery(INDEX_KEY, () => axios.get(`/user/notifications.json`).then((response) => response.data))
+  useQuery<Notification[]>(INDEX_KEY, () => axios.get(`/user/notifications.json`).then((response) => response.data))
 
 export const useNotificationsMarkAsSeen = () => {
   const invalidateNotificationsIndex = useInvalidateNotificationsIndex()
