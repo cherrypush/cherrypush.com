@@ -110,6 +110,7 @@ program
         files: await getFiles(),
         codeOwners: new Codeowners(),
       })
+
       const contributions = computeContributions(occurrences, previousOccurrences)
 
       if (contributions.length) {
@@ -242,7 +243,7 @@ program
     console.log('Your dashboard is available at https://www.cherrypush.com/user/projects')
   })
 
-const formatApiError = async (callback) => {
+const handleApiError = async (callback) => {
   try {
     return await callback()
   } catch (error) {
@@ -259,7 +260,7 @@ const formatApiError = async (callback) => {
 const upload = (apiKey, projectName, date, occurrences) => {
   if (!projectName) panic('specify a project_name in your cherry.js configuration file before pushing metrics')
 
-  return formatApiError(() =>
+  return handleApiError(() =>
     axios
       .post(API_BASE_URL + '/push', buildPushPayload(projectName, date, occurrences), { params: { api_key: apiKey } })
       .then(({ data }) => data)
@@ -284,7 +285,7 @@ const buildPushPayload = (projectName, date, occurrences) => ({
 })
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>
-  formatApiError(() =>
+  handleApiError(() =>
     axios
       .post(
         API_BASE_URL + '/contributions',
