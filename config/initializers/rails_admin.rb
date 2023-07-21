@@ -16,7 +16,9 @@ RailsAdmin.config do |config|
   # config.show_gravatar = true
 
   config.actions do
-    dashboard # mandatory
+    dashboard do # mandatory
+      statistics false
+    end
     index # mandatory
     new
     export
@@ -29,5 +31,13 @@ RailsAdmin.config do |config|
     ## With an audit adapter, you can add:
     # history_index
     # history_show
+  end
+
+  config.model Project do
+    exclude_fields :reports
+  end
+
+  config.model Report do
+    exclude_fields :occurrences
   end
 end
