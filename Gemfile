@@ -5,9 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.1'
 
-# default rails gems
+# default gems
 gem 'bootsnap', require: false
-gem 'jbuilder' # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.4'
@@ -20,16 +19,13 @@ gem 'omniauth-rails_csrf_protection'
 
 # admin
 gem 'blazer'
-gem 'rails_admin'
-gem 'sassc-rails' # required by rails_admin
 
 # caching
-gem 'redis'
 gem 'hiredis'
+gem 'redis'
 
 # project-specific dependencies
 gem 'chartkick'
-gem 'faker'
 gem 'groupdate'
 gem 'heroicon'
 gem 'httparty'
@@ -64,6 +60,7 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   # project-specific
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'pry'
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -83,8 +80,9 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
+  # Performance
+  gem 'derailed' # CUT_OFF=0.3 bundle exec derailed bundle:mem
+  gem 'rack-mini-profiler'
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
