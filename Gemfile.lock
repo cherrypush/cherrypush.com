@@ -60,10 +60,6 @@ GEM
       globalid (>= 0.3.6)
     activemodel (7.0.6)
       activesupport (= 7.0.6)
-    activemodel-serializers-xml (1.0.2)
-      activemodel (> 5.x)
-      activesupport (> 5.x)
-      builder (~> 3.1)
     activerecord (7.0.6)
       activemodel (= 7.0.6)
       activesupport (= 7.0.6)
@@ -82,6 +78,7 @@ GEM
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    benchmark-ips (2.12.0)
     better_errors (2.10.1)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -112,10 +109,25 @@ GEM
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.3)
+    dead_end (4.0.0)
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     debug_inspector (1.1.0)
+    derailed (0.1.0)
+      derailed_benchmarks
+    derailed_benchmarks (2.1.2)
+      benchmark-ips (~> 2)
+      dead_end
+      get_process_mem (~> 0)
+      heapy (~> 0)
+      memory_profiler (>= 0, < 2)
+      mini_histogram (>= 0.3.0)
+      rack (>= 1)
+      rack-test
+      rake (> 10, < 14)
+      ruby-statistics (>= 2.1)
+      thor (>= 0.19, < 2)
     dockerfile-rails (1.5.1)
       rails
     dry-cli (1.0.0)
@@ -132,11 +144,15 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
     ffi (1.15.5)
+    get_process_mem (0.2.7)
+      ffi (~> 1.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     groupdate (6.3.0)
       activesupport (>= 6.1)
     hashie (5.0.0)
+    heapy (0.2.0)
+      thor
     heroicon (1.0.0)
       rails (>= 5.2)
     hiredis (0.6.3)
@@ -148,23 +164,8 @@ GEM
     io-console (0.6.0)
     irb (1.7.1)
       reline (>= 0.3.0)
-    jbuilder (2.11.5)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     json (2.6.3)
     jwt (2.7.1)
-    kaminari (1.2.2)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.2)
-      kaminari-activerecord (= 1.2.2)
-      kaminari-core (= 1.2.2)
-    kaminari-actionview (1.2.2)
-      actionview
-      kaminari-core (= 1.2.2)
-    kaminari-activerecord (1.2.2)
-      activerecord
-      kaminari-core (= 1.2.2)
-    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.3)
     loofah (2.21.3)
       crass (~> 1.0.2)
@@ -176,7 +177,9 @@ GEM
       net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
+    memory_profiler (1.0.1)
     method_source (1.0.0)
+    mini_histogram (0.3.1)
     mini_mime (1.1.2)
     minitest (5.18.1)
     minitest-spec-rails (7.0.0)
@@ -185,7 +188,6 @@ GEM
     minitest-stub-const (0.6)
     msgpack (1.7.1)
     multi_xml (0.6.0)
-    nested_form (0.3.2)
     net-imap (0.3.6)
       date
       net-protocol
@@ -236,6 +238,8 @@ GEM
       activesupport (>= 3.0.0)
     racc (1.7.1)
     rack (2.2.7)
+    rack-mini-profiler (3.1.0)
+      rack (>= 1.2.0)
     rack-protection (3.0.6)
       rack
     rack-proxy (0.7.6)
@@ -263,12 +267,6 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    rails_admin (3.1.2)
-      activemodel-serializers-xml (>= 1.0)
-      kaminari (>= 0.14, < 2.0)
-      nested_form (~> 0.3)
-      rails (>= 6.0, < 8)
-      turbo-rails (~> 1.0)
     railties (7.0.6)
       actionpack (= 7.0.6)
       activesupport (= 7.0.6)
@@ -302,17 +300,10 @@ GEM
     rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
     ruby-progressbar (1.13.0)
+    ruby-statistics (3.0.2)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     safely_block (0.4.0)
-    sassc (2.4.0)
-      ffi (~> 1.9)
-    sassc-rails (2.1.2)
-      railties (>= 4.0.0)
-      sassc (>= 2.0)
-      sprockets (> 3.0)
-      sprockets-rails
-      tilt
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -341,12 +332,7 @@ GEM
     tailwindcss-rails (2.0.30-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.2.2)
-    tilt (2.2.0)
     timeout (0.4.0)
-    turbo-rails (1.4.0)
-      actionpack (>= 6.0.0)
-      activejob (>= 6.0.0)
-      railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
@@ -389,6 +375,7 @@ DEPENDENCIES
   capybara
   chartkick
   debug
+  derailed
   dockerfile-rails
   factory_bot_rails
   faker
@@ -396,7 +383,6 @@ DEPENDENCIES
   heroicon
   hiredis
   httparty
-  jbuilder
   minitest-spec-rails
   minitest-stub-const
   omniauth
@@ -407,12 +393,11 @@ DEPENDENCIES
   pry
   puma (~> 5.0)
   pundit
+  rack-mini-profiler
   rails (~> 7.0.4)
-  rails_admin
   redcarpet
   redis
   rubocop
-  sassc-rails
   selenium-webdriver
   sentry-rails
   sentry-ruby
