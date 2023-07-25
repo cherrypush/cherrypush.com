@@ -4,7 +4,6 @@ require_relative 'route_utils'
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   mount Blazer::Engine, at: 'blazer'
-  mount RailsAdmin::Engine, at: 'admin', as: 'rails_admin'
 
   # AUTHENTICATION ROUTES
   get 'auth/:provider/callback', to: 'sessions#create'
