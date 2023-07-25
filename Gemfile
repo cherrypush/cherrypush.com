@@ -83,6 +83,7 @@ group :development do
   # Performance
   gem 'derailed' # CUT_OFF=0.3 bundle exec derailed bundle:mem
   gem 'rack-mini-profiler'
+  gem 'stackprof' # for call-stack profiling flamegraphs
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
