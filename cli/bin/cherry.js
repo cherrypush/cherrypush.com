@@ -183,9 +183,8 @@ program
 
     if (diff > 0) {
       console.log('Added occurrences:')
-      const previousOccurrencesTexts = previousOccurrences.map((o) => o.text)
       const newOccurrencesTexts = occurrences.filter((o) => o.metricName === metric).map((o) => o.text)
-      console.log(newOccurrencesTexts.filter((x) => !previousOccurrencesTexts.includes(x)))
+      console.log(newOccurrencesTexts.filter((x) => !previousOccurrences.includes(x)))
     }
 
     if (diff > 0 && options.errorIfIncrease) process.exit(1)
