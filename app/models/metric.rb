@@ -16,11 +16,11 @@ class Metric < ApplicationRecord
     @last_report ||= reports.order(:date).last
   end
 
-  def occurrences(owner_handles = [])
+  def occurrences(owners = [])
     return [] if last_report.nil?
     occurrences = last_report.occurrences
-    return occurrences if owner_handles.blank?
-    occurrences.where('owners && ARRAY[?]::varchar[]', owner_handles)
+    return occurrences if owners.blank?
+    occurrences.where('owners && ARRAY[?]::varchar[]', owners)
   end
 
   def owners
@@ -37,9 +37,9 @@ class Metric < ApplicationRecord
   end
 
   def clean_up!
-    old_reports = reports.where.not(id: last_report.id)
+    old_reports = reports.where.not(id: last_report.id).where('date < ?', 10.minutes.ago)
     Occurrence.where(report: old_reports).in_batches(&:delete_all)
-    reports.where.not(id: daily_reports.pluck(:id)).in_batches.delete_all
+    old_reports.where.not(id: daily_reports.pluck(:id)).in_batches.delete_all
   end
 
   private
