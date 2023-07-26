@@ -1,8 +1,7 @@
 import { Button, Card } from 'flowbite-react'
-import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useSelectedOwners from '../hooks/useSelectedOwners'
-import { useMetricsIndex, useMetricsShow } from '../queries/user/metrics'
+import { useMetricsIndex } from '../queries/user/metrics'
 import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
@@ -26,7 +25,6 @@ const ProjectsPage = () => {
   const projectIdFromUrl = searchParams.get('project_id')
   const { selectedOwners } = useSelectedOwners()
 
-  const { data: metric } = useMetricsShow(metricId ? parseInt(metricId) : null, selectedOwners)
   const { data: projects } = useProjectsIndex()
   const { data: metrics } = useMetricsIndex({
     projectId: projectIdFromUrl
@@ -63,12 +61,12 @@ const ProjectsPage = () => {
         <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
       )}
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
-      {currentProject && metricId && metric && (
+      {currentProject && metricId && (
         <>
           <Card className="mb-3">
             <OwnerSelector projectId={parseInt(projectIdFromUrl)} metricId={parseInt(metricId)} />
           </Card>
-          <MetricCard metricId={metric.id} owners={selectedOwners} />
+          <MetricCard metricId={parseInt(metricId)} owners={selectedOwners} />
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-3">
             {metricId && (
               <div className="col-span-1">
