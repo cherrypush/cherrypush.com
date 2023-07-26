@@ -9,7 +9,7 @@ export interface Project {
   user_id: number
 }
 
-type ProjectsIndexResponse = Project & { user: { name: string } }[]
+type ProjectsIndexResponse = (Project & { user: { name: string } })[]
 
 export const useProjectsIndex = () =>
   useQuery<ProjectsIndexResponse>(['user', 'projects'], () =>
