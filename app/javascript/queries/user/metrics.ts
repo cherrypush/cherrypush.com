@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { toast } from 'react-hot-toast'
 import { Project } from './projects'
 
 export interface Metric {
@@ -26,15 +25,11 @@ export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
 
 export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
 
-export const useMetricsDestroy = ({ onSuccess }: { onSuccess: () => void }) => {
+export const useMetricsDestroy = () => {
   const invalidateIndex = useInvalidateMetricsIndex()
 
-  return useMutation((metricId) => axios.delete(`/user/metrics/${metricId}.json`), {
-    onSuccess: () => {
-      onSuccess?.()
-      invalidateIndex()
-      toast.success('Metric deleted')
-    },
+  return useMutation((metricId: number) => axios.delete(`/user/metrics/${metricId}.json`), {
+    onSuccess: () => invalidateIndex(),
   })
 }
 

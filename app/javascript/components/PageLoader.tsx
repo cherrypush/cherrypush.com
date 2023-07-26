@@ -1,7 +1,6 @@
 import { Card, Spinner } from 'flowbite-react'
-import React from 'react'
 
-const PageLoader = ({ ...rest }) => (
+const PageLoader = () => (
   <Card className="text-center">
     <Spinner />
   </Card>

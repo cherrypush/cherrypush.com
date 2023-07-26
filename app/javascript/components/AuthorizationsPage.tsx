@@ -1,5 +1,5 @@
 import { Button, Modal, Spinner, Table } from 'flowbite-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   useAuthorizationsCreate,
   useAuthorizationsDestroy,
