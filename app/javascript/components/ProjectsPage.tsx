@@ -2,7 +2,6 @@ import { Button, Card } from 'flowbite-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useMetricsIndex } from '../queries/user/metrics'
-import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
 import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
 import Breadcrumb from './Breadcrumb'
@@ -20,10 +19,10 @@ import TopContributors from './TopContributors'
 const ProjectsPage = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { selectedOwners } = useSelectedOwners()
 
   const metricId = searchParams.get('metric_id')
   const projectIdFromUrl = searchParams.get('project_id')
-  const { selectedOwners } = useSelectedOwners()
 
   const { data: projects } = useProjectsIndex()
   const { data: metrics } = useMetricsIndex({
@@ -31,7 +30,6 @@ const ProjectsPage = () => {
       ? projects?.find((project) => project.id === parseInt(projectIdFromUrl))?.id
       : undefined,
   })
-  const { data: occurrences } = useOccurrencesIndex(metricId ? parseInt(metricId) : null, selectedOwners)
 
   if (!metrics || !projects) return <PageLoader />
 
@@ -74,9 +72,9 @@ const ProjectsPage = () => {
                 <RecentCommits projectName={currentProject.name} metricId={parseInt(metricId)} />
               </div>
             )}
-            {occurrences && (
+            {metricId && (
               <div className="col-span-1 xl:col-span-3">
-                <Occurrences occurrences={occurrences} />
+                <Occurrences metricId={parseInt(metricId)} />
               </div>
             )}
           </div>
