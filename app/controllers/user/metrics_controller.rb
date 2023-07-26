@@ -16,10 +16,10 @@ class User::MetricsController < User::ApplicationController
   end
 
   def show
-    metric = Metric.includes(:project, :reports).find(params[:id])
+    metric = Metric.includes(:project).find(params[:id])
     authorize metric.project, :read?
-    attributes = { owners: metric.owners, chart_data: metric.chart_data(owners: params[:owner_handles]) }
-    render json: metric.attributes.merge(attributes)
+    additional_attributes = { chart_data: metric.chart_data(owners: params[:owner_handles]) }
+    render json: metric.as_json(only: %i[name project_id id]).merge(additional_attributes)
   end
 
   def destroy

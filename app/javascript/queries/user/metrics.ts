@@ -23,6 +23,15 @@ export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
 
+export interface MetricsShowReponse {
+  id: number
+  name: string
+  project_id: number
+  chart_data: {
+    [key: string]: number
+  }
+}
+
 export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
 
 export const useMetricsDestroy = () => {
@@ -36,7 +45,9 @@ export const useMetricsDestroy = () => {
 export const metricShowOptions = (id: number | null, owners: string[] = []) => ({
   queryKey: buildShowKey(id, owners),
   queryFn: () =>
-    axios.get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } }).then((response) => response.data),
+    axios
+      .get<MetricsShowReponse>(`/user/metrics/${id}.json`, { params: { owner_handles: owners } })
+      .then((response) => response.data),
   staleTime: 1000 * 60,
   enabled: Boolean(id),
   keepPreviousData: true,
