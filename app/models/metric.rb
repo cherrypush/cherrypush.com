@@ -31,7 +31,7 @@ class Metric < ApplicationRecord
   def chart_data(owners: nil)
     Rails
       .cache
-      .fetch([self, 'chart_data', owners]) do
+      .fetch([self, 'chart_data', owners], expires_in: 12.hours) do
         daily_reports
           .index_with { |report| get_count(report, owners) }
           .compact
