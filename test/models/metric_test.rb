@@ -26,14 +26,16 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#delete_old_occurrences!' do
+  describe '#clean_up!' do
     let!(:metric1) { create(:metric) }
     let!(:report1A) { create(:report, metric: metric1, date: 6.days.ago) }
-    let!(:report1B) { create(:report, metric: metric1, date: 3.hours.ago) }
-    let!(:report1C) { create(:report, metric: metric1, date: Time.current) }
+    let!(:report1B) { create(:report, metric: metric1, date: Time.current) }
+    let!(:report1C) { create(:report, metric: metric1, date: Time.current.beginning_of_day) }
 
     let!(:metric2) { create(:metric) }
     let!(:report2A) { create(:report, metric: metric2, date: 60.days.ago) }
+    let!(:report2B) { create(:report, metric: metric2, date: 60.days.ago.beginning_of_day) }
+    let!(:report2C) { create(:report, metric: metric2, date: 61.days.ago) }
 
     before do
       add_occurrences(report1A)
@@ -45,11 +47,17 @@ class ProjectTest < ActiveSupport::TestCase
     it 'deletes all occurrences except the most recent one' do
       assert_equal 2, Project.count
       assert_equal 12, Occurrence.count
-      Metric.all.each(&:delete_old_occurrences!)
+      Metric.all.each(&:clean_up!)
+
+      # only keeps occurrences associated with the most recent report per metric
       assert_equal 0, report1A.occurrences.count
-      assert_equal 0, report1B.occurrences.count
-      assert_equal 3, report1C.occurrences.count
+      assert_equal 3, report1B.occurrences.count
+      assert_equal 0, report1C.occurrences.count
       assert_equal 3, report2A.occurrences.count
+
+      # only keeps the most recent report per day per metric
+      assert_equal [report1A.id, report1B.id], metric1.report_ids
+      assert_equal [report2A.id, report2C.id], metric2.report_ids
     end
   end
 

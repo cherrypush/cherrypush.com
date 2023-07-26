@@ -3,8 +3,8 @@
 namespace :database do
   # Run via: https://dashboard.heroku.com/apps/cherrypush-production/scheduler
   desc 'Delete old occurrences'
-  task delete_old_occurrences: :environment do
-    Metric.all.each(&:delete_old_occurrences!)
+  task clean_up: :environment do
+    Metric.all.each(&:clean_up!)
   end
 
   desc 'Anonymize all data'
