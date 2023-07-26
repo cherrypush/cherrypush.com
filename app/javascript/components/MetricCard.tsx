@@ -1,26 +1,15 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import { Card, Dropdown } from 'flowbite-react'
-import React from 'react'
+import { toast } from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 import { ChartKind } from '../queries/user/charts'
-import { useMetricsDestroy, useMetricsShow } from '../queries/user/metrics'
+import { useMetricsDestroy } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
-interface Props {
-  metricId: number
-  owners?: string[]
-}
-
-const MetricCard = ({ metricId, owners }: Props) => {
-  const { data: metric } = useMetricsShow(metricId, owners)
+const MetricCard = ({ metricId, owners }: { metricId: number; owners?: string[] }) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const { mutate: deleteMetric } = useMetricsDestroy({
-    onSuccess: () => {
-      searchParams.delete('metric_id')
-      setSearchParams(searchParams)
-    },
-  })
+  const { mutateAsync: deleteMetric } = useMetricsDestroy()
 
   return (
     <Card className="mb-3 relative">
@@ -28,7 +17,15 @@ const MetricCard = ({ metricId, owners }: Props) => {
         <Dropdown arrowIcon={false} inline={true} label={<MenuIcon />}>
           <Dropdown.Item
             onClick={() => {
-              if (window.confirm('Do you really want to delete this metric?')) deleteMetric(metric.id)
+              if (window.confirm('Do you really want to delete this metric?')) {
+                toast.promise(deleteMetric(metricId), {
+                  loading: 'Your metric is being deleted...',
+                  success: 'Metric deleted!',
+                  error: 'Oops, something went wrong.',
+                })
+                searchParams.delete('metric_id')
+                setSearchParams(searchParams)
+              }
             }}
           >
             Delete this metric

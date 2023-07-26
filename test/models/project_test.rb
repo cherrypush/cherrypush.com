@@ -8,10 +8,10 @@ class ProjectTest < ActiveSupport::TestCase
     let!(:report1) { create(:report, metric: metric1, value_by_owner: { '@fwuensche' => 12, '@rchoquet' => 10 }) }
 
     let!(:metric2) { create(:metric, project: project) }
-    let!(:report2) { create(:report, metric: metric2, value_by_owner: { '@fwuensche' => 12, '@rchoquet' => 10 }) }
+    let!(:report2) { create(:report, metric: metric2, value_by_owner: { '@fwuensche' => 12, '@bakablue' => 10 }) }
 
     it 'returns a list of owners for the project' do
-      assert_equal %w[@fwuensche @rchoquet], project.owners.map(&:handle).sort
+      assert_equal %w[@bakablue @fwuensche @rchoquet], project.owners.map(&:handle).sort
     end
   end
 end
