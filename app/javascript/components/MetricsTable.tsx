@@ -1,14 +1,14 @@
-import SearchIcon from '@mui/icons-material/Search'
 import { Button, Rating, TextInput } from 'flowbite-react'
 import _ from 'lodash'
 import React, { useState } from 'react'
+import { MdSearch } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { timeAgoInWords } from '../helpers/applicationHelper'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
 import SortedTable from './SortedTable'
 
-const MetricsTable = ({ metrics, selectedOwners = [] }) => {
+const MetricsTable = ({ metrics }) => {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const { mutate: addFavorite } = useFavoritesCreate()
@@ -62,7 +62,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
       },
     ],
-    [selectedOwners, user.favorite_metric_ids]
+    [user.favorite_metric_ids]
   )
 
   const data = React.useMemo(() => filteredMetrics, [filteredMetrics])
@@ -75,7 +75,7 @@ const MetricsTable = ({ metrics, selectedOwners = [] }) => {
         className="mb-3 w-80"
         placeholder="Filter metrics"
         onChange={(event) => setSearch(event.target.value)}
-        icon={SearchIcon}
+        icon={MdSearch}
         autoComplete="off"
       />
       <SortedTable data={data} columns={columns} onRowClick={handleClick}></SortedTable>
