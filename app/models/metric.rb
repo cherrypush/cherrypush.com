@@ -38,7 +38,7 @@ class Metric < ApplicationRecord
 
   def delete_old_occurrences!
     old_reports = reports.where.not(id: last_report.id)
-    Occurrence.where(report: old_reports).delete_all
+    Occurrence.where(report: old_reports).in_batches(&:delete_all)
   end
 
   private
