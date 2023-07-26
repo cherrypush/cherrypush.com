@@ -55,9 +55,7 @@ const ProjectsPage = () => {
   return (
     <>
       {metrics && projects && projects.length > 0 && <Breadcrumb projects={projects} metrics={metrics} />}
-      {projectIdFromUrl && !metricId && metrics.length > 0 && (
-        <MetricsTable metrics={metrics} selectedOwners={selectedOwners} />
-      )}
+      {projectIdFromUrl && !metricId && metrics.length > 0 && <MetricsTable metrics={metrics} />}
       {!metricId && metrics.length === 0 && <BackfillInstructions />}
       {currentProject && metricId && (
         <>
