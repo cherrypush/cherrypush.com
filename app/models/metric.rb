@@ -25,15 +25,18 @@ class Metric < ApplicationRecord
 
   def owners
     return [] if last_report.nil? || last_report.value_by_owner.nil?
-
     last_report.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
   end
 
   def chart_data(owners: nil)
-    daily_reports
-      .index_with { |report| get_count(report, owners) }
-      .compact
-      .transform_keys { |report| report.date.iso8601[0...10] }
+    Rails
+      .cache
+      .fetch([self, 'chart_data', owners]) do
+        daily_reports
+          .index_with { |report| get_count(report, owners) }
+          .compact
+          .transform_keys { |report| report.date.iso8601[0...10] }
+      end
   end
 
   def clean_up!
