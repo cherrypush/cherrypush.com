@@ -20,9 +20,12 @@ gem 'omniauth-rails_csrf_protection'
 # admin
 gem 'blazer'
 
-# caching
+# monitoring & performance
 gem 'hiredis'
 gem 'redis'
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem 'skylight'
 
 # project-specific dependencies
 gem 'chartkick'
@@ -31,8 +34,6 @@ gem 'heroicon'
 gem 'httparty'
 gem 'pundit'
 gem 'redcarpet' # for markdown rendering
-gem 'sentry-rails'
-gem 'sentry-ruby'
 gem 'tailwindcss-rails'
 gem 'vite_rails'
 
