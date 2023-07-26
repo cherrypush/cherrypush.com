@@ -4,6 +4,9 @@ require 'test_helper'
 
 class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
   let!(:user) { create(:user) }
+  let!(:project) { create(:project, name: 'cherrypush/cherry', user: user) }
+  let!(:js_loc) { create(:metric, name: 'JavaScript LoC', project: project) }
+  let!(:ts_loc) { create(:metric, name: 'TypeScript LoC', project: project) }
 
   describe '#create' do
     it 'blocks requests without an api key' do
@@ -14,7 +17,7 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
     it 'creates contributions' do
       post(api_contributions_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_response :ok
-      assert_equal 'cherrypush/cherry-app', Project.sole.name
+      assert_equal 'cherrypush/cherry', Project.sole.name
       assert_equal ['JavaScript LoC', 'TypeScript LoC'], Metric.all.map(&:name).sort
       assert_equal [-12, +14], Contribution.all.map(&:diff).sort
       assert_equal ['Flavio Wuensche'], Contribution.all.map(&:author_name).uniq
@@ -32,11 +35,11 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     it 'notifies watchers' do
-      project = create(:project, user: user, name: 'cherrypush/cherry-app')
-      create(:metric, watcher_ids: [user.id], project: project, name: 'JavaScript LoC')
+      js_loc.update!(watcher_ids: [user.id])
       post(api_contributions_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_equal 1, Notification.count
       assert_equal user.id, Notification.last.user_id
+      assert_equal js_loc.contributions.sole, Notification.last.item
     end
   end
 
@@ -44,7 +47,7 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
 
   def payload(js_diff: -12, ts_diff: +14)
     {
-      project_name: 'cherrypush/cherry-app',
+      project_name: 'cherrypush/cherry',
       author_name: 'Flavio Wuensche',
       author_email: 'f.wuensche@gmail.com',
       commit_sha: 'dea2fe473f86df94d1103e3c20e5cbdb3f18aad9',
