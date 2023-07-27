@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class User::MetricsController < User::ApplicationController
-  before_action :set_project, if: -> { params[:project_id].present? }
   before_action :set_metric, if: -> { params[:metric_id].present? }
 
   def index
-    if @project
-      authorize(@project, :read?)
-      metrics = @project.metrics.order('LOWER(name)').as_json(include: %i[project])
+    if params[:project_id]
+      project = Project.includes(:metrics).find_by(id: params[:project_id])
+      authorize(project, :read?)
+      metrics = project.metrics.order('LOWER(name)').as_json(include: %i[project])
     else
       metrics = current_user.metrics.includes(:project).as_json(include: %i[project])
     end
@@ -33,9 +33,5 @@ class User::MetricsController < User::ApplicationController
 
   def set_metric
     @metric = Metric.find_by(id: params[:metric_id])
-  end
-
-  def set_project
-    @project = Project.includes(:metrics).find_by(id: params[:project_id])
   end
 end
