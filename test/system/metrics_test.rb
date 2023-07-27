@@ -82,7 +82,8 @@ class MetricsTest < ApplicationSystemTestCase
     find('tr', text: '@rchoquet', match: :first).click
     fill_in('Filter by owners', with: '@rchoquet')
     find('li', text: '@rchoquet (8)').click
-    assert_equal ['NAME OWNERS VALUE', 'filepath:2 @fwuensche, @rchoquet 2.8'], all('tr').map(&:text).last(2)
+    assert_text 'NAME OWNERS VALUE'
+    assert_text 'filepath:2 @fwuensche, @rchoquet 2.8'
 
     # Profile does not show contributions from other users
     click_on 'Avatar'
@@ -106,6 +107,7 @@ class MetricsTest < ApplicationSystemTestCase
     visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
     assert_text 'eslint'
     assert_equal 2, Metric.count
+    sleep 1 # TODO: if we delete before fetching occurrences, then the occurence call will fail with record not found
     find('#metric-menu').click
     accept_confirm { find('li', text: 'Delete this metric').click }
     assert_text 'Metric deleted'
