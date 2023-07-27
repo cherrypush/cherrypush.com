@@ -16,6 +16,10 @@ class Api::MetricsController < Api::ApplicationController
   private
 
   def metric_data(metric)
-    Rails.cache.fetch([@user, metric]) { { value: metric.value, occurrences: metric.occurrences.pluck(:text) } }
+    Rails
+      .cache
+      .fetch(['api/metrics#index', 'metric_data', @user, metric]) do
+        { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
+      end
   end
 end
