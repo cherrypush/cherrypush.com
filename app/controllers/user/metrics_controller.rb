@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class User::MetricsController < User::ApplicationController
-  before_action :set_metric, if: -> { params[:metric_id].present? }
-
   def index
     if params[:project_id]
       project = Project.includes(:metrics).find_by(id: params[:project_id])
@@ -27,11 +25,5 @@ class User::MetricsController < User::ApplicationController
     authorize(metric.project, :destroy?)
     metric.destroy!
     render json: { message: 'Metric deleted' }
-  end
-
-  private
-
-  def set_metric
-    @metric = Metric.find_by(id: params[:metric_id])
   end
 end
