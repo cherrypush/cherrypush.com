@@ -18,7 +18,7 @@ class User::AuthorizationsController < User::ApplicationController
   def create
     authorization = Authorization.find_or_create_by!(project: @project, user: @user)
     AuthorizationRequest.where(project: @project, user: @user).destroy_all
-    UserMailer.with(from: current_user, to: @user, project: @project).authorization_granted.deliver_now
+    UserMailer.with(from: current_user, to: @user, project: @project).authorization_granted.deliver_later
     TelegramClient.send(
       "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
     )

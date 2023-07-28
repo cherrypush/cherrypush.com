@@ -99,7 +99,7 @@ class User < ApplicationRecord
       user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
-      UserMailer.with(user: user).welcome.deliver_now if user.new_record? && user.valid?
+      UserMailer.with(user: user).welcome.deliver_later if user.new_record? && user.valid?
       user.save!
       user
     end
