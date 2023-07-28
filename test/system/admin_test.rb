@@ -4,13 +4,17 @@ class AdminTest < ApplicationSystemTestCase
   let!(:user) { create(:user, name: 'Flavio Wuensche', email: 'f.wuensche@gmail.com', github_handle: 'github_handle') }
 
   it 'blocks non authenticated users' do
-    visit '/blazer'
-    assert_current_path '/'
+    assert_raises(ActionController::RoutingError) do
+      visit '/blazer'
+      assert_current_path '/'
+    end
   end
 
   it 'block non admin users' do
-    sign_in(user, to: '/blazer')
-    assert_current_path '/user/projects'
+    assert_raises(ActionController::RoutingError) do
+      sign_in(user, to: '/blazer')
+      assert_current_path '/user/projects'
+    end
   end
 
   it 'allows admin users' do
