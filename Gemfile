@@ -21,15 +21,15 @@ gem 'omniauth-rails_csrf_protection'
 gem 'blazer'
 
 # monitoring & performance
+gem 'delayed_job_active_record'
 gem 'hiredis'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
-gem 'skylight'
+gem 'skylight' # performance monitoring
 gem 'stackprof' # for call-stack profiling flamegraphs
 
 # project-specific dependencies
-gem 'chartkick'
 gem 'groupdate'
 gem 'heroicon'
 gem 'httparty'
@@ -86,9 +86,6 @@ group :development do
   gem 'derailed' # CUT_OFF=0.3 bundle exec derailed bundle:mem
   gem 'rack-mini-profiler'
 
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-
   # Docker integration
   gem 'dockerfile-rails'
 end
@@ -100,5 +97,4 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
 end
