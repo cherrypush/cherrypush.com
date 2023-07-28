@@ -12,7 +12,10 @@ class User::AuthorizationRequestsController < User::ApplicationController
     # TODO: Move this to a background job. Once we have a background job, we can remove the `if` statement.
     if authorization_request.previously_new_record?
       project.users.each do |user|
-        UserMailer.with(user: user, authorization_request: authorization_request).new_authorization_request.deliver_now
+        UserMailer
+          .with(user: user, authorization_request: authorization_request)
+          .new_authorization_request
+          .deliver_later
       end
     end
 

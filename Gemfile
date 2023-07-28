@@ -21,15 +21,15 @@ gem 'omniauth-rails_csrf_protection'
 gem 'blazer'
 
 # monitoring & performance
+gem 'delayed_job_active_record'
 gem 'hiredis'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
-gem 'skylight'
+gem 'skylight' # performance monitoring
 gem 'stackprof' # for call-stack profiling flamegraphs
 
 # project-specific dependencies
-gem 'chartkick'
 gem 'groupdate'
 gem 'heroicon'
 gem 'httparty'
