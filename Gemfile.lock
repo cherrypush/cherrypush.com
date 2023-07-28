@@ -114,6 +114,11 @@ GEM
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     debug_inspector (1.1.0)
+    delayed_job (4.1.11)
+      activesupport (>= 3.0, < 8.0)
+    delayed_job_active_record (4.1.7)
+      activerecord (>= 3.0, < 8.0)
+      delayed_job (>= 3.0, < 5)
     derailed (0.1.0)
       derailed_benchmarks
     derailed_benchmarks (2.1.2)
@@ -372,8 +377,8 @@ DEPENDENCIES
   blazer
   bootsnap
   capybara
-  chartkick
   debug
+  delayed_job_active_record
   derailed
   dockerfile-rails
   factory_bot_rails

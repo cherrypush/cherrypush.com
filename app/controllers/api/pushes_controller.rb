@@ -27,6 +27,8 @@ class Api::PushesController < Api::ApplicationController
         end
     end
 
+    DatabaseCleanupJob.perform_later(current_project)
+
     render json: { status: :ok }, status: :ok
   end
 
