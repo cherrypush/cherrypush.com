@@ -89,7 +89,7 @@ Rails.application.configure do
 
   # Serve static assets with an efficient cache policy (Page Speed Insights)
   config.public_file_server.headers = {
-    'Cache-Control' => 'public, max-age=15552000',
+    'Cache-Control' => 'public, max-age=15552000', # 15552000 seconds = 180 days
     'Expires' => 1.year.from_now.to_formatted_s(:rfc822),
   }
 
