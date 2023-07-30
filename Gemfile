@@ -22,12 +22,16 @@ gem 'blazer'
 
 # monitoring & performance
 gem 'delayed_job_active_record'
+gem 'newrelic_rpm'
 gem 'hiredis'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'skylight' # performance monitoring
 gem 'stackprof' # for call-stack profiling flamegraphs
+
+gem 'derailed_benchmarks', group: :development
+gem 'stackprof', group: :development
 
 # project-specific dependencies
 gem 'groupdate'
