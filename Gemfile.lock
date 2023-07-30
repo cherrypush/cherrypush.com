@@ -202,6 +202,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    newrelic_rpm (8.13.1)
     nio4r (2.5.9)
     nokogiri (1.15.3-arm64-darwin)
       racc (~> 1.4)
@@ -380,6 +381,7 @@ DEPENDENCIES
   debug
   delayed_job_active_record
   derailed
+  derailed_benchmarks
   dockerfile-rails
   factory_bot_rails
   faker
@@ -389,6 +391,7 @@ DEPENDENCIES
   httparty
   minitest-spec-rails
   minitest-stub-const
+  newrelic_rpm
   omniauth
   omniauth-github!
   omniauth-rails_csrf_protection
