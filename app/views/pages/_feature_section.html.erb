@@ -12,6 +12,8 @@
     </p>
   </div>
   <div class="<%= defined?(position) && position.in?(%w[right left]) && 'md:w-3/5' %>">
-    <%= image_tag image, class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl' %>
+    <%=
+      image_tag image, alt: alt, class: 'rounded-lg w-full hover:scale-105 transition drop-shadow hover:drop-shadow-xl'
+    %>
   </div>
 </section>
