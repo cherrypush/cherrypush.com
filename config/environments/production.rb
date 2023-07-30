@@ -87,6 +87,12 @@ Rails.application.configure do
 
   # PROJECT SPECIFIC SETTINGS
 
+  # Serve static assets with an efficient cache policy (Page Speed Insights)
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, max-age=15552000',
+    'Expires' => 1.year.from_now.to_formatted_s(:rfc822),
+  }
+
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'https://cherrypush.com'
 
