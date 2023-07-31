@@ -22,16 +22,12 @@ gem 'blazer'
 
 # monitoring & performance
 gem 'delayed_job_active_record'
-gem 'newrelic_rpm'
 gem 'hiredis'
+gem 'newrelic_rpm'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'skylight' # performance monitoring
-gem 'stackprof' # for call-stack profiling flamegraphs
-
-gem 'derailed_benchmarks', group: :development
-gem 'stackprof', group: :development
 
 # project-specific dependencies
 gem 'groupdate'
@@ -78,6 +74,11 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 
+  # performance
+  gem 'derailed_benchmarks' # CUT_OFF=0.3 bundle exec derailed bundle:mem
+  gem 'rack-mini-profiler'
+  gem 'stackprof' # for call-stack profiling flamegraphs
+
   # project-specific
   gem 'parity'
   gem 'rubocop', require: false
@@ -86,11 +87,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
-  # Performance
-  gem 'derailed' # CUT_OFF=0.3 bundle exec derailed bundle:mem
-  gem 'rack-mini-profiler'
-
-  # Docker integration
+  # docker integration
   gem 'dockerfile-rails'
 end
 
