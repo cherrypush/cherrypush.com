@@ -28,7 +28,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
-          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+          metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
         as: :json,
       )
@@ -43,7 +43,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
           api_key: user.api_key,
           project_name: 'rails/rails',
           date: '2023-02-12',
-          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+          metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
         as: :json,
       )
@@ -59,7 +59,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         params: {
           api_key: user.api_key,
           project_name: 'rails/rails',
-          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+          metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
         as: :json,
       )
@@ -75,7 +75,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         params: {
           api_key: user.api_key,
           project_name: 'rails/rails',
-          metrics: [{ name: 'rubocop', occurrences: [{ name: 'filename', url: 'permalink' }] }],
+          metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
         as: :json,
       )
@@ -166,10 +166,10 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
           name: 'skipped tests',
           value: 12,
           occurrences: [ # (opt.) -> if not provided, then value is mandatory
-            { name: 'test/controllers/application_controller.rb:12', url: 'https://github.com/permalink' },
-            { name: 'test/controllers/reports_controller.rb:12', url: 'https://github.com/permalink' },
-            { name: 'test/controllers/occurrences_controller.rb:12', url: 'https://github.com/permalink' },
-            { name: 'test/controllers/metrics_controller.rb:12', url: 'https://github.com/docto2013' },
+            { text: 'test/controllers/application_controller.rb:12', url: 'https://github.com/permalink' },
+            { text: 'test/controllers/reports_controller.rb:12', url: 'https://github.com/permalink' },
+            { text: 'test/controllers/occurrences_controller.rb:12', url: 'https://github.com/permalink' },
+            { text: 'test/controllers/metrics_controller.rb:12', url: 'https://github.com/docto2013' },
           ],
         },
       ],
