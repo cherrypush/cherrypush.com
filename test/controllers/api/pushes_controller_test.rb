@@ -8,7 +8,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
   describe '#create' do
     it 'creates reports' do
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
-      assert_response :ok
+      assert_response :created
       assert_equal ['cherrypush/cherry-app'], Project.all.map(&:name)
       assert_equal ['missing coverage', 'skipped tests'], Metric.all.map(&:name)
       assert_equal [123, 12], Report.all.map(&:value)
@@ -47,7 +47,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         },
         as: :json,
       )
-      assert_response :ok
+      assert_response :created
       report = Metric.find_by(name: 'rubocop').reports.last
       assert_equal 1, report.value
       assert_equal '2023-02-12'.to_date, report.date
@@ -63,7 +63,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         },
         as: :json,
       )
-      assert_response :ok
+      assert_response :created
       report = Metric.find_by(name: 'rubocop').reports.last
       assert_equal 1, report.value
       assert_equal Time.current.to_date, report.date.to_date
@@ -124,7 +124,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         },
         as: :json,
       )
-      assert_response :ok
+      assert_response :created
       metric = Metric.find_by(name: 'rubocop')
       report = metric.reports.last
 
