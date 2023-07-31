@@ -119,8 +119,6 @@ GEM
     delayed_job_active_record (4.1.7)
       activerecord (>= 3.0, < 8.0)
       delayed_job (>= 3.0, < 5)
-    derailed (0.1.0)
-      derailed_benchmarks
     derailed_benchmarks (2.1.2)
       benchmark-ips (~> 2)
       dead_end
@@ -380,7 +378,6 @@ DEPENDENCIES
   capybara
   debug
   delayed_job_active_record
-  derailed
   derailed_benchmarks
   dockerfile-rails
   factory_bot_rails
