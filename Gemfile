@@ -23,7 +23,6 @@ gem 'blazer'
 # monitoring & performance
 gem 'delayed_job_active_record'
 gem 'hiredis'
-gem 'newrelic_rpm'
 gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
