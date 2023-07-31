@@ -2,6 +2,7 @@
 
 class User::NotificationsController < User::ApplicationController
   def index
+    # TODO: this should be paginated
     render json: current_user.notifications.includes(:item).order(created_at: :desc).as_json(include: %i[item])
   end
 
