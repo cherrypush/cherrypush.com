@@ -9,24 +9,26 @@ class Api::PushesController < Api::ApplicationController
       params
         .require(:metrics)
         .each do |metric_params|
-          metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
-          occurrences = metric_params[:occurrences]
           report =
-            metric.reports.create!(
-              date: params[:date] || Time.current,
-              value: metric_params[:value] || get_value(occurrences),
-              value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(occurrences),
-            )
+            Metric
+              .find_or_create_by!(name: metric_params.require('name'), project: current_project)
+              .reports
+              .create!(
+                date: params[:date] || Time.current,
+                value: metric_params[:value] || get_value(metric_params[:occurrences]),
+                value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(metric_params[:occurrences]),
+              )
 
-          next if occurrences.blank?
+          next if metric_params[:occurrences].blank?
 
-          Skylight.instrument title: 'Occurrence.upsert_all' do
-            Occurrence.upsert_all(
-              occurrences.map do |occurrence|
-                text = occurrence['text'] || occurrence['name'] # TODO: remove name once migrated all its usage
-                occurrence.slice(:url, :value, :owners).merge(text:, report_id: report.id)
-              end,
-            )
+          Skylight.instrument title: 'Occurrence.insert_all' do
+            metric_params[:occurrences].each_slice(100) do |occurrences|
+              Occurrence.insert_all(
+                occurrences.map do |occurrence|
+                  occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
+                end,
+              )
+            end
           end
         end
     end
@@ -38,10 +40,12 @@ class Api::PushesController < Api::ApplicationController
 
   private
 
+  instrument_method
   def get_value(occurrences)
     occurrences.sum { |occurrence| occurrence['value'] || 1 }
   end
 
+  instrument_method
   def get_value_by_owner(occurrences)
     return {} if occurrences.empty?
 
