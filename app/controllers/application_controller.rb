@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+  include Skylight::Helpers
 
   helper_method :current_user
 
@@ -14,6 +15,7 @@ class ApplicationController < ActionController::Base
 
   private
 
+  instrument_method
   def current_user
     @current_user ||=
       begin
@@ -23,6 +25,7 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  instrument_method
   def set_sentry_context
     Sentry.set_user(id: current_user&.id, email: current_user&.email, username: current_user&.github_handle)
   end
