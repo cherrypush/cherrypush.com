@@ -22,7 +22,7 @@ class Api::PushesController < Api::ApplicationController
           next if metric_params[:occurrences].blank?
 
           Skylight.instrument title: 'Occurrence.insert_all' do
-            metric_params[:occurrences].each_slice(100) do |occurrences|
+            metric_params[:occurrences].each_slice(50) do |occurrences|
               Occurrence.insert_all(
                 occurrences.map do |occurrence|
                   occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
