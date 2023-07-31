@@ -6,8 +6,14 @@ class Api::ApplicationController < ApplicationController
   before_action :set_user
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   rescue_from ActionController::ParameterMissing, with: :render_bad_request
+  rescue_from StandardError, with: :render_error
 
   private
+
+  def render_error(exception)
+    raise exception unless @user&.admin?
+    render json: { error: exception.message }, status: :internal_server_error
+  end
 
   def render_bad_request(exception)
     render json: { error: exception.message }, status: :bad_request
