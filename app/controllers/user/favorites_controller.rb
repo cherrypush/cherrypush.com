@@ -5,7 +5,11 @@ class User::FavoritesController < User::ApplicationController
     if params.require(:klass) == 'Metric'
       metric = Metric.find(params[:id])
       current_user.favorite_metric_ids << metric.id
-      TelegramClient.send("#{current_user.name} added to favorites: #{metric.name}")
+      TelegramClient.send("#{current_user.name} added metric to favorites: #{metric.name}")
+    elsif params[:klass] == 'Dashboard'
+      dashboard = Dashboard.find(params[:id])
+      current_user.favorite_dashboard_ids << dashboard.id
+      TelegramClient.send("#{current_user.name} added dashboard to favorites: #{dashboard.name}")
     end
 
     current_user.save!
@@ -14,6 +18,7 @@ class User::FavoritesController < User::ApplicationController
 
   def destroy
     current_user.favorite_metric_ids.delete(params[:id].to_i) if params.require(:klass) == 'Metric'
+    current_user.favorite_dashboard_ids.delete(params[:id].to_i) if params.require(:klass) == 'Dashboard'
     current_user.save!
     head :ok
   end

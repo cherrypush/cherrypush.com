@@ -5,7 +5,7 @@ import { useInvalidateUsersIndex } from './users'
 
 interface FavoritesPayload {
   id: number
-  klass: 'Metric'
+  klass: 'Metric' | 'Dashboard'
 }
 
 export const useFavoritesCreate = () => {

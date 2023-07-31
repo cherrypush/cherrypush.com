@@ -57,13 +57,6 @@ class User < ApplicationRecord
     self.image = auth.info.image if auth.info.image?
   end
 
-  def favorited?(resource)
-    return resource.id.in?(favorite_project_ids) if resource.is_a?(Project)
-    return resource.name.in?(favorite_metric_names) if resource.is_a?(Metric)
-    return resource.handle.in?(favorite_owner_handles) if resource.is_a?(Owner)
-    false
-  end
-
   def admin?
     github_handle.in? ADMIN_GITHUB_HANDLES
   end
