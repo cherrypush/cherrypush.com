@@ -2,6 +2,7 @@
 
 class Api::PushesController < Api::ApplicationController
   include Api::ProjectScoped
+  include Skylight::Helpers
 
   def create
     ActiveRecord::Base.transaction do
@@ -18,12 +19,15 @@ class Api::PushesController < Api::ApplicationController
             )
 
           next if occurrences.blank?
-          Occurrence.upsert_all(
-            occurrences.map do |occurrence|
-              text = occurrence['text'] || occurrence['name'] # TODO: remove name once migrated all its usage
-              occurrence.slice(:url, :value, :owners).merge(text:, report_id: report.id)
-            end,
-          )
+
+          Skylight.instrument title: 'Occurrence.upsert_all' do
+            Occurrence.upsert_all(
+              occurrences.map do |occurrence|
+                text = occurrence['text'] || occurrence['name'] # TODO: remove name once migrated all its usage
+                occurrence.slice(:url, :value, :owners).merge(text:, report_id: report.id)
+              end,
+            )
+          end
         end
     end
 
