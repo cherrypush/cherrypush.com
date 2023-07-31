@@ -18,7 +18,9 @@ class Metric < ApplicationRecord
 
   def occurrences(owners = [])
     return [] if reports.empty?
-    Occurrence.where(id: occurrence_ids(owners))
+    occurrences = last_report.occurrences
+    return occurrences if owners.blank?
+    occurrences.where('owners && ARRAY[?]::varchar[]', owners)
   end
 
   def owners
@@ -51,14 +53,5 @@ class Metric < ApplicationRecord
 
   def get_count(report, owners)
     owners ? owners.map { |owner| report.value_by_owner[owner] || 0 }.sum : report.value
-  end
-
-  def occurrence_ids(owners = [])
-    Rails
-      .cache
-      .fetch([self, 'occurrence_ids', owners], expires_in: 12.hours) do
-        return last_report.occurrence_ids if owners.blank?
-        last_report.occurrences.where('owners && ARRAY[?]::varchar[]', owners).ids
-      end
   end
 end
