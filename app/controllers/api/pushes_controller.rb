@@ -19,7 +19,6 @@ class Api::PushesController < Api::ApplicationController
             )
 
           next if occurrences.blank?
-
           Skylight.instrument title: 'Occurrence.upsert_all' do
             Occurrence.upsert_all(
               occurrences.map do |occurrence|
@@ -38,10 +37,12 @@ class Api::PushesController < Api::ApplicationController
 
   private
 
+  instrument_method
   def get_value(occurrences)
     occurrences.sum { |occurrence| occurrence['value'] || 1 }
   end
 
+  instrument_method
   def get_value_by_owner(occurrences)
     return {} if occurrences.empty?
 
