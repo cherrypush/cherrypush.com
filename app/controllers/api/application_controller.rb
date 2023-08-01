@@ -4,10 +4,18 @@ class Api::ApplicationController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   before_action :set_user
+
+  # the ones at the bottom take precedence, so we rescue StandardError last
+  rescue_from StandardError, with: :render_error
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
   rescue_from ActionController::ParameterMissing, with: :render_bad_request
 
   private
+
+  def render_error(exception)
+    raise exception unless @user&.admin?
+    render json: { error: exception.message }, status: :internal_server_error
+  end
 
   def render_bad_request(exception)
     render json: { error: exception.message }, status: :bad_request
