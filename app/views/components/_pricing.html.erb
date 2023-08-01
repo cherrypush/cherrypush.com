@@ -1,17 +1,17 @@
 <div class="text-center flex-col gap-6">
   <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-    Free forever for open-source 👐
+    Predictable pricing for all team sizes
   </h2>
-  <p class="my-4 font-light text-gray-500 md:text-lg dark:text-gray-400">
-    Are you working on open-source? Enjoy all the features of Cherry for free.
+  <p class="my-6 text-gray-500 md:text-lg dark:text-gray-400">
+    No trial. No surprises. Just a generous unlimited plan at a flat price.
   </p>
-  <div class="mt-3"><%= render 'components/main_cta_buttons' %></div>
+  <div class="mb-8"><%= render 'components/main_cta_buttons' %></div>
 </div>
 
 <% if ENV.fetch('STRIPE_INDIVIDUAL_PLAN_URL', nil) && ENV.fetch('STRIPE_ORGANIZATION_PLAN_URL', nil) %>
   <div class="md:flex mt-6">
     <div
-      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
     >
       <h5 class="mb-4 text-xl font-medium">Individual</h5>
       <div class="mb-3">For hobbyists, students, and indie hackers.</div>
@@ -38,7 +38,7 @@
     </div>
 
     <div
-      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
     >
       <h5 class="mb-4 text-xl font-medium">Team</h5>
       <div class="mb-3">For small teams and early-stage startups.</div>
@@ -64,7 +64,7 @@
       </a>
     </div>
 
-    <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
       <h5 class="mb-4 text-xl font-medium">Organization</h5>
       <div class="mb-3">For larger teams with complex needs.</div>
       <div class="flex items-baseline text-gray-900 dark:text-white">
@@ -91,11 +91,11 @@
   </div>
 
   <div
-    class="text-center w-full pt-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 md:mb-0 mt-3 font-light text-gray-500 md:text-lg dark:text-gray-400"
+    class="text-center w-full rounded-lg pt-8 dark:border-gray-700 md:mr-3 md:mb-0 mt-3 font-light text-gray-500 md:text-lg dark:text-gray-400"
   >
-    <div>
-      Are you working on open-source?
-      <a href="javascript:void" data-modal-toggle="contact-modal" class="text-link">Shoot us a message here ❤️</a>
-    </div>
+    Are you working on open-source?
+    <a href="https://twitter.com/messages/compose?recipient_id=38940653" class="text-link"
+      >Shoot us a message on twitter ❤️</a
+    >
   </div>
 <% end %>

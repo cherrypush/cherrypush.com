@@ -3,7 +3,7 @@
 <% cache 'home' do %>
   <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-36">
     <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-      Track and visualize your <span class="text-blue-700 dark:text-blue-600">technical debt</span> with ease.
+      Stay on top of your <span class="text-blue-700 dark:text-blue-600">technical debt</span>
     </h1>
     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
       Cherry helps you track your technical debt, capture the value of your work, and visualize the impact of your team.
@@ -13,8 +13,8 @@
     </div>
   </div>
 
-  <section class="text-center rounded-lg bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
-    <div class="mb-9">Scaling the work of your top motivated developers 💪🏻</div>
+  <section class="border-4 border-dashed text-center rounded-lg bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800">
+    <div class="mb-9">Scaling the work of your top developers 💪🏻</div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human Project.count %></dt>
@@ -22,7 +22,7 @@
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
-        <dd>developers</dd>
+        <dd>active users</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
@@ -34,7 +34,7 @@
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
           <%= number_to_human Occurrence.count, units: { thousand: 'k' } %>
         </dt>
-        <dd>detected issues</dd>
+        <dd>tracked issues</dd>
       </div>
     </div>
   </section>
@@ -80,7 +80,7 @@
            alt: 'screenshot of a chart embedded in a slide deck'
   %>
 
-  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800 border-dashed border-4">
     <%= render 'components/pricing' %>
   </section>
 
@@ -152,7 +152,7 @@
            position: 'right'
   %>
 
-  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800 border-dashed border-4">
     <%= render 'components/pricing' %>
   </section>
 <% end %>
