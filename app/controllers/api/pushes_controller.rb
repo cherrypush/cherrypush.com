@@ -10,16 +10,21 @@ class Api::PushesController < Api::ApplicationController
         .each do |metric_params|
           metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
 
-          report =
-            metric
-              .reports
-              .find_or_initialize_by(uuid: params.require(:uuid)) do |current_report|
-                current_report.update!(
-                  date: params[:date] || Time.current,
-                  value: metric_params[:value] || get_value(metric_params[:occurrences]),
-                  value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(metric_params[:occurrences]),
-                )
-              end
+          report = metric.reports.find_or_initialize_by(uuid: params.require(:uuid))
+
+          report.update!(
+            # override date if existing
+            date: params[:date] || Time.current,
+            # and add to existing values if previous report exists
+            value: (report.value || 0) + (metric_params[:value] || get_value(metric_params[:occurrences])),
+            value_by_owner:
+              report
+                .value_by_owner
+                .merge(
+                  metric_params.permit(value_by_owner: {})[:value_by_owner] ||
+                    get_value_by_owner(metric_params[:occurrences]),
+                ) { |_key, oldval, newval| oldval + newval },
+          )
 
           next if metric_params[:occurrences].blank?
 
