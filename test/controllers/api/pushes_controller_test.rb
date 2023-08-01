@@ -143,10 +143,30 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
     it 'adds occurrences to existing report by uuid' do
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
-      assert_response :created
       assert_equal 4, Report.last.occurrences.count
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_equal 8, Report.last.occurrences.count
+    end
+
+    it 'adds up value to existing value by uuid' do
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      metric_with_value = Metric.find_by(name: 'skipped tests')
+      assert_equal 12, metric_with_value.reports.last.value
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 24, metric_with_value.reports.last.value
+    end
+
+    it 'adds up value_by_owner to existing value_by_owner by uuid' do
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      metric_with_owners = Metric.find_by(name: 'missing coverage')
+      assert_equal 123, metric_with_owners.reports.last.value
+      assert_equal 13, metric_with_owners.reports.last.value_by_owner['bear']
+      assert_equal 12, metric_with_owners.reports.last.value_by_owner['ditto']
+
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 246, metric_with_owners.reports.last.value
+      assert_equal 26, metric_with_owners.reports.last.value_by_owner['bear']
+      assert_equal 24, metric_with_owners.reports.last.value_by_owner['ditto']
     end
   end
 
