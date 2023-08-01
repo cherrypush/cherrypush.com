@@ -1,6 +1,5 @@
 import { Autocomplete, Chip, TextField } from '@mui/material'
 import _ from 'lodash'
-import React from 'react'
 import useSelectedOwners from '../hooks/useSelectedOwners'
 import { useOwnersIndex } from '../queries/user/owners'
 
