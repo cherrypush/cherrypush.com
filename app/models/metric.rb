@@ -13,7 +13,8 @@ class Metric < ApplicationRecord
   end
 
   def last_report
-    @last_report ||= reports.order(:date).last
+    # if two reports have the same date, we want the most recent one
+    @last_report ||= reports.order(:date, :created_at).last
   end
 
   def occurrences(owners = [])
