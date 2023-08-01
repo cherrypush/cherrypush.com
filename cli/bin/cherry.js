@@ -91,10 +91,12 @@ program
   .option('--api-key <api_key>', 'Your cherrypush.com api key')
   .action(async (options) => {
     const configuration = await getConfiguration()
-    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
     const initialBranch = await git.branchName()
     if (!initialBranch) panic('Not on a branch, checkout a branch before pushing metrics.')
     const sha = await git.sha()
+
+    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    if (!apiKey) panic('Please provide an API key with --api-key or CHERRY_API_KEY environment variable')
 
     let error
     try {
@@ -215,6 +217,8 @@ program
 
     const configuration = await getConfiguration()
     const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    if (!apiKey) panic('Please provide an API key with --api-key or CHERRY_API_KEY environment variable')
+
     let date = until
     let sha = await git.sha()
     try {
