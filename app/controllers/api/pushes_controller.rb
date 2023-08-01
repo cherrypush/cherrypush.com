@@ -2,50 +2,47 @@
 
 class Api::PushesController < Api::ApplicationController
   include Api::ProjectScoped
-  include Skylight::Helpers
 
   def create
     ActiveRecord::Base.transaction do
       params
         .require(:metrics)
         .each do |metric_params|
+          metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
+
           report =
-            Metric
-              .find_or_create_by!(name: metric_params.require('name'), project: current_project)
+            metric
               .reports
-              .create!(
-                date: params[:date] || Time.current,
-                value: metric_params[:value] || get_value(metric_params[:occurrences]),
-                value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(metric_params[:occurrences]),
-              )
+              .find_or_initialize_by(uuid: params.require(:uuid)) do |current_report|
+                current_report.update!(
+                  date: params[:date] || Time.current,
+                  value: metric_params[:value] || get_value(metric_params[:occurrences]),
+                  value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(metric_params[:occurrences]),
+                )
+              end
 
           next if metric_params[:occurrences].blank?
 
-          Skylight.instrument title: 'Occurrence.insert_all' do
-            metric_params[:occurrences].each_slice(50) do |occurrences|
-              Occurrence.insert_all(
-                occurrences.map do |occurrence|
-                  occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
-                end,
-              )
-            end
-          end
+          Occurrence.insert_all(
+            metric_params[:occurrences].map do |occurrence|
+              occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
+            end,
+          )
         end
     end
 
-    DatabaseCleanupJob.perform_later(current_project)
+    # delete previous reports in the same day for the same metric
+    DatabaseCleanupJob.perform_later(current_project) if params[:cleanup] == true
 
-    render json: { status: :ok }, status: :ok
+    render json: { status: :ok }, status: :created
   end
 
   private
 
-  instrument_method
   def get_value(occurrences)
     occurrences.sum { |occurrence| occurrence['value'] || 1 }
   end
 
-  instrument_method
   def get_value_by_owner(occurrences)
     return {} if occurrences.empty?
 
