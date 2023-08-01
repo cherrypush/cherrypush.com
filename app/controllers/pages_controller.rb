@@ -11,7 +11,7 @@ class PagesController < ApplicationController
     if current_user
       redirect_to demo_project_path
     else
-      redirect_to root_path, alert: 'Please sign in to access the demo'
+      redirect_to root_path, alert: 'Login with GitHub to access the demo project.'
     end
   end
 
