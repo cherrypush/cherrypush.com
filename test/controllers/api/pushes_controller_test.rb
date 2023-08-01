@@ -28,6 +28,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
         as: :json,
@@ -41,6 +42,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           project_name: 'rails/rails',
           date: '2023-02-12',
           metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
@@ -58,6 +60,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           project_name: 'rails/rails',
           metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
@@ -74,6 +77,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           project_name: 'rails/rails',
           metrics: [{ name: 'rubocop', occurrences: [{ text: 'filename', url: 'permalink' }] }],
         },
@@ -87,6 +91,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           project_name: 'rails/rails',
           metrics: [
             {
@@ -110,6 +115,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
         api_push_path,
         params: {
           api_key: user.api_key,
+          uuid: SecureRandom.uuid,
           project_name: 'rails/rails',
           date: '2023-02-12',
           metrics: [
@@ -134,6 +140,14 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal [1.2, 2.8], Occurrence.all.map(&:value)
       assert_equal %w[@fwuensche @rchoquet], Occurrence.last.owners.sort
     end
+
+    it 'adds occurrences to existing report by uuid' do
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_response :created
+      assert_equal 4, Report.last.occurrences.count
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 8, Report.last.occurrences.count
+    end
   end
 
   private
@@ -145,7 +159,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       line_number: 10,
       line_content: 'class OccurrencesController < ApplicationController',
       owners: ['@fwuensche'],
-      repo:,
+      repo: repo,
     }
   end
 
@@ -153,6 +167,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
     {
       project_name: 'cherrypush/cherry-app',
       date: '2023-02-07T21:33:15.000Z',
+      uuid: @uuid ||= SecureRandom.uuid,
       metrics: [
         {
           name: 'missing coverage',
