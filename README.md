@@ -42,47 +42,34 @@ cd cherry
 # install dependencies
 bundle install
 npm install
-```
 
-Start your database:
-
-```sh
+# setup database
 docker compose up -d
 rails db:setup
-```
 
-Setup your local env vars:
-
-```sh
+# setup local env vars
 cp .rbenv-vars.template .rbenv-vars
-```
 
-> If you don't have rbenv-vars plugin, check the docs here: https://github.com/rbenv/rbenv-vars
-
-Finally, you can launch your server with:
-
-```sh
+# launch the server
 bin/dev
 ```
 
+> The env vars step above assumes you're using the rbenv-vars plugin. If you don't have it installed, check their docs
+> [here](https://github.com/rbenv/rbenv-vars) or use an alternative method to load your environment variables.
+
 ## Running in production
 
-The current stack is:
+You can either use Heroku or the `fwuensche/cherry` image from Docker Hub.
 
-- PostgreSQL
-- Redis (TODO: update docker file to include redis)
-- the Cherry app itself
+Note that, in both cases, you'll also need a running instance of Postgres and Redis.
 
-### Using Docker
-
-Use the `cherrypush/cherry` image. You will need a running instance of Postgres.
-
+<!-- TODO: update this command to reflect all recent changes to our infra
 ```
 docker run \
   -e SECRET_KEY_BASE=<secret> \
   -e DATABASE_URL=postgresql://<user>:<pass>@<host>:5432/<db_name> \
   cherrypush/cherry
-```
+``` -->
 
 ## Contributing
 
