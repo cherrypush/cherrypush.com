@@ -73,8 +73,8 @@ docker run \
 
 ## Contributing
 
-In addition to the above-mentioned docs, a good way to get started contributing is to watch some of the live sessions
-below. This should give you insights on how to navigate the codebase and help you with your first few steps.
+In addition to the above-mentioned docs, a great way to get started is to watch some of the live sessions below. This
+should give you insights on how to navigate the codebase and start contributing.
 
 Cherry CLI (JavaScript):
 
@@ -87,7 +87,7 @@ Cherry App (Ruby on Rails):
 - Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
 - Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
 
-Huge thanks to our contributors 🙏
+Huge thanks to our top contributors 🙏
 
 <a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=cherrypush/cherrypush.com" />
