@@ -13,18 +13,47 @@
     <div
       class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
     >
-      <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Individuals</h5>
+      <h5 class="mb-4 text-xl font-medium">Individual</h5>
+      <div class="mb-3">For hobbyists, students, and indie hackers.</div>
       <div class="flex items-baseline text-gray-900 dark:text-white">
         <span class="text-3xl font-semibold">$</span>
-        <span class="text-5xl font-extrabold tracking-tight">9</span>
+        <span class="text-5xl font-extrabold tracking-tight">0</span>
         <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
       </div>
       <ul role="list" class="space-y-5 my-7">
-        <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
-        <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
-        <%= render 'components/pricing_item_off', text: 'Unlimited project members' %>
-        <%= render 'components/pricing_item_off', text: 'Single Sign-On' %>
-        <%= render 'components/pricing_item_off', text: '24x7 email support' %>
+        <%= render 'components/pricing_item', text: 'One member' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
+        <%= render 'components/pricing_item', status: :off, text: 'Chat support' %>
+        <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
+        <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
+      </ul>
+      <a
+        href=""
+        target="_blank"
+        class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+      >
+        Get started now
+      </a>
+    </div>
+
+    <div
+      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+    >
+      <h5 class="mb-4 text-xl font-medium">Team</h5>
+      <div class="mb-3">For small teams and early-stage startups.</div>
+      <div class="flex items-baseline text-gray-900 dark:text-white">
+        <span class="text-3xl font-semibold">$</span>
+        <span class="text-5xl font-extrabold tracking-tight">19</span>
+        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+      </div>
+      <ul role="list" class="space-y-5 my-7">
+        <%= render 'components/pricing_item', text: 'Up to 10 members' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+        <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
+        <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
       </ul>
       <a
         href="<%= ENV.fetch('STRIPE_INDIVIDUAL_PLAN_URL') %>"
@@ -36,18 +65,20 @@
     </div>
 
     <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-      <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Organizations</h5>
+      <h5 class="mb-4 text-xl font-medium">Organization</h5>
+      <div class="mb-3">For larger teams with complex needs.</div>
       <div class="flex items-baseline text-gray-900 dark:text-white">
         <span class="text-3xl font-semibold">$</span>
         <span class="text-5xl font-extrabold tracking-tight">99</span>
         <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
       </div>
       <ul role="list" class="space-y-5 my-7">
-        <%= render 'components/pricing_item_on', text: 'Unlimited private projects' %>
-        <%= render 'components/pricing_item_on', text: 'Unlimited occurrences' %>
-        <%= render 'components/pricing_item_on', text: 'Unlimited project members' %>
-        <%= render 'components/pricing_item_on', text: 'Single Sign-On' %>
-        <%= render 'components/pricing_item_on', text: '24x7 email support' %>
+        <%= render 'components/pricing_item', text: '∞ Unlimited members' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+        <%= render 'components/pricing_item', status: :on, text: 'Single Sign-On' %>
+        <%= render 'components/pricing_item', status: :on, text: '24x7 email support' %>
       </ul>
       <a
         href="<%= ENV.fetch('STRIPE_ORGANIZATION_PLAN_URL') %>"
