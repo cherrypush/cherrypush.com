@@ -10,7 +10,7 @@ class Api::PushesController < Api::ApplicationController
         .each do |metric_params|
           metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
 
-          report = metric.reports.find_or_initialize_by(uuid: params.require(:uuid))
+          report = metric.reports.find_or_initialize_by(uuid: params[:uuid] || SecureRandom.uuid)
 
           report.update!(
             # override date if existing
@@ -27,7 +27,6 @@ class Api::PushesController < Api::ApplicationController
           )
 
           next if metric_params[:occurrences].blank?
-
           Occurrence.insert_all(
             metric_params[:occurrences].map do |occurrence|
               occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
