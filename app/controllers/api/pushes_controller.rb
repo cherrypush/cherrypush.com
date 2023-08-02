@@ -27,7 +27,6 @@ class Api::PushesController < Api::ApplicationController
           )
 
           next if metric_params[:occurrences].blank?
-
           Occurrence.insert_all(
             metric_params[:occurrences].map do |occurrence|
               occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
