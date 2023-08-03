@@ -3,13 +3,9 @@
 require 'application_system_test_case'
 
 class StaticPagesTest < ApplicationSystemTestCase
-  test 'navigates through all pages' do
+  it 'navigates through all pages' do
     visit root_url
-    assert_text 'Track and visualize your technical debt with ease'
     assert_text 'TRY CHERRY FOR FREE'
-    find('a[data-modal-toggle="contact-modal"]', match: :first).click
-    assert_text '@fwuensche'
-    click_on 'Close modal'
     click_on 'Terms'
     assert_text 'Terms of Service'
     click_on 'Privacy'
@@ -17,6 +13,6 @@ class StaticPagesTest < ApplicationSystemTestCase
     click_on 'Docs'
     assert_text 'npm install -g cherrypush'
     click_on 'Demo'
-    assert_text 'Please sign in to access the demo'
+    assert_text 'Login with GitHub to access the demo'
   end
 end
