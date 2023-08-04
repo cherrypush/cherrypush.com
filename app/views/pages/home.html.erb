@@ -14,27 +14,27 @@
   </div>
 
   <section class="border-4 border-dashed text-center rounded-lg bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800">
-    <div class="mb-9">Scaling the work of your top developers 💪🏻</div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="mb-12 gap-3 flex items-center justify-center">
+      <span class="bg-red-100 text-red-800 mr-2 px-2.5 py-2 rounded dark:bg-red-900 dark:text-red-300">🔴 LIVE</span>
+      <span
+        >Currently monitoring <b><%= number_to_human(Occurrence.count, units: { thousand: 'k' }).downcase %></b> issues
+        for...</span
+      >
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human Project.count %></dt>
         <dd>projects</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
-        <dd>active users</dd>
+        <dd>users</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
           <%= number_to_human Metric.count %>
         </dt>
-        <dd>tracked metrics</dd>
-      </div>
-      <div class="flex card flex-col items-center justify-center">
-        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_to_human Occurrence.count, units: { thousand: 'k' } %>
-        </dt>
-        <dd>tracked issues</dd>
+        <dd>metrics</dd>
       </div>
     </div>
   </section>
