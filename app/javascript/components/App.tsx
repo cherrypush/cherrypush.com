@@ -14,6 +14,7 @@ import NotificationsPage from './NotificationsPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
+import { slideUp } from './SlideUp'
 import UserPage from './UserPage'
 
 axios.defaults.headers.common['X-CSRF-Token'] = document
@@ -36,16 +37,16 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
         <ScrollToTop>
           <Routes>
             <Route path="user">
-              <Route path="authorizations" element={<AuthorizationsPage />} />
-              <Route path="dashboards" element={<DashboardsIndexPage />} />
-              <Route path="dashboards/:dashboardId" element={<DashboardsShowPage />} />
-              <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={<DashboardsShowPage />} />
-              <Route path="dashboards/:dashboardId/charts/new" element={<DashboardsShowPage />} />
-              <Route path="docs" element={<DocsPage />} />
-              <Route path="notifications" element={<NotificationsPage />} />
-              <Route path="projects" element={<ProjectsPage />} />
-              <Route path="projects/new" element={<NewProjectPage />} />
-              <Route path="settings" element={<SettingsPage />} />
+              <Route path="authorizations" element={slideUp(<AuthorizationsPage />)} />
+              <Route path="dashboards" element={slideUp(<DashboardsIndexPage />)} />
+              <Route path="dashboards/:dashboardId" element={slideUp(<DashboardsShowPage />)} />
+              <Route path="dashboards/:dashboardId/charts/:chartId/edit" element={slideUp(<DashboardsShowPage />)} />
+              <Route path="dashboards/:dashboardId/charts/new" element={slideUp(<DashboardsShowPage />)} />
+              <Route path="docs" element={slideUp(<DocsPage />)} />
+              <Route path="notifications" element={slideUp(<NotificationsPage />)} />
+              <Route path="projects" element={slideUp(<ProjectsPage />)} />
+              <Route path="projects/new" element={slideUp(<NewProjectPage />)} />
+              <Route path="settings" element={slideUp(<SettingsPage />)} />
               <Route path="users/:userId" element={<UserPage />} />
             </Route>
           </Routes>

@@ -45,7 +45,6 @@ const ProjectsPage = () => {
           <h1>Projects</h1>
           <Button onClick={() => navigate('/user/projects/new')}>+ New Project</Button>
         </div>
-
         <ProjectsTable />
       </div>
     )
