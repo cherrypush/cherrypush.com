@@ -10,6 +10,7 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   Exclude:
     - test/**/*.rb
+    - lib/tasks/**/*.rake
 Style/Documentation:
   Enabled: false
 Style/StringLiterals:
