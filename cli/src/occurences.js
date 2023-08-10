@@ -84,14 +84,14 @@ const matchPatterns = (files, metrics) => {
   return promise
 }
 
-const runEvals = (metrics) => {
+const runEvals = (metrics, codeOwners) => {
   if (!metrics.length) return []
 
   spinnies.add('evals', { text: 'Running eval()...', indent: 2 })
   const promise = Promise.all(
     metrics.map(async (metric) => {
       spinnies.add(`metric_${metric.name}`, { text: `${metric.name}...`, indent: 4 })
-      const result = (await metric.eval()).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
+      const result = (await metric.eval({codeOwners})).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
       spinnies.succeed(`metric_${metric.name}`, { text: metric.name })
       return result
     })
@@ -128,7 +128,7 @@ export const findOccurrences = async ({ configuration, files, metric, codeOwners
   // From ['loc'] to { 'loc': {} } to handle deprecated array configuration for plugins
   if (Array.isArray(plugins)) plugins = plugins.reduce((acc, value) => ({ ...acc, [value]: {} }), {})
 
-  const promise = Promise.all([matchPatterns(files, fileMetrics), runEvals(evalMetrics), runPlugins(plugins)])
+  const promise = Promise.all([matchPatterns(files, fileMetrics), runEvals(evalMetrics, codeOwners), runPlugins(plugins)])
 
   return _.flattenDeep(await promise).map(({ text, value, metricName, filePath, lineNumber, url, owners }) => ({
     text,
