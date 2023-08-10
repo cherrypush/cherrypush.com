@@ -91,7 +91,7 @@ const runEvals = (metrics, codeOwners) => {
   const promise = Promise.all(
     metrics.map(async (metric) => {
       spinnies.add(`metric_${metric.name}`, { text: `${metric.name}...`, indent: 4 })
-      const result = (await metric.eval(codeOwners)).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
+      const result = (await metric.eval({codeOwners})).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
       spinnies.succeed(`metric_${metric.name}`, { text: metric.name })
       return result
     })
