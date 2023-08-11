@@ -22,6 +22,12 @@ Cherry is an open-source code static analysis tool. It allows you to stay on top
 <!-- <a href="https://github.com/cherrypush/cherrypush.com/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a> -->
 </p>
 
+<p align="center">
+<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/problem/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/typical/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/rpm/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+</p>
+
 <h3 align="center">
   <b><a href="https://cherrypush.com/docs">docs</a></b>
   •
