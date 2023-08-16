@@ -5,12 +5,10 @@ class SessionsController < ApplicationController
     user = User.find_or_create_with_omniauth(request.env['omniauth.auth'])
     session[:user_id] = user.id
     redirect_to after_sign_in_path, notice: "Signed in as #{user.name}"
-  rescue StandardError => e
-    Sentry.capture_message(e)
   end
 
   def failure
-    Sentry.capture_message('Authentication failed')
+    Sentry.capture_message(params[:message])
     redirect_to root_url, alert: 'Authentication failed.'
   end
 
