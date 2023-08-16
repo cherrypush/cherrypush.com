@@ -1,12 +1,7 @@
 <div class="md:flex justify-center gap-3">
-  <%= form_tag(github_sign_in_path, method: 'post') do %>
-    <button
-      type="submit"
-      class="btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center w-full"
-    >
-      <span class="mr-2">Try Cherry for free</span>
-      <%= heroicon 'arrow-right', options: { class: 'inline' } %>
-    </button>
+  <%= button_to '/auth/github', class: "btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center w-full" do %>
+    <span class="mr-2">Try Cherry for free</span>
+    <%= heroicon 'arrow-right', options: { class: 'inline' } %>
   <% end %>
 
   <a
