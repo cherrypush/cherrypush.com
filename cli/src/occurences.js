@@ -7,6 +7,7 @@ import { buildPermalink } from './github.js'
 import eslint from './plugins/eslint.js'
 import jsCircularDependencies from './plugins/js_circular_dependencies.js'
 import loc from './plugins/loc.js'
+import npmOutdated from './plugins/npm_outdated.js'
 import rubocop from './plugins/rubocop.js'
 
 const spinnies = new Spinnies()
@@ -16,6 +17,7 @@ const PLUGINS = {
   eslint,
   loc,
   jsCircularDependencies,
+  npmOutdated,
 }
 
 const minimatchCache = {}
@@ -91,7 +93,10 @@ const runEvals = (metrics, codeOwners) => {
   const promise = Promise.all(
     metrics.map(async (metric) => {
       spinnies.add(`metric_${metric.name}`, { text: `${metric.name}...`, indent: 4 })
-      const result = (await metric.eval({codeOwners})).map((occurrence) => ({ ...occurrence, metricName: metric.name }))
+      const result = (await metric.eval({ codeOwners })).map((occurrence) => ({
+        ...occurrence,
+        metricName: metric.name,
+      }))
       spinnies.succeed(`metric_${metric.name}`, { text: metric.name })
       return result
     })
@@ -128,7 +133,11 @@ export const findOccurrences = async ({ configuration, files, metric, codeOwners
   // From ['loc'] to { 'loc': {} } to handle deprecated array configuration for plugins
   if (Array.isArray(plugins)) plugins = plugins.reduce((acc, value) => ({ ...acc, [value]: {} }), {})
 
-  const promise = Promise.all([matchPatterns(files, fileMetrics), runEvals(evalMetrics, codeOwners), runPlugins(plugins)])
+  const promise = Promise.all([
+    matchPatterns(files, fileMetrics),
+    runEvals(evalMetrics, codeOwners),
+    runPlugins(plugins),
+  ])
 
   return _.flattenDeep(await promise).map(({ text, value, metricName, filePath, lineNumber, url, owners }) => ({
     text,
