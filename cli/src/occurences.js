@@ -113,7 +113,7 @@ const runPlugins = async (plugins) => {
   const promise = Promise.all(
     Object.entries(plugins).map(async ([name, options]) => {
       const plugin = PLUGINS[name]
-      if (!plugin) panic(`Unsupported '${name}' plugin`)
+      if (!plugin) panic(`Unsupported '${name}' plugin\nExpected one of: ${Object.keys(PLUGINS).join(', ')}`)
       spinnies.add(`plugin_${name}`, { text: `${name}...`, indent: 4 })
       const result = await plugin.run(options)
       spinnies.succeed(`plugin_${name}`, { text: name })

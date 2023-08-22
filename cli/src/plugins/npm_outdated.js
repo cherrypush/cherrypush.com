@@ -1,25 +1,49 @@
+import _ from 'lodash'
 import { panic } from '../error.js'
 import sh from '../sh.js'
 
-const run = async () => {
-  let outdated
+const BASE_COMMAND = 'npm outdated --json'
 
-  try {
-    outdated = JSON.parse(await sh('npm outdated --json', { throwOnError: false }))
-  } catch (error) {
-    panic('An error happened while executing npm\n- Make sure the `npm outdated` command works')
-  }
+const getCommands = (prefix) => {
+  if (!prefix) return [{ prefix: '', command: BASE_COMMAND }]
+  if (Array.isArray(prefix)) return prefix.map((p) => ({ prefix: p, command: `${BASE_COMMAND} --prefix ${p}` }))
+  if (typeof prefix === 'string') return [{ prefix, command: `${BASE_COMMAND} --prefix ${prefix}` }]
+  panic(`Invalid prefix: ${prefix}`)
+}
 
-  outdated = Object.keys(outdated).map((key) => ({
-    name: key,
-    current: outdated[key].current,
-    latest: outdated[key].latest,
-    location: outdated[key].location,
-  }))
+const getMetricName = (prefix) => {
+  const packageJsonPath = _.compact([prefix, 'package.json']).join('/')
+  return `npm outdated dependencies (${packageJsonPath})`
+}
 
-  return outdated.map((dependency) => ({
+const run = async ({ prefix }) => {
+  let outdatedDependencies = []
+  const commands = getCommands(prefix)
+
+  await Promise.all(
+    commands.map(async (command) => {
+      try {
+        const output = JSON.parse(await sh(command.command, { throwOnError: false }))
+        if (output.error) panic(`${output.error.summary}\n${output.error.detail}`)
+
+        Object.keys(output).forEach((dependencyName) =>
+          outdatedDependencies.push({
+            name: dependencyName,
+            current: output[dependencyName].current,
+            latest: output[dependencyName].latest,
+            location: output[dependencyName].location,
+            prefix: command.prefix,
+          })
+        )
+      } catch (error) {
+        panic(`An error happened while executing npm: ${error}\n- Make sure the 'npm outdated' command works`)
+      }
+    })
+  )
+
+  return outdatedDependencies.map((dependency) => ({
     text: `${dependency.name} (${dependency.current} -> ${dependency.latest})`,
-    metricName: `[outdated] node dependencies`,
+    metricName: getMetricName(dependency.prefix),
   }))
 }
 
