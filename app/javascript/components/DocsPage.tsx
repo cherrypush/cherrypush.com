@@ -14,10 +14,10 @@ const DocsPage = () => {
             <div className="border rounded mb-6 md:border-none md:h-screen md:sticky md:top-0">
               <Sidebar className="w-full">
                 <Sidebar.ItemGroup>
-                  <Sidebar.Item href="#installation">Quick Installation ⚡️</Sidebar.Item>
+                  <Sidebar.Item href="#installation">Initial setup ⚡️</Sidebar.Item>
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup>
-                  <Sidebar.Item href="#commands">Simple CLI commands 😌</Sidebar.Item>
+                  <Sidebar.Item href="#commands">CLI commands 😌</Sidebar.Item>
                   <Sidebar.Item href="#cherry-run" className="text-sm ml-3">
                     · cherry run
                   </Sidebar.Item>
@@ -40,9 +40,10 @@ const DocsPage = () => {
 
           <Grid item xs={12} md={8}>
             <div className="prose dark:prose-invert w-full max-w-full py-4 pr-3">
-              <h1 id="installation">Quick Installation ⚡️</h1>
+              <h1 id="installation">Initial setup ⚡️</h1>
+              <p>Install the CLI globally with:</p>
               <pre>npm install -g cherrypush</pre>
-              <p>Create your .cherry.js configuration file with:</p>
+              <p>Inside the root of your project, initialize your cherry configuration:</p>
               <pre>cherry init</pre>
               <p>Add your API key into a .env file at the root of your project:</p>
               <pre>
@@ -55,10 +56,10 @@ const DocsPage = () => {
                   </a>
                 )}
               </pre>
-              {user && <p>🚨 This is your real API key. Keep it safe.</p>}
+              {user && <p>🚨 This issyour real API key. Keep it safe.</p>}
 
               <hr />
-              <h1 id="commands">Simple CLI commands 😌</h1>
+              <h1 id="commands">CLI commands 😌</h1>
               <h2 id="cherry-run">cherry run</h2>
               <p>The run command accepts a couple of different options:</p>
               <pre>{`cherry run [--metric=<metric>] [--owner=<owners>]`}</pre>
@@ -135,12 +136,12 @@ jobs:
               <hr />
               <h1 id="demo">Live demo 🔴</h1>
               <p>
-                We've created a sample project so you can <a href="https://www.cherrypush.com/demo">try a live demo</a>{' '}
+                We've created a sample project so you can try a <a href="https://www.cherrypush.com/demo">live demo</a>{' '}
                 of Cherry.
               </p>
               <p>
-                Found a bug? Report to us on Twitter: <a href="https://twitter.com/@fwuensche">@fwuensche</a> or{' '}
-                <a href="https://twitter.com/@r_chqt">@r_chqt</a>
+                Found a bug? Report directly to me via <a href="https://twitter.com/@fwuensche">Twitter</a> or{' '}
+                <a href="mailto:flavio@cherrypush.com">email</a>.
               </p>
             </div>
           </Grid>
