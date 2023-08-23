@@ -1,14 +1,23 @@
+import _ from 'lodash'
 import { panic } from '../error.js'
 import sh from '../sh.js'
 
-const run = async ({}) => {
+const getMetricName = (cwd) => {
+  const packageJsonPath = _.compact([cwd, 'package.json']).join('/')
+  return `yarn outdated dependencies (${packageJsonPath})`
+}
+
+const run = async ({ cwd }) => {
   let outdatedDependencies = []
   let output = ''
+  const command = cwd ? `yarn outdated --cwd ${cwd} --no-progress` : 'yarn outdated'
 
   try {
-    output = await sh('yarn outdated', { throwOnError: false })
+    const { stdout, stderr } = await sh(command, { throwOnError: false })
+    output = stdout
+    if (stderr) throw stderr
   } catch (error) {
-    panic(`An error happened while executing yarn: ${error}\n- Make sure the 'npm outdated' command works`)
+    panic(error)
   }
 
   output.split('\n').forEach((line) => {
@@ -20,7 +29,7 @@ const run = async ({}) => {
 
   return outdatedDependencies.map((dependency) => ({
     text: `${dependency.name} (${dependency.current} -> ${dependency.latest})`,
-    metricName: 'yarn outdated dependencies',
+    metricName: getMetricName(dependency.prefix),
   }))
 }
 

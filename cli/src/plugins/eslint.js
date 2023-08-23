@@ -5,11 +5,13 @@ const run = async () => {
   let files
 
   try {
-    const out = await sh(
-      './node_modules/eslint/bin/eslint.js . --format=json --ext .js,.jsx,.ts,.tsx --no-inline-config',
-      { throwOnError: false }
+    const { stdout } = await sh(
+      './node_modules/eslint/bin/eslint.js . --format=json --ext .js,.jsx,.ts,.tsx --no-inline-config --ignore-path .gitignore',
+      {
+        throwOnError: false,
+      }
     )
-    files = JSON.parse(out)
+    files = JSON.parse(stdout)
   } catch (error) {
     panic('An error happened while executing eslint\n- Make sure eslint is properly installed')
   }

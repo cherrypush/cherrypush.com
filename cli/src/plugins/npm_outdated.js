@@ -23,15 +23,16 @@ const run = async ({ prefix }) => {
   await Promise.all(
     commands.map(async (command) => {
       try {
-        const output = JSON.parse(await sh(command.command, { throwOnError: false }))
-        if (output.error) panic(`${output.error.summary}\n${output.error.detail}`)
+        const { stdout } = await sh(command.command, { throwOnError: false })
+        const response = JSON.parse(stdout)
+        if (response.error) panic(`${response.error.summary}\n${response.error.detail}`)
 
-        Object.keys(output).forEach((dependencyName) =>
+        Object.keys(response).forEach((dependencyName) =>
           outdatedDependencies.push({
             name: dependencyName,
-            current: output[dependencyName].current,
-            latest: output[dependencyName].latest,
-            location: output[dependencyName].location,
+            current: response[dependencyName].current,
+            latest: response[dependencyName].latest,
+            location: response[dependencyName].location,
             prefix: command.prefix,
           })
         )
