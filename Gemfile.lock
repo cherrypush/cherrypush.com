@@ -132,7 +132,7 @@ GEM
       rake (> 10, < 14)
       ruby-statistics (>= 2.1)
       thor (>= 0.19, < 2)
-    dockerfile-rails (1.5.2)
+    dockerfile-rails (1.5.3)
       rails
     dry-cli (1.0.0)
     erubi (1.12.0)
