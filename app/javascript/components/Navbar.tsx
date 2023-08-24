@@ -28,7 +28,9 @@ const CherryNavbar = () => {
 
       <Navbar fluid>
         <div className="font-bold flex items-center">
-          <Link to="/user/projects">🍒 Cherry</Link>
+          <Link to="/user/projects" className="flex items-center gap-2">
+            🍒 Cherry
+          </Link>
           <CommandPaletteButton />
         </div>
 

@@ -17,3 +17,9 @@ updates:
       interval: 'daily'
       time: '09:00'
     versioning-strategy: 'increase'
+  - package-ecosystem: 'npm'
+    directory: '/cli/'
+    schedule:
+      interval: 'daily'
+      time: '09:00'
+    versioning-strategy: 'increase'

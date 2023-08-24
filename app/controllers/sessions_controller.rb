@@ -7,6 +7,11 @@ class SessionsController < ApplicationController
     redirect_to after_sign_in_path, notice: "Signed in as #{user.name}"
   end
 
+  def failure
+    Sentry.capture_message(params[:message])
+    redirect_to root_url, alert: 'Authentication failed.'
+  end
+
   def destroy
     session[:user_id] = nil
     redirect_to root_url, notice: 'Signed out'
