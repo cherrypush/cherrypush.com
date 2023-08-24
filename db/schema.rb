@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_28_080302) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_31_220642) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -193,6 +193,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_28_080302) do
     t.bigint "metric_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid"
     t.index ["metric_id"], name: "index_reports_on_metric_id"
   end
 
@@ -212,6 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_28_080302) do
     t.integer "favorite_metric_ids", default: [], array: true
     t.boolean "weekly_report", default: true
     t.string "github_organizations", default: [], array: true
+    t.integer "favorite_dashboard_ids", default: [], array: true
   end
 
   add_foreign_key "authorization_requests", "projects"

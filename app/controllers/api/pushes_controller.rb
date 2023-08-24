@@ -9,27 +9,36 @@ class Api::PushesController < Api::ApplicationController
         .require(:metrics)
         .each do |metric_params|
           metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
-          occurrences = metric_params[:occurrences]
-          report =
-            metric.reports.create!(
-              date: params[:date] || Time.current,
-              value: metric_params[:value] || get_value(occurrences),
-              value_by_owner: metric_params[:value_by_owner] || get_value_by_owner(occurrences),
-            )
 
-          next if occurrences.blank?
-          Occurrence.upsert_all(
-            occurrences.map do |occurrence|
-              text = occurrence['text'] || occurrence['name'] # TODO: remove name once migrated all its usage
-              occurrence.slice(:url, :value, :owners).merge(text:, report_id: report.id)
+          report = metric.reports.find_or_initialize_by(uuid: params[:uuid] || SecureRandom.uuid)
+
+          report.update!(
+            # override date if existing
+            date: params[:date] || Time.current,
+            # and add to existing values if previous report exists
+            value: (report.value || 0) + (metric_params[:value] || get_value(metric_params[:occurrences])),
+            value_by_owner:
+              report
+                .value_by_owner
+                .merge(
+                  metric_params.permit(value_by_owner: {})[:value_by_owner] ||
+                    get_value_by_owner(metric_params[:occurrences]),
+                ) { |_key, oldval, newval| oldval + newval },
+          )
+
+          next if metric_params[:occurrences].blank?
+          Occurrence.insert_all(
+            metric_params[:occurrences].map do |occurrence|
+              occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
             end,
           )
         end
     end
 
-    DatabaseCleanupJob.perform_later(current_project)
+    # delete previous reports in the same day for the same metric
+    DatabaseCleanupJob.perform_later(current_project) if params[:cleanup] == true
 
-    render json: { status: :ok }, status: :ok
+    render json: { status: :ok }, status: :created
   end
 
   private

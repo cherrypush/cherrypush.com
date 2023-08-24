@@ -1,9 +1,9 @@
 <% title 'Home' %>
 
 <% cache 'home' do %>
-  <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-36">
+  <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-24">
     <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-      Track and visualize your <span class="text-blue-700 dark:text-blue-600">technical debt</span> with ease.
+      Stay on top of your <span class="text-blue-700 dark:text-blue-600">technical debt</span>
     </h1>
     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
       Cherry helps you track your technical debt, capture the value of your work, and visualize the impact of your team.
@@ -13,28 +13,36 @@
     </div>
   </div>
 
-  <section class="text-center rounded-lg bg-slate-100 dark:bg-gray-900 mb-12 p-6 md:p-12">
-    <div class="text-gray-500 dark:text-gray-400 mb-9">Scaling the work of your top motivated developers 💪🏻</div>
+  <section class="border-4 border-dashed text-center rounded-lg bg-slate-100 mb-12 p-6 md:p-9 dark:bg-slate-800">
+    <div class="mb-6 gap-3 flex items-center justify-center">
+      <span class="font-bold bg-red-100 text-red-800 mr-2 px-2.5 py-2 rounded dark:bg-red-900 dark:text-red-300"
+        >🔴 LIVE</span
+      >
+      <span class=""
+        >Currently monitoring <b><%= number_to_human(Occurrence.count, units: { thousand: 'k' }).downcase %></b> issues
+        for our <b><%= (User.count / 100).round * 100 %>+</b> users.</span
+      >
+    </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human Project.count %></dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">projects</dd>
+        <dd>projects</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">developers</dd>
+        <dd>users</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
           <%= number_to_human Metric.count %>
         </dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">tracked metrics</dd>
+        <dd>metrics</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_to_human Occurrence.count %>
+          <%= number_with_delimiter Occurrence.count %>
         </dt>
-        <dd class="font-light text-gray-500 dark:text-gray-400">detected issues</dd>
+        <dd>issues</dd>
       </div>
     </div>
   </section>
@@ -43,28 +51,32 @@
     render 'feature_section',
            title: 'Stay on top of your code migrations 🏔',
            text: 'Visualize the progress of your migrations. Watch out for new technical debt.',
-           image: 'ss_code_migration.png'
+           image: 'ss_code_migration.webp',
+           alt: 'screenshot of a chart showing the progress of a code migration'
   %>
 
   <%=
     render 'feature_section',
            title: 'Integrate with GitHub Actions 🤖',
            text: 'Copy and paste a few lines of code, and your metrics are updated on every commit.',
-           image: 'ss_github_action.png'
+           image: 'ss_github_action.webp',
+           alt: 'screenshot of a successful GitHub Actions workflow build'
   %>
 
   <%=
     render 'feature_section',
            title: 'Keep an eye on a per team basis 👀',
            text: 'With our fine-grained team monitoring, you can follow how much work is left per team.',
-           image: 'ss_owners.png'
+           image: 'ss_owners.webp',
+           alt: 'screenshot of the autocomplete selector for filtering owners'
   %>
 
   <%=
     render 'feature_section',
            title: 'Be alerted about critical changes 🚨',
            text: 'Watch metrics to receive live notifications and never miss out another critical change.',
-           image: 'ss_notifications.png'
+           image: 'ss_notifications.webp',
+           alt: 'screenshot of the notifications page with sample unread notifications'
   %>
 
   <%=
@@ -72,10 +84,11 @@
            title: 'Show off your work with smoking hot charts ❤️‍🔥',
            text:
              'Share your charts or embed them to presentations. Cherry is the perfect tool to show off your team\'s work.',
-           image: 'ss_slides.png'
+           image: 'ss_slides.webp',
+           alt: 'screenshot of a chart embedded in a slide deck'
   %>
 
-  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800 border-dashed border-4">
     <%= render 'components/pricing' %>
   </section>
 
@@ -86,6 +99,7 @@
              'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We have no access to your code base.'
                .html_safe,
            image: 'cli.gif',
+           alt: 'gif of a basic usage of the cherry cli',
            position: 'right'
   %>
 
@@ -93,7 +107,8 @@
     render 'feature_section',
            title: 'Recognize the work of your top team members 🏆',
            text: 'Cherry highlights top developers based on the contributions they make.',
-           image: 'ss_top_contributors.png',
+           image: 'ss_top_contributors.webp',
+           alt: 'screenshot of the top contributors section',
            position: 'left'
   %>
 
@@ -101,7 +116,8 @@
     render 'feature_section',
            title: 'Empower your senior developers 🧙‍♂️',
            text: 'We provide all the tools they need to keep a good codebase hygiene and ensure code quality.',
-           image: 'ss_dashboards.png',
+           image: 'ss_dashboards.webp',
+           alt: 'screenshot of the dashboard page',
            position: 'right'
   %>
 
@@ -110,7 +126,8 @@
            title: 'Low-code setup and configuration 😌',
            text:
              'Everything is done via the .cherry.js file. You can use our built-in plugins or write your own trackers in JavaScript. No need to learn a new stack.',
-           image: 'ss_docs.png',
+           image: 'ss_docs.webp',
+           alt: 'screenshot of the documentation page',
            position: 'left'
   %>
 
@@ -118,7 +135,8 @@
     render 'feature_section',
            title: 'Document without writing docs 📝',
            text: 'We regroup commits so your devs can easily find references to pull request and learn by example.',
-           image: 'ss_contributions.png',
+           image: 'ss_contributions.webp',
+           alt: 'screenshot of the contributions page',
            position: 'right'
   %>
 
@@ -127,7 +145,8 @@
            title: 'Effortlessly onboard new devs 🚀',
            text:
              'In a single page they can get a sense of the current state of your codebase, find experts to reach out to, get references to pull requests, and  concrete next steps on how to contribute.',
-           image: 'ss_metric_page.png',
+           image: 'ss_metric_page.webp',
+           alt: 'screenshot of the metrics page',
            position: 'left'
   %>
 
@@ -136,11 +155,12 @@
            title: 'Get more accurate ETAs 🤞',
            text:
              'We help you see all the remaining work at a glance so you can provide better estimates to stakeholders.',
-           image: 'ss_occurrences.png',
+           image: 'ss_occurrences.webp',
+           alt: 'screenshot of the occurrences section',
            position: 'right'
   %>
 
-  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12">
+  <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800 border-dashed border-4">
     <%= render 'components/pricing' %>
   </section>
 <% end %>

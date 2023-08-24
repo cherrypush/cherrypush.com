@@ -6,6 +6,8 @@ import dotenv from 'dotenv'
 import fs from 'fs'
 import _ from 'lodash'
 import prompt from 'prompt'
+import Spinnies from 'spinnies'
+import { v4 as uuidv4 } from 'uuid'
 import Codeowners from '../src/codeowners.js'
 import {
   configurationExists,
@@ -25,7 +27,10 @@ import { findOccurrences } from '../src/occurences.js'
 
 dotenv.config()
 
+const spinnies = new Spinnies()
+
 const API_BASE_URL = process.env.API_URL ?? 'https://www.cherrypush.com/api'
+const UPLOAD_BATCH_SIZE = 1000
 
 program.command('init').action(async () => {
   if (configurationExists()) {
@@ -86,10 +91,12 @@ program
   .option('--api-key <api_key>', 'Your cherrypush.com api key')
   .action(async (options) => {
     const configuration = await getConfiguration()
-    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
     const initialBranch = await git.branchName()
     if (!initialBranch) panic('Not on a branch, checkout a branch before pushing metrics.')
     const sha = await git.sha()
+
+    const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    if (!apiKey) panic('Please provide an API key with --api-key or CHERRY_API_KEY environment variable')
 
     let error
     try {
@@ -99,7 +106,7 @@ program
         files: await getFiles(),
         codeOwners: new Codeowners(),
       })
-      console.log(`  Uploading metrics...`)
+
       await upload(apiKey, configuration.project_name, await git.commitDate(sha), occurrences)
 
       console.log('')
@@ -135,7 +142,7 @@ program
       process.exit(1)
     }
 
-    console.log('Your dashboard is available at https://www.cherrypush.com/user/projects')
+    console.log(`Your dashboard is available at https://www.cherrypush.com/user/projects`)
   })
 
 program
@@ -210,6 +217,8 @@ program
 
     const configuration = await getConfiguration()
     const apiKey = options.apiKey || process.env.CHERRY_API_KEY
+    if (!apiKey) panic('Please provide an API key with --api-key or CHERRY_API_KEY environment variable')
+
     let date = until
     let sha = await git.sha()
     try {
@@ -239,7 +248,7 @@ program
     }
 
     await git.checkout(initialBranch)
-    console.log('Your dashboard is available at https://www.cherrypush.com/user/projects')
+    console.log(`Your dashboard is available at ${API_BASE_URL}/user/projects`)
   })
 
 const handleApiError = async (callback) => {
@@ -256,14 +265,34 @@ const handleApiError = async (callback) => {
   }
 }
 
-const upload = (apiKey, projectName, date, occurrences) => {
+const upload = async (apiKey, projectName, date, occurrences) => {
   if (!projectName) panic('specify a project_name in your cherry.js configuration file before pushing metrics')
 
-  return handleApiError(() =>
-    axios
-      .post(API_BASE_URL + '/push', buildPushPayload(projectName, date, occurrences), { params: { api_key: apiKey } })
-      .then(({ data }) => data)
-  )
+  const uuid = await uuidv4()
+  const occurrencesBatches = _.chunk(occurrences, UPLOAD_BATCH_SIZE)
+
+  console.log('')
+  console.log(`Uploading ${occurrences.length} occurrences in ${occurrencesBatches.length} batches:`)
+  for (const [index, occurrencesBatch] of occurrencesBatches.entries()) {
+    spinnies.add('batches', { text: `Batch ${index + 1} out of ${occurrencesBatches.length}`, indent: 2 })
+    const isLastBatch = index === occurrencesBatches.length - 1
+
+    try {
+      await handleApiError(() =>
+        axios
+          .post(
+            API_BASE_URL + '/push',
+            buildPushPayload({ apiKey, projectName, uuid, date, occurrences: occurrencesBatch, cleanup: isLastBatch })
+          )
+          .then(({ data }) => data)
+          .then(() => spinnies.succeed('batches', { text: `Batch ${index + 1} out of ${occurrencesBatches.length}` }))
+      )
+    } catch (error) {
+      spinnies.fail('batches', {
+        text: `Batch ${index + 1} out of ${occurrencesBatches.length}: ${error.message}`,
+      })
+    }
+  }
 }
 
 const buildMetricsPayload = (occurrences) =>
@@ -277,10 +306,13 @@ const buildMetricsPayload = (occurrences) =>
     .flatten()
     .value()
 
-const buildPushPayload = (projectName, date, occurrences) => ({
+const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences, cleanup }) => ({
+  api_key: apiKey,
   project_name: projectName,
   date: date.toISOString(),
+  uuid,
   metrics: buildMetricsPayload(occurrences),
+  cleanup,
 })
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>

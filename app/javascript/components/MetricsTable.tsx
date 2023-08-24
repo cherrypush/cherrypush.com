@@ -40,8 +40,8 @@ const MetricsTable = ({ metrics }) => {
               onClick={(event) => {
                 event.stopPropagation()
                 user.favorite_metric_ids.includes(row.original.id)
-                  ? removeFavorite({ id: row.original.id, type: 'metric' })
-                  : addFavorite({ id: row.original.id, type: 'metric' })
+                  ? removeFavorite({ id: row.original.id, klass: 'Metric' })
+                  : addFavorite({ id: row.original.id, klass: 'Metric' })
               }}
             >
               <Rating>
@@ -51,10 +51,6 @@ const MetricsTable = ({ metrics }) => {
             {row.original.name}
           </div>
         ),
-      },
-      {
-        Header: 'Project',
-        accessor: 'project.name',
       },
       {
         Header: 'Last report',

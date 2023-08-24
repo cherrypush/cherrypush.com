@@ -1,9 +1,12 @@
-import { Button, Card, Label, Modal, TextInput } from 'flowbite-react'
-import React, { useMemo, useState } from 'react'
+import { Button, Card, Label, Modal, Rating, TextInput } from 'flowbite-react'
+import _ from 'lodash'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import invariant from 'tiny-invariant'
 import { timeAgoInWords } from '../helpers/applicationHelper'
+import useCurrentUser from '../hooks/useCurrentUser'
 import { useDashboardsCreate, useDashboardsIndex } from '../queries/user/dashboards'
+import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
 import { useProjectsIndex } from '../queries/user/projects'
 import AutocompleteField from './AutocompleteField'
 import SortedTable from './SortedTable'
@@ -74,13 +77,40 @@ const DashboardsIndexPage = () => {
   const { data: dashboards } = useDashboardsIndex()
   const [showNewDashboardModal, setShowNewDashboardModal] = useState(false)
   const navigate = useNavigate()
+  const { mutate: addFavorite } = useFavoritesCreate()
+  const { mutate: removeFavorite } = useFavoritesDestroy()
+  const { user } = useCurrentUser()
+  const sortedDashboards = _.sortBy(
+    dashboards,
+    (dashboard) => (user.favorite_dashboard_ids.includes(dashboard.id) ? 0 : 1) + dashboard.name.toLowerCase()
+  )
 
-  const data = useMemo(() => dashboards, [dashboards])
+  const data = useMemo(() => sortedDashboards, [sortedDashboards])
   const columns = useMemo(
     () => [
       {
         Header: 'Name',
         accessor: 'name',
+        Cell: ({ row }) => (
+          <div className="flex items-center text-white">
+            <Button
+              size="xs"
+              color="dark"
+              className="mr-3"
+              onClick={(event) => {
+                event.stopPropagation()
+                user.favorite_dashboard_ids.includes(row.original.id)
+                  ? removeFavorite({ id: row.original.id, klass: 'Dashboard' })
+                  : addFavorite({ id: row.original.id, klass: 'Dashboard' })
+              }}
+            >
+              <Rating>
+                <Rating.Star filled={user.favorite_dashboard_ids.includes(row.original.id)} />
+              </Rating>
+            </Button>
+            {row.original.name}
+          </div>
+        ),
       },
       {
         Header: 'Project',
@@ -96,7 +126,7 @@ const DashboardsIndexPage = () => {
         Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
       },
     ],
-    []
+    [user]
   )
 
   if (!dashboards) return null

@@ -3,7 +3,13 @@ const TS_FILES = 'app/**/*.{ts,tsx}'
 
 module.exports = {
   project_name: 'cherrypush/cherry',
-  plugins: ['rubocop', 'eslint', 'loc'],
+  plugins: {
+    npmOutdated: { prefix: ['', 'cli'] },
+    loc: {},
+    eslint: {},
+    rubocop: {},
+    jsCircularDependencies: { include: 'app/javascript/**' },
+  },
   metrics: [
     {
       name: '[TS Migration] JS loc',

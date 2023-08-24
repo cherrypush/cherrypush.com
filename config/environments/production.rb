@@ -35,7 +35,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -86,6 +86,12 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # PROJECT SPECIFIC SETTINGS
+
+  # Serve static assets with an efficient cache policy (Page Speed Insights)
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, max-age=15552000', # 15552000 seconds = 180 days
+    'Expires' => 1.year.from_now.to_formatted_s(:rfc822),
+  }
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'https://cherrypush.com'
