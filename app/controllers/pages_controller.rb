@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
+  layout 'landing'
+
   def home
     redirect_to user_projects_path if current_user
   end
@@ -9,7 +11,7 @@ class PagesController < ApplicationController
     if current_user
       redirect_to demo_project_path
     else
-      redirect_to root_path, alert: 'Please sign in to access the demo'
+      redirect_to root_path, alert: 'Login with GitHub to access the demo project.'
     end
   end
 

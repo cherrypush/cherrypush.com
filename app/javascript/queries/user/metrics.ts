@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import { toast } from 'react-hot-toast'
 import { Project } from './projects'
 
 export interface Metric {
@@ -24,24 +23,31 @@ export const useMetricsIndex = ({ projectId }: { projectId?: number } = {}) =>
     axios.get('/user/metrics.json', { params: { project_id: projectId } }).then((response) => response.data)
   )
 
+export interface MetricsShowReponse {
+  id: number
+  name: string
+  project_id: number
+  chart_data: {
+    [key: string]: number
+  }
+}
+
 export const useMetricsShow = (id: number | null, owners: string[] = []) => useQuery(metricShowOptions(id, owners))
 
-export const useMetricsDestroy = ({ onSuccess }) => {
+export const useMetricsDestroy = () => {
   const invalidateIndex = useInvalidateMetricsIndex()
 
-  return useMutation((metricId) => axios.delete(`/user/metrics/${metricId}.json`), {
-    onSuccess: () => {
-      onSuccess?.()
-      invalidateIndex()
-      toast.success('Metric deleted')
-    },
+  return useMutation((metricId: number) => axios.delete(`/user/metrics/${metricId}.json`), {
+    onSuccess: () => invalidateIndex(),
   })
 }
 
 export const metricShowOptions = (id: number | null, owners: string[] = []) => ({
   queryKey: buildShowKey(id, owners),
   queryFn: () =>
-    axios.get(`/user/metrics/${id}.json`, { params: { owner_handles: owners } }).then((response) => response.data),
+    axios
+      .get<MetricsShowReponse>(`/user/metrics/${id}.json`, { params: { owner_handles: owners } })
+      .then((response) => response.data),
   staleTime: 1000 * 60,
   enabled: Boolean(id),
   keepPreviousData: true,

@@ -1,11 +1,11 @@
 import { useQueries } from '@tanstack/react-query'
 import { Spinner } from 'flowbite-react'
 import _ from 'lodash'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import Chart from 'react-apexcharts'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ChartKind } from '../queries/user/charts'
-import { metricShowOptions } from '../queries/user/metrics'
+import { MetricsShowReponse, metricShowOptions } from '../queries/user/metrics'
 
 const CHART_HEIGHT = 224
 
@@ -18,7 +18,7 @@ const kindToType = {
   stacked_percentage_area: 'area',
 }
 
-const buildSeries = (metrics, kind) => {
+const buildSeries = (metrics: MetricsShowReponse[], kind: ChartKind) => {
   let chartsData = metrics.map((metric) => metric.chart_data)
   if (chartsData.length > 1) chartsData = fillGaps(chartsData)
   if (kind === ChartKind.StackedPercentageArea) chartsData = toPercentages(chartsData)
@@ -42,7 +42,7 @@ const fillGaps = (inputChartsData: ChartData[]) => {
 const toPercentages = (inputChartsData: ChartData[]) => {
   const chartsData = _.cloneDeep(inputChartsData)
   Object.keys(chartsData[0]).forEach((day) => {
-    const total = chartsData.reduce((sum, serie) => sum + serie[day], 0)
+    const total = chartsData.reduce((sum: number, serie) => sum + serie[day], 0)
     chartsData.forEach((serie) => (serie[day] = (serie[day] / total) * 100))
   })
   return chartsData
@@ -57,13 +57,7 @@ const toApexChartsData = (metrics, chartsData: ChartData[]) =>
     ),
   }))
 
-interface Props {
-  metricIds: number[]
-  kind: ChartKind
-  owners?: string[]
-}
-
-const MetricChart = ({ metricIds, kind, owners }: Props) => {
+const MetricChart = ({ metricIds, kind, owners }: { metricIds: number[]; kind: ChartKind; owners?: string[] }) => {
   const navigate = useNavigate()
   const results = useQueries({ queries: metricIds.map((id) => metricShowOptions(id, owners)) })
   const metrics = results.map((result) => result.data)
@@ -90,8 +84,8 @@ const MetricChart = ({ metricIds, kind, owners }: Props) => {
       zoom: { enabled: false },
       toolbar: { show: false },
       events: {
-        legendClick: (chartContext, seriesIndex) => {
-          let url = `/user/projects?project_id=${metrics[seriesIndex].project_id}&metric_id=${metrics[seriesIndex].id}`
+        legendClick: (_chartContext: any, seriesIndex: number) => {
+          let url = `/user/projects?project_id=${metrics[seriesIndex]?.project_id}&metric_id=${metrics[seriesIndex]?.id}`
           const owners = searchParams.get('owners')
           url += owners ? `&owners=${owners}` : ''
           navigate(url)

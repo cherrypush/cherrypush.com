@@ -7,6 +7,10 @@
     @apply text-5xl font-extrabold dark:text-white mb-3;
   }
 
+  h2 {
+    @apply text-4xl font-bold dark:text-white mb-3;
+  }
+
   .btn-primary {
     @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800;
   }
@@ -61,4 +65,18 @@
   height: 100%;
   width: 100%;
   position: absolute;
+}
+
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(50px);
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  will-change: opacity, visibility;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
 }

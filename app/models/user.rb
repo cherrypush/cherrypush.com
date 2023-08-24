@@ -41,8 +41,8 @@ class User < ApplicationRecord
   end
 
   def premium?
-    true
     # memberships.any?
+    true
   end
 
   def update_dynamic_attributes(auth)
@@ -55,13 +55,6 @@ class User < ApplicationRecord
     # auth.extra.all_emails.filter(&:verified).map(&:email)
     self.email = auth.info.email if auth.info.email?
     self.image = auth.info.image if auth.info.image?
-  end
-
-  def favorited?(resource)
-    return resource.id.in?(favorite_project_ids) if resource.is_a?(Project)
-    return resource.name.in?(favorite_metric_names) if resource.is_a?(Metric)
-    return resource.handle.in?(favorite_owner_handles) if resource.is_a?(Owner)
-    false
   end
 
   def admin?
@@ -99,8 +92,8 @@ class User < ApplicationRecord
       user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
-      UserMailer.with(user: user).welcome.deliver_now if user.new_record? && user.valid?
       user.save!
+      UserMailer.with(user: user).welcome.deliver_later if user.new_record? && user.valid?
       user
     end
 

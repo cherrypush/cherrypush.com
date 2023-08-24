@@ -1,11 +1,18 @@
 import classnames from 'classnames'
 import { Table } from 'flowbite-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import useSelectedOwners from '../hooks/useSelectedOwners'
+import { useOccurrencesIndex } from '../queries/user/metrics/occurrences'
+import PageLoader from './PageLoader'
 
 const DEFAULT_MAX_OCCURRENCES = 20
 
-const Occurrences = ({ occurrences }) => {
+const Occurrences = ({ metricId }: { metricId: number }) => {
   const [showAll, setShowAll] = useState(false)
+  const { selectedOwners } = useSelectedOwners()
+  const { data: occurrences } = useOccurrencesIndex(metricId, selectedOwners)
+
+  if (!occurrences) return <PageLoader />
 
   const sortedOccurrences = occurrences.sort((a, b) => b.value - a.value)
   const filteredOccurrences = showAll ? sortedOccurrences : sortedOccurrences.slice(0, DEFAULT_MAX_OCCURRENCES)

@@ -2,8 +2,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
-import React from 'react'
-import { MdFavorite, MdLockPerson, MdLogout, MdSettings } from 'react-icons/md'
+import { MdLogout, MdPerson, MdSettings } from 'react-icons/md'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -29,7 +28,9 @@ const CherryNavbar = () => {
 
       <Navbar fluid>
         <div className="font-bold flex items-center">
-          <Link to="/user/projects">🍒 Cherry</Link>
+          <Link to="/user/projects" className="flex items-center gap-2">
+            🍒 Cherry
+          </Link>
           <CommandPaletteButton />
         </div>
 
@@ -48,18 +49,14 @@ const CherryNavbar = () => {
               <span className="block text-sm">{user.name}</span>
               <span className="block truncate text-sm font-medium">{user.email}</span>
             </Dropdown.Header>
-            <Dropdown.Item icon={MdFavorite} onClick={() => navigate('/user/contributions')}>
-              My Contributions
+            <Dropdown.Item icon={MdPerson} onClick={() => navigate(`/user/users/${user.id}`)}>
+              Profile
             </Dropdown.Item>
             <Dropdown.Item icon={MdSettings} onClick={() => navigate('/user/settings')}>
-              My Settings
+              Settings
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item icon={MdLockPerson} onClick={() => navigate('/user/authorizations')}>
-              Authorizations
-            </Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item icon={MdLogout} onClick={() => (window.location = '/sign_out')}>
+            <Dropdown.Item icon={MdLogout} onClick={() => (window.location.pathname = '/sign_out')}>
               Sign out
             </Dropdown.Item>
           </Dropdown>
@@ -69,6 +66,13 @@ const CherryNavbar = () => {
         {/* NAVBAR LINKS */}
         <Navbar.Collapse className="md:mr-32">
           <Navbar.Link
+            onClick={() => navigate('/user/projects')}
+            active={window.location.pathname === '/user/projects'}
+            className="cursor-pointer"
+          >
+            Projects
+          </Navbar.Link>
+          <Navbar.Link
             onClick={() => navigate('/user/dashboards')}
             active={window.location.pathname.includes('/user/dashboards')}
             className="cursor-pointer"
@@ -76,11 +80,11 @@ const CherryNavbar = () => {
             Dashboards
           </Navbar.Link>
           <Navbar.Link
-            onClick={() => navigate('/user/projects')}
-            active={window.location.pathname === '/user/projects'}
+            onClick={() => navigate('/user/authorizations')}
+            active={window.location.pathname.includes('/user/authorizations')}
             className="cursor-pointer"
           >
-            Projects
+            Authorizations
           </Navbar.Link>
           <Navbar.Link
             onClick={() => navigate('/user/docs')}

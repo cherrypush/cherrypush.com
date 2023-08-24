@@ -6,4 +6,10 @@ class Report < ApplicationRecord
 
   validates :date, presence: true
   validates :value, presence: true
+
+  def owners
+    return [] if value_by_owner.nil?
+
+    value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
+  end
 end

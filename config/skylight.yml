@@ -1,0 +1,20 @@
+---
+authentication: <%= ENV['SKYLIGHT_AUTHENTICATION'] %>
+ignored_endpoints:
+  - ActionDispatch::Routing::RouteSet
+  - ActionDispatch::SSL
+  - ActionDispatch::Static
+  - Blazer::DashboardsController#create
+  - Blazer::DashboardsController#destroy
+  - Blazer::DashboardsController#edit
+  - Blazer::DashboardsController#new
+  - Blazer::DashboardsController#show
+  - Blazer::DashboardsController#update
+  - Blazer::QueriesController#create
+  - Blazer::QueriesController#edit
+  - Blazer::QueriesController#home
+  - Blazer::QueriesController#new
+  - Blazer::QueriesController#run
+  - Blazer::QueriesController#show
+  - Blazer::QueriesController#tables
+  - Blazer::QueriesController#update

@@ -1,4 +1,4 @@
-export const truncateStart = (text, length) => {
+export const truncateStart = (text: string, length: number) => {
   if (text.length > length) {
     return '...' + text.substring(text.length - length, text.length)
   } else {
@@ -6,7 +6,7 @@ export const truncateStart = (text, length) => {
   }
 }
 
-export const timeAgoInWords = (date: Date) => {
+export const timeAgoInWords = (date: string) => {
   const parsedDate = new Date(date)
   const seconds = Math.floor((new Date().getTime() - parsedDate.getTime()) / 1000)
 
@@ -31,4 +31,4 @@ export const timeAgoInWords = (date: Date) => {
 export const buildCommitUrl = ({ projectName, commitSha }: { projectName: string; commitSha: string }) =>
   `https://github.com/${projectName}/commit/${commitSha}`
 
-export const formatDiff = (number) => (number < 0 ? '' : '+') + number
+export const formatDiff = (number: number) => (number < 0 ? '' : '+') + number

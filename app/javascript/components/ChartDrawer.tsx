@@ -1,17 +1,17 @@
 import { Autocomplete, FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mui/material'
 import Drawer from '@mui/material/Drawer'
 import { Button } from 'flowbite-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ChartKind, useChartsCreate, useChartsUpdate } from '../queries/user/charts'
-import { Chart, DashboardType } from '../queries/user/dashboards'
+import { Chart, UseDashboardsIndexResponse } from '../queries/user/dashboards'
 import { Metric, useMetricsIndex } from '../queries/user/metrics'
 import MetricChart from './MetricChart'
 
 interface ChartFormProps {
   metrics: Metric[]
   chart?: Chart
-  dashboard: DashboardType
+  dashboard: UseDashboardsIndexResponse
   onClose: () => void
 }
 
@@ -80,7 +80,7 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
 interface Props {
   open: boolean
   onClose: () => void
-  dashboard: DashboardType
+  dashboard: UseDashboardsIndexResponse
 }
 
 const ChartDrawer = ({ onClose, dashboard, open }: Props) => {

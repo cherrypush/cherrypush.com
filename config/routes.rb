@@ -3,12 +3,13 @@
 require_relative 'route_utils'
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
-  mount Blazer::Engine, at: 'blazer' # authentication method set in blazer.yml
+  constraints(AdminConstraint) { mount Blazer::Engine, at: 'blazer' }
 
   # AUTHENTICATION ROUTES
   get 'auth/:provider/callback', to: 'sessions#create'
   get '/sign_out', to: 'sessions#destroy', as: :signout
   get '/auth/github', as: :github_sign_in
+  get '/auth/failure' => 'sessions#failure'
 
   # CLI ROUTES
   namespace :api do
@@ -38,7 +39,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]
-      resources :users, only: %i[index]
+      resources :users, only: %i[index show]
     end
 
     constraints(->(request) { request.format == :html }) do
@@ -54,6 +55,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
         projects
         projects/new
         settings
+        users/:user_id
       ].each { |route| get route, to: 'application#spa' }
     end
   end

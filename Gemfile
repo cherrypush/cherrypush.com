@@ -1,36 +1,41 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.1'
+ruby "3.2.1"
 
-# default rails gems
-gem 'bootsnap', require: false
-gem 'jbuilder' # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem 'pg', '~> 1.1'
-gem 'puma', '~> 5.0'
-gem 'rails', '~> 7.0.4'
-gem 'sprockets-rails'
+# default gems
+gem "bootsnap", require: false
+gem "pg", "~> 1.1"
+gem "puma", "~> 5.0"
+gem "rails", "~> 7.0.4"
+gem "sprockets-rails"
 
 # authentication
-gem 'omniauth'
-gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
-gem 'omniauth-rails_csrf_protection'
+gem "omniauth"
+gem "omniauth-github", github: "omniauth/omniauth-github", branch: "master"
+gem "omniauth-rails_csrf_protection"
+
+# admin
+gem "blazer"
+
+# monitoring & performance
+gem "delayed_job_active_record"
+gem "hiredis"
+gem "redis"
+gem "sentry-rails"
+gem "sentry-ruby"
+gem "skylight" # performance monitoring
 
 # project-specific dependencies
-gem 'blazer'
-gem 'chartkick'
-gem 'faker'
-gem 'groupdate'
-gem 'heroicon'
-gem 'httparty'
-gem 'pundit'
-gem 'redcarpet' # for markdown rendering
-gem 'sentry-rails'
-gem 'sentry-ruby'
-gem 'tailwindcss-rails'
-gem 'vite_rails'
+gem "groupdate"
+gem "heroicon"
+gem "httparty"
+gem "pundit"
+gem "redcarpet" # for markdown rendering
+gem "tailwindcss-rails"
+gem "vite_rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 # gem 'stimulus-rails'
@@ -45,7 +50,7 @@ gem 'vite_rails'
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -55,41 +60,41 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
   # project-specific
-  gem 'factory_bot_rails'
-  gem 'pry'
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "pry"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
   # debugging
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem "better_errors"
+  gem "binding_of_caller"
+
+  # performance
+  gem "derailed_benchmarks" # CUT_OFF=0.3 bundle exec derailed bundle:mem
+  gem "rack-mini-profiler"
+  gem "stackprof" # for call-stack profiling flamegraphs
 
   # project-specific
-  gem 'parity'
-  gem 'rubocop', require: false
-  gem 'syntax_tree'
+  gem "parity"
+  gem "rubocop", require: false
+  gem "syntax_tree"
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'web-console'
+  gem "web-console"
 
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-
-  # Docker integration
-  gem 'dockerfile-rails'
+  # docker integration
+  gem "dockerfile-rails"
 end
 
 group :test do
-  gem 'minitest-spec-rails' # for rspec-like syntax
+  gem "minitest-spec-rails" # for rspec-like syntax
+  gem "minitest-stub-const" # for stubbing constants
 
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem "capybara"
+  gem "selenium-webdriver"
 end

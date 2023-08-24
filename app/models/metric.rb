@@ -13,32 +13,37 @@ class Metric < ApplicationRecord
   end
 
   def last_report
-    @last_report ||= reports.order(:date).last
+    # if two reports have the same date, we want the most recent one
+    @last_report ||= reports.order(:date, :created_at).last
   end
 
-  def occurrences(owner_handles = [])
-    return [] if last_report.nil?
+  def occurrences(owners = [])
+    return [] if reports.empty?
     occurrences = last_report.occurrences
-    return occurrences if owner_handles.blank?
-    occurrences.where('owners && ARRAY[?]::varchar[]', owner_handles)
+    return occurrences if owners.blank?
+    occurrences.where('owners && ARRAY[?]::varchar[]', owners)
   end
 
   def owners
     return [] if last_report.nil? || last_report.value_by_owner.nil?
-
     last_report.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
   end
 
   def chart_data(owners: nil)
-    daily_reports
-      .index_with { |report| get_count(report, owners) }
-      .compact
-      .transform_keys { |report| report.date.iso8601[0...10] }
+    Rails
+      .cache
+      .fetch([self, 'chart_data', owners], expires_in: 12.hours) do
+        daily_reports
+          .index_with { |report| get_count(report, owners) }
+          .compact
+          .transform_keys { |report| report.date.iso8601[0...10] }
+      end
   end
 
-  def delete_old_occurrences!
-    old_reports = reports.where.not(id: last_report.id)
-    Occurrence.where(report: old_reports).delete_all
+  def clean_up!
+    old_reports = reports.where.not(id: last_report.id).where('date < ?', 10.minutes.ago)
+    Occurrence.where(report: old_reports).in_batches(&:delete_all)
+    old_reports.where.not(id: daily_reports.pluck(:id)).in_batches.delete_all
   end
 
   private

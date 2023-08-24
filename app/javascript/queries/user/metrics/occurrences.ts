@@ -5,9 +5,6 @@ export interface Occurrence {
   id: number
   text: string
   url: string
-  report_id: number
-  created_at: string
-  updated_at: string
   value: number
   owners: string[]
 }

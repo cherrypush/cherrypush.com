@@ -2,21 +2,20 @@
 
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
+  include Skylight::Helpers
 
   helper_method :current_user
 
-  layout 'landing'
-
   before_action :set_sentry_context, if: -> { current_user.present? }
 
-  # Used to control access to blazer dashboards
+  # Used to control access to blazer and rails_admin
   def require_admin
-    return if current_user&.admin?
-    redirect_to '/'
+    redirect_to '/' unless current_user&.admin?
   end
 
   private
 
+  instrument_method
   def current_user
     @current_user ||=
       begin
@@ -26,6 +25,7 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  instrument_method
   def set_sentry_context
     Sentry.set_user(id: current_user&.id, email: current_user&.email, username: current_user&.github_handle)
   end

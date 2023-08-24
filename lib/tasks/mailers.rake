@@ -27,4 +27,20 @@ namespace :mailers do
       UserMailer.with(user: user).daily_notifications_report.deliver_now
     end
   end
+
+  desc 'Import contacts to Brevo'
+  task 'sync:brevo' => :environment do
+    total = User.count
+    User.all.shuffle.each_with_index do |user, index|
+      BrevoContact.create!(
+        first_name: user.name.split.first.titleize,
+        last_name: user.name.split.last.titleize,
+        email: user.email,
+      )
+      puts "Created contact #{index + 1}/#{total}: #{user.name}"
+    rescue StandardError
+      BrevoContact.update!(first_name: user.name.split.first, last_name: user.name.split.last, email: user.email)
+      puts "Updated contact #{index + 1}/#{total}: #{user.name}"
+    end
+  end
 end

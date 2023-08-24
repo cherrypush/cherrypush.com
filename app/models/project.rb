@@ -12,7 +12,8 @@ class Project < ApplicationRecord
   validates :user, presence: true
 
   def owners
-    metrics.map(&:owners).flatten.uniq.sort_by(&:handle)
+    # TODO: this is not necessarily the best way to get the owners, but it works for now
+    Report.where(metric: metrics).order(date: :desc).limit(100).map(&:owners).flatten.uniq.sort_by(&:handle)
   end
 
   def users
