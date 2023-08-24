@@ -8,15 +8,15 @@ const sh = (cmd, { throwOnError = true } = {}) =>
     const [command, ...args] = cmd.split(/\s+/)
     const spawnedProcess = child_process.spawn(command, args)
 
-    let data = ''
-    let errorData = ''
+    let stdout = ''
+    let stderr = ''
 
-    spawnedProcess.stdout.on('data', (chunk) => (data += chunk.toString()))
-    spawnedProcess.stderr.on('data', (chunk) => (errorData += chunk.toString()))
+    spawnedProcess.stdout.on('data', (chunk) => (stdout += chunk.toString()))
+    spawnedProcess.stderr.on('data', (chunk) => (stderr += chunk.toString()))
     spawnedProcess.on('close', (code) => {
-      if (throwOnError && code > 0) return reject(new Error(`${errorData} (Failed Instruction: ${cmd})`))
-      debug(data)
-      resolve(data)
+      if (throwOnError && code > 0) return reject(new Error(`${stderr} (Failed Instruction: ${cmd})`))
+      debug(stdout)
+      resolve({ stderr, stdout })
     })
     spawnedProcess.on('error', (err) => reject(err))
   })

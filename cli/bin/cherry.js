@@ -142,7 +142,7 @@ program
       process.exit(1)
     }
 
-    console.log(`Your dashboard is available at ${API_BASE_URL}/user/projects`)
+    console.log(`Your dashboard is available at https://www.cherrypush.com/user/projects`)
   })
 
 program

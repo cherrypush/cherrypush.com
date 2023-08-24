@@ -5,7 +5,7 @@ import sh from './sh.js'
 const REPO_NAME_REGEX = /([\w\-_\.]+\/[\w\-_\.]+)\.git/g
 
 const git = async (cmd) => {
-  const stdout = await sh(`git ${cmd}`)
+  const { stdout } = await sh(`git ${cmd}`)
   return stdout.toString().split('\n').filter(Boolean)
 }
 

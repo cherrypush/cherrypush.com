@@ -9,6 +9,7 @@ import jsCircularDependencies from './plugins/js_circular_dependencies.js'
 import loc from './plugins/loc.js'
 import npmOutdated from './plugins/npm_outdated.js'
 import rubocop from './plugins/rubocop.js'
+import yarnOutdated from './plugins/yarn_outdated.js'
 
 const spinnies = new Spinnies()
 
@@ -18,6 +19,7 @@ const PLUGINS = {
   loc,
   jsCircularDependencies,
   npmOutdated,
+  yarnOutdated,
 }
 
 const minimatchCache = {}
