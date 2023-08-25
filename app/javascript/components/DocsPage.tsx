@@ -189,12 +189,19 @@ cherry_push:
               <hr />
               <h1 id="demo">Live demo 🔴</h1>
               <p>
-                We've created a sample project so you can try a <a href="https://www.cherrypush.com/demo">live demo</a>{' '}
-                of Cherry.
+                To see what Cherry looks like in a real project, you can refer to our own project here:{' '}
+                <a href="https://www.cherrypush.com/demo">https://www.cherrypush.com/demo</a>
               </p>
               <p>
-                Found a bug? Report directly to me via <a href="https://twitter.com/@fwuensche">Twitter</a> or{' '}
-                <a href="mailto:flavio@cherrypush.com">email</a>.
+                Found a bug? Report directly to me via{' '}
+                <a target="_blank" href="https://twitter.com/@fwuensche">
+                  Twitter
+                </a>{' '}
+                or{' '}
+                <a target="_blank" href="mailto:flavio@cherrypush.com">
+                  email
+                </a>
+                .
               </p>
             </div>
           </Grid>
