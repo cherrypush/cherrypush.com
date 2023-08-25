@@ -18,6 +18,9 @@ const DocsPage = () => {
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item href="#commands">CLI commands 😌</Sidebar.Item>
+                  <Sidebar.Item href="#cherry-init" className="text-sm ml-3">
+                    · cherry init
+                  </Sidebar.Item>
                   <Sidebar.Item href="#cherry-run" className="text-sm ml-3">
                     · cherry run
                   </Sidebar.Item>
@@ -66,6 +69,27 @@ const DocsPage = () => {
 
               <hr />
               <h1 id="commands">CLI commands 😌</h1>
+              <h2 id="cherry-init">cherry init</h2>
+              <p>
+                The init command will initialize your config file `.cherry.js` and create a sample GitHub workflow file
+                that you can use to integrate Cherry to your CI/CD workflow via GitHub Actions.
+              </p>
+              <p>A very minimal config file can look something like this:</p>
+              <pre>{`module.exports = {
+  project_name: 'PROJECT_NAME',
+  plugins: ['loc'],
+  metrics: [
+    {
+      name: 'TODO/FIXME',
+      pattern: /(TODO|FIXME):/i, // the i flag makes the regex case insensitive
+    },
+  ],
+}
+`}</pre>
+              <p>
+                For more info about CI/CD integration, refer to the <a href="#integrations">Integrations</a> section
+                below.
+              </p>
               <h2 id="cherry-run">cherry run</h2>
               <p>The run command accepts a couple of different options:</p>
               <pre>{`cherry run [--metric=<metric>] [--owner=<owners>]`}</pre>
