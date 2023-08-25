@@ -25,7 +25,7 @@
     "react-router-dom": "^6.15.0",
     "react-table": "^7.8.0",
     "tiny-invariant": "^1.3.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "1.6.1",
