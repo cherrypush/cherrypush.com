@@ -30,6 +30,12 @@ const DocsPage = () => {
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item href="#integrations">Integrations 🧩</Sidebar.Item>
+                  <Sidebar.Item href="#github-actions" className="text-sm ml-3">
+                    · GitHub Actions
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#gitlab-cicd" className="text-sm ml-3">
+                    · GitLab CI/CD
+                  </Sidebar.Item>
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item href="#demo">Live demo 🔴</Sidebar.Item>
@@ -56,7 +62,7 @@ const DocsPage = () => {
                   </a>
                 )}
               </pre>
-              {user && <p>🚨 This issyour real API key. Keep it safe.</p>}
+              {user && <p>🚨 This is your real API key. Keep it safe.</p>}
 
               <hr />
               <h1 id="commands">CLI commands 😌</h1>
@@ -108,30 +114,53 @@ Your dashboard is available at https://www.cherrypush.com/user/projects
 
               <hr />
               <h1 id="integrations">Integrations 🧩</h1>
-              <h2>GitHub Actions</h2>
-              <p>You can easily automate Cherry to submit reports on every commit to master.</p>
+              <h2 id="github-actions">GitHub Actions</h2>
+              <p>You can automate Cherry to submit reports on every commit to master.</p>
+              <p>For a basic use case, all you need is a workflow file as below:</p>
               <pre>{`# .github/workflows/cherry_push.yml
 
-name: Cherry push
+name: Track codebase metrics
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  cherry:
-    name: runner / cherry
-    runs-on: ubuntu-22.04
+  cherry_push:
+    runs-on: ubuntu-latest
+    env:
+      CHERRY_API_KEY: \${{ secrets.CHERRY_API_KEY }}
+
     steps:
-      - name: Checkout
+      - name: Checkout project
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 2 // required to track contributions, i.e, the diff between commits
+
       - name: Install cherry
         run: npm i -g cherrypush
+
       - name: Push metrics
         run: cherry push --api-key=\${{ secrets.CHERRY_API_KEY }}`}</pre>
+              <h2 id="gitlab-cicd">GitLab CI/CD</h2>
+              <p>Same as with GitHub Actions, but for GitLab. A minimalist example:</p>
+              <pre>{`# .gitlab-ci.yml
+
+cherry_push:
+  stage: build
+  image: node:latest
+  variables:
+    CHERRY_API_KEY: $CHERRY_API_KEY
+
+  script:
+    - npm i -g cherrypush
+    - git checkout $CI_COMMIT_REF_NAME
+    - cherry push
+
+  only:
+    refs:
+      - main`}</pre>
 
               <hr />
               <h1 id="demo">Live demo 🔴</h1>
