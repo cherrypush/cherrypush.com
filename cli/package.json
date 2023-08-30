@@ -2,7 +2,7 @@
   "name": "cherrypush",
   "version": "1.0.102",
   "description": "CLI for the cherrypush app",
-  "main": "index.js",
+  "source": "./bin/cherry.js",
   "type": "module",
   "bin": {
     "cherry": "./bin/cherry.js"

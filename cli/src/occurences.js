@@ -6,6 +6,7 @@ import { panic } from './error.js'
 import { buildPermalink } from './github.js'
 import eslint from './plugins/eslint.js'
 import jsCircularDependencies from './plugins/js_circular_dependencies.js'
+import jsUnimported from './plugins/js_unimported.js'
 import loc from './plugins/loc.js'
 import npmOutdated from './plugins/npm_outdated.js'
 import rubocop from './plugins/rubocop.js'
@@ -18,6 +19,7 @@ const PLUGINS = {
   eslint,
   loc,
   jsCircularDependencies,
+  jsUnimported,
   npmOutdated,
   yarnOutdated,
 }
