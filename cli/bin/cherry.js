@@ -148,10 +148,7 @@ program
 program
   .command('diff')
   .requiredOption('--metric <metric>')
-  .requiredOption(
-    '--api-key <api_key>',
-    'Your cherrypush.com API key (available on https://www.cherrypush.com/user/settings)'
-  )
+  .option('--api-key <api_key>', 'Your cherrypush.com API key (available on https://www.cherrypush.com/user/settings)')
   .option('--error-if-increase', 'Return an error status code (1) if the metric increased since its last report')
   .action(async (options) => {
     const configuration = await getConfiguration()
