@@ -30,6 +30,9 @@ const DocsPage = () => {
                   <Sidebar.Item href="#cherry-backfill" className="text-sm ml-3">
                     · cherry backfill
                   </Sidebar.Item>
+                  <Sidebar.Item href="#cherry-diff" className="text-sm ml-3">
+                    · cherry diff
+                  </Sidebar.Item>
                 </Sidebar.ItemGroup>
                 <Sidebar.ItemGroup>
                   <Sidebar.Item href="#integrations">Integrations 🧩</Sidebar.Item>
@@ -135,6 +138,37 @@ Your dashboard is available at https://www.cherrypush.com/user/projects
               <pre>cherry backfill --since=2023-01-01 --until=2022-01-07</pre>
               <p>If the range is too wide, increase your interval to save time:</p>
               <pre>cherry backfill --since=2023-01-01 --until=2023-12-01 --interval=30</pre>
+              <h2 id="cherry-diff">cherry diff</h2>
+              <p>
+                You can run this command directly in your terminal to compare the current status of a certain metric to
+                the last reported status on cherrypush.com.
+              </p>
+              <pre>cherry diff --metric="JS lines of code"</pre>
+              <p>
+                This command is specifically useful when you want to enforce blocking certain patterns in your codebase.
+              </p>
+              <p>
+                It will check the diff between the current commit and the previous one. If there is an increase in your
+                metric, it will raise an error, making the CI build fail.
+              </p>
+              <pre>{`name: Block the introduction of new violations
+
+on:
+  pull_request:
+
+jobs:
+  cherry_diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm i -g cherrypush
+
+      - name: Raise if new JS code added
+        run: ./cli/bin/cherry.js diff --metric='todo' --api-key=\${{ secrets.CHERRY_API_KEY }} --error-if-increase
+`}</pre>
 
               <hr />
               <h1 id="integrations">Integrations 🧩</h1>
