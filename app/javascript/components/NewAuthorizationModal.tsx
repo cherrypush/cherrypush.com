@@ -15,7 +15,7 @@ const NewAuthorizationModal = ({ projectId, onClose }: { projectId: number; onCl
 
   return (
     <Modal show onClose={onClose} dismissible>
-      <Modal.Header>Add authorization</Modal.Header>
+      <Modal.Header>New Authorization</Modal.Header>
       <Modal.Body>
         <div className="space-y-6">
           {isLoading ? (

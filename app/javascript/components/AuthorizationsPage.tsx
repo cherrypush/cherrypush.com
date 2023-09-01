@@ -13,10 +13,10 @@ const ProjectAuthorizations = ({ project, authorizations, destroyAuthorization, 
     <div className="overflow-x-auto relative">
       <Table>
         <Table.Head>
-          <Table.HeadCell>{project.name}</Table.HeadCell>
+          <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
           <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end">
             <Button size="xs" onClick={() => setEditedProjectId(project.id)}>
-              + New Authorization
+              + Authorization
             </Button>
           </Table.HeadCell>
         </Table.Head>
