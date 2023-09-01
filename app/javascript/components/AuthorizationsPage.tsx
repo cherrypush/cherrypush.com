@@ -1,4 +1,5 @@
 import { Button, Modal, Spinner, Table } from 'flowbite-react'
+import _ from 'lodash'
 import { useState } from 'react'
 import {
   useAuthorizationsCreate,
@@ -12,7 +13,7 @@ import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
 import AutocompleteField from './AutocompleteField'
 import PageLoader from './PageLoader'
 
-const AddAuthorizationModal = ({ projectId, onClose }) => {
+const AddAuthorizationModal = ({ projectId, onClose }: { projectId: number; onClose: () => void }) => {
   const { data: users, isLoading } = useUsersIndex()
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
@@ -50,6 +51,45 @@ const AddAuthorizationModal = ({ projectId, onClose }) => {
   )
 }
 
+const ProjectAuthorizations = ({ project, authorizations, destroyAuthorization, setEditedProjectId, isLoading }) => {
+  return (
+    <div className="overflow-x-auto relative">
+      <Table>
+        <Table.Head>
+          <Table.HeadCell>{project.name}</Table.HeadCell>
+          <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end">
+            <a className="cursor-pointer text-link" onClick={() => setEditedProjectId(project.id)}>
+              + Add Authorization
+            </a>
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body>
+          {authorizations
+            .filter((authorization) => authorization.project_id === project.id)
+            .sort((a, b) => a.user.name.localeCompare(b.user.name))
+            .map((authorization) => (
+              <Table.Row key={authorization.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <Table.Cell>
+                  {authorization.user.name} (@{authorization.user.github_handle})
+                </Table.Cell>
+                <Table.Cell className="justify-end">
+                  <Button
+                    onClick={() => destroyAuthorization({ id: authorization.id })}
+                    disabled={isLoading}
+                    size="xs"
+                    className="ml-auto"
+                  >
+                    Remove
+                  </Button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+        </Table.Body>
+      </Table>
+    </div>
+  )
+}
+
 const AuthorizationsPage = () => {
   const { data: projects } = useProjectsIndex()
   const { data: authorizations } = useAuthorizationsIndex()
@@ -59,6 +99,12 @@ const AuthorizationsPage = () => {
   const [editedProjectId, setEditedProjectId] = useState()
 
   if (!projects || !authorizations) return <PageLoader />
+
+  const organizations = _.uniqBy(
+    projects.map((project) => project.organization).filter((organization) => !!organization),
+    'id'
+  )
+  const personalProjects = projects.filter((project) => !project.organization)
 
   return (
     <div className="container">
@@ -86,45 +132,35 @@ const AuthorizationsPage = () => {
         )}
       </div>
       <div className="flex flex-col gap-3">
-        {projects.map((project) => (
-          <div className="overflow-x-auto relative" key={project.id}>
-            <Table>
-              <Table.Head>
-                <Table.HeadCell>{project.name}</Table.HeadCell>
-                <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end">
-                  <a className="cursor-pointer text-link" onClick={() => setEditedProjectId(project.id)}>
-                    + Add Authorization
-                  </a>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                {authorizations
-                  .filter((authorization) => authorization.project_id === project.id)
-                  .sort((a, b) => a.user.name.localeCompare(b.user.name))
-                  .map((authorization) => (
-                    <Table.Row
-                      key={authorization.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    >
-                      <Table.Cell>
-                        {authorization.user.name} (@{authorization.user.github_handle})
-                      </Table.Cell>
-                      <Table.Cell className="justify-end">
-                        <Button
-                          onClick={() => destroyAuthorization({ id: authorization.id })}
-                          disabled={isLoading}
-                          size="xs"
-                          className="ml-auto"
-                        >
-                          Remove
-                        </Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-              </Table.Body>
-            </Table>
-          </div>
+        <h2>Personal projects</h2>
+        {personalProjects.map((project) => (
+          <ProjectAuthorizations
+            key={project.id}
+            project={project}
+            authorizations={authorizations}
+            destroyAuthorization={destroyAuthorization}
+            setEditedProjectId={setEditedProjectId}
+            isLoading={isLoading}
+          />
         ))}
+        {organizations.map((organization) => (
+          <>
+            <h2 className="mt-3">{organization.name} organization</h2>
+            {projects
+              .filter((project) => project.organization_id === organization.id)
+              .map((project) => (
+                <ProjectAuthorizations
+                  key={project.id}
+                  project={project}
+                  authorizations={authorizations}
+                  destroyAuthorization={destroyAuthorization}
+                  setEditedProjectId={setEditedProjectId}
+                  isLoading={isLoading}
+                />
+              ))}
+          </>
+        ))}
+
         {editedProjectId && (
           <AddAuthorizationModal projectId={editedProjectId} onClose={() => setEditedProjectId(null)} />
         )}
