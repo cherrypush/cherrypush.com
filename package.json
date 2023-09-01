@@ -28,7 +28,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@prettier/plugin-ruby": "1.6.1",
+    "@prettier/plugin-ruby": "4.0.1",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "eslint": "^8.46.0",
