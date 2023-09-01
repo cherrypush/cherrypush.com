@@ -18,6 +18,10 @@ const ProjectsTable = () => {
         accessor: 'name',
       },
       {
+        Header: 'Organization',
+        accessor: 'organization.name',
+      },
+      {
         Header: 'Owner',
         accessor: 'user.name',
       },
