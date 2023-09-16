@@ -3,7 +3,6 @@
 class User::AuthorizationsController < User::ApplicationController
   before_action :set_project, only: :create
   before_action :set_user, only: :create
-  before_action :require_premium_status, except: %i[index]
 
   def index
     json =
@@ -16,12 +15,16 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def create
-    authorization = Authorization.find_or_create_by!(project: @project, user: @user)
-    AuthorizationRequest.where(project: @project, user: @user).destroy_all
-    UserMailer.with(from: current_user, to: @user, project: @project).authorization_granted.deliver_later
-    TelegramClient.send(
-      "#{current_user.github_handle} added #{authorization.user.github_handle} to #{authorization.project.name}.",
-    )
+    can_create_authorization, error_message = @project.can_create_new_authorizations?
+
+    if can_create_authorization
+      authorization = Authorization.find_or_create_by!(project: @project, user: @user)
+      AuthorizationRequest.where(project: @project, user: @user).destroy_all
+      UserMailer.with(from: current_user, to: @user, project: @project).authorization_granted.deliver_later
+      TelegramClient.send("#{current_user.name} added #{authorization.user.name} to #{authorization.project.name}.")
+    else
+      render json: { error: error_message }, status: :forbidden
+    end
   end
 
   def destroy

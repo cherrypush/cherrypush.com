@@ -1,5 +1,4 @@
 import { Card, Dropdown } from 'flowbite-react'
-import React from 'react'
 import { HiDotsVertical, HiPencil, HiTrash } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import useSelectedOwners from '../hooks/useSelectedOwners'

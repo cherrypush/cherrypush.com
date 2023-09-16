@@ -7,6 +7,9 @@ export interface Project {
   updated_at: string
   created_at: string
   user_id: number
+  user: { name: string }
+  organization_id: null | number
+  organization?: { id: number; name: string }
 }
 
 type ProjectsIndexResponse = (Project & { user: { name: string } })[]

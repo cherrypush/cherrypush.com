@@ -21,6 +21,7 @@ export const useAuthorizationsCreate = () => {
         toast.success('Authorization created')
         invalidateAuthorizationRequestsIndex()
       },
+      onError: (error) => toast.error(error.response.data?.error),
     }
   )
 }
