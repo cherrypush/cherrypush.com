@@ -9,8 +9,10 @@ import DashboardsShowPage from './DashboardsShowPage'
 import DocsPage from './DocsPage'
 import Footer from './Footer'
 import Navbar from './Navbar'
+import NewOrganizationPage from './NewOrganizationPage'
 import NewProjectPage from './NewProjectPage'
 import NotificationsPage from './NotificationsPage'
+import OrganizationPage from './OrganizationPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
@@ -44,6 +46,8 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
               <Route path="dashboards/:dashboardId/charts/new" element={slideUp(<DashboardsShowPage />)} />
               <Route path="docs" element={slideUp(<DocsPage />)} />
               <Route path="notifications" element={slideUp(<NotificationsPage />)} />
+              <Route path="organizations/new" element={slideUp(<NewOrganizationPage />)} />
+              <Route path="organizations/:organizationId" element={slideUp(<OrganizationPage />)} />
               <Route path="projects" element={slideUp(<ProjectsPage />)} />
               <Route path="projects/new" element={slideUp(<NewProjectPage />)} />
               <Route path="settings" element={slideUp(<SettingsPage />)} />
