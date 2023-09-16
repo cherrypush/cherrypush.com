@@ -13,8 +13,8 @@ export const useAuthorizationsCreate = () => {
   const invalidateAuthorizationRequestsIndex = useInvalidateAuthorizationRequestsIndex()
 
   return useMutation(
-    ({ projectId, userId }: { projectId: number; userId: number }) =>
-      axios.post('/user/authorizations.json', { project_id: projectId, user_id: userId }),
+    ({ organizationId, userId }: { organizationId: number; userId: number }) =>
+      axios.post('/user/authorizations.json', { organization_id: organizationId, user_id: userId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(INDEX_KEY)

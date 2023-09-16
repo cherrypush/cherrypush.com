@@ -5,9 +5,23 @@ class User::ProjectsController < User::ApplicationController
     projects = current_user.projects.includes(:user)
     render json:
              projects
-               .includes(:user, :organization)
+               .includes(:user, organization: :user)
                .order(:name)
-               .as_json(include: { user: { only: %i[name github_handle] }, organization: { only: %i[id name] } })
+               .as_json(
+                 include: {
+                   user: {
+                     only: %i[name github_handle],
+                   },
+                   organization: {
+                     only: %i[id name],
+                     include: {
+                       user: {
+                         only: %i[name github_handle],
+                       },
+                     },
+                   },
+                 },
+               )
   end
 
   def destroy

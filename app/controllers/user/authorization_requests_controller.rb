@@ -2,12 +2,14 @@
 
 class User::AuthorizationRequestsController < User::ApplicationController
   def index
-    render json: AuthorizationRequest.where(project: current_user.projects).as_json(include: %i[user project])
+    render json:
+             AuthorizationRequest.where(organization: current_user.organizations).as_json(
+               include: %i[user organization],
+             )
   end
 
   def create
-    project = Project.find(params[:project_id])
-    authorization_request = AuthorizationRequest.find_or_create_by!(project: project, user: current_user)
+    authorization_request = AuthorizationRequest.find_or_create_by!(organization: organization, user: current_user)
 
     # TODO: Move this to a background job. Once we have a background job, we can remove the `if` statement.
     if authorization_request.previously_new_record?
@@ -27,5 +29,18 @@ class User::AuthorizationRequestsController < User::ApplicationController
     authorize authorization.project, :read?
     authorization.destroy!
     head :ok
+  end
+
+  private
+
+  def organization
+    if params[:project_id]
+      project = Project.find(params[:project_id])
+      project.organization
+    elsif params[:organization_id]
+      Organization.find(params[:organization_id])
+    else
+      raise "Must provide either project_id or organization_id"
+    end
   end
 end
