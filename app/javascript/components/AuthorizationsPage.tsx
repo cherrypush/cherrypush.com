@@ -1,6 +1,7 @@
 import { Badge, Button, Table } from 'flowbite-react'
 import _ from 'lodash'
 import { Fragment, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuthorizationsDestroy, useAuthorizationsIndex } from '../queries/user/authorizations'
 import { useAuthorizationRequestsIndex } from '../queries/user/authorizationsRequests'
 import { useProjectsIndex } from '../queries/user/projects'
@@ -10,7 +11,7 @@ import PageLoader from './PageLoader'
 
 const ProjectAuthorizations = ({ project, authorizations, destroyAuthorization, setEditedProjectId, isLoading }) => {
   return (
-    <div className="overflow-x-auto relative">
+    <div className="overflow-x-auto relative mb-6">
       <Table>
         <Table.Head>
           <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
@@ -68,6 +69,7 @@ const AuthorizationsPage = () => {
   const { data: authorizations } = useAuthorizationsIndex()
   const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
   const { data: authorizationRequests } = useAuthorizationRequestsIndex()
+  const navigate = useNavigate()
 
   const [editedProjectId, setEditedProjectId] = useState()
 
@@ -81,8 +83,7 @@ const AuthorizationsPage = () => {
 
   return (
     <div className="container">
-      <h1>Authorizations</h1>
-
+      <h1 className="mb-3">Authorizations</h1>
       <p className="mb-3">Control who has read and write access to your projects.</p>
 
       {authorizationRequests &&
@@ -93,29 +94,30 @@ const AuthorizationsPage = () => {
 
       <div className="flex mb-4">
         {projects.length === 0 && (
-          <div
-            className="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-            role="alert"
-          >
-            You first need to create a project.
-            <a href="/user/projects" className="text-link">
-              Create a project
-            </a>
+          <div className="card w-full text-center">
+            <div className="text-gray-500">You first need to create a project.</div>
+            <Button onClick={() => navigate('/user/projects/new')} className="mx-auto mt-3">
+              + New Project
+            </Button>
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-3">
-        <h2>Personal projects</h2>
-        {personalProjects.map((project) => (
-          <ProjectAuthorizations
-            key={project.id}
-            project={project}
-            authorizations={authorizations}
-            destroyAuthorization={destroyAuthorization}
-            setEditedProjectId={setEditedProjectId}
-            isLoading={isLoading}
-          />
-        ))}
+      <div className="flex flex-col">
+        {personalProjects.length > 0 && (
+          <>
+            <h2>Personal projects</h2>
+            {personalProjects.map((project) => (
+              <ProjectAuthorizations
+                key={project.id}
+                project={project}
+                authorizations={authorizations}
+                destroyAuthorization={destroyAuthorization}
+                setEditedProjectId={setEditedProjectId}
+                isLoading={isLoading}
+              />
+            ))}
+          </>
+        )}
         {organizations.map((organization) => (
           <Fragment key={organization.id}>
             <h2 className="mt-3">{organization.name} organization</h2>
