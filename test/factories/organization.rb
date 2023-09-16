@@ -3,7 +3,8 @@
 require "factory_bot"
 
 FactoryBot.define do
-  factory :membership do
-    organization
+  factory :organization do
+    user
+    name { Faker::Lorem.word }
   end
 end
