@@ -23,8 +23,8 @@ class Project < ApplicationRecord
 
   def can_create_new_authorizations?
     return false, "Your project must be within an organization." if organization.nil?
-    return false, "A membership is required to create authorizations." if organization.memberships.empty?
-    return false, "Upgrade membership to add authorizations." if organization.team_plan? && authorizations.count >= 10
+    return false, "A paid plan is required to create new authorizations." if organization.memberships.empty?
+    return false, "Upgrade plan to create new authorizations." if organization.team_plan? && authorizations.count >= 10
 
     true
   end
