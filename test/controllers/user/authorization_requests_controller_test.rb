@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class User::AuthorizationRequestsControllerTest < ApplicationIntegrationTest
   let!(:user) { create(:user) }
-  let!(:project) { create(:project, user: user) }
+  let!(:organization) { create :organization, name: "rails", user: user }
+  let!(:project) { create :project, user: user, organization: organization }
   let!(:another_user) { create(:user) }
-  let!(:authorization) { create(:authorization, user: another_user, project: project) }
+  let!(:authorization) { create(:authorization, user: another_user, organization: organization) }
 
-  describe '#create' do
-    it 'blocks requests if not authenticated' do
+  describe "#create" do
+    it "blocks requests if not authenticated" do
       post(user_authorization_requests_path, params: project.id, as: :json)
       assert_response :forbidden
     end
 
-    it 'creates contributions' do
+    it "creates contributions" do
       sign_in(user, controller_test: true)
 
       # it sends an email to all users capable of approving the request

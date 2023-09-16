@@ -21,4 +21,8 @@ class Organization < ApplicationRecord
 
     true
   end
+
+  def users
+    User.where(id: authorizations.pluck(:user_id) + [user_id])
+  end
 end

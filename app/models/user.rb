@@ -13,10 +13,8 @@ class User < ApplicationRecord
 
   validates :github_handle, presence: true
 
-  # TODO: once authorizations are implemented for organizations, we can use this
   def organizations
-    raise NotImplementedError
-    # owned_organizations.or(Organization.where(name: github_organizations))
+    Organization.where(id: authorizations.select(:organization_id) + owned_organizations.select(:id))
   end
 
   def owners
@@ -29,7 +27,7 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
-    owned_projects.or(Project.where(id: authorizations.select(:project_id)))
+    owned_projects.or(Project.where(organization_id: authorizations.select(:organization_id)))
   end
 
   def update_dynamic_attributes(auth)

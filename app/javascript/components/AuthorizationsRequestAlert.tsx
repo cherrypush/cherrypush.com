@@ -14,7 +14,7 @@ const AuthorizationRequestAlert = ({ authorizationRequest }) => {
         <span className="font-bold">
           {authorizationRequest.user.name} (@{authorizationRequest.user.github_handle})
         </span>{' '}
-        wants to access <span className="font-bold">{authorizationRequest.organization.name}</span>.
+        requested access to <span className="font-bold">{authorizationRequest.organization.name} organization</span>.
       </p>
       <div className="flex gap-3 mt-2">
         <Button
