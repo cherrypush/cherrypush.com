@@ -1,5 +1,4 @@
 import { Table } from 'flowbite-react'
-import React from 'react'
 import { useContributorsIndex } from '../queries/user/contributors'
 
 const getMedalFor = (index: number): string => {
