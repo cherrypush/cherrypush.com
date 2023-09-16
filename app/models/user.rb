@@ -1,19 +1,23 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  ADMIN_GITHUB_HANDLES = ENV.fetch('ADMIN_GITHUB_HANDLES', '').split(',')
+  ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
 
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
-  has_many :memberships, dependent: :destroy
   has_many :authorizations, dependent: :destroy
   has_many :metrics, through: :projects
   has_many :notifications, dependent: :destroy
+  has_many :owned_organizations, class_name: Organization.to_s, dependent: :destroy
 
   before_save :ensure_api_key
 
   validates :github_handle, presence: true
 
-  TRIAL_DURATION = 30.days
+  # TODO: once authorizations are implemented for organizations, we can use this
+  def organizations
+    raise NotImplementedError
+    # owned_organizations.or(Organization.where(name: github_organizations))
+  end
 
   def owners
     metrics.map(&:owners).flatten.uniq.sort_by(&:handle)
@@ -26,23 +30,6 @@ class User < ApplicationRecord
   def projects
     return Project.all if admin?
     owned_projects.or(Project.where(id: authorizations.select(:project_id)))
-  end
-
-  def trial_until
-    created_at + TRIAL_DURATION
-  end
-
-  def trial_expired?
-    !premium? && !trial?
-  end
-
-  def trial?
-    !premium? && Time.current < trial_until
-  end
-
-  def premium?
-    # memberships.any?
-    true
   end
 
   def update_dynamic_attributes(auth)
@@ -66,7 +53,7 @@ class User < ApplicationRecord
     scope
       .where(author_name: name)
       .or(scope.where(author_email: email))
-      .or(scope.where('author_email like ?', "%#{github_handle}%"))
+      .or(scope.where("author_email like ?", "%#{github_handle}%"))
   end
 
   private
@@ -81,10 +68,10 @@ class User < ApplicationRecord
     HTTParty.get(
       auth.extra.raw_info.organizations_url,
       headers: {
-        'Accept' => 'application/vnd.github.v3+json',
-        'Authorization' => "token #{auth.credentials.token}",
+        "Accept" => "application/vnd.github.v3+json",
+        "Authorization" => "token #{auth.credentials.token}",
       },
-    ).pluck('login')
+    ).pluck("login")
   end
 
   class << self
