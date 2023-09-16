@@ -145,7 +145,7 @@ const DashboardsIndexPage = () => {
         />
       ) : (
         <Card>
-          <div className="text-center text-gray-500">No dashboards yet</div>
+          <div className="text-center text-gray-500">No dashboards yet.</div>
         </Card>
       )}
       {showNewDashboardModal && <NewDashboardModal onClose={() => setShowNewDashboardModal(false)} />}
