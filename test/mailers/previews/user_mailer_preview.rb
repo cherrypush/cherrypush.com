@@ -10,7 +10,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def new_authorization_request
-    authorization_request = AuthorizationRequest.find_or_create_by!(user: User.first, project: Project.first)
+    authorization_request = AuthorizationRequest.find_or_create_by!(user: User.first, organization: Organization.first)
     UserMailer.with(user: User.first, authorization_request: authorization_request).new_authorization_request
   end
 
