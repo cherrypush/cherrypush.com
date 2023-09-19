@@ -13,7 +13,13 @@ class User < ApplicationRecord
 
   validates :github_handle, presence: true
 
+  # Ref: https://blog.arkency.com/how-to-overwrite-to-json-as-json-in-active-record-models-in-rails/
+  def as_json(*)
+    super.slice("id", "name", "github_handle")
+  end
+
   def organizations
+    return Organization.all if admin?
     Organization.where(id: authorizations.select(:organization_id) + owned_organizations.select(:id))
   end
 

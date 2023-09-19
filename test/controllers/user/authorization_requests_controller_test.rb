@@ -9,6 +9,17 @@ class User::AuthorizationRequestsControllerTest < ApplicationIntegrationTest
   let!(:another_user) { create(:user) }
   let!(:authorization) { create(:authorization, user: another_user, organization: organization) }
 
+  describe "#index" do
+    it "does not expose user sensitive data" do
+      create :authorization_request, user: user, organization: organization
+      sign_in(user, controller_test: true)
+      get(user_authorization_requests_path, as: :json)
+      assert_response :ok
+      assert_nil response.parsed_body.first["user"]["email"]
+      assert_nil response.parsed_body.first["user"]["api_key"]
+    end
+  end
+
   describe "#create" do
     it "blocks requests if not authenticated" do
       post(user_authorization_requests_path, params: project.id, as: :json)

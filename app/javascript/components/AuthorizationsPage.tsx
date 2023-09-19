@@ -9,13 +9,16 @@ import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
 import NewAuthorizationModal from './NewAuthorizationModal'
 import PageLoader from './PageLoader'
 
-const ProjectAuthorizations = ({
+const PersonalProjectAuthorizations = ({
   project,
   authorizations,
   destroyAuthorization,
   isLoading,
 }: {
+  authorizations: { id: number; project_id: number; user: { name: string; github_handle: string } }[]
+  project: { name: string; user: { name: string; github_handle: string }; id: number }
   isLoading: boolean
+  destroyAuthorization: (arg: { id: number }) => void
 }) => {
   return (
     <div className="overflow-x-auto relative mb-6">
@@ -74,11 +77,11 @@ const AuthorizationsPage = () => {
   const { data: authorizationRequests } = useAuthorizationRequestsIndex()
   const navigate = useNavigate()
 
-  const [editedOrganizationId, setEditedOrganizationId] = useState()
+  const [editedOrganizationId, setEditedOrganizationId] = useState<number | null>(null)
 
   if (!projects || !authorizations) return <PageLoader />
 
-  const organizations = _.uniqBy(
+  const organizations: { id: number; name: string }[] = _.uniqBy(
     projects.map((project) => project.organization).filter((organization) => !!organization),
     'id'
   )
@@ -110,7 +113,7 @@ const AuthorizationsPage = () => {
           <>
             <h2>Personal projects</h2>
             {personalProjects.map((project) => (
-              <ProjectAuthorizations
+              <PersonalProjectAuthorizations
                 key={project.id}
                 project={project}
                 authorizations={authorizations}
@@ -146,7 +149,7 @@ const AuthorizationsPage = () => {
                   .filter((authorization) => authorization.organization_id === organization.id)
                   .sort((a, b) => a.user.name.localeCompare(b.user.name))
                   .map((authorization) => (
-                    <>
+                    <Fragment key={authorization.id}>
                       {/* AUTHORIZATIONS */}
                       <Table.Row
                         key={authorization.id}
@@ -171,7 +174,7 @@ const AuthorizationsPage = () => {
                           </Button>
                         </Table.Cell>
                       </Table.Row>
-                    </>
+                    </Fragment>
                   ))}
               </Table.Body>
             </Table>

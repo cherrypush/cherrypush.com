@@ -21,9 +21,7 @@ class User::AuthorizationsController < User::ApplicationController
       authorization = Authorization.find_or_create_by!(organization: @organization, user: @user)
       AuthorizationRequest.where(organization: @organization, user: @user).destroy_all
       UserMailer.with(from: current_user, to: @user, organization: @organization).authorization_granted.deliver_later
-      TelegramClient.send(
-        "#{current_user.name} added #{authorization.user.name} to #{authorization.organization.name}.",
-      )
+      TelegramClient.send("#{current_user.name} added #{authorization.user.name} to #{@organization.name}.")
     else
       render json: { error: error_message }, status: :forbidden
     end
