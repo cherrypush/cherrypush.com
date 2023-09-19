@@ -1,10 +1,11 @@
 require "application_system_test_case"
 
-class MetricsTest < ApplicationSystemTestCase
+class AuthorizationsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
   let!(:new_user) { create :user, name: "Prabhakar", github_handle: "prabs" }
+  let!(:dashboard) { create(:dashboard, project: project, name: "TS Migration") }
 
   it "allows new users to request access to projects from projects" do
     sign_in(new_user, to: user_projects_path(project_id: project.id))
@@ -17,7 +18,6 @@ class MetricsTest < ApplicationSystemTestCase
   end
 
   it "allows new users to request access to projects from dashboards" do
-    dashboard = create(:dashboard, project: project, name: "TS Migration")
     sign_in(new_user, to: user_dashboard_path(dashboard))
     assert_text "You don't have access to this project"
     click_on "Request Access"
