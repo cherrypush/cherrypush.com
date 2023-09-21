@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthorizationsDestroy, useAuthorizationsIndex } from '../queries/user/authorizations'
 import { useAuthorizationRequestsIndex } from '../queries/user/authorizationsRequests'
 import { useProjectsIndex } from '../queries/user/projects'
+import { useUsersIndex } from '../queries/user/users'
 import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
 import NewAuthorizationModal from './NewAuthorizationModal'
 import PageLoader from './PageLoader'
@@ -72,6 +73,7 @@ const PersonalProjectAuthorizations = ({
 
 const AuthorizationsPage = () => {
   const { data: projects } = useProjectsIndex()
+  const { data: users } = useUsersIndex()
   const { data: authorizations } = useAuthorizationsIndex()
   const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
   const { data: authorizationRequests } = useAuthorizationRequestsIndex()
@@ -79,7 +81,7 @@ const AuthorizationsPage = () => {
 
   const [editedOrganizationId, setEditedOrganizationId] = useState<number | null>(null)
 
-  if (!projects || !authorizations) return <PageLoader />
+  if (!projects || !authorizations || !users) return <PageLoader />
 
   const organizations: { id: number; name: string }[] = _.uniqBy(
     projects.map((project) => project.organization).filter((organization) => !!organization),
@@ -124,62 +126,66 @@ const AuthorizationsPage = () => {
           </>
         )}
 
-        {organizations.map((organization) => (
-          <Fragment key={organization.id}>
-            <div className="flex items-center justify-between">
-              <h2 className="mt-3">{organization.name} projects</h2>
-              <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
-                + Authorization
-              </Button>
-            </div>
+        {organizations.map((organization) => {
+          const organizationOwner = users.find((user) => user.id === organization.user_id)
 
-            <Table>
-              <Table.Body>
-                {/* OWNER */}
-                <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <Table.Cell className="flex gap-3">
-                    {organization.user.name} (@{organization.user.github_handle})
-                    <Badge color="gray" size="xs">
-                      OWNER
-                    </Badge>
-                  </Table.Cell>
-                  <Table.Cell />
-                </Table.Row>
-                {authorizations
-                  .filter((authorization) => authorization.organization_id === organization.id)
-                  .sort((a, b) => a.user.name.localeCompare(b.user.name))
-                  .map((authorization) => (
-                    <Fragment key={authorization.id}>
-                      {/* AUTHORIZATIONS */}
-                      <Table.Row
-                        key={authorization.id}
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                      >
-                        <Table.Cell className="flex gap-3">
-                          {authorization.user.name} (@{authorization.user.github_handle})
-                        </Table.Cell>
-                        <Table.Cell className="justify-end">
-                          <Button
-                            onClick={() => {
-                              if (window.confirm('Do you really want to revoke this authorization?')) {
-                                destroyAuthorization({ id: authorization.id })
-                              }
-                            }}
-                            disabled={isLoading}
-                            size="xs"
-                            className="ml-auto"
-                            color="light"
-                          >
-                            Remove
-                          </Button>
-                        </Table.Cell>
-                      </Table.Row>
-                    </Fragment>
-                  ))}
-              </Table.Body>
-            </Table>
-          </Fragment>
-        ))}
+          return (
+            <Fragment key={organization.id}>
+              <div className="flex items-center justify-between">
+                <h2 className="mt-3">{organization.name} projects</h2>
+                <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
+                  + Authorization
+                </Button>
+              </div>
+
+              <Table>
+                <Table.Body>
+                  {/* OWNER */}
+                  <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <Table.Cell className="flex gap-3">
+                      {organizationOwner.name} (@{organizationOwner.github_handle})
+                      <Badge color="gray" size="xs">
+                        OWNER
+                      </Badge>
+                    </Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>
+                  {authorizations
+                    .filter((authorization) => authorization.organization_id === organization.id)
+                    .sort((a, b) => a.user.name.localeCompare(b.user.name))
+                    .map((authorization) => (
+                      <Fragment key={authorization.id}>
+                        {/* AUTHORIZATIONS */}
+                        <Table.Row
+                          key={authorization.id}
+                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        >
+                          <Table.Cell className="flex gap-3">
+                            {authorization.user.name} (@{authorization.user.github_handle})
+                          </Table.Cell>
+                          <Table.Cell className="justify-end">
+                            <Button
+                              onClick={() => {
+                                if (window.confirm('Do you really want to revoke this authorization?')) {
+                                  destroyAuthorization({ id: authorization.id })
+                                }
+                              }}
+                              disabled={isLoading}
+                              size="xs"
+                              className="ml-auto"
+                              color="light"
+                            >
+                              Remove
+                            </Button>
+                          </Table.Cell>
+                        </Table.Row>
+                      </Fragment>
+                    ))}
+                </Table.Body>
+              </Table>
+            </Fragment>
+          )
+        })}
 
         {editedOrganizationId && (
           <NewAuthorizationModal organizationId={editedOrganizationId} onClose={() => setEditedOrganizationId(null)} />

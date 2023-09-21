@@ -14,7 +14,7 @@ class DashboardsTest < ApplicationSystemTestCase
   let!(:_report3) { create(:report, metric: metric2, value: 12, date: 10.day.ago, value_by_owner:) }
   let!(:_report4) { create(:report, metric: metric2, value: 9, date: 5.days.ago, value_by_owner:) }
 
-  it "allows new users to request access to projects" do # rubocop:disable Metrics/BlockLength
+  it "allows new users to request access to projects" do
     sign_in(user, to: user_dashboards_path)
 
     # Create dashboard
