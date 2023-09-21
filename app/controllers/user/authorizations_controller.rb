@@ -5,13 +5,7 @@ class User::AuthorizationsController < User::ApplicationController
   before_action :set_user, only: :create
 
   def index
-    json =
-      Authorization
-        .where(organization: current_user.organizations)
-        .includes(:user)
-        .as_json(include: { user: { only: %i[name github_handle] } })
-
-    render json: json
+    render json: Authorization.where(organization: current_user.organizations).includes(:user).as_json(include: :user)
   end
 
   def create
