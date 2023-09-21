@@ -2,7 +2,9 @@
 
 class User < ApplicationRecord
   ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
-  EXPOSED_ATTRIBUTES = %w[id name github_handle]
+
+  ALL_ATTRIBUTES = User.new.attributes.keys
+  NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
 
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :authorizations, dependent: :destroy
@@ -16,7 +18,7 @@ class User < ApplicationRecord
 
   # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
   def serializable_hash(options = nil)
-    super({ only: EXPOSED_ATTRIBUTES }.merge(options || {}))
+    super({ only: NON_SENSITIVE_ATTRIBUTES }.merge(options || {}))
   end
 
   def organizations
