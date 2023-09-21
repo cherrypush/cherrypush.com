@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
+  EXPOSED_ATTRIBUTES = %w[id name github_handle]
 
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :authorizations, dependent: :destroy
@@ -13,9 +14,9 @@ class User < ApplicationRecord
 
   validates :github_handle, presence: true
 
-  # Ref: https://blog.arkency.com/how-to-overwrite-to-json-as-json-in-active-record-models-in-rails/
-  def as_json(*)
-    super.slice("id", "name", "github_handle")
+  # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
+  def serializable_hash(options = nil)
+    super({ only: EXPOSED_ATTRIBUTES }.merge(options || {}))
   end
 
   def organizations
@@ -69,13 +70,8 @@ class User < ApplicationRecord
   def fetch_github_organizations(auth)
     return [] unless auth.try(:extra, :raw_info, :organizations_url)
 
-    HTTParty.get(
-      auth.extra.raw_info.organizations_url,
-      headers: {
-        "Accept" => "application/vnd.github.v3+json",
-        "Authorization" => "token #{auth.credentials.token}",
-      },
-    ).pluck("login")
+    # organizations_url has the shape of https://api.github.com/users/:github_handle/orgs
+    HTTParty.get(auth.extra.raw_info.organizations_url).pluck("login")
   end
 
   class << self
