@@ -7,17 +7,8 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true
 
-  def team_plan?
-    memberships.any?
-  end
-
-  def organization_plan?
-    memberships.organization_kind.any?
-  end
-
   def can_create_new_authorizations?
-    return false, "A paid plan is required to create new authorizations." if memberships.empty?
-    return false, "Upgrade your plan to create new authorizations." if team_plan? && authorizations.count >= 10
+    return false, "A paid plan is required to create authorizations. Reach out to #{user.name}." if memberships.empty?
 
     true
   end
