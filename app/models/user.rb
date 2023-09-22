@@ -23,7 +23,7 @@ class User < ApplicationRecord
 
   def organizations
     return Organization.all if admin?
-    Organization.where(id: authorizations.select(:organization_id) + owned_organizations.select(:id))
+    Organization.where(id: authorizations.pluck(:organization_id) + owned_organizations.pluck(:id))
   end
 
   def owners

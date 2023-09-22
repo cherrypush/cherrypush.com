@@ -22,8 +22,7 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def destroy
-    authorization = Authorization.find(params[:id])
-    authorize authorization.project, :destroy?
+    authorization = authorize Authorization.find(params[:id]), :destroy?
     authorization.destroy!
   end
 
