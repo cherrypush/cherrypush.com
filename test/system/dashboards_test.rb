@@ -3,19 +3,22 @@
 require "application_system_test_case"
 
 class DashboardsTest < ApplicationSystemTestCase
-  let!(:user) { create(:user) }
-  let!(:project) { create(:project, user: user, name: "rails/rails") }
+  let!(:user) { create :user }
+  let!(:authorized_user) { create :user }
+  let!(:organization) { create :organization, name: "cherrypush" }
+  let!(:_authorization) { create :authorization, user: authorized_user, organization: organization }
+  let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
 
-  let!(:metric1) { create(:metric, project: project, name: "JS LOC") }
-  let!(:_report1) { create(:report, metric: metric1, value: 12, date: 4.day.ago, value_by_owner:) }
-  let!(:_report2) { create(:report, metric: metric1, value: 9, date: 2.days.ago, value_by_owner:) }
+  let!(:metric1) { create :metric, project: project, name: "JS LOC" }
+  let!(:_report1) { create :report, metric: metric1, value: 12, date: 4.day.ago, value_by_owner: value_by_owner }
+  let!(:_report2) { create :report, metric: metric1, value: 9, date: 2.days.ago, value_by_owner: value_by_owner }
 
-  let!(:metric2) { create(:metric, project: project, name: "TS LOC") }
-  let!(:_report3) { create(:report, metric: metric2, value: 12, date: 10.day.ago, value_by_owner:) }
-  let!(:_report4) { create(:report, metric: metric2, value: 9, date: 5.days.ago, value_by_owner:) }
+  let!(:metric2) { create :metric, project: project, name: "TS LOC" }
+  let!(:_report3) { create :report, metric: metric2, value: 12, date: 10.day.ago, value_by_owner: value_by_owner }
+  let!(:_report4) { create :report, metric: metric2, value: 9, date: 5.days.ago, value_by_owner: value_by_owner }
 
   it "allows new users to request access to projects" do
-    sign_in(user, to: user_dashboards_path)
+    sign_in(authorized_user, to: user_dashboards_path)
 
     # Create dashboard
     assert_text "Dashboards"
