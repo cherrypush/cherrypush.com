@@ -35,9 +35,6 @@ class Api::PushesController < Api::ApplicationController
         end
     end
 
-    # delete previous reports in the same day for the same metric
-    DatabaseCleanupJob.perform_later(current_project) if params[:cleanup] == true
-
     render json: { status: :ok }, status: :created
   end
 
