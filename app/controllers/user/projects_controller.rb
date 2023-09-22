@@ -3,11 +3,7 @@
 class User::ProjectsController < User::ApplicationController
   def index
     projects = current_user.projects.includes(:user)
-    render json:
-             projects
-               .includes(:user, :organization)
-               .order(:name)
-               .as_json(include: { user: { only: %i[name github_handle] }, organization: { only: %i[id name] } })
+    render json: projects.includes(:user, organization: :user).order(:name).as_json(include: %i[user organization])
   end
 
   def destroy
