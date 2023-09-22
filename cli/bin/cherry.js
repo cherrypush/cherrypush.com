@@ -272,14 +272,13 @@ const upload = async (apiKey, projectName, date, occurrences) => {
   console.log(`Uploading ${occurrences.length} occurrences in ${occurrencesBatches.length} batches:`)
   for (const [index, occurrencesBatch] of occurrencesBatches.entries()) {
     spinnies.add('batches', { text: `Batch ${index + 1} out of ${occurrencesBatches.length}`, indent: 2 })
-    const isLastBatch = index === occurrencesBatches.length - 1
 
     try {
       await handleApiError(() =>
         axios
           .post(
             API_BASE_URL + '/push',
-            buildPushPayload({ apiKey, projectName, uuid, date, occurrences: occurrencesBatch, cleanup: isLastBatch })
+            buildPushPayload({ apiKey, projectName, uuid, date, occurrences: occurrencesBatch })
           )
           .then(({ data }) => data)
           .then(() => spinnies.succeed('batches', { text: `Batch ${index + 1} out of ${occurrencesBatches.length}` }))
@@ -303,13 +302,12 @@ const buildMetricsPayload = (occurrences) =>
     .flatten()
     .value()
 
-const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences, cleanup }) => ({
+const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences }) => ({
   api_key: apiKey,
   project_name: projectName,
   date: date.toISOString(),
   uuid,
   metrics: buildMetricsPayload(occurrences),
-  cleanup,
 })
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>
