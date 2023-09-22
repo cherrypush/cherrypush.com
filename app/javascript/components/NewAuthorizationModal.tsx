@@ -4,7 +4,7 @@ import { useAuthorizationsCreate } from '../queries/user/authorizations'
 import { useUsersIndex } from '../queries/user/users'
 import AutocompleteField from './AutocompleteField'
 
-const NewAuthorizationModal = ({ projectId, onClose }: { projectId: number; onClose: () => void }) => {
+const NewAuthorizationModal = ({ organizationId, onClose }: { organizationId: number; onClose: () => void }) => {
   const { data: users, isLoading } = useUsersIndex()
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
   const [userId, setUserId] = useState()
@@ -32,7 +32,7 @@ const NewAuthorizationModal = ({ projectId, onClose }: { projectId: number; onCl
       <Modal.Footer className="justify-end">
         <Button
           disabled={!userId || isCreatingAuthorization}
-          onClick={() => createAuthorization({ projectId, userId }).then(onClose)}
+          onClick={() => createAuthorization({ organizationId, userId }).then(onClose)}
           className="align-right"
         >
           Create authorization

@@ -9,7 +9,7 @@
     <%= render 'components/feedback_button' %>
 
     <script>
-      window.current_user = <%= current_user.to_json.html_safe %>
+      window.current_user = <%= current_user.to_json(only: User::ALL_ATTRIBUTES).html_safe %>
     </script>
   </body>
 </html>

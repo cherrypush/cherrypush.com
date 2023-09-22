@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class ProjectPolicy < ApplicationPolicy
+class OrganizationPolicy < ApplicationPolicy
   def read?
     return true if user.admin?
-    return true if record.name == "cherrypush/cherry"
+    return true if record.name == "cherrypush"
     return true if record.user == user
     return true if user.authorizations.where(organization: record).any?
     false

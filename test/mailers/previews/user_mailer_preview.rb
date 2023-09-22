@@ -10,12 +10,12 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def new_authorization_request
-    authorization_request = AuthorizationRequest.find_or_create_by!(user: User.first, project: Project.first)
+    authorization_request = AuthorizationRequest.find_or_create_by!(user: User.first, organization: Organization.first)
     UserMailer.with(user: User.first, authorization_request: authorization_request).new_authorization_request
   end
 
   def authorization_granted
-    UserMailer.with(from: User.first, to: User.last, project: Project.first).authorization_granted
+    UserMailer.with(from: User.first, to: User.last, organization: Organization.first).authorization_granted
   end
 
   def daily_notifications_report
