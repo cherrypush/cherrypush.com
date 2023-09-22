@@ -3,12 +3,12 @@
 class Api::PushesController < Api::ApplicationController
   include Api::ProjectScoped
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     ActiveRecord::Base.transaction do
       params
         .require(:metrics)
         .each do |metric_params|
-          metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
+          metric = Metric.find_or_create_by!(name: metric_params.require("name"), project: current_project)
 
           report = metric.reports.find_or_initialize_by(uuid: params[:uuid] || SecureRandom.uuid)
 
@@ -44,7 +44,7 @@ class Api::PushesController < Api::ApplicationController
   private
 
   def get_value(occurrences)
-    occurrences.sum { |occurrence| occurrence['value'] || 1 }
+    occurrences.sum { |occurrence| occurrence["value"] || 1 }
   end
 
   def get_value_by_owner(occurrences)
@@ -52,10 +52,10 @@ class Api::PushesController < Api::ApplicationController
 
     occurrences.each_with_object({}) do |occurrence, owners|
       Array
-        .wrap(occurrence['owners'])
+        .wrap(occurrence["owners"])
         .each do |owner|
           owners[owner] ||= 0
-          owners[owner] += (occurrence['value'] || 1).to_f
+          owners[owner] += (occurrence["value"] || 1).to_f
         end
     end
   end
