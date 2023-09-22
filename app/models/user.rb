@@ -3,6 +3,9 @@
 class User < ApplicationRecord
   ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
 
+  ALL_ATTRIBUTES = User.new.attributes.keys
+  NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
+
   has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
   has_many :authorizations, dependent: :destroy
   has_many :metrics, through: :projects
@@ -13,10 +16,14 @@ class User < ApplicationRecord
 
   validates :github_handle, presence: true
 
-  # TODO: once authorizations are implemented for organizations, we can use this
+  # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
+  def serializable_hash(options = nil)
+    super({ only: NON_SENSITIVE_ATTRIBUTES }.merge(options || {}))
+  end
+
   def organizations
-    raise NotImplementedError
-    # owned_organizations.or(Organization.where(name: github_organizations))
+    return Organization.all if admin?
+    Organization.where(id: authorizations.select(:organization_id) + owned_organizations.select(:id))
   end
 
   def owners
@@ -29,7 +36,7 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
-    owned_projects.or(Project.where(id: authorizations.select(:project_id)))
+    owned_projects.or(Project.where(organization_id: authorizations.select(:organization_id)))
   end
 
   def update_dynamic_attributes(auth)
@@ -65,13 +72,8 @@ class User < ApplicationRecord
   def fetch_github_organizations(auth)
     return [] unless auth.try(:extra, :raw_info, :organizations_url)
 
-    HTTParty.get(
-      auth.extra.raw_info.organizations_url,
-      headers: {
-        "Accept" => "application/vnd.github.v3+json",
-        "Authorization" => "token #{auth.credentials.token}",
-      },
-    ).pluck("login")
+    # organizations_url has the shape of https://api.github.com/users/:github_handle/orgs
+    HTTParty.get(auth.extra.raw_info.organizations_url).pluck("login")
   end
 
   class << self
