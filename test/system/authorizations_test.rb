@@ -27,6 +27,22 @@ class AuthorizationsTest < ApplicationSystemTestCase
     assert_equal organization.id, AuthorizationRequest.last.organization_id
   end
 
+  it "allows users to delete authorization" do
+    other_user = create :user, name: "Flavio Wuensche"
+    create :authorization, user: other_user, organization: organization
+    create :authorization, user: new_user, organization: organization
+
+    sign_in(new_user, to: user_authorizations_path)
+    assert_text "Prabhakar Prabhakar"
+    assert_text "Flavio Wuensche"
+    accept_confirm { all("button", text: "Remove").first.click }
+    assert_text "Authorization revoked"
+    assert_no_text "Flavio Wuensche"
+    accept_confirm { all("button", text: "Remove").first.click }
+    assert_text "Authorization revoked"
+    assert_text "You first need to create a project"
+  end
+
   describe "when the new user requests an authorization" do
     let!(:authorization_request) { create(:authorization_request, organization: organization, user: new_user) }
 
