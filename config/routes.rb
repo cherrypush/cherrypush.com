@@ -8,6 +8,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # AUTHENTICATION ROUTES
   get "auth/:provider/callback", to: "sessions#create"
   get "/sign_out", to: "sessions#destroy", as: :signout
+  get "/auth/google_oauth2", as: :google_sign_in
   get "/auth/github", as: :github_sign_in
   get "/auth/failure" => "sessions#failure"
 
