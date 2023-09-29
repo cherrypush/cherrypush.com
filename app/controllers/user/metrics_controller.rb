@@ -5,7 +5,7 @@ class User::MetricsController < User::ApplicationController
     if params[:project_id]
       project = Project.includes(:metrics).find_by(id: params[:project_id])
       authorize(project, :read?)
-      metrics = project.metrics.order('LOWER(name)').as_json(include: %i[project])
+      metrics = project.metrics.order("LOWER(name)").as_json(include: %i[project])
     else
       metrics = current_user.metrics.includes(:project).as_json(include: %i[project])
     end
@@ -22,8 +22,8 @@ class User::MetricsController < User::ApplicationController
 
   def destroy
     metric = Metric.find(params[:id])
-    authorize(metric.project, :destroy?)
+    authorize(metric.project, :read?)
     metric.destroy!
-    render json: { message: 'Metric deleted' }
+    render json: { message: "Metric deleted" }
   end
 end
