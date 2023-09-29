@@ -3,8 +3,9 @@
 require "application_system_test_case"
 
 class MetricsTest < ApplicationSystemTestCase
-  let!(:user) { create(:user, name: "Flavio Wuensche", email: "f.wuensche@gmail.com", github_handle: "fwuensche") }
-  let!(:project) { create(:project, user: user, name: "rails/rails") }
+  let!(:user) { create(:user, name: "Yan Bonnel", email: "yan.bonnel@example.com", github_handle: "yanbonnel") }
+  let!(:project) { create(:project, user: create(:user), name: "rails/rails") }
+  let!(:authorization) { create :authorization, user: user, organization: project.organization }
   let!(:eslint_metric) { create(:metric, project: project, name: "eslint") }
   let!(:eslint_report) { create(:report, metric: eslint_metric, value: 60, date: 4.days.ago) }
   let!(:rubocop_metric) { create(:metric, project: project, name: "rubocop") }
@@ -15,7 +16,7 @@ class MetricsTest < ApplicationSystemTestCase
       value: 12,
       date: 1.day.ago,
       value_by_owner: {
-        "@fwuensche" => 10,
+        "@yanbonnel" => 10,
         "@rchoquet" => 8,
       },
     )
@@ -27,7 +28,7 @@ class MetricsTest < ApplicationSystemTestCase
       value: 9,
       date: 2.days.ago,
       value_by_owner: {
-        "@fwuensche" => 7,
+        "@yanbonnel" => 7,
         "@rchoquet" => 8,
       },
     )
@@ -39,7 +40,7 @@ class MetricsTest < ApplicationSystemTestCase
       text: "filepath:1",
       url: "permalink/filepath:2",
       report: rubocop_report,
-      owners: ["@fwuensche"],
+      owners: ["@yanbonnel"],
       value: 1.2,
     )
   end
@@ -50,7 +51,7 @@ class MetricsTest < ApplicationSystemTestCase
       text: "filepath:2",
       url: "permalink/filepath:2",
       report: rubocop_report,
-      owners: %w[@fwuensche @rchoquet],
+      owners: %w[@yanbonnel @rchoquet],
       value: 2.8,
     )
   end
@@ -78,27 +79,27 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text "Flavinho -22"
 
     # Occurrences
-    assert_text "filepath:2 @fwuensche, @rchoquet 2.8"
-    assert_equal ["filepath:2 @fwuensche, @rchoquet 2.8", "filepath:1 @fwuensche 1.2"], all("tr").map(&:text).last(2)
+    assert_text "filepath:2 @yanbonnel, @rchoquet 2.8"
+    assert_equal ["filepath:2 @yanbonnel, @rchoquet 2.8", "filepath:1 @yanbonnel 1.2"], all("tr").map(&:text).last(2)
 
     # Apply filters
     find("tr", text: "@rchoquet", match: :first).click
     fill_in("Filter by owners", with: "@rchoquet")
     find("li", text: "@rchoquet (8)").click
     assert_text "NAME OWNERS VALUE"
-    assert_text "filepath:2 @fwuensche, @rchoquet 2.8"
+    assert_text "filepath:2 @yanbonnel, @rchoquet 2.8"
 
     # Profile does not show contributions from other users
     click_on "Avatar"
-    find("li", text: "Flavio Wuensche").click
-    assert_text "Flavio Wuensche"
-    assert_text "@fwuensche"
+    find("li", text: "Yan Bonnel").click
+    assert_text "Yan Bonnel"
+    assert_text "@yanbonnel"
     assert_equal 1, all("tr").count
 
     # Profile shows contributions matching name, email, or github handle
-    create(:contribution, author_name: "Flavio Wuensche", metric: rubocop_metric, diff: 42)
-    create(:contribution, author_email: "f.wuensche@gmail.com", metric: rubocop_metric, diff: -12)
-    create(:contribution, author_email: "fwuensche@github-whatever.com", metric: rubocop_metric, diff: 36)
+    create(:contribution, author_name: "Yan Bonnel", metric: rubocop_metric, diff: 42)
+    create(:contribution, author_email: "yan.bonnel@example.com", metric: rubocop_metric, diff: -12)
+    create(:contribution, author_email: "yanbonnel@github-whatever.com", metric: rubocop_metric, diff: 36)
     refresh
     assert_text "+42"
     assert_text "-12"
