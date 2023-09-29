@@ -26,7 +26,7 @@ class User::AuthorizationRequestsController < User::ApplicationController
 
   def destroy
     authorization = AuthorizationRequest.find(params[:id])
-    authorize authorization.organization, :read?
+    authorize authorization.organization, :write_access?
     authorization.destroy!
     head :ok
   end

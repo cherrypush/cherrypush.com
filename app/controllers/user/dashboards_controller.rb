@@ -13,7 +13,7 @@ class User::DashboardsController < User::ApplicationController
   def show
     dashboard = Dashboard.find(params[:id])
 
-    if ProjectPolicy.new(current_user, dashboard.project).read?
+    if ProjectPolicy.new(current_user, dashboard.project).read_access?
       render json: dashboard.as_json(include: [:project, { charts: { include: :chart_metrics } }])
     else
       render json: { redirect_url: user_projects_path(project_id: dashboard.project.id) }, status: :unauthorized
@@ -21,19 +21,19 @@ class User::DashboardsController < User::ApplicationController
   end
 
   def create
-    project = authorize Project.find(params[:dashboard][:project_id]), :read?
+    project = authorize Project.find(params[:dashboard][:project_id]), :write_access?
     render json: project.dashboards.create!(dashboard_params)
   end
 
   def update
     dashboard = Dashboard.find(params[:id])
-    authorize dashboard.project, :read?
+    authorize dashboard.project, :write_access?
     dashboard.update!(dashboard_params)
   end
 
   def destroy
     dashboard = Dashboard.find(params[:id])
-    authorize dashboard.project, :read?
+    authorize dashboard.project, :write_access?
     dashboard.destroy!
   end
 
