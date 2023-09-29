@@ -106,6 +106,20 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text "+36"
   end
 
+  it "allows users to follow and unfollow metrics" do
+    sign_in(user, to: user_projects_path)
+    find("tr", text: "rails/rails").click
+    assert_text "eslint"
+    fill_in "Filter metrics", with: "rubo"
+    assert_no_text "eslint"
+    find("tr", text: "rubocop").click
+    click_on "Watch"
+    assert_text "You're now watching this metric"
+    click_on "Watching"
+    find("li", text: "Unwatch").click
+    assert_text "You're no longer watching this metric"
+  end
+
   it "deletes metrics" do
     sign_in(user, to: user_projects_path)
     visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"

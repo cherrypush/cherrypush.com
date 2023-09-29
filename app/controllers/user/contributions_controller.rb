@@ -16,15 +16,19 @@ class User::ContributionsController < User::ApplicationController
   private
 
   def contributions
-    if params[:metric_id]
-      metric = Metric.find(params[:metric_id])
-      authorize metric.project, :read?
-      metric.contributions
-    elsif params[:user_id]
-      # only contributions to projects current user has access to
-      User.find(params[:user_id]).contributions.where(metric: Metric.where(project: current_user.projects))
-    else
-      current_user.contributions
-    end
+    return metric_contributions if params[:metric_id]
+    return user_contributions if params[:user_id]
+
+    current_user.contributions
+  end
+
+  def metric_contributions
+    metric = Metric.find(params[:metric_id])
+    authorize(metric.project, :read_access?)
+    metric.contributions
+  end
+
+  def user_contributions
+    User.find(params[:user_id]).contributions.where(metric: Metric.where(project: current_user.projects))
   end
 end
