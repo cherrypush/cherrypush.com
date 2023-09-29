@@ -8,15 +8,16 @@ import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
-import { useNotificationsIndex } from '../queries/user/notifications'
+import { PER_PAGE as NOTIFICATIONS_PER_PAGE, useNotificationsInfiniteIndex } from '../queries/user/notifications'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
 const CherryNavbar = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   const isFetching = useIsFetching()
-  const { data: notifications } = useNotificationsIndex()
-  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length
+  const { data } = useNotificationsInfiniteIndex()
+  const notifications = data?.pages?.flatMap((page) => page)
+  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length || 0
 
   return (
     <>
@@ -42,7 +43,9 @@ const CherryNavbar = () => {
             <NotificationsIcon />
             {unSeenNotificationsCount > 0 && (
               <span className="ml-1.5 text-xs font-semibold bg-red-500 text-white px-1.5 rounded-full">
-                {unSeenNotificationsCount}
+                {unSeenNotificationsCount >= NOTIFICATIONS_PER_PAGE
+                  ? `${NOTIFICATIONS_PER_PAGE}+`
+                  : unSeenNotificationsCount}
               </span>
             )}
           </Button>
