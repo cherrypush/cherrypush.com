@@ -3,20 +3,19 @@ import { useNavigate } from 'react-router-dom'
 import { buildCommitUrl, formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 import { useMetricsIndex } from '../queries/user/metrics'
 import {
-  useNotificationsInfiniteIndex,
+  useNotificationsIndex,
   useNotificationsMarkAllAsSeen,
   useNotificationsMarkAsSeen,
 } from '../queries/user/notifications'
 
 const NotificationsPage = () => {
-  const { data, fetchNextPage, hasNextPage, isFetching } = useNotificationsInfiniteIndex()
+  const { data: notifications } = useNotificationsIndex()
   const { data: metrics } = useMetricsIndex()
   const { mutate: markAsSeen } = useNotificationsMarkAsSeen()
   const { mutate: markAllAsSeen } = useNotificationsMarkAllAsSeen()
   const navigate = useNavigate()
 
-  if (!data || !metrics) return null
-  const notifications = data.pages?.flatMap((page) => page)
+  if (!notifications || !metrics) return null
 
   return (
     <div className="container">
@@ -72,11 +71,6 @@ const NotificationsPage = () => {
         <Card>
           <div className="text-center text-gray-500">No notification yet</div>
         </Card>
-      )}
-      {hasNextPage && (
-        <Button onClick={() => fetchNextPage()} disabled={isFetching} fullSized>
-          Show more
-        </Button>
       )}
     </div>
   )

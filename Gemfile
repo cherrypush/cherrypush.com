@@ -32,7 +32,6 @@ gem "skylight" # performance monitoring
 gem "groupdate"
 gem "heroicon"
 gem "httparty"
-gem "kaminari"
 gem "pundit"
 gem "redcarpet" # for markdown rendering
 gem "tailwindcss-rails"
