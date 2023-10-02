@@ -15,8 +15,9 @@ const CherryNavbar = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   const isFetching = useIsFetching()
-  const { data: notifications } = useNotificationsIndex()
-  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length
+  const { data } = useNotificationsIndex()
+  const notifications = data?.pages.flat()
+  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length || 0
 
   return (
     <>
@@ -42,7 +43,7 @@ const CherryNavbar = () => {
             <NotificationsIcon />
             {unSeenNotificationsCount > 0 && (
               <span className="ml-1.5 text-xs font-semibold bg-red-500 text-white px-1.5 rounded-full">
-                {unSeenNotificationsCount}
+                {unSeenNotificationsCount > 10 ? '10+' : unSeenNotificationsCount}
               </span>
             )}
           </Button>
