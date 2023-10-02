@@ -9,7 +9,8 @@ import {
 } from '../queries/user/notifications'
 
 const NotificationsPage = () => {
-  const { data: notifications } = useNotificationsIndex()
+  const { data, fetchNextPage, hasNextPage } = useNotificationsIndex()
+  const notifications = data?.pages.flat()
   const { data: metrics } = useMetricsIndex()
   const { mutate: markAsSeen } = useNotificationsMarkAsSeen()
   const { mutate: markAllAsSeen } = useNotificationsMarkAllAsSeen()
@@ -71,6 +72,11 @@ const NotificationsPage = () => {
         <Card>
           <div className="text-center text-gray-500">No notification yet</div>
         </Card>
+      )}
+      {hasNextPage && (
+        <Button onClick={() => fetchNextPage()} fullSized>
+          Show more
+        </Button>
       )}
     </div>
   )
