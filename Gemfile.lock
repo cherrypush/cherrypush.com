@@ -343,6 +343,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stackprof (0.2.25)
+    stripe (8.3.0)
     syntax_tree (6.1.1)
       prettier_print (>= 1.2.0)
     tailwindcss-rails (2.0.30-arm64-darwin)
@@ -421,6 +422,7 @@ DEPENDENCIES
   skylight
   sprockets-rails
   stackprof
+  stripe
   syntax_tree
   tailwindcss-rails
   tzinfo-data
