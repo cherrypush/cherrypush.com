@@ -4,7 +4,8 @@ require "application_system_test_case"
 
 class MetricsTest < ApplicationSystemTestCase
   let!(:user) { create(:user, name: "Yan Bonnel", email: "yan.bonnel@example.com", github_handle: "yanbonnel") }
-  let!(:project) { create(:project, user: create(:user), name: "rails/rails") }
+  let!(:organization) { create :organization, user: user }
+  let!(:project) { create(:project, user: create(:user), name: "rails/rails", organization: organization) }
   let!(:authorization) { create :authorization, user: user, organization: project.organization }
   let!(:eslint_metric) { create(:metric, project: project, name: "eslint") }
   let!(:eslint_report) { create(:report, metric: eslint_metric, value: 60, date: 4.days.ago) }
