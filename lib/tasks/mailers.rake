@@ -3,7 +3,7 @@
 namespace :mailers do
   # This is run every day at 7 AM UTC by Heroku Scheduler, but emails are only sent on Mondays.
   # Run via: https://dashboard.heroku.com/apps/cherrypush-production/scheduler
-  desc 'Deliver weekly report'
+  desc "Deliver weekly report"
   task deliver_weekly_report: :environment do
     next unless Time.current.monday?
 
@@ -17,7 +17,7 @@ namespace :mailers do
 
   # This is run every day at 7 PM UTC by Heroku Scheduler, but emails are only sent when there are notifications.
   # Run via: https://dashboard.heroku.com/apps/cherrypush-production/scheduler
-  desc 'Deliver daily notifications'
+  desc "Deliver daily notifications"
   task deliver_daily_notifications: :environment do
     User.all.each do |user|
       next if user.email.blank?
@@ -28,8 +28,8 @@ namespace :mailers do
     end
   end
 
-  desc 'Import contacts to Brevo'
-  task 'sync:brevo' => :environment do
+  desc "Import contacts to Brevo"
+  task "sync:brevo" => :environment do
     total = User.count
     User.all.shuffle.each_with_index do |user, index|
       BrevoContact.create!(

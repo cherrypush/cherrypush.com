@@ -2,6 +2,18 @@
 
 class User::OrganizationsController < User::ApplicationController
   def show
-    render json: current_user.owned_organizations.find(params[:id])
+    organization = authorize Organization.find(params[:id]), :read_access?
+    render json: organization
+  end
+
+  def update
+    organization = authorize Organization.find(params[:id]), :admin?
+    organization.update!(organization_params)
+  end
+
+  private
+
+  def organization_params
+    params.require(:organization).permit(:sso_domain, :sso_enabled)
   end
 end
