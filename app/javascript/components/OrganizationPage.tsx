@@ -18,7 +18,7 @@ const OrganizationPage = () => {
   const [organization, setOrganization] = useState<OrganizationForm | null>(null)
   const { mutate: updateOrganization } = useOrganizationsUpdate()
   const isValid = organization && (!organization.sso_enabled || isValidDomain(organization.sso_domain))
-  const currentUser = useCurrentUser()
+  const { user: currentUser } = useCurrentUser()
 
   if (!organizationId) return null
 
@@ -47,6 +47,7 @@ const OrganizationPage = () => {
           <Label htmlFor="organization_name">Display Name</Label>
           <TextInput id="organization_name" value={organizationData.name} disabled className="mb-1" />
           <ToggleSwitch
+            id="organization_sso_enabled"
             checked={organization.sso_enabled}
             label={`SSO ${organization.sso_enabled ? 'enabled' : 'disabled'}`}
             onChange={() => setOrganization({ ...organization, sso_enabled: !organization.sso_enabled })}
@@ -94,7 +95,7 @@ const OrganizationPage = () => {
         </Tooltip>
       </div> */}
 
-      <Button size="lg" onClick={() => updateOrganization(organization)} disabled={!isValid}>
+      <Button size="lg" onClick={() => updateOrganization(organization)} disabled={!isValid || !canEdit}>
         Update Organization
       </Button>
     </div>
