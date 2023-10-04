@@ -25,7 +25,9 @@ class User < ApplicationRecord
 
   def organizations
     return Organization.all if admin?
-    Organization.where(id: authorizations.pluck(:organization_id) + owned_organizations.pluck(:id))
+    Organization.where(
+      id: authorizations.pluck(:organization_id) + owned_organizations.pluck(:id) + sso_organizations.ids,
+    )
   end
 
   def owners
@@ -38,10 +40,10 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
-    owned_projects.or(Project.where(organization_id: authorizations.select(:organization_id)))
+    owned_projects.or(Project.where(organization_id: organizations.pluck(:id)))
   end
 
-  def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize
+  def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     if auth.provider == "google_oauth2"
       self.name = "#{auth.info.first_name} #{auth.info.last_name}"
     elsif auth.provider == "github"
@@ -72,6 +74,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def sso_organizations
+    Organization.where(sso_enabled: true, sso_domain: email.split("@").last)
+  end
 
   def ensure_api_key
     self.api_key ||= SecureRandom.uuid
