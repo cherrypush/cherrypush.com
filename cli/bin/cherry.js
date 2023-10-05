@@ -107,7 +107,6 @@ program
         codeOwners: new Codeowners(),
       })
 
-        console.log(configuration)
       await upload(apiKey, configuration.project_name, await git.commitDate(sha), occurrences, configuration.metrics)
 
       console.log('')
