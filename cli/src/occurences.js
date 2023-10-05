@@ -129,7 +129,7 @@ const runPlugins = async (plugins) => {
   return promise
 }
 
-const emptyMetric = (metricName) => ({ metricName, text: 'No occurrences', value: 0 })
+export const emptyMetric = (metricName) => ({ metricName, text: 'No occurrences', value: 0 })
 
 const withEmptyMetrics = (occurrences, metrics) => {
   const occurrencesByMetric = _.groupBy(occurrences, 'metricName')
