@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { emptyMetric } from '../occurences.js'
 import sh from '../sh.js'
 
 const getMetricName = (dir) => {
@@ -14,7 +15,7 @@ const getCommand = (dir) => {
 const run = async ({ dir }) => {
   const { stdout } = await sh(getCommand(dir), { throwOnError: false })
 
-  return _.compact(
+  const occurrences = _.compact(
     stdout.split('\n').map((line) => {
       const [col1, col2, col3, filepath] = line.split(/\s+/)
       if (!(col1 === '' && typeof parseInt(col2) == 'number' && col3 === '│')) return // remove irrelevant lines
@@ -25,6 +26,8 @@ const run = async ({ dir }) => {
       }
     })
   )
+
+  return occurrences.length === 0 ? [emptyMetric(getMetricName(dir))] : occurrences
 }
 
 export default { run }
