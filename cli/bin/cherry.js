@@ -75,7 +75,7 @@ program
     } else console.table(sortObject(countByMetric(occurrences)))
 
     if (options.output) {
-      const metrics = buildMetricsPayload(occurrences)
+      const metrics = buildMetricsPayload(occurrences, configuration.metrics)
       const filepath = process.cwd() + '/' + options.output
       const content = JSON.stringify(metrics, null, 2)
 
@@ -107,7 +107,8 @@ program
         codeOwners: new Codeowners(),
       })
 
-      await upload(apiKey, configuration.project_name, await git.commitDate(sha), occurrences)
+        console.log(configuration)
+      await upload(apiKey, configuration.project_name, await git.commitDate(sha), occurrences, configuration.metrics)
 
       console.log('')
       console.log('Computing metrics for previous commit...')
@@ -228,7 +229,7 @@ program
         const files = await getFiles()
         const codeOwners = new Codeowners()
         const occurrences = await findOccurrences({ configuration, files, codeOwners })
-        await upload(apiKey, configuration.project_name, committedAt, occurrences)
+        await upload(apiKey, configuration.project_name, committedAt, occurrences, configuration.metrics)
 
         date = substractDays(committedAt, interval)
         sha = await git.commitShaAt(date, initialBranch)
@@ -262,7 +263,7 @@ const handleApiError = async (callback) => {
   }
 }
 
-const upload = async (apiKey, projectName, date, occurrences) => {
+const upload = async (apiKey, projectName, date, occurrences, metrics) => {
   if (!projectName) panic('specify a project_name in your cherry.js configuration file before pushing metrics')
 
   const uuid = await uuidv4()
@@ -278,7 +279,7 @@ const upload = async (apiKey, projectName, date, occurrences) => {
         axios
           .post(
             API_BASE_URL + '/push',
-            buildPushPayload({ apiKey, projectName, uuid, date, occurrences: occurrencesBatch })
+            buildPushPayload({ apiKey, projectName, uuid, date, occurrences: occurrencesBatch, metrics })
           )
           .then(({ data }) => data)
           .then(() => spinnies.succeed('batches', { text: `Batch ${index + 1} out of ${occurrencesBatches.length}` }))
@@ -291,23 +292,34 @@ const upload = async (apiKey, projectName, date, occurrences) => {
   }
 }
 
-const buildMetricsPayload = (occurrences) =>
-  _(occurrences)
-    .groupBy('metricName')
-    .mapValues((occurrences, metricName) => ({
-      name: metricName,
-      occurrences: occurrences.map((o) => _.pick(o, 'text', 'value', 'url', 'owners')),
-    }))
-    .values()
-    .flatten()
-    .value()
+const buildMetricsPayload = (occurrences, metrics) => {
+    let metricsPayload = _(occurrences)
+            .groupBy('metricName')
+            .mapValues((occurrences, metricName) => ({
+                name: metricName,
+                occurrences: occurrences.map((o) => _.pick(o, 'text', 'value', 'url', 'owners')),
+            }))
+            .values()
+            .flatten()
+            .value()
 
-const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences }) => ({
+    const payloadMetricsNames = _(metricsPayload).map((metric) => metric.name)
+
+    _(metrics).forEach((metric) => {
+        if (!payloadMetricsNames.includes(metric.name)) {
+            metricsPayload.push({name: metric.name, value: 0})
+        }
+    })
+
+    return metricsPayload
+}
+
+const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences, metrics }) => ({
   api_key: apiKey,
   project_name: projectName,
   date: date.toISOString(),
   uuid,
-  metrics: buildMetricsPayload(occurrences),
+  metrics: buildMetricsPayload(occurrences, metrics),
 })
 
 const uploadContributions = async (apiKey, projectName, authorName, authorEmail, sha, date, contributions) =>
