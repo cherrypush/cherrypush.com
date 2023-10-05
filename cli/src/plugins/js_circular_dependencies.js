@@ -10,10 +10,13 @@ const run = async ({ include, tsConfig }) => {
   const madgeResult = await madge(paths, madgeConfig)
   const dependencies = madgeResult.circular()
 
+  if (dependencies.length === 0)
+    return [{ metricName: 'JS circular dependencies', text: 'No circular dependencies', value: 0 }]
+
   return dependencies.map((files) => ({
     text: files.join(' > '),
     filePath: files[0],
-    metricName: `JS circular dependencies`,
+    metricName: 'JS circular dependencies',
   }))
 }
 
