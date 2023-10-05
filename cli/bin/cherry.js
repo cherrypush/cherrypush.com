@@ -75,7 +75,7 @@ program
     } else console.table(sortObject(countByMetric(occurrences)))
 
     if (options.output) {
-      const metrics = buildMetricsPayload(occurrences, configuration.metrics)
+      const metrics = buildMetricsPayload(occurrences, _(configuration.metrics).filter((metric) => !options.metric || options.metric === metric.name ))
       const filepath = process.cwd() + '/' + options.output
       const content = JSON.stringify(metrics, null, 2)
 
