@@ -1,8 +1,8 @@
 import fs from 'fs'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import buildAndImport from './build-and-import.cjs'
 import { guessProjectName } from './git.js'
-import * as tsRequire from './ts-require.cjs'
 
 export const CONFIG_FILE_LOCAL_PATHS = ['.cherry.js', '.cherry.ts']
 export const WORKFLOW_FILE_LOCAL_PATH = '.github/workflows/cherry_push.yml'
@@ -35,10 +35,10 @@ export const getConfiguration = async () => {
     return { project_name: guessedProjectName, plugins: ['loc'] }
   }
 
-  const configuration = tsRequire(configurationFile)
+  const imported = buildAndImport(configurationFile)
 
   // Allow both syntaxes on configuration files:
   // - module.exports = ...
-  // - export default ...   => will be wrapped in a { default } after being processed by tsRequire
-  return configuration.default ? configuration.default : configuration
+  // - export default ...   => will be wrapped in a { default } after being processed by buildAndImport
+  return imported.default ?? imported
 }

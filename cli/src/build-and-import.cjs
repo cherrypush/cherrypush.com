@@ -9,7 +9,7 @@ function requireFromString(src, filename) {
   return m.exports
 }
 
-function tsRequire(filename) {
+function buildAndImport(filename) {
   const output = esbuild.buildSync({
     entryPoints: [filename],
     platform: 'node',
@@ -20,4 +20,4 @@ function tsRequire(filename) {
   return requireFromString(output.outputFiles[0].text, filename)
 }
 
-module.exports = tsRequire
+module.exports = buildAndImport
