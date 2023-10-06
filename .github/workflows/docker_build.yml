@@ -3,7 +3,7 @@ name: Docker
 on:
   push:
     branches:
-      - temporarily_skipped
+      - main
 
 jobs:
   docker:
