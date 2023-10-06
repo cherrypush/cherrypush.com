@@ -214,6 +214,8 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
+    nokogiri (1.15.4-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.15.4-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.4-x86_64-darwin)
@@ -350,6 +352,8 @@ GEM
     stackprof (0.2.25)
     syntax_tree (6.1.1)
       prettier_print (>= 1.2.0)
+    tailwindcss-rails (2.0.30-aarch64-linux)
+      railties (>= 6.0.0)
     tailwindcss-rails (2.0.30-arm64-darwin)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.30-x86_64-darwin)
@@ -383,9 +387,9 @@ GEM
     zeitwerk (2.6.11)
 
 PLATFORMS
-  arm64-darwin-21
-  arm64-darwin-22
-  x86_64-darwin-22
+  aarch64-linux
+  arm64-darwin
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
