@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class Api::HerokuWebhooksController < Api::ApplicationController
+class Api::HerokuWebhooksController < ActionController::Base
   def create
     if valid_signature?
       puts params[:webhook]
-      render json: { status: "ok" }, status: :ok
+      head :no_content
     else
       render json: { status: "invalid signature" }, status: :unauthorized
     end
