@@ -2,6 +2,8 @@
 
 class Api::HerokuWebhooksController < ActionController::API
   def index
+    puts params.inspect
+
     if valid_signature?
       puts params[:webhook]
       head :no_content
