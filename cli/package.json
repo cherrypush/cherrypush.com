@@ -1,6 +1,6 @@
 {
   "name": "cherrypush",
-  "version": "1.0.102",
+  "version": "1.1.0",
   "description": "CLI for the cherrypush app",
   "source": "./bin/cherry.js",
   "type": "module",
@@ -26,6 +26,7 @@
     "axios": "^1.2.3",
     "commander": "^10.0.0",
     "dotenv": "^16.0.3",
+    "esbuild": "^0.19.4",
     "find-up": "^6.3.0",
     "glob": "^8.1.0",
     "lodash": "^4.17.21",

@@ -129,8 +129,17 @@ const runPlugins = async (plugins) => {
   return promise
 }
 
+export const emptyMetric = (metricName) => ({ metricName, text: 'No occurrences', value: 0 })
+
+const withEmptyMetrics = (occurrences, metrics) => {
+  const occurrencesByMetric = _.groupBy(occurrences, 'metricName')
+  const allMetricNames = _.uniq(metrics.map((metric) => metric.name).concat(Object.keys(occurrencesByMetric)))
+  return allMetricNames.map((metricName) => occurrencesByMetric[metricName] || [emptyMetric(metricName)]).flat()
+}
+
 export const findOccurrences = async ({ configuration, files, metric, codeOwners }) => {
   let metrics = configuration.metrics
+
   if (metric) metrics = metrics.filter(({ name }) => name === metric)
   const [evalMetrics, fileMetrics] = _.partition(metrics, (metric) => metric.eval)
   let plugins = configuration.plugins || {}
@@ -143,11 +152,15 @@ export const findOccurrences = async ({ configuration, files, metric, codeOwners
     runPlugins(plugins),
   ])
 
-  return _.flattenDeep(await promise).map(({ text, value, metricName, filePath, lineNumber, url, owners }) => ({
-    text,
-    value,
-    metricName,
-    url: url !== undefined ? url : filePath && buildPermalink(configuration.project_name, filePath, lineNumber),
-    owners: owners !== undefined ? owners : filePath && codeOwners.getOwners(filePath),
-  }))
+  const occurrences = _.flattenDeep(await promise).map(
+    ({ text, value, metricName, filePath, lineNumber, url, owners }) => ({
+      text,
+      value,
+      metricName,
+      url: url !== undefined ? url : filePath && buildPermalink(configuration.project_name, filePath, lineNumber),
+      owners: owners !== undefined ? owners : filePath && codeOwners.getOwners(filePath),
+    })
+  )
+
+  return withEmptyMetrics(occurrences, metrics)
 }

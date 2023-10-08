@@ -10,10 +10,10 @@ import Spinnies from 'spinnies'
 import { v4 as uuidv4 } from 'uuid'
 import Codeowners from '../src/codeowners.js'
 import {
-  configurationExists,
   createConfigurationFile,
   createWorkflowFile,
   getConfiguration,
+  getConfigurationFile,
   workflowExists,
 } from '../src/configuration.js'
 import { computeContributions } from '../src/contributions.js'
@@ -33,8 +33,9 @@ const API_BASE_URL = process.env.API_URL ?? 'https://www.cherrypush.com/api'
 const UPLOAD_BATCH_SIZE = 1000
 
 program.command('init').action(async () => {
-  if (configurationExists()) {
-    console.error('.cherry.js already exists.')
+  const configurationFile = getConfigurationFile()
+  if (configurationFile) {
+    console.error(`${configurationFile} already exists.`)
     process.exit(0)
   }
 
