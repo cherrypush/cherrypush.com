@@ -2,9 +2,12 @@
 
 class Api::HerokuWebhooksController < Api::ApplicationController
   def create
-    raise unless valid_signature?
-
-    puts params[:webhook]
+    if valid_signature?
+      puts params[:webhook]
+      render json: { status: "ok" }, status: :ok
+    else
+      render json: { status: "invalid signature" }, status: :unauthorized
+    end
   end
 
   private
