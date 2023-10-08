@@ -337,7 +337,7 @@ GEM
       sentry-ruby (~> 5.11.0)
     sentry-ruby (5.11.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    skylight (5.3.4)
+    skylight (6.0.1)
       activesupport (>= 5.2.0)
     snaky_hash (2.0.1)
       hashie
