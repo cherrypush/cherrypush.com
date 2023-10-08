@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::HerokuWebhooksController < ActionController::API
-  def create
+  def index
     if valid_signature?
       puts params[:webhook]
       head :no_content
