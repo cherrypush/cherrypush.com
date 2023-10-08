@@ -17,6 +17,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resource :push, only: :create
     resources :contributions, only: :create
     resources :metrics, only: :index
+    resource :heroku_webhooks, only: :create
   end
 
   # SPA ROUTES
