@@ -336,10 +336,13 @@ const buildContributionsPayload = (projectName, authorName, authorEmail, sha, da
 
 const sortObject = (object) => _(object).toPairs().sortBy(0).fromPairs().value()
 
+// This function must process values the same way as api/pushes#create endpoint
 const countByMetric = (occurrences) =>
   _(occurrences)
     .groupBy('metricName')
-    .mapValues((occurrences) => _.sumBy(occurrences, (occurrence) => occurrence.value || 1))
+    .mapValues((occurrences) =>
+      _.sumBy(occurrences, (occurrence) => (_.isNumber(occurrence.value) ? occurrence.value : 1))
+    )
     .value()
 
 program
