@@ -7,12 +7,14 @@ namespace :mailers do
   task deliver_weekly_report: :environment do
     next unless Time.current.monday?
 
-    User.all.each do |user|
-      next if user.email.blank?
-      next if user.projects.none?
+    User
+      .where(weekly_report: true)
+      .each do |user|
+        next if user.email.blank?
+        next if user.projects.none?
 
-      UserMailer.with(user: user).weekly_report.deliver_now
-    end
+        UserMailer.with(user: user).weekly_report.deliver_now
+      end
   end
 
   # This is run every day at 7 PM UTC by Heroku Scheduler, but emails are only sent when there are notifications.
