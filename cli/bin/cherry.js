@@ -8,6 +8,7 @@ import _ from 'lodash'
 import prompt from 'prompt'
 import Spinnies from 'spinnies'
 import { v4 as uuidv4 } from 'uuid'
+import packageJson from '../package.json' assert { type: 'json' }
 import Codeowners from '../src/codeowners.js'
 import {
   createConfigurationFile,
@@ -21,7 +22,7 @@ import { substractDays, toISODate } from '../src/date.js'
 import { panic } from '../src/error.js'
 import { getFiles } from '../src/files.js'
 import * as git from '../src/git.js'
-import { guessProjectName } from '../src/git.js'
+import { buildRepoURL } from '../src/github.js'
 import { setVerboseMode } from '../src/log.js'
 import { findOccurrences } from '../src/occurences.js'
 
@@ -42,7 +43,7 @@ program.command('init').action(async () => {
   prompt.message = ''
   prompt.start()
 
-  let projectName = await guessProjectName()
+  let projectName = await git.guessProjectName()
   if (!projectName) {
     projectName = await prompt.get({
       properties: { repo: { message: 'Enter your project name', required: true } },
@@ -58,7 +59,8 @@ program
   .command('run')
   .option('--owner <owner>', 'only consider given owner code')
   .option('--metric <metric>', 'only consider given metric')
-  .option('-o, --output <output>', 'export stats into a local json file')
+  .option('-o, --output <output>', 'export stats into a local file')
+  .option('-f, --format <format>', 'export format (json, sarif). default: json')
   .action(async (options) => {
     const configuration = await getConfiguration()
     const codeOwners = new Codeowners()
@@ -76,13 +78,22 @@ program
     } else console.table(sortObject(countByMetric(occurrences)))
 
     if (options.output) {
-      const metrics = buildMetricsPayload(occurrences)
       const filepath = process.cwd() + '/' + options.output
-      const content = JSON.stringify(metrics, null, 2)
+      const format = options.format || 'json'
+      let content
 
+      if (format === 'json') {
+        const metrics = buildMetricsPayload(occurrences)
+        content = JSON.stringify(metrics, null, 2)
+      } else if (format === 'sarif') {
+        const branch = await git.branchName()
+        const sha = await git.sha()
+        const sarif = buildSarifPayload(configuration.project_name, branch, sha, occurrences)
+        content = JSON.stringify(sarif, null, 2)
+      }
       fs.writeFile(filepath, content, 'utf8', function (err) {
         if (err) panic(err)
-        console.log(`JSON file has been saved as ${filepath}`)
+        console.log(`File has been saved as ${filepath}`)
       })
     }
   })
@@ -302,6 +313,57 @@ const buildMetricsPayload = (occurrences) =>
     .values()
     .flatten()
     .value()
+
+const buildSarifPayload = (projectName, branch, sha, occurrences) => {
+  const rules = _(occurrences)
+    .groupBy('metricName')
+    .map((occurrences) => ({
+      id: occurrences[0].metricName,
+    }))
+
+  const results = occurrences.map((occurrence) => ({
+    ruleId: occurrence.metricName,
+    level: 'none',
+    message: { text: `${occurrence.metricName}: ${occurrence.text}` },
+    locations: [
+      {
+        physicalLocation: {
+          artifactLocation: {
+            uri: occurrence.text.split(':')[0],
+          },
+          region: occurrence.text.split(':')[1] && {
+            startLine: parseInt(occurrence.text.split(':')[1]),
+          },
+        },
+      },
+    ],
+  }))
+
+  return {
+    $schema: 'https://json.schemastore.org/sarif-2.1.0.json',
+    version: '2.1.0',
+    runs: [
+      {
+        versionControlProvenance: [
+          {
+            repositoryUri: buildRepoURL(projectName),
+            revisionId: sha,
+            branch,
+          },
+        ],
+        tool: {
+          driver: {
+            name: 'cherry',
+            version: packageJson.version,
+            informationUri: 'https://github.com/cherrypush/cherrypush.com',
+            rules,
+          },
+        },
+        results,
+      },
+    ],
+  }
+}
 
 const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences }) => ({
   api_key: apiKey,
