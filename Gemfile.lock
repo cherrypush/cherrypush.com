@@ -350,7 +350,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stackprof (0.2.25)
-    syntax_tree (6.1.1)
+    syntax_tree (6.2.0)
       prettier_print (>= 1.2.0)
     tailwindcss-rails (2.0.30-aarch64-linux)
       railties (>= 6.0.0)
