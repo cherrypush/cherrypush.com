@@ -10,10 +10,10 @@ import Spinnies from 'spinnies'
 import { v4 as uuidv4 } from 'uuid'
 import Codeowners from '../src/codeowners.js'
 import {
-  configurationExists,
   createConfigurationFile,
   createWorkflowFile,
   getConfiguration,
+  getConfigurationFile,
   workflowExists,
 } from '../src/configuration.js'
 import { computeContributions } from '../src/contributions.js'
@@ -33,8 +33,9 @@ const API_BASE_URL = process.env.API_URL ?? 'https://www.cherrypush.com/api'
 const UPLOAD_BATCH_SIZE = 1000
 
 program.command('init').action(async () => {
-  if (configurationExists()) {
-    console.error('.cherry.js already exists.')
+  const configurationFile = getConfigurationFile()
+  if (configurationFile) {
+    console.error(`${configurationFile} already exists.`)
     process.exit(0)
   }
 
@@ -335,10 +336,13 @@ const buildContributionsPayload = (projectName, authorName, authorEmail, sha, da
 
 const sortObject = (object) => _(object).toPairs().sortBy(0).fromPairs().value()
 
+// This function must process values the same way as api/pushes#create endpoint
 const countByMetric = (occurrences) =>
   _(occurrences)
     .groupBy('metricName')
-    .mapValues((occurrences) => _.sumBy(occurrences, (occurrence) => occurrence.value || 1))
+    .mapValues((occurrences) =>
+      _.sumBy(occurrences, (occurrence) => (_.isNumber(occurrence.value) ? occurrence.value : 1))
+    )
     .value()
 
 program

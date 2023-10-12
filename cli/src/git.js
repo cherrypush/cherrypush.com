@@ -1,4 +1,4 @@
-import { CONFIG_FILE_LOCAL_PATH } from './configuration.js'
+import { CONFIG_FILE_LOCAL_PATHS } from './configuration.js'
 import { toISODate } from './date.js'
 import sh from './sh.js'
 
@@ -13,7 +13,7 @@ export const files = async () => {
   const trackedFiles = await git('ls-files')
   const untrackedFiles = await git('ls-files --others --exclude-standard')
   const deletedFiles = await git('ls-files -d')
-  const rejectedFiles = [...deletedFiles, CONFIG_FILE_LOCAL_PATH]
+  const rejectedFiles = [...deletedFiles, ...CONFIG_FILE_LOCAL_PATHS]
 
   return trackedFiles.concat(untrackedFiles).filter((file) => !rejectedFiles.includes(file))
 }

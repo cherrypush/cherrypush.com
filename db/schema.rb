@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_03_062154) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_04_145359) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -137,7 +137,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_062154) do
     t.string "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+    t.index %w[priority run_at], name: "delayed_jobs_priority"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -164,7 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_062154) do
     t.datetime "seen_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_type", "item_id"], name: "index_notifications_on_item"
+    t.index %w[item_type item_id], name: "index_notifications_on_item"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -185,6 +185,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_062154) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stripe_customer_id"
+    t.string "sso_domain"
+    t.boolean "sso_enabled", default: false, null: false
     t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 
