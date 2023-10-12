@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # Used to control access to blazer and rails_admin
   def require_admin
-    redirect_to '/' unless current_user&.admin?
+    redirect_to "/" unless current_user&.admin?
   end
 
   private

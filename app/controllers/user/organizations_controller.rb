@@ -3,7 +3,8 @@
 class User::OrganizationsController < User::ApplicationController
   def show
     organization = authorize Organization.find(params[:id]), :read_access?
-    render json: organization
+    subscriptions = Stripe::Subscription.list(customer: organization.stripe_customer_id).data
+    render json: organization.attributes.merge(subscriptions: subscriptions)
   end
 
   def update
