@@ -1,20 +1,43 @@
 import { Badge, Button, Card, Label, TextInput, ToggleSwitch } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { getEnvironment } from '../helpers/applicationHelper'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useOrganizationsShow, useOrganizationsUpdate } from '../queries/user/organizations'
 import PageLoader from './PageLoader'
 
+const getPlans = () => [
+  {
+    name: 'Team Plan',
+    price: 900,
+    interval: 'month',
+    priceId: getEnvironment() === 'production' ? 'price_1MKPW7CFqjlMoCRsCXxEKPBa' : 'price_1MMDbRCFqjlMoCRsrRC2Z6Fj',
+    conditions: 'Ideal for small teams with up to 10 users and at most 10 projects. Support via email.',
+  },
+  {
+    name: 'Organization Plan',
+    price: 9900,
+    interval: 'month',
+    priceId: getEnvironment() === 'production' ? 'price_1MMDWACFqjlMoCRsab9f3eAL' : 'price_1MMDXACFqjlMoCRsgtB5zAPv',
+    conditions: 'Unlimited users, unlimited projects, single sign-on (SSO), support via chat and email.',
+  },
+  {
+    name: 'Organization Plan',
+    price: 99000,
+    interval: 'year',
+    priceId: getEnvironment() === 'production' ? 'price_1NaeOjCFqjlMoCRs5xQWSt5M' : 'price_1O0f9XCFqjlMoCRsexKNDNK8',
+    conditions: 'Unlimited users, unlimited projects, single sign-on (SSO), support via chat and email.',
+  },
+]
+
 const formatPrice = (price: number) => `$${price / 100}`
 
 const formatDate = (unixDate: number) =>
-  new Date(unixDate * 1000)
-    .toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-    .toLowerCase()
+  new Date(unixDate * 1000).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 
 const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
 
@@ -56,7 +79,7 @@ const OrganizationPage = () => {
       <h1>{organizationData.name}</h1>
 
       <div className="card mb-9">
-        <h2>Organization Settings</h2>
+        <h2>Security Settings</h2>
         <div className="flex max-w-md flex-col gap-4">
           {/* <Label htmlFor="organization_name">Name</Label>
           <TextInput id="organization_name" value={organizationData.name} disabled className="mb-1" /> */}
@@ -88,22 +111,34 @@ const OrganizationPage = () => {
       </div>
 
       <div className="card mb-9">
-        <h2 className="flex justify-between">Plan</h2>
-        <div className="mb-6">
-          Learn more about or compare plans by visiting our{' '}
-          <a className="text-link" href="/pricing" target="_blank">
-            pricing page
-          </a>
-          .
-        </div>
+        <h2 className="flex justify-between">Subscription</h2>
 
         {!hasActiveSubscription && (
-          <form action="/user/subscriptions.json" method="POST">
-            <input type="hidden" name="authenticity_token" value={csrfToken || ''} />
-            <input type="hidden" name="organization_id" value={organizationId} />
-            <input type="hidden" name="price_id" value="price_1MMDXACFqjlMoCRsgtB5zAPv" />
-            <Button type="submit">Pay $99 per month</Button>
-          </form>
+          <>
+            <div className="mb-6">
+              Learn more about or compare plans by visiting our{' '}
+              <a className="text-link" href="/pricing" target="_blank">
+                pricing page
+              </a>
+              .
+            </div>
+            <div className="flex gap-3">
+              {getPlans().map((plan) => (
+                <Card key={plan.priceId} className="w-1/3">
+                  <div className="text-xl font-bold">{plan.name}</div>
+                  <p>{plan.conditions}</p>
+                  <form action="/user/subscriptions.json" method="POST">
+                    <input type="hidden" name="authenticity_token" value={csrfToken || ''} />
+                    <input type="hidden" name="organization_id" value={organizationId} />
+                    <input type="hidden" name="price_id" value={plan.priceId} />
+                    <Button type="submit" fullSized>
+                      Pay ${plan.price / 100} per {plan.interval}
+                    </Button>
+                  </form>
+                </Card>
+              ))}
+            </div>
+          </>
         )}
 
         {organizationData.subscriptions.map((subscription) => (
@@ -112,7 +147,7 @@ const OrganizationPage = () => {
             <p>
               {formatPrice(subscription.plan.amount)} per {subscription.plan.interval}
             </p>
-            <p>Next payment on {formatDate(subscription.current_period_end)}</p>
+            <p>Current period ends on {formatDate(subscription.current_period_end)}</p>
             <div className="flex">
               <Badge color={subscription.status === 'active' ? 'success' : 'failure'}>{subscription.status}</Badge>
             </div>
