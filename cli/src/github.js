@@ -1,2 +1,4 @@
+export const buildRepoURL = (projectName) => `https://github.com/${projectName}`
+
 export const buildPermalink = (projectName, path, lineNumber) =>
-  `https://github.com/${projectName}/blob/HEAD/${path}${lineNumber ? `#L${lineNumber}` : ''}`
+  `${buildRepoURL(projectName)}/blob/HEAD/${path}${lineNumber ? `#L${lineNumber}` : ''}`
