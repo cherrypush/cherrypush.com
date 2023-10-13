@@ -38,23 +38,11 @@
           Sign in as recommended by your organization.
         </p>
         <%= form_tag(github_sign_in_path, method: 'post') do %>
-          <button class="w-full btn-primary mb-3" type="submit">
-            <% if defined?(text) %>
-              <%= text %>
-            <% else %>
-              Login with GitHub
-            <% end %>
-          </button>
+          <button class="w-full btn-primary mb-3" type="submit">Login with GitHub</button>
         <% end %>
 
         <%= form_tag(google_sign_in_path, method: 'post') do %>
-          <button class="w-full btn-primary" type="submit">
-            <% if defined?(text) %>
-              <%= text %>
-            <% else %>
-              Login with Google
-            <% end %>
-          </button>
+          <button class="w-full btn-primary" type="submit">Login with Google</button>
         <% end %>
       </div>
     </div>
