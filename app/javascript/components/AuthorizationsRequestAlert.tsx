@@ -1,7 +1,6 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt'
 import { Alert, Button } from 'flowbite-react'
-import React from 'react'
 import { useAuthorizationsCreate } from '../queries/user/authorizations'
 import { useAuthorizationRequestsDestroy } from '../queries/user/authorizationsRequests'
 
@@ -15,13 +14,16 @@ const AuthorizationRequestAlert = ({ authorizationRequest }) => {
         <span className="font-bold">
           {authorizationRequest.user.name} (@{authorizationRequest.user.github_handle})
         </span>{' '}
-        wants to access <span className="font-bold">{authorizationRequest.project.name}</span>.
+        requested access to <span className="font-bold">{authorizationRequest.organization.name} organization</span>.
       </p>
       <div className="flex gap-3 mt-2">
         <Button
           size="xs"
           onClick={() =>
-            createAuthorization({ projectId: authorizationRequest.project.id, userId: authorizationRequest.user.id })
+            createAuthorization({
+              organizationId: authorizationRequest.organization.id,
+              userId: authorizationRequest.user.id,
+            })
           }
         >
           <CheckCircleIcon />

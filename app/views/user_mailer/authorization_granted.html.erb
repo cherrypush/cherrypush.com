@@ -1,7 +1,7 @@
 <h1>Authorization Granted</h1>
 
 <p>
-  <b><%= @from_user.name %></b> just gave you access to the project <b><%= @project.name %></b>.
+  <b><%= @from_user.name %></b> just gave you access to the organization <b><%= @organization.name %></b>.
 </p>
 
-<p>You can <a href="<%= user_projects_url(project_id: @project.id) %>">access it over here</a>.</p>
+<p>You can now view it in <a href="<%= user_projects_url %>">your projects</a>.</p>

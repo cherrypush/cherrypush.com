@@ -8,6 +8,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # AUTHENTICATION ROUTES
   get "auth/:provider/callback", to: "sessions#create"
   get "/sign_out", to: "sessions#destroy", as: :signout
+  get "/auth/google_oauth2", as: :google_sign_in
   get "/auth/github", as: :github_sign_in
   get "/auth/failure" => "sessions#failure"
 
@@ -36,7 +37,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
         put "mark_as_seen", on: :member
         put "mark_all_as_seen", on: :collection
       end
-      resources :organizations, only: %i[show]
+      resources :organizations, only: %i[show update]
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]

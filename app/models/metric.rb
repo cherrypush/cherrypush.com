@@ -21,7 +21,7 @@ class Metric < ApplicationRecord
     return [] if reports.empty?
     occurrences = last_report.occurrences
     return occurrences if owners.blank?
-    occurrences.where('owners && ARRAY[?]::varchar[]', owners)
+    occurrences.where("owners && ARRAY[?]::varchar[]", owners)
   end
 
   def owners
@@ -32,7 +32,7 @@ class Metric < ApplicationRecord
   def chart_data(owners: nil)
     Rails
       .cache
-      .fetch([self, 'chart_data', owners], expires_in: 12.hours) do
+      .fetch([self, "chart_data", owners], expires_in: 12.hours) do
         daily_reports
           .index_with { |report| get_count(report, owners) }
           .compact
@@ -41,7 +41,7 @@ class Metric < ApplicationRecord
   end
 
   def clean_up!
-    old_reports = reports.where.not(id: last_report.id).where('date < ?', 10.minutes.ago)
+    old_reports = reports.where.not(id: last_report.id).where("date < ?", 10.minutes.ago)
     Occurrence.where(report: old_reports).in_batches(&:delete_all)
     old_reports.where.not(id: daily_reports.pluck(:id)).in_batches.delete_all
   end

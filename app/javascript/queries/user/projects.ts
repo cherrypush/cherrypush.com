@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
 export interface Project {
@@ -7,14 +7,19 @@ export interface Project {
   updated_at: string
   created_at: string
   user_id: number
-  user: { name: string }
+  user: { name: string; github_handle: string }
   organization_id: null | number
   organization?: { id: number; name: string }
 }
 
 type ProjectsIndexResponse = (Project & { user: { name: string } })[]
 
+const INDEX_KEY = ['user', 'projects']
+
+export const useInvalidateProjectsIndex = () => {
+  const queryClient = useQueryClient()
+  return () => queryClient.invalidateQueries(INDEX_KEY)
+}
+
 export const useProjectsIndex = () =>
-  useQuery<ProjectsIndexResponse>(['user', 'projects'], () =>
-    axios.get('/user/projects.json').then((response) => response.data)
-  )
+  useQuery<ProjectsIndexResponse>(INDEX_KEY, () => axios.get('/user/projects.json').then((response) => response.data))
