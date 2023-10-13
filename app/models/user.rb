@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
+  ADMIN_EMAILS = ENV.fetch("ADMIN_EMAILS", "").split(",")
 
   ALL_ATTRIBUTES = User.new.attributes.keys
   NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
@@ -64,7 +64,7 @@ class User < ApplicationRecord
   end
 
   def admin?
-    github_handle.in? ADMIN_GITHUB_HANDLES
+    email.in? ADMIN_EMAILS
   end
 
   def contributions
