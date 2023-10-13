@@ -40,7 +40,9 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
-    owned_projects.or(Project.where(organization_id: organizations.pluck(:id)))
+    owned_projects.or(Project.where(organization_id: organizations.pluck(:id))).or(
+      Project.where(name: "cherrypush/cherry"),
+    )
   end
 
   def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength

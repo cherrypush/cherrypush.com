@@ -35,7 +35,7 @@
       <!-- Modal body -->
       <div class="p-6">
         <p class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-3">
-          Sign in as recommended by your organization.
+          Use the recommended method by your organization.
         </p>
         <%= form_tag(github_sign_in_path(after_sign_in_path: user_projects_path), method: 'post') do %>
           <button class="w-full btn-primary mb-3" type="submit">Login with GitHub</button>
