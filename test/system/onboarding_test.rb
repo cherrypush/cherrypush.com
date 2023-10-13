@@ -7,7 +7,6 @@ class OnboardingTest < ApplicationSystemTestCase
 
   it "goes through onboarding" do
     sign_in user
-    click_on "Go to dashboard"
     assert_text "Create a new project"
 
     click_on "Avatar"

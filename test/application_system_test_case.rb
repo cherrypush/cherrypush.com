@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include SignInHelper
@@ -18,5 +18,5 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
   end
 
-  ENV['HEADLESS'] ? driven_by(:headless_chrome) : driven_by(:chrome)
+  ENV["HEADLESS"] ? driven_by(:headless_chrome) : driven_by(:chrome)
 end
