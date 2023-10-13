@@ -7,7 +7,7 @@ const DocsPage = () => {
 
   return (
     <div className="container">
-      <h1>Docs</h1>
+      <h1 className="mb-6">Docs</h1>
       <Card>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
