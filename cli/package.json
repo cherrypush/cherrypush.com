@@ -1,7 +1,7 @@
 {
   "name": "cherrypush",
-  "version": "1.1.1",
-  "description": "CLI for the cherrypush app",
+  "version": "1.2.0",
+  "description": "Cherry CLI to manage your technical debt via cherrypush.com 🍒",
   "source": "./bin/cherry.js",
   "type": "module",
   "bin": {
