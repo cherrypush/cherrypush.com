@@ -1,3 +1,4 @@
 node_modules/
 cherry.json
+cherry.sarif
 .env
