@@ -93,23 +93,15 @@
         <li>
           <%= link_to 'Docs', docs_path, class: action_name === 'docs' ? 'navbar-link-active' : 'navbar-link' %>
         </li>
-        <% if current_user %>
-          <li>
-            <%=
-              link_to 'My Projects',
-                      user_projects_path,
-                      class: controller_name === 'projects' ? 'navbar-link-active' : 'navbar-link'
-            %>
-          </li>
-        <% else %>
-          <li>
-            <%= link_to 'Demo', demo_path, class: 'navbar-link' %>
-          </li>
-        <% end %>
         <li>
           <%=
             link_to 'Pricing', pricing_path, class: action_name === 'pricing' ? 'navbar-link-active' : 'navbar-link'
           %>
+        </li>
+        <li>
+          <%= form_tag(google_sign_in_path(after_sign_in_path: demo_path), method: 'post') do %>
+            <button class="navbar-link" type="submit">Demo ↗</button>
+          <% end %>
         </li>
       </ul>
     </div>
