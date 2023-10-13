@@ -14,7 +14,7 @@ class User::ContributorsController < User::ApplicationController
 
   def contributions
     metric = Metric.find(params.require(:metric_id))
-    authorize metric.project, :read?
+    authorize metric.project, :read_access?
     metric.contributions
   end
 end

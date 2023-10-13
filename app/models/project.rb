@@ -2,6 +2,7 @@
 
 class Project < ApplicationRecord
   belongs_to :user
+  belongs_to :organization, optional: true
 
   has_many :metrics, dependent: :destroy
   has_many :reports, through: :metrics

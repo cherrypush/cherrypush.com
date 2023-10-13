@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { panic } from '../error.js'
+import { emptyMetric } from '../occurences.js'
 import sh from '../sh.js'
 
 const BASE_COMMAND = 'npm outdated --json'
@@ -27,15 +28,19 @@ const run = async ({ prefix }) => {
         const response = JSON.parse(stdout)
         if (response.error) panic(`${response.error.summary}\n${response.error.detail}`)
 
-        Object.keys(response).forEach((dependencyName) =>
-          outdatedDependencies.push({
-            name: dependencyName,
-            current: response[dependencyName].current,
-            latest: response[dependencyName].latest,
-            location: response[dependencyName].location,
-            prefix: command.prefix,
-          })
-        )
+        if (Object.keys(response).length === 0) {
+          outdatedDependencies.push(emptyMetric(getMetricName(command.prefix)))
+        } else {
+          Object.keys(response).forEach((dependencyName) =>
+            outdatedDependencies.push({
+              name: dependencyName,
+              current: response[dependencyName].current,
+              latest: response[dependencyName].latest,
+              location: response[dependencyName].location,
+              prefix: command.prefix,
+            })
+          )
+        }
       } catch (error) {
         panic(`An error happened while executing npm: ${error}\n- Make sure the 'npm outdated' command works`)
       }

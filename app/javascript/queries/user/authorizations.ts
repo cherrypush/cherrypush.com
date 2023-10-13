@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useInvalidateAuthorizationRequestsIndex } from './authorizationsRequests'
+import { useInvalidateProjectsIndex } from './projects'
 
 const INDEX_KEY = ['user', 'authorizations']
 
@@ -13,24 +14,27 @@ export const useAuthorizationsCreate = () => {
   const invalidateAuthorizationRequestsIndex = useInvalidateAuthorizationRequestsIndex()
 
   return useMutation(
-    ({ projectId, userId }: { projectId: number; userId: number }) =>
-      axios.post('/user/authorizations.json', { project_id: projectId, user_id: userId }),
+    ({ organizationId, userId }: { organizationId: number; userId: number }) =>
+      axios.post('/user/authorizations.json', { organization_id: organizationId, user_id: userId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(INDEX_KEY)
         toast.success('Authorization created')
         invalidateAuthorizationRequestsIndex()
       },
+      onError: (error) => toast.error(error.response.data?.error),
     }
   )
 }
 
 export const useAuthorizationsDestroy = () => {
   const queryClient = useQueryClient()
+  const invalidateProjectsIndex = useInvalidateProjectsIndex()
 
   return useMutation(({ id }: { id: number }) => axios.delete(`/user/authorizations/${id}.json`), {
     onSuccess: () => {
       queryClient.invalidateQueries(INDEX_KEY)
+      invalidateProjectsIndex()
       toast.success('Authorization revoked')
     },
     onError: (error) => {
