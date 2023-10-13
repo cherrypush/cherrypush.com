@@ -74,7 +74,7 @@ Note that, in both cases, you'll also need a running instance of Postgres and Re
 docker run \
   -e SECRET_KEY_BASE=<secret> \
   -e DATABASE_URL=postgresql://<user>:<pass>@<host>:5432/<db_name> \
-  cherrypush/cherry
+  cherrypush/cherrypush.com
 ``` -->
 
 ## Contributing

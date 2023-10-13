@@ -8,92 +8,78 @@
   <div class="mb-8"><%= render 'components/main_cta_buttons' %></div>
 </div>
 
-<% if ENV.fetch('STRIPE_INDIVIDUAL_PLAN_URL', nil) && ENV.fetch('STRIPE_ORGANIZATION_PLAN_URL', nil) %>
-  <div class="md:flex mt-6">
-    <div
-      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
-    >
-      <h5 class="mb-4 text-xl font-medium">Individual</h5>
-      <div class="mb-3">For solopreneurs, and developers working alone.</div>
-      <div class="flex items-baseline text-gray-900 dark:text-white">
-        <span class="text-3xl font-semibold">$</span>
-        <span class="text-5xl font-extrabold tracking-tight">0</span>
-        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-      </div>
-      <ul role="list" class="space-y-5 my-7">
-        <hr />
-        <%= render 'components/pricing_item', text: 'One single member' %>
-        <%= render 'components/pricing_item', text: 'One single project' %>
-        <hr />
-        <%= render 'components/pricing_item', status: :off, text: 'Email support' %>
-        <%= render 'components/pricing_item', status: :off, text: 'Chat support' %>
-        <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
-        <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
-      </ul>
-      <%= render 'components/sign_in_button', text: 'Get started for free' %>
+<div class="md:flex mt-6">
+  <div
+    class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
+  >
+    <h5 class="mb-4 text-xl font-medium">Individual</h5>
+    <div class="mb-3">For solopreneurs, and developers working alone.</div>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">0</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
     </div>
-
-    <div
-      class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
-    >
-      <h5 class="mb-4 text-xl font-medium">Team</h5>
-      <div class="mb-3">For small and early-stage startups with up to 10 members.</div>
-      <div class="flex items-baseline text-gray-900 dark:text-white">
-        <span class="text-3xl font-semibold">$</span>
-        <span class="text-5xl font-extrabold tracking-tight">9</span>
-        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-      </div>
-      <ul role="list" class="space-y-5 my-7">
-        <hr />
-        <%= render 'components/pricing_item', text: 'Up to 10 members' %>
-        <%= render 'components/pricing_item', text: 'Up to 10 projects' %>
-        <hr />
-        <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
-        <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
-        <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
-        <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
-      </ul>
-      <a
-        href="<%= ENV.fetch('STRIPE_INDIVIDUAL_PLAN_URL') %>"
-        target="_blank"
-        class="w-full btn-primary inline-flex justify-center"
-      >
-        Pay $9/month
-      </a>
-    </div>
-
-    <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
-      <h5 class="mb-4 text-xl font-medium">Organization</h5>
-      <div class="mb-3">For larger organizations with complex needs.</div>
-      <div class="flex items-baseline text-gray-900 dark:text-white">
-        <span class="text-3xl font-semibold">$</span>
-        <span class="text-5xl font-extrabold tracking-tight">99</span>
-        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
-      </div>
-      <ul role="list" class="space-y-5 my-7">
-        <hr />
-        <%= render 'components/pricing_item', status: :on, text: 'Unlimited members' %>
-        <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
-        <hr />
-        <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
-        <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
-        <%= render 'components/pricing_item', status: :on, text: 'Single Sign-On' %>
-        <%= render 'components/pricing_item', status: :on, text: '24x7 email support' %>
-      </ul>
-      <a
-        href="<%= ENV.fetch('STRIPE_ORGANIZATION_PLAN_URL') %>"
-        target="_blank"
-        class="w-full btn-primary inline-flex justify-center mb-3"
-      >
-        Pay $99/month
-      </a>
-    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <hr />
+      <%= render 'components/pricing_item', text: 'One single member' %>
+      <%= render 'components/pricing_item', text: 'One single project' %>
+      <hr />
+      <%= render 'components/pricing_item', status: :off, text: 'Email support' %>
+      <%= render 'components/pricing_item', status: :off, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
+    </ul>
+    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
   </div>
 
   <div
-    class="text-center w-full rounded-lg pt-8 dark:border-gray-700 md:mr-3 md:mb-0 mt-3 font-light text-gray-500 md:text-lg dark:text-gray-400"
+    class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
   >
-    Are you working on open-source?
-    <a href="https://twitter.com/fwuensche" class="text-link" target="_blank">Shoot me a message on twitter ❤️</a>
+    <h5 class="mb-4 text-xl font-medium">Team</h5>
+    <div class="mb-3">For small and early-stage startups with up to 10 members.</div>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">9</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <hr />
+      <%= render 'components/pricing_item', text: 'Up to 10 members' %>
+      <%= render 'components/pricing_item', text: 'Up to 10 projects' %>
+      <hr />
+      <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
+      <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
+    </ul>
+    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
   </div>
-<% end %>
+
+  <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
+    <h5 class="mb-4 text-xl font-medium">Organization</h5>
+    <div class="mb-3">For larger organizations with complex needs.</div>
+    <div class="flex items-baseline text-gray-900 dark:text-white">
+      <span class="text-3xl font-semibold">$</span>
+      <span class="text-5xl font-extrabold tracking-tight">99</span>
+      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    </div>
+    <ul role="list" class="space-y-5 my-7">
+      <hr />
+      <%= render 'components/pricing_item', status: :on, text: 'Unlimited members' %>
+      <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
+      <hr />
+      <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
+      <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :on, text: 'Single Sign-On' %>
+      <%= render 'components/pricing_item', status: :on, text: '24x7 email support' %>
+    </ul>
+    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
+  </div>
+</div>
+
+<div
+  class="text-center w-full rounded-lg pt-8 dark:border-gray-700 md:mr-3 md:mb-0 mt-3 font-light text-gray-500 md:text-lg dark:text-gray-400"
+>
+  Are you working on open-source?
+  <a href="https://twitter.com/fwuensche" class="text-link" target="_blank">Shoot me a message on twitter ❤️</a>
+</div>
