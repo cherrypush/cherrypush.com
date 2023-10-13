@@ -55,7 +55,9 @@
           %>
         </li>
         <li>
-          <%= link_to 'Demo ↗', demo_path, class: 'navbar-link' %>
+          <%= form_tag(google_sign_in_path(after_sign_in_path: demo_path), method: 'post') do %>
+            <button class="navbar-link" type="submit">Demo ↗</button>
+          <% end %>
         </li>
       </ul>
     </div>

@@ -37,11 +37,11 @@
         <p class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-3">
           Sign in as recommended by your organization.
         </p>
-        <%= form_tag(github_sign_in_path, method: 'post') do %>
+        <%= form_tag(github_sign_in_path(after_sign_in_path: user_projects_path), method: 'post') do %>
           <button class="w-full btn-primary mb-3" type="submit">Login with GitHub</button>
         <% end %>
 
-        <%= form_tag(google_sign_in_path, method: 'post') do %>
+        <%= form_tag(google_sign_in_path(after_sign_in_path: user_projects_path), method: 'post') do %>
           <button class="w-full btn-primary" type="submit">Login with Google</button>
         <% end %>
       </div>
