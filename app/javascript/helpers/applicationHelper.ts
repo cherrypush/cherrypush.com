@@ -38,5 +38,6 @@ export const getEnvironment = () => {
 
   if (subdomain === 'localhost') return 'development'
   if (subdomain === 'www') return 'production'
+  if (subdomain === '127') return 'test' // tests run on 127.0.0.1
   throw new Error("Can't determine environment")
 }
