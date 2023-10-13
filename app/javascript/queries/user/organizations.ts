@@ -12,7 +12,12 @@ export interface Organization {
   sso_domain: string
 }
 
-const buildQueryKey = (organizationId: number) => ['user', 'organizations', organizationId]
+const BASE_KEY = ['user', 'organizations']
+
+const buildQueryKey = (organizationId: number) => [...BASE_KEY, organizationId]
+
+export const useOrganizationsIndex = () =>
+  useQuery<Organization[]>(BASE_KEY, () => axios.get('/user/organizations.json').then((response) => response.data))
 
 export const useOrganizationsShow = ({ organizationId }: { organizationId: number }) =>
   useQuery<Organization>(buildQueryKey(organizationId), () =>

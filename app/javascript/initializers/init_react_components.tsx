@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { lazy } from 'react'
 import { createRoot } from 'react-dom/client'
+import toast from 'react-hot-toast'
 import { BrowserRouter } from 'react-router-dom'
 
 const queryClient = new QueryClient({
@@ -10,6 +11,9 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
       refetchOnMount: false,
+    },
+    mutations: {
+      onError: (error) => toast.error(error.response.data?.error),
     },
   },
 })
