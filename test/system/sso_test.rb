@@ -1,7 +1,7 @@
 require "application_system_test_case"
 
 class SsoTest < ApplicationSystemTestCase
-  let!(:user) { create :user, name: "Mark" }
+  let!(:user) { create :user, name: "Mark", email: "mark@facebook.com" }
   let!(:organization) do
     create :organization, name: "facebook", user: user, sso_enabled: true, sso_domain: "facebook.com"
   end

@@ -1,9 +1,10 @@
+import EditIcon from '@mui/icons-material/Edit'
 import { Badge, Button, Table } from 'flowbite-react'
-import _ from 'lodash'
 import { Fragment, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthorizationsDestroy, useAuthorizationsIndex } from '../queries/user/authorizations'
 import { useAuthorizationRequestsIndex } from '../queries/user/authorizationsRequests'
+import { useOrganizationsIndex } from '../queries/user/organizations'
 import { useProjectsIndex } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
 import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
@@ -22,7 +23,7 @@ const PersonalProjectAuthorizations = ({
   destroyAuthorization: (arg: { id: number }) => void
 }) => {
   return (
-    <div className="overflow-x-auto relative mb-6">
+    <div className="overflow-x-auto relative">
       <Table>
         <Table.Head>
           <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
@@ -75,18 +76,15 @@ const AuthorizationsPage = () => {
   const { data: projects } = useProjectsIndex()
   const { data: users } = useUsersIndex()
   const { data: authorizations } = useAuthorizationsIndex()
+  const { data: organizations } = useOrganizationsIndex()
   const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
   const { data: authorizationRequests } = useAuthorizationRequestsIndex()
   const navigate = useNavigate()
 
   const [editedOrganizationId, setEditedOrganizationId] = useState<number | null>(null)
 
-  if (!projects || !authorizations || !users) return <PageLoader />
+  if (!projects || !authorizations || !users || !organizations) return <PageLoader />
 
-  const organizations: { id: number; name: string }[] = _.uniqBy(
-    projects.map((project) => project.organization).filter((organization) => !!organization),
-    'id'
-  )
   const personalProjects = projects.filter((project) => !project.organization)
 
   return (
@@ -114,15 +112,17 @@ const AuthorizationsPage = () => {
         {personalProjects.length > 0 && (
           <>
             <h2>Personal projects</h2>
-            {personalProjects.map((project) => (
-              <PersonalProjectAuthorizations
-                key={project.id}
-                project={project}
-                authorizations={authorizations}
-                destroyAuthorization={destroyAuthorization}
-                isLoading={isLoading}
-              />
-            ))}
+            <div className="flex flex-col gap-6">
+              {personalProjects.map((project) => (
+                <PersonalProjectAuthorizations
+                  key={project.id}
+                  project={project}
+                  authorizations={authorizations}
+                  destroyAuthorization={destroyAuthorization}
+                  isLoading={isLoading}
+                />
+              ))}
+            </div>
           </>
         )}
 
@@ -132,11 +132,26 @@ const AuthorizationsPage = () => {
           return (
             <Fragment key={organization.id}>
               <div className="flex items-center justify-between">
-                <h2 className="mt-3">{organization.name} projects</h2>
+                <h2 className="mt-6">{organization.name} projects</h2>
                 <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
                   + Authorization
                 </Button>
               </div>
+
+              {organization.sso_enabled && (
+                <div className="flex items-center p-4 mb-4 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400">
+                  <div className="ml-3 text-sm font-medium">
+                    SSO is enabled for {organization.sso_domain} ({organization.sso_user_count} users)
+                  </div>
+                  <button
+                    type="button"
+                    className="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                    onClick={() => navigate('/user/organizations/' + organization.id)}
+                  >
+                    <EditIcon fontSize="small" />
+                  </button>
+                </div>
+              )}
 
               <Table>
                 <Table.Body>

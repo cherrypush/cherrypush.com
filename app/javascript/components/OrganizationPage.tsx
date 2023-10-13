@@ -1,3 +1,4 @@
+import { Divider } from '@mui/material'
 import { Badge, Button, Card, Label, TextInput, ToggleSwitch } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -85,10 +86,14 @@ const OrganizationPage = () => {
       <h1>{organizationData.name}</h1>
 
       <div className="card mb-9">
-        <h2>Security Settings</h2>
+        <h2>Organization Details</h2>
         <div className="flex max-w-md flex-col gap-4">
           <Label htmlFor="organization_name">Name</Label>
-          <TextInput id="organization_name" value={organizationData.name} disabled className="mb-1" />
+          <TextInput id="organization_name" value={organizationData.name} disabled />
+          <Label>Owner</Label>
+          <TextInput value={organizationData.user.name} disabled />
+          <TextInput value={organizationData.user.email} disabled />
+          <Divider />
           <ToggleSwitch
             id="organization_sso_enabled"
             checked={organization.sso_enabled}
@@ -104,13 +109,16 @@ const OrganizationPage = () => {
               >
                 SSO Domain
               </Label>
-              <TextInput
-                id="organization_sso_domain"
-                disabled={!canEdit}
-                color={isValidDomain(organization.sso_domain) ? 'gray' : 'failure'}
-                value={organization.sso_domain}
-                onChange={(e) => setOrganization({ ...organization, sso_domain: e.target.value })}
-              />
+              <div className="flex items-center gap-3">
+                <TextInput
+                  id="organization_sso_domain"
+                  disabled={!canEdit}
+                  color={isValidDomain(organization.sso_domain) ? 'gray' : 'failure'}
+                  value={organization.sso_domain}
+                  onChange={(e) => setOrganization({ ...organization, sso_domain: e.target.value })}
+                />
+                <span className="text-sm font-medium">({organizationData.sso_user_count} users)</span>
+              </div>
             </>
           )}
         </div>
