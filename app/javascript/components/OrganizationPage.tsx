@@ -6,6 +6,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import { useOrganizationsShow, useOrganizationsUpdate } from '../queries/user/organizations'
 import PageLoader from './PageLoader'
 
+// TODO: this function should get the plans from the backend, and the backend should get them from Stripe
 const getPlans = () => [
   {
     name: 'Team Plan',
@@ -30,8 +31,10 @@ const getPlans = () => [
   },
 ]
 
+// TODO: this should be moved to helpers.js
 const formatPrice = (price: number) => `$${price / 100}`
 
+// TODO: this should be moved to helpers.js
 const formatDate = (unixDate: number) =>
   new Date(unixDate * 1000).toLocaleDateString('en-US', {
     month: 'short',
@@ -39,6 +42,7 @@ const formatDate = (unixDate: number) =>
     year: 'numeric',
   })
 
+// TODO: this should be moved to helpers.js
 const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
 
 interface OrganizationForm {
@@ -57,6 +61,7 @@ const OrganizationPage = () => {
 
   if (!organizationId) return null
 
+  // TODO: it's confusing to have both organization and organizationData, fix this
   const { data: organizationData } = useOrganizationsShow({ organizationId: parseInt(organizationId) })
   const canEdit = organizationData && organizationData.user_id === currentUser.id
 
@@ -72,6 +77,7 @@ const OrganizationPage = () => {
 
   if (!organizationData || !organization) return <PageLoader />
 
+  // TODO: type organizationData properly
   const hasActiveSubscription = organizationData.subscriptions.some((subscription) => subscription.plan.active)
 
   return (
@@ -81,8 +87,8 @@ const OrganizationPage = () => {
       <div className="card mb-9">
         <h2>Security Settings</h2>
         <div className="flex max-w-md flex-col gap-4">
-          {/* <Label htmlFor="organization_name">Name</Label>
-          <TextInput id="organization_name" value={organizationData.name} disabled className="mb-1" /> */}
+          <Label htmlFor="organization_name">Name</Label>
+          <TextInput id="organization_name" value={organizationData.name} disabled className="mb-1" />
           <ToggleSwitch
             id="organization_sso_enabled"
             checked={organization.sso_enabled}
