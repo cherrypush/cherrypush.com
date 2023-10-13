@@ -35,8 +35,10 @@ class User::ProjectsControllerTest < ApplicationIntegrationTest
     end
 
     it "returns projects to which you have access via SSO" do
-      facebook_user = create(:user, email: "mark@facebook.com")
-      facebook_organization = create(:organization, name: "facebook", sso_enabled: true, sso_domain: "facebook.com")
+      facebook_admin = create(:user, email: "mark@facebook.com")
+      facebook_user = create(:user, email: "carlinhos@facebook.com")
+      facebook_organization =
+        create(:organization, name: "facebook", sso_enabled: true, sso_domain: "facebook.com", user: facebook_admin)
       react_project = create(:project, name: "facebook/react", organization: facebook_organization)
 
       sign_in(facebook_user, controller_test: true)
