@@ -13,6 +13,6 @@ class StaticPagesTest < ApplicationSystemTestCase
     click_on "Docs"
     assert_text "npm install -g cherrypush"
     click_on "Demo"
-    assert_text "Login with GitHub to access the demo"
+    assert_text "Login first to access the demo"
   end
 end
