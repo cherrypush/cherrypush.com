@@ -1,8 +1,10 @@
+// import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import LogoutIcon from '@mui/icons-material/Logout'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import SettingsIcon from '@mui/icons-material/Settings'
 import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
-import { MdLogout, MdPerson, MdSettings } from 'react-icons/md'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -13,8 +15,9 @@ const CherryNavbar = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   const isFetching = useIsFetching()
-  const { data: notifications } = useNotificationsIndex()
-  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length
+  const { data } = useNotificationsIndex()
+  const notifications = data?.pages.flat()
+  const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length || 0
 
   return (
     <>
@@ -40,23 +43,27 @@ const CherryNavbar = () => {
             <NotificationsIcon />
             {unSeenNotificationsCount > 0 && (
               <span className="ml-1.5 text-xs font-semibold bg-red-500 text-white px-1.5 rounded-full">
-                {unSeenNotificationsCount}
+                {unSeenNotificationsCount > 10 ? '10+' : unSeenNotificationsCount}
               </span>
             )}
           </Button>
           <Dropdown arrowIcon={false} inline={true} label={<Avatar alt="Avatar" img={user.image} rounded={true} />}>
-            <Dropdown.Header>
-              <span className="block text-sm">{user.name}</span>
-              <span className="block truncate text-sm font-medium">{user.email}</span>
-            </Dropdown.Header>
-            <Dropdown.Item icon={MdPerson} onClick={() => navigate(`/user/users/${user.id}`)}>
-              Profile
-            </Dropdown.Item>
-            <Dropdown.Item icon={MdSettings} onClick={() => navigate('/user/settings')}>
-              Settings
+            <Dropdown.Item onClick={() => navigate(`/user/users/${user.id}`)} className="w-64">
+              <Avatar alt="Avatar" img={user.image} rounded={true} className="mr-2" size="xs" />
+              {user.name}
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item icon={MdLogout} onClick={() => (window.location.pathname = '/sign_out')}>
+            {/* <Dropdown.Item onClick={() => navigate(`/user/organizations/new`)}>
+              <AddCircleOutlineIcon fontSize="small" className="mr-2" />
+              New Organization
+            </Dropdown.Item> */}
+            {/* <Dropdown.Divider /> */}
+            <Dropdown.Item onClick={() => navigate('/user/settings')}>
+              <SettingsIcon fontSize="small" className="mr-2" />
+              Account Settings
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => (window.location.pathname = '/sign_out')}>
+              <LogoutIcon fontSize="small" className="mr-2" />
               Sign out
             </Dropdown.Item>
           </Dropdown>

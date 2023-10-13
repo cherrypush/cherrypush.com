@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'route_utils'
+require_relative "route_utils"
 
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
-  constraints(AdminConstraint) { mount Blazer::Engine, at: 'blazer' }
+  constraints(AdminConstraint) { mount Blazer::Engine, at: "blazer" }
 
   # AUTHENTICATION ROUTES
-  get 'auth/:provider/callback', to: 'sessions#create'
-  get '/sign_out', to: 'sessions#destroy', as: :signout
-  get '/auth/github', as: :github_sign_in
-  get '/auth/failure' => 'sessions#failure'
+  get "auth/:provider/callback", to: "sessions#create"
+  get "/sign_out", to: "sessions#destroy", as: :signout
+  get "/auth/google_oauth2", as: :google_sign_in
+  get "/auth/github", as: :github_sign_in
+  get "/auth/failure" => "sessions#failure"
 
   # CLI ROUTES
   namespace :api do
@@ -33,9 +34,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       end
       resource :metric_watchers, only: %i[create destroy]
       resources :notifications, only: %i[index] do
-        put 'mark_as_seen', on: :member
-        put 'mark_all_as_seen', on: :collection
+        put "mark_as_seen", on: :member
+        put "mark_all_as_seen", on: :collection
       end
+      resources :organizations, only: %i[show update]
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]
@@ -52,22 +54,24 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
         dashboards/:id
         docs
         notifications
+        organizations/:organization_id
+        organizations/new
         projects
         projects/new
         settings
         users/:user_id
-      ].each { |route| get route, to: 'application#spa' }
+      ].each { |route| get route, to: "application#spa" }
     end
   end
 
   # STATIC ROUTES
-  get :demo, to: 'pages#demo'
-  get :docs, to: 'pages#docs'
-  get :pricing, to: 'pages#pricing'
-  get :privacy, to: 'pages#privacy'
-  get :terms, to: 'pages#terms'
+  get :demo, to: "pages#demo"
+  get :docs, to: "pages#docs"
+  get :pricing, to: "pages#pricing"
+  get :privacy, to: "pages#privacy"
+  get :terms, to: "pages#terms"
 
   resources :articles, only: %i[index show]
 
-  root 'pages#home'
+  root "pages#home"
 end

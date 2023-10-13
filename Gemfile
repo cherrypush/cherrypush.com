@@ -15,6 +15,7 @@ gem "sprockets-rails"
 # authentication
 gem "omniauth"
 gem "omniauth-github", github: "omniauth/omniauth-github", branch: "master"
+gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
 # admin
@@ -32,6 +33,7 @@ gem "skylight" # performance monitoring
 gem "groupdate"
 gem "heroicon"
 gem "httparty"
+gem "kaminari"
 gem "pundit"
 gem "redcarpet" # for markdown rendering
 gem "tailwindcss-rails"

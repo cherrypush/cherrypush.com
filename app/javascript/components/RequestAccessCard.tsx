@@ -1,7 +1,6 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import LockPersonIcon from '@mui/icons-material/LockPerson'
 import { Button, Card } from 'flowbite-react'
-import React from 'react'
 import { useAuthorizationRequestsCreate } from '../queries/user/authorizationsRequests'
 
 const RequestAccessCard = ({ projectId }: { projectId: number }) => {

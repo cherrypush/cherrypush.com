@@ -18,6 +18,22 @@ const ProjectsTable = () => {
         accessor: 'name',
       },
       {
+        Header: 'Organization',
+        accessor: 'organization.name',
+        Cell: ({ row }) =>
+          row.original.organization && (
+            <a
+              onClick={(event) => {
+                event.stopPropagation()
+                navigate(`/user/organizations/${row.original.organization.id}`)
+              }}
+              className="text-link"
+            >
+              {row.original.organization.name}
+            </a>
+          ),
+      },
+      {
         Header: 'Owner',
         accessor: 'user.name',
       },
