@@ -32,3 +32,12 @@ export const buildCommitUrl = ({ projectName, commitSha }: { projectName: string
   `https://github.com/${projectName}/commit/${commitSha}`
 
 export const formatDiff = (number: number) => (number < 0 ? '' : '+') + number
+
+export const getEnvironment = () => {
+  const subdomain = window.location.hostname.split('.')[0]
+
+  if (subdomain === 'localhost') return 'development'
+  if (subdomain === 'www') return 'production'
+  if (subdomain === '127') return 'test' // tests run on 127.0.0.1
+  throw new Error("Can't determine environment")
+}

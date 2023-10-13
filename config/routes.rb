@@ -41,6 +41,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resources :owners, only: %i[index]
       resources :projects, only: %i[index update destroy]
       resource :settings, only: %i[update]
+      resources :subscriptions, only: %i[create]
       resources :users, only: %i[index show]
     end
 

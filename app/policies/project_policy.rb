@@ -6,7 +6,7 @@
 class ProjectPolicy < ApplicationPolicy
   def read_access?
     return true if user.admin?
-    return true if record.name == "cherrypush/cherrypush.com" # This is the demo project, so everyone can access it
+    return true if record.name == "cherrypush/cherry" # This is the demo project, so everyone can access it
     return true if record.user == user
     return true if user.organizations.include?(record.organization)
     false
