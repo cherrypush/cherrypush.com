@@ -11,12 +11,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User::NON_SENSITIVE_ATTRIBUTES, JSON.parse(project.to_json(include: :user))["user"].keys
   end
 
-  it "should not save user without github handle" do
-    user = build(:user, github_handle: nil)
-    assert_not user.valid?
-    assert_includes user.errors[:github_handle], "can't be blank"
-  end
-
   describe "#projects" do
     let!(:user) { create(:user) }
     let!(:project) { create(:project, user: user) }

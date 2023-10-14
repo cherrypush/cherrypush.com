@@ -4,7 +4,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
-  let!(:new_user) { create :user, name: "Prabhakar", github_handle: "prabs" }
+  let!(:new_user) { create :user, name: "John Doe", github_handle: "jdoe" }
   let!(:dashboard) { create(:dashboard, project: project, name: "TS Migration") }
 
   it "allows new users to request access to projects from projects" do
@@ -33,7 +33,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
     create :authorization, user: new_user, organization: organization
 
     sign_in(new_user, to: user_authorizations_path)
-    assert_text "Prabhakar Prabhakar"
+    assert_text "John Doe"
     assert_text "Flavio Wuensche"
     accept_confirm { all("button", text: "Remove").first.click }
     assert_text "Authorization revoked"
@@ -48,7 +48,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
 
     it "approves authorizations" do
       sign_in(user, to: user_authorizations_path)
-      assert_text "Prabhakar (@prabs) requested access to rails organization"
+      assert_text "John Doe (@jdoe) requested access to rails organization"
       click_on "Grant access"
       assert_text "A paid plan is required"
 
@@ -63,7 +63,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
 
     it "dismisses authorizations" do
       sign_in(user, to: user_authorizations_path)
-      assert_text "Prabhakar (@prabs) requested access to rails organization"
+      assert_text "John Doe (@jdoe) requested access to rails organization"
       click_on "Dismiss"
       assert_text "Authorization request dismissed"
       assert_equal 0, Authorization.count
