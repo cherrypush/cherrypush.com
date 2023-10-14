@@ -4,7 +4,15 @@ import { Alert, Button } from 'flowbite-react'
 import { useAuthorizationsCreate } from '../queries/user/authorizations'
 import { useAuthorizationRequestsDestroy } from '../queries/user/authorizationsRequests'
 
-const AuthorizationRequestAlert = ({ authorizationRequest }) => {
+const AuthorizationRequestAlert = ({
+  authorizationRequest,
+}: {
+  authorizationRequest: {
+    id: number
+    user: { name: string; email: string }
+    organization: { id: number; name: string }
+  }
+}) => {
   const { mutateAsync: createAuthorization } = useAuthorizationsCreate()
   const { mutateAsync: destroyAuthorizationRequest } = useAuthorizationRequestsDestroy()
 
@@ -12,7 +20,7 @@ const AuthorizationRequestAlert = ({ authorizationRequest }) => {
     <Alert withBorderAccent>
       <p>
         <span className="font-bold">
-          {authorizationRequest.user.name} (@{authorizationRequest.user.github_handle})
+          {authorizationRequest.user.name} ({authorizationRequest.user.email})
         </span>{' '}
         requested access to <span className="font-bold">{authorizationRequest.organization.name} organization</span>.
       </p>
@@ -22,7 +30,7 @@ const AuthorizationRequestAlert = ({ authorizationRequest }) => {
           onClick={() =>
             createAuthorization({
               organizationId: authorizationRequest.organization.id,
-              userId: authorizationRequest.user.id,
+              email: authorizationRequest.user.email,
             })
           }
         >

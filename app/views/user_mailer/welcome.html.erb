@@ -1,35 +1,28 @@
 <%# TODO: to make it more personal, the welcome email should be written in plain text %>
 
-<p>Hello <%= @user.name.split.first %>! Welcome to Cherry!</p>
+<p>Hello <%= @user.name.split.first %>! 👋</p>
+
+<p>Here are a few links to help you get started.</p>
+
+<p>If you're already part of an existing organization, here you'll find:</p>
 
 <p>
-  We're a very small team of two and we want to make sure we're building something useful for you. If you have 5
-  minutes, just go ahead and directly reply to this email. Tell us the problems that you're trying to solve.
+  <a href="<%= user_dashboards_url %>">Your Dashboards <%= image_tag 'ss_dashboards.webp' %></a>
 </p>
 
 <p>
-  To get an overview of the CLI, we recommend setting aside some time to
-  <a href="<%= docs_url %>" target="_blank" id="">explore the docs</a>. Otherwise, let's get straight to setting up your
-  first project!
+  <a href="<%= user_projects_url %>">Your Projects <%= image_tag 'ss_code_migration.webp' %></a>
 </p>
 
-<%# TODO: use image from within the project, if any %>
-<img
-  style="max-width: 100% !important; height: auto !important"
-  src="https://i.imgur.com/ihhJZCZ.png"
-  alt="cherrypush dashboard screenshot"
-/>
+<p>
+  Or if you're just starting out, I'd advise you to take a look at the <a href="<%= docs_url %>">Cherry Docs</a>
+  but also take a short minute to reply to this email and let me know:
+</p>
 
-<p>In a few short steps:</p>
-
-<ol>
-  <li>In the <a href="<%= user_projects_url %>">Cherry Projects tab</a>, click on the 'New project' card.</li>
-  <li>Follow the sequence of commands listed in the modal.</li>
-  <li>
-    Refresh the browser to see your metrics in the
-    <a href="<%= user_projects_url %>">Dashboard</a>.
-  </li>
-</ol>
+<ul>
+  <li>What's your current tech stack?</li>
+  <li>What are you trying to achieve?</li>
+</ul>
 
 <%#
   TODO: Write another email on day 2 to explain how to customize the metrics tracked.
@@ -48,4 +41,7 @@
   </p>
 -->
 
-<p>That's all you need to get started!<br />~ Flavio</p>
+<p>
+  I'm glad to help! Just shoot your message here 😊<br />
+  <a href="https://twitter.com/fwuensche">@fwuensche</a>
+</p>

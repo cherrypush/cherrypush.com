@@ -22,9 +22,9 @@ class UserMailer < ApplicationMailer
 
   def authorization_granted
     @from_user = params[:from]
-    @to_user = params[:to]
+    @to_email = params[:to]
     @organization = params[:organization]
-    mail(to: @to_user.email, subject: "Cherry - Authorization Granted")
+    mail(to: @to_email, subject: "Cherry - Authorization Granted")
   end
 
   def daily_notifications_report
