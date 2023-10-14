@@ -35,10 +35,10 @@ class AuthorizationsTest < ApplicationSystemTestCase
     sign_in(new_user, to: user_authorizations_path)
     assert_text "John Doe"
     assert_text "Flavio Wuensche"
-    accept_confirm { all("button", text: "Remove").first.click }
+    accept_confirm { all("button", text: "Revoke").first.click }
     assert_text "Authorization revoked"
     assert_no_text "Flavio Wuensche"
-    accept_confirm { all("button", text: "Remove").first.click }
+    accept_confirm { all("button", text: "Revoke").first.click }
     assert_text "Authorization revoked"
     assert_text "You first need to create a project"
   end
