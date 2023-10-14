@@ -34,4 +34,22 @@ class UserTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe "with projects" do
+    let!(:user) { create(:user) }
+    let!(:project) { create(:project, user: user) }
+
+    it "cannot delete user with projects" do
+      assert_raise(ActiveRecord::RecordNotDestroyed) { user.destroy! }
+    end
+  end
+
+  describe "with organizations" do
+    let!(:user) { create(:user) }
+    let!(:organization) { create(:organization, user: user) }
+
+    it "cannot delete user with organizations" do
+      assert_raise(ActiveRecord::RecordNotDestroyed) { user.destroy! }
+    end
+  end
 end
