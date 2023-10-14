@@ -94,7 +94,7 @@ class User < ApplicationRecord
 
   class << self
     def find_or_create_with_omniauth(auth)
-      user = find_by(email: auth.info.email) || find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
+      user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
       user.save!
