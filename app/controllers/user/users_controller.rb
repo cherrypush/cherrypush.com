@@ -2,9 +2,9 @@
 
 class User::UsersController < User::ApplicationController
   def index
-    users = params[:ids] ? User.where(id: params[:ids]) : User.all
-
-    render json: users.order(:github_handle)
+    users = current_user.organizations.map(&:users).flatten.uniq
+    users = users.filter { |user| user.id.in?(params[:ids]) } if params[:ids].present?
+    render json: users.sort_by(&:name)
   end
 
   # TODO: split this endpoint into two, one for user#show and another for current_user#show (used by useCurrentUser)
