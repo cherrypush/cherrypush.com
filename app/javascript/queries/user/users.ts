@@ -7,10 +7,16 @@ export interface User {
   image: string
 }
 
+type UsersIndexResponse = {
+  id: number
+  name: string
+  github_handle: string
+}[]
+
 const buildIndexKey = (ids?: number[]) => (ids ? ['user', 'users', ids] : ['user', 'users'])
 
 export const useUsersIndex = ({ ids, enabled }: { ids?: number[]; enabled?: boolean } = {}) =>
-  useQuery(
+  useQuery<UsersIndexResponse>(
     buildIndexKey(ids),
     () => axios.get('/user/users.json', { params: { ids } }).then((response) => response.data),
     {
