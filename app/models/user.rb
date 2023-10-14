@@ -6,11 +6,11 @@ class User < ApplicationRecord
   ALL_ATTRIBUTES = User.new.attributes.keys
   NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
 
-  has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
+  has_many :owned_projects, class_name: Project.to_s, dependent: :restrict_with_error
   has_many :authorizations, dependent: :destroy
   has_many :metrics, through: :projects
   has_many :notifications, dependent: :destroy
-  has_many :owned_organizations, class_name: Organization.to_s, dependent: :destroy
+  has_many :owned_organizations, class_name: Organization.to_s, dependent: :restrict_with_error
 
   before_save :ensure_api_key
 
