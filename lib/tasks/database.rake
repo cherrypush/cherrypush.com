@@ -5,18 +5,34 @@ namespace :database do
   task anonymize: :environment do
     raise "This task is not allowed in production" if Rails.env.production?
 
+    ActiveRecord::Base.logger = nil
+
     User.all.each do |user|
       user.update!(name: Faker::Name.name, email: Faker::Internet.email, github_handle: Faker::Internet.username)
     end
 
-    Project.all.each do |project|
+    users = User.all.to_a
+
+    occurrences = Occurrence.where.not(owners: nil)
+    occurrences
+      .in_batches(of: 1000)
+      .each_with_index do |occurrence_group, index|
+        puts "Occurrence batch #{index} of #{occurrences.count / 1000}"
+        occurrence_group.update_all(owners: [users.sample.github_handle])
+      end
+
+    projects = Project.all
+    projects.each_with_index do |project, index|
+      puts "Project #{index} of #{projects.count}"
       project.update!(name: "cherry/#{Faker::Adjective.positive}")
       project.metrics.each do |metric|
         metric.contributions.each do |contribution|
-          contribution.update!(author_name: User.all.sample.name, author_email: User.all.sample.email)
+          contribution.update!(author_name: users.sample.name, author_email: users.sample.email)
         end
       end
     end
+
+    # TODO: update owner names on reports value by owner
   end
 
   # This is regularly run by the Heroku Scheduler
