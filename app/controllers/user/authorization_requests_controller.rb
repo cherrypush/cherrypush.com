@@ -4,7 +4,14 @@ class User::AuthorizationRequestsController < User::ApplicationController
   def index
     render json:
              AuthorizationRequest.where(organization: current_user.organizations).as_json(
-               include: %i[user organization],
+               include: {
+                 user: {
+                   only: %w[id name email],
+                 },
+                 organization: {
+                   only: %w[id name],
+                 },
+               },
              )
   end
 

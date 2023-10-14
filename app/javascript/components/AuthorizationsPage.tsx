@@ -14,7 +14,7 @@ import PageLoader from './PageLoader'
 const PersonalProjectAuthorizations = ({
   project,
 }: {
-  project: { name: string; user: { name: string; github_handle: string }; id: number }
+  project: { name: string; user: { name: string; email: string }; id: number }
 }) => {
   return (
     <div className="overflow-x-auto relative">
@@ -27,7 +27,7 @@ const PersonalProjectAuthorizations = ({
           {/* OWNER */}
           <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <Table.Cell className="flex gap-3">
-              {project.user.name} (@{project.user.github_handle})
+              {project.user.name} ({project.user.email})
               <Badge color="gray" size="xs">
                 OWNER
               </Badge>
@@ -120,7 +120,7 @@ const AuthorizationsPage = () => {
                   {/* OWNER */}
                   <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <Table.Cell className="flex gap-3">
-                      {organizationOwner.name} (@{organizationOwner.github_handle})
+                      {organizationOwner.name} ({organizationOwner.email})
                       <Badge color="gray" size="xs">
                         OWNER
                       </Badge>
@@ -129,14 +129,12 @@ const AuthorizationsPage = () => {
                   </Table.Row>
                   {authorizations
                     .filter((authorization) => authorization.organization_id === organization.id)
-                    .sort((a, b) => a.user.name.localeCompare(b.user.name))
+                    .sort((a, b) => a.email.localeCompare(b.email))
                     .map((authorization) => (
                       <Fragment key={authorization.id}>
                         {/* AUTHORIZATIONS */}
                         <Table.Row key={authorization.id} className="border-b bg-gray-800 border-gray-700">
-                          <Table.Cell className="flex gap-3 items-center">
-                            {authorization.user.name} (@{authorization.user.github_handle})
-                          </Table.Cell>
+                          <Table.Cell className="flex gap-3 items-center">{authorization.email}</Table.Cell>
                           <Table.Cell className="justify-end !py-0">
                             <Button
                               onClick={() => {

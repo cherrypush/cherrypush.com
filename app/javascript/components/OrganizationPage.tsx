@@ -44,7 +44,7 @@ const formatDate = (unixDate: number) =>
   })
 
 // TODO: this should be moved to helpers.js
-const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
+const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
 
 interface OrganizationForm {
   id: number
@@ -83,7 +83,7 @@ const OrganizationPage = () => {
 
   return (
     <div className="container">
-      <h1>{organizationData.name}</h1>
+      <h1 className="mb-6">{organizationData.name}</h1>
 
       <div className="card mb-9">
         <h2>Organization Details</h2>

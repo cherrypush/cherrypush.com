@@ -4,7 +4,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
-  let!(:new_user) { create :user, name: "John Doe", github_handle: "jdoe" }
+  let!(:new_user) { create :user, name: "John Doe", github_handle: "jdoe", email: "jdoe@example.com" }
   let!(:dashboard) { create(:dashboard, project: project, name: "TS Migration") }
 
   it "allows new users to request access to projects from projects" do
@@ -28,13 +28,13 @@ class AuthorizationsTest < ApplicationSystemTestCase
   end
 
   it "allows users to delete authorization" do
-    other_user = create :user, name: "Flavio Wuensche"
-    create :authorization, user: other_user, organization: organization
-    create :authorization, user: new_user, organization: organization
+    other_user = create :user, name: "Flavio Wuensche", email: "fw@example.com"
+    create :authorization, email: other_user.email, organization: organization
+    create :authorization, email: new_user.email, organization: organization
 
     sign_in(new_user, to: user_authorizations_path)
-    assert_text "John Doe"
-    assert_text "Flavio Wuensche"
+    assert_text "jdoe@example.com"
+    assert_text "fw@example.com"
     accept_confirm { all("button", text: "Revoke").first.click }
     assert_text "Authorization revoked"
     assert_no_text "Flavio Wuensche"
@@ -48,7 +48,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
 
     it "approves authorizations" do
       sign_in(user, to: user_authorizations_path)
-      assert_text "John Doe (@jdoe) requested access to rails organization"
+      assert_text "John Doe (jdoe@example.com) requested access to rails organization"
       click_on "Grant access"
       assert_text "A paid plan is required"
 
@@ -57,13 +57,13 @@ class AuthorizationsTest < ApplicationSystemTestCase
       click_on "Grant access"
       assert_text "Authorization created"
       assert_equal 1, Authorization.count
-      assert_equal new_user.id, Authorization.last.user_id
+      assert_equal new_user.email, Authorization.last.email
       assert_equal organization.id, Authorization.last.organization_id
     end
 
     it "dismisses authorizations" do
       sign_in(user, to: user_authorizations_path)
-      assert_text "John Doe (@jdoe) requested access to rails organization"
+      assert_text "John Doe (jdoe@example.com) requested access to rails organization"
       click_on "Dismiss"
       assert_text "Authorization request dismissed"
       assert_equal 0, Authorization.count

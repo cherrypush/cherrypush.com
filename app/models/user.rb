@@ -4,10 +4,9 @@ class User < ApplicationRecord
   ADMIN_EMAILS = ENV.fetch("ADMIN_EMAILS", "").split(",")
 
   ALL_ATTRIBUTES = User.new.attributes.keys
-  NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
+  DEFAULT_ATTRIBUTES = %w[id name email].freeze
 
   has_many :owned_projects, class_name: Project.to_s, dependent: :restrict_with_error
-  has_many :authorizations, dependent: :destroy
   has_many :metrics, through: :projects
   has_many :notifications, dependent: :destroy
   has_many :owned_organizations, class_name: Organization.to_s, dependent: :restrict_with_error
@@ -20,7 +19,11 @@ class User < ApplicationRecord
 
   # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
   def serializable_hash(options = nil)
-    super({ only: NON_SENSITIVE_ATTRIBUTES }.merge(options || {}))
+    super({ only: DEFAULT_ATTRIBUTES }.merge(options || {}))
+  end
+
+  def authorizations
+    Authorization.where(email: email)
   end
 
   def organizations
