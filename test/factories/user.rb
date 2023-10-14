@@ -8,7 +8,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     api_key { Faker::Crypto.sha1 }
     github_handle { Faker::Internet.username }
-    provider { "github" }
+    provider { "google_oauth2" }
     uid { Faker::Crypto.sha1 }
   end
 end
