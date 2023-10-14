@@ -13,14 +13,8 @@ import PageLoader from './PageLoader'
 
 const PersonalProjectAuthorizations = ({
   project,
-  authorizations,
-  destroyAuthorization,
-  isLoading,
 }: {
-  authorizations: { id: number; project_id: number; user: { name: string; github_handle: string } }[]
   project: { name: string; user: { name: string; github_handle: string }; id: number }
-  isLoading: boolean
-  destroyAuthorization: (arg: { id: number }) => void
 }) => {
   return (
     <div className="overflow-x-auto relative">
@@ -40,32 +34,6 @@ const PersonalProjectAuthorizations = ({
             </Table.Cell>
             <Table.Cell />
           </Table.Row>
-          {/* AUTHORIZATIONS */}
-          {authorizations
-            .filter((authorization) => authorization.project_id === project.id)
-            .sort((a, b) => a.user.name.localeCompare(b.user.name))
-            .map((authorization) => (
-              <Table.Row key={authorization.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <Table.Cell>
-                  {authorization.user.name} (@{authorization.user.github_handle})
-                </Table.Cell>
-                <Table.Cell className="justify-end">
-                  <Button
-                    onClick={() => {
-                      if (window.confirm('Do you really want to revoke this authorization?')) {
-                        destroyAuthorization({ id: authorization.id })
-                      }
-                    }}
-                    disabled={isLoading}
-                    size="xs"
-                    className="ml-auto"
-                    color="light"
-                  >
-                    Remove
-                  </Button>
-                </Table.Cell>
-              </Table.Row>
-            ))}
         </Table.Body>
       </Table>
     </div>
@@ -114,13 +82,7 @@ const AuthorizationsPage = () => {
             <h2>Personal projects</h2>
             <div className="flex flex-col gap-6">
               {personalProjects.map((project) => (
-                <PersonalProjectAuthorizations
-                  key={project.id}
-                  project={project}
-                  authorizations={authorizations}
-                  destroyAuthorization={destroyAuthorization}
-                  isLoading={isLoading}
-                />
+                <PersonalProjectAuthorizations key={project.id} project={project} />
               ))}
             </div>
           </>
@@ -171,14 +133,11 @@ const AuthorizationsPage = () => {
                     .map((authorization) => (
                       <Fragment key={authorization.id}>
                         {/* AUTHORIZATIONS */}
-                        <Table.Row
-                          key={authorization.id}
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                        >
-                          <Table.Cell className="flex gap-3">
+                        <Table.Row key={authorization.id} className="border-b bg-gray-800 border-gray-700">
+                          <Table.Cell className="flex gap-3 items-center">
                             {authorization.user.name} (@{authorization.user.github_handle})
                           </Table.Cell>
-                          <Table.Cell className="justify-end">
+                          <Table.Cell className="justify-end !py-0">
                             <Button
                               onClick={() => {
                                 if (window.confirm('Do you really want to revoke this authorization?')) {
@@ -190,7 +149,7 @@ const AuthorizationsPage = () => {
                               className="ml-auto"
                               color="light"
                             >
-                              Remove
+                              Revoke
                             </Button>
                           </Table.Cell>
                         </Table.Row>
