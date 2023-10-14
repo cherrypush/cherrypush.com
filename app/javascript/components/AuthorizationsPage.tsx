@@ -94,7 +94,7 @@ const AuthorizationsPage = () => {
           return (
             <Fragment key={organization.id}>
               <div className="flex items-center justify-between">
-                <h2 className="mt-6">{organization.name} projects</h2>
+                <h2 className="mt-6">{organization.name} organization</h2>
                 <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
                   + Authorization
                 </Button>
