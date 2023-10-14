@@ -26,7 +26,7 @@ class User::ProjectsControllerTest < ApplicationIntegrationTest
       user = create(:user)
       facebook_organization = create(:organization, name: "facebook")
       react_project = create(:project, name: "facebook/react", organization: facebook_organization)
-      create(:authorization, user: user, organization: facebook_organization)
+      create(:authorization, email: user.email, organization: facebook_organization)
 
       sign_in(user, controller_test: true)
       get(user_projects_path, as: :json)

@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { AxiosError } from 'axios'
 import { lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import toast from 'react-hot-toast'
@@ -13,7 +14,12 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
     },
     mutations: {
-      onError: (error) => toast.error(error.response.data?.error),
+      onError: (error) => {
+        if (error instanceof AxiosError) {
+          const message = error.response?.data?.error || error.message
+          toast.error(message, { duration: 10000 })
+        }
+      },
     },
   },
 })

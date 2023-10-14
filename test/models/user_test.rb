@@ -4,11 +4,11 @@ class UserTest < ActiveSupport::TestCase
   it "does not leak sensitive attributes" do
     user = create :user
     assert user.api_key
-    assert_equal User::NON_SENSITIVE_ATTRIBUTES, JSON.parse(user.to_json).keys
+    assert_equal User::DEFAULT_ATTRIBUTES, JSON.parse(user.to_json).keys
 
     project = create :project, user: user
     assert project.user.api_key
-    assert_equal User::NON_SENSITIVE_ATTRIBUTES, JSON.parse(project.to_json(include: :user))["user"].keys
+    assert_equal User::DEFAULT_ATTRIBUTES, JSON.parse(project.to_json(include: :user))["user"].keys
   end
 
   describe "#projects" do

@@ -4,7 +4,7 @@ class OrganizationTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:regular_user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }
-  let!(:authorization) { create :authorization, user: regular_user, organization: organization }
+  let!(:authorization) { create :authorization, email: regular_user.email, organization: organization }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
 
   it "allows regular users to see organization but not edit" do
