@@ -14,9 +14,9 @@ class SsoTest < ApplicationSystemTestCase
 
   it "allows users to see all organizations they have access to" do
     sign_in(internal_facebook_user, to: user_authorizations_path(project_id: project.id))
-    assert_text "facebook projects"
+    assert_text "facebook organization"
     assert_text "Mark"
-    assert_text "rails projects"
+    assert_text "rails organization"
     assert_text "DHH"
     assert_text "Rafael França"
     # TODO: users should be able to see other users who have access to the organization
