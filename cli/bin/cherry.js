@@ -60,7 +60,7 @@ program
   .option('--owner <owner>', 'only consider given owner code')
   .option('--metric <metric>', 'only consider given metric')
   .option('-o, --output <output>', 'export stats into a local file')
-  .option('-f, --format <format>', 'export format (json, sarif). default: json')
+  .option('-f, --format <format>', 'export format (json, sarif, sonar). default: json')
   .action(async (options) => {
     const configuration = await getConfiguration()
     const codeOwners = new Codeowners()
@@ -90,6 +90,9 @@ program
         const sha = await git.sha()
         const sarif = buildSarifPayload(configuration.project_name, branch, sha, occurrences)
         content = JSON.stringify(sarif, null, 2)
+      } else if (format === 'sonar') {
+        const sonar = buildSonarGenericImportPayload(occurrences)
+        content = JSON.stringify(sonar, null, 2)
       }
       fs.writeFile(filepath, content, 'utf8', function (err) {
         if (err) panic(err)
@@ -324,15 +327,15 @@ const buildSarifPayload = (projectName, branch, sha, occurrences) => {
   const results = occurrences.map((occurrence) => ({
     ruleId: occurrence.metricName,
     level: 'none',
-    message: { text: `${occurrence.metricName}: ${occurrence.text}` },
+    message: { text: `${occurrence.metricName} at ${occurrence.text}` },
     locations: [
       {
         physicalLocation: {
           artifactLocation: {
             uri: occurrence.text.split(':')[0],
           },
-          region: occurrence.text.split(':')[1] && {
-            startLine: parseInt(occurrence.text.split(':')[1]),
+          region: {
+            startLine: parseInt(occurrence.text.split(':')[1]) || 1,
           },
         },
       },
@@ -364,6 +367,22 @@ const buildSarifPayload = (projectName, branch, sha, occurrences) => {
     ],
   }
 }
+
+const buildSonarGenericImportPayload = (occurrences) => ({
+  issues: occurrences.map((occurrence) => ({
+    engineId: 'cherry',
+    ruleId: occurrence.metricName,
+    type: 'CODE_SMELL',
+    severity: 'INFO',
+    primaryLocation: {
+      message: `${occurrence.metricName} at ${occurrence.text}`,
+      filePath: occurrence.text.split(':')[0],
+      textRange: {
+        startLine: parseInt(occurrence.text.split(':')[1]) || 1,
+      },
+    },
+  })),
+})
 
 const buildPushPayload = ({ apiKey, projectName, uuid, date, occurrences }) => ({
   api_key: apiKey,
