@@ -6,7 +6,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
   let!(:user) { create(:user) }
   let!(:organization) { create :organization, name: "rails", user: user }
   let!(:project) { create :project, user: user, organization: organization }
-  let!(:authorization) { create(:authorization, user: user, organization: organization) }
+  let!(:authorization) { create(:authorization, email: user.email, organization: organization) }
 
   describe "#destroy" do
     it "blocks requests if not authenticated" do

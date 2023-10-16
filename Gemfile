@@ -36,6 +36,7 @@ gem "httparty"
 gem "kaminari"
 gem "pundit"
 gem "redcarpet" # for markdown rendering
+gem "stripe"
 gem "tailwindcss-rails"
 gem "vite_rails"
 

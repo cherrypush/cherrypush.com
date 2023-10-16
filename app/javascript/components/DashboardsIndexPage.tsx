@@ -133,7 +133,7 @@ const DashboardsIndexPage = () => {
 
   return (
     <div className="container">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <h1>Dashboards</h1>
         <Button onClick={() => setShowNewDashboardModal(true)}>+ New Dashboard</Button>
       </div>

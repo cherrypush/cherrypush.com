@@ -41,7 +41,7 @@ const ProjectsPage = () => {
   if (!projectIdFromUrl)
     return (
       <div className="container">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-6">
           <h1>Projects</h1>
           <Button onClick={() => navigate('/user/projects/new')}>+ New Project</Button>
         </div>

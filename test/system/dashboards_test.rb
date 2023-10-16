@@ -6,7 +6,7 @@ class DashboardsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:authorized_user) { create :user }
   let!(:organization) { create :organization, name: "cherrypush" }
-  let!(:_authorization) { create :authorization, user: authorized_user, organization: organization }
+  let!(:_authorization) { create :authorization, email: authorized_user.email, organization: organization }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
 
   let!(:metric1) { create :metric, project: project, name: "JS LOC" }

@@ -4,7 +4,7 @@
 
 @layer components {
   h1 {
-    @apply text-4xl font-extrabold dark:text-white mb-9;
+    @apply text-4xl font-extrabold dark:text-white;
   }
 
   h2 {
