@@ -14,15 +14,14 @@ export const useAuthorizationsCreate = () => {
   const invalidateAuthorizationRequestsIndex = useInvalidateAuthorizationRequestsIndex()
 
   return useMutation(
-    ({ organizationId, userId }: { organizationId: number; userId: number }) =>
-      axios.post('/user/authorizations.json', { organization_id: organizationId, user_id: userId }),
+    ({ organizationId, email }: { organizationId: number; email: string }) =>
+      axios.post('/user/authorizations.json', { organization_id: organizationId, email }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(INDEX_KEY)
         toast.success('Authorization created')
         invalidateAuthorizationRequestsIndex()
       },
-      onError: (error) => toast.error(error.response.data?.error),
     }
   )
 }
@@ -36,10 +35,6 @@ export const useAuthorizationsDestroy = () => {
       queryClient.invalidateQueries(INDEX_KEY)
       invalidateProjectsIndex()
       toast.success('Authorization revoked')
-    },
-    onError: (error) => {
-      // Should this be hear? Or should we catch on the axios call?
-      toast.error(error.response.data?.error || error.message)
     },
   })
 }
