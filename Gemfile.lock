@@ -351,7 +351,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stackprof (0.2.25)
-    stripe (9.4.0)
+    stripe (10.0.0)
     syntax_tree (6.2.0)
       prettier_print (>= 1.2.0)
     tailwindcss-rails (2.0.31-aarch64-linux)
