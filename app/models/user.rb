@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  ADMIN_GITHUB_HANDLES = ENV.fetch("ADMIN_GITHUB_HANDLES", "").split(",")
+  # TODO: add database constraint to avoid duplicate emails and API keys
+
+  ADMIN_EMAILS = ENV.fetch("ADMIN_EMAILS", "").split(",")
 
   ALL_ATTRIBUTES = User.new.attributes.keys
-  NON_SENSITIVE_ATTRIBUTES = %w[id name github_handle]
+  DEFAULT_ATTRIBUTES = %w[id name email].freeze
 
-  has_many :owned_projects, class_name: Project.to_s, dependent: :destroy
-  has_many :authorizations, dependent: :destroy
+  has_many :owned_projects, class_name: Project.to_s, dependent: :restrict_with_error
   has_many :metrics, through: :projects
   has_many :notifications, dependent: :destroy
-  has_many :owned_organizations, class_name: Organization.to_s, dependent: :destroy
+  has_many :owned_organizations, class_name: Organization.to_s, dependent: :restrict_with_error
 
   before_save :ensure_api_key
 
@@ -20,7 +21,11 @@ class User < ApplicationRecord
 
   # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
   def serializable_hash(options = nil)
-    super({ only: NON_SENSITIVE_ATTRIBUTES }.merge(options || {}))
+    super({ only: DEFAULT_ATTRIBUTES }.merge(options || {}))
+  end
+
+  def authorizations
+    Authorization.where(email: email)
   end
 
   def organizations
@@ -40,10 +45,17 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
-    owned_projects.or(Project.where(organization_id: organizations.pluck(:id)))
+    owned_projects.or(Project.where(organization_id: organizations.pluck(:id))).or(
+      Project.where(name: "cherrypush/cherry"),
+    )
   end
 
   def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # TODO: remove the two lines below once we migrated all users to google oauth
+    # you can also remove the find_by(auth.info.email) below
+    self.provider = auth.provider
+    self.uid = auth.uid
+
     if auth.provider == "google_oauth2"
       self.name = "#{auth.info.first_name} #{auth.info.last_name}"
     elsif auth.provider == "github"
@@ -62,7 +74,7 @@ class User < ApplicationRecord
   end
 
   def admin?
-    github_handle.in? ADMIN_GITHUB_HANDLES
+    email.in? ADMIN_EMAILS
   end
 
   def contributions

@@ -3,9 +3,12 @@
 require "application_system_test_case"
 
 class StaticPagesTest < ApplicationSystemTestCase
+  let!(:project) { create :project, name: "cherrypush/cherry" }
+
   it "navigates through all pages" do
+    sign_in create(:user)
     visit root_url
-    assert_text "TRY CHERRY FOR FREE"
+    assert_text "START TRACKING"
     click_on "Terms"
     assert_text "Terms of Service"
     click_on "Privacy"
@@ -13,6 +16,6 @@ class StaticPagesTest < ApplicationSystemTestCase
     click_on "Docs"
     assert_text "npm install -g cherrypush"
     click_on "Demo"
-    assert_text "Login with GitHub to access the demo"
+    assert_text "cherrypush/cherry"
   end
 end

@@ -4,7 +4,7 @@ class OrganizationTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:regular_user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }
-  let!(:authorization) { create :authorization, user: regular_user, organization: organization }
+  let!(:authorization) { create :authorization, email: regular_user.email, organization: organization }
   let!(:project) { create :project, user: user, name: "rails/rails", organization: organization }
 
   it "allows regular users to see organization but not edit" do
@@ -19,6 +19,13 @@ class OrganizationTest < ApplicationSystemTestCase
     click_on "SSO disabled"
     assert_text "SSO enabled"
     fill_in "organization_sso_domain", with: "example.com"
+
+    # requires same domain as user email
+    click_on "Update Organization"
+    assert_text "Sso domain must match the domain of the owner's email address"
+
+    # allows same domain as user email
+    user.update(email: "john@example.com")
     click_on "Update Organization"
     assert_text "Organization updated"
     assert "example.com", organization.reload.sso_domain

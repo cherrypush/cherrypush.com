@@ -1,41 +1,42 @@
-import { Button, Modal, Spinner } from 'flowbite-react'
+import { Button, Label, Modal, TextInput } from 'flowbite-react'
 import { useState } from 'react'
 import { useAuthorizationsCreate } from '../queries/user/authorizations'
 import { useUsersIndex } from '../queries/user/users'
-import AutocompleteField from './AutocompleteField'
 
 const NewAuthorizationModal = ({ organizationId, onClose }: { organizationId: number; onClose: () => void }) => {
-  const { data: users, isLoading } = useUsersIndex()
+  const { data: users } = useUsersIndex()
   const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
-  const [userId, setUserId] = useState()
+  const [email, setEmail] = useState<string>('')
 
-  const autocompleteItems = users
-    .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
-    .sort((a, b) => a.name.localeCompare(b.name))
+  const isValidEmail = (email: string) => {
+    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+    return re.test(email)
+  }
+
+  if (!users) return null
 
   return (
     <Modal show onClose={onClose} dismissible>
       <Modal.Header>New Authorization</Modal.Header>
-      <Modal.Body>
-        <div className="space-y-6">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <AutocompleteField
-              placeholder="Select a user..."
-              onSelect={(user) => setUserId(user?.id)}
-              items={autocompleteItems}
-            />
-          )}
-        </div>
+      <Modal.Body className="space-y-2">
+        <Label htmlFor="email">Email Address</Label>
+        <TextInput
+          id="email"
+          color={isValidEmail(email) ? 'gray' : 'failure'}
+          type="email"
+          value={email}
+          placeholder="email@example.com"
+          onChange={(event) => setEmail(event.target.value)}
+          autoFocus
+        />
       </Modal.Body>
       <Modal.Footer className="justify-end">
         <Button
-          disabled={!userId || isCreatingAuthorization}
-          onClick={() => createAuthorization({ organizationId, userId }).then(onClose)}
+          disabled={!isValidEmail(email) || isCreatingAuthorization}
+          onClick={() => createAuthorization({ organizationId, email }).then(onClose)}
           className="align-right"
         >
-          Create authorization
+          Create Authorization
         </Button>
       </Modal.Footer>
     </Modal>
