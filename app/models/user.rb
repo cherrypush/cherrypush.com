@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  # TODO: add database constraint to avoid duplicate emails and API keys
+
   ADMIN_EMAILS = ENV.fetch("ADMIN_EMAILS", "").split(",")
 
   ALL_ATTRIBUTES = User.new.attributes.keys
@@ -49,6 +51,11 @@ class User < ApplicationRecord
   end
 
   def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # TODO: remove the two lines below once we migrated all users to google oauth
+    # you can also remove the find_by(auth.info.email) below
+    self.provider = auth.provider
+    self.uid = auth.uid
+
     if auth.provider == "google_oauth2"
       self.name = "#{auth.info.first_name} #{auth.info.last_name}"
     elsif auth.provider == "github"
@@ -97,7 +104,7 @@ class User < ApplicationRecord
 
   class << self
     def find_or_create_with_omniauth(auth)
-      user = find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
+      user = find_by(email: auth.info.email) || find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
       user.save!
