@@ -117,10 +117,6 @@ const DashboardsIndexPage = () => {
         accessor: 'project.name',
       },
       {
-        Header: '# of charts',
-        accessor: 'charts.length',
-      },
-      {
         Header: 'Last update',
         accessor: 'updated_at',
         Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
