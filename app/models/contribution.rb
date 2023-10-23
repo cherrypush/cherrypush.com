@@ -12,7 +12,7 @@ class Contribution < ApplicationRecord
 
   def notify_watchers!
     return if metric.watcher_ids.empty?
-    notifications = metric.watcher_ids.map { |user_id| { user_id: user_id, item_id: id, item_type: self.class } }
-    Notification.insert_all(notifications)
+    users = User.where(id: metric.watcher_ids)
+    users.each { |user| Notification.create(user_id: user.id, item_id: id, item_type: self.class) }
   end
 end
