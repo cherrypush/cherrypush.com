@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <% project.metrics.each do |metric| %>
+      <% project.metrics.sort_by { |metric| metric.name.downcase }.each do |metric| %>
         <% report = metric.reports.order(:date).last %>
         <% previous_report = metric.reports.where('date < ?', 7.days.ago).order(:date).last %>
         <% next if previous_report.nil? %>

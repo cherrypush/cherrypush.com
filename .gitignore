@@ -40,11 +40,17 @@
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 
+# Environment variables
+.env
+.rbenv-vars
+
+# outputs
+cherry.json
+cherry.sarif
+cherry.sonar
+
 # project-specific
-/node_modules
+node_modules
 /vendor/cache
 /vendor/bundle
-.env
-cherry.json
-.rbenv-vars
 latest.dump
