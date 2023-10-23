@@ -1,10 +1,11 @@
 <div class="md:flex justify-center gap-3">
-  <%= button_to '/auth/github', class: "btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center w-full" do %>
+  <%= button_to google_sign_in_path(after_sign_in_path: user_projects_path), class: "btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center w-full" do %>
     <span class="mr-2">START TRACKING</span>
     <%= heroicon 'chart-bar', options: { class: 'inline' } %>
   <% end %>
 
   <a href="<%= demo_path %>" class="btn-light text-lg py-3 px-6 flex items-center justify-center">
-    <span class="inline uppercase">TRY DEMO</span>
+    <%= heroicon 'eye', options: { class: 'inline mr-2' } %>
+    <span class="inline uppercase">SEE DEMO</span>
   </a>
 </div>
