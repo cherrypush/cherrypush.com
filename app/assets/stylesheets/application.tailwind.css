@@ -4,11 +4,11 @@
 
 @layer components {
   h1 {
-    @apply text-5xl font-extrabold dark:text-white mb-3;
+    @apply text-4xl font-extrabold dark:text-white;
   }
 
   h2 {
-    @apply text-4xl font-bold dark:text-white mb-3;
+    @apply text-3xl font-bold dark:text-white mb-6;
   }
 
   .btn-primary {
@@ -40,11 +40,11 @@
   }
 
   .container {
-    @apply mx-auto max-w-5xl px-2 my-6;
+    @apply mx-auto max-w-5xl px-2 mb-9 mt-6;
   }
 
   .card {
-    @apply p-5 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700;
+    @apply px-8 py-7 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700;
   }
 
   .badge-light {

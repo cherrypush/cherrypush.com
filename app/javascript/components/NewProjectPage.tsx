@@ -1,5 +1,4 @@
 import { Card } from 'flowbite-react'
-import React from 'react'
 import NewProjectInstructions from './NewProjectInstructions'
 
 const NewProjectPage = () => (

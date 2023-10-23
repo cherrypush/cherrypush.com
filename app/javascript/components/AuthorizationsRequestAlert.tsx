@@ -1,11 +1,18 @@
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt'
 import { Alert, Button } from 'flowbite-react'
-import React from 'react'
 import { useAuthorizationsCreate } from '../queries/user/authorizations'
 import { useAuthorizationRequestsDestroy } from '../queries/user/authorizationsRequests'
 
-const AuthorizationRequestAlert = ({ authorizationRequest }) => {
+const AuthorizationRequestAlert = ({
+  authorizationRequest,
+}: {
+  authorizationRequest: {
+    id: number
+    user: { name: string; email: string }
+    organization: { id: number; name: string }
+  }
+}) => {
   const { mutateAsync: createAuthorization } = useAuthorizationsCreate()
   const { mutateAsync: destroyAuthorizationRequest } = useAuthorizationRequestsDestroy()
 
@@ -13,15 +20,18 @@ const AuthorizationRequestAlert = ({ authorizationRequest }) => {
     <Alert withBorderAccent>
       <p>
         <span className="font-bold">
-          {authorizationRequest.user.name} (@{authorizationRequest.user.github_handle})
+          {authorizationRequest.user.name} ({authorizationRequest.user.email})
         </span>{' '}
-        wants to access <span className="font-bold">{authorizationRequest.project.name}</span>.
+        requested access to <span className="font-bold">{authorizationRequest.organization.name} organization</span>.
       </p>
       <div className="flex gap-3 mt-2">
         <Button
           size="xs"
           onClick={() =>
-            createAuthorization({ projectId: authorizationRequest.project.id, userId: authorizationRequest.user.id })
+            createAuthorization({
+              organizationId: authorizationRequest.organization.id,
+              email: authorizationRequest.user.email,
+            })
           }
         >
           <CheckCircleIcon />

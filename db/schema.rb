@@ -10,26 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_31_220642) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_14_103818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "authorization_requests", force: :cascade do |t|
-    t.bigint "project_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_authorization_requests_on_project_id"
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_authorization_requests_on_organization_id"
     t.index ["user_id"], name: "index_authorization_requests_on_user_id"
   end
 
   create_table "authorizations", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id"], name: "index_authorizations_on_project_id"
-    t.index ["user_id"], name: "index_authorizations_on_user_id"
+    t.bigint "organization_id", null: false
+    t.string "email", null: false
+    t.index ["organization_id"], name: "index_authorizations_on_organization_id"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -141,10 +140,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_220642) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_memberships_on_user_id"
+    t.bigint "organization_id", null: false
+    t.string "kind"
+    t.index ["organization_id"], name: "index_memberships_on_organization_id"
   end
 
   create_table "metrics", force: :cascade do |t|
@@ -178,11 +178,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_220642) do
     t.index ["report_id"], name: "index_occurrences_on_report_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "stripe_customer_id"
+    t.string "sso_domain"
+    t.boolean "sso_enabled", default: false, null: false
+    t.index ["user_id"], name: "index_organizations_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_projects_on_organization_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
@@ -216,19 +229,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_220642) do
     t.integer "favorite_dashboard_ids", default: [], array: true
   end
 
-  add_foreign_key "authorization_requests", "projects"
+  add_foreign_key "authorization_requests", "organizations"
   add_foreign_key "authorization_requests", "users"
-  add_foreign_key "authorizations", "projects"
-  add_foreign_key "authorizations", "users"
+  add_foreign_key "authorizations", "organizations"
   add_foreign_key "chart_metrics", "charts"
   add_foreign_key "chart_metrics", "metrics"
   add_foreign_key "charts", "dashboards"
   add_foreign_key "contributions", "metrics"
   add_foreign_key "dashboards", "projects"
-  add_foreign_key "memberships", "users"
+  add_foreign_key "memberships", "organizations"
   add_foreign_key "metrics", "projects"
   add_foreign_key "notifications", "users"
   add_foreign_key "occurrences", "reports"
+  add_foreign_key "organizations", "users"
+  add_foreign_key "projects", "organizations"
   add_foreign_key "projects", "users"
   add_foreign_key "reports", "metrics"
 end

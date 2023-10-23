@@ -1,7 +1,8 @@
 <h1>Authorization Request</h1>
 
 <p>
-  <b><%= @authorization_request.user.name %></b> requested access to <b><%= @authorization_request.project.name %></b>.
+  <b><%= @authorization_request.user.name %></b> requested access to
+  <b><%= @authorization_request.organization.name %></b>.
 </p>
 
-<p>You can <a href="<%= user_authorizations_url %>">approve or deny the request here</a>.</p>
+<p>You can <a href="<%= user_authorizations_url %>">approve or deny this request here</a>.</p>

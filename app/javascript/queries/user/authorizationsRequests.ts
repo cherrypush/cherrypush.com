@@ -2,8 +2,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
+type AuthorizationRequestsIndexResponse = {
+  created_at: string
+  id: number
+  organization_id: number
+  organization: { id: number; name: string }
+  updated_at: string
+  user: { id: number; name: string }
+  user_id: number
+}[]
+
 export const useAuthorizationRequestsIndex = () =>
-  useQuery(['user', 'authorization_requests', 'index'], () =>
+  useQuery<AuthorizationRequestsIndexResponse>(['user', 'authorization_requests', 'index'], () =>
     axios.get('/user/authorization_requests.json').then((response) => response.data)
   )
 
