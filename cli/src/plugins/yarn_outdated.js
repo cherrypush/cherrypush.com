@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { panic } from '../error.js'
+import { emptyMetric } from '../occurences.js'
 import sh from '../sh.js'
 
 const getMetricName = (cwd) => {
@@ -27,10 +28,12 @@ const run = async ({ cwd }) => {
     outdatedDependencies.push({ name, current, wanted, latest, type, url })
   })
 
-  return outdatedDependencies.map((dependency) => ({
+  const occurrences = outdatedDependencies.map((dependency) => ({
     text: `${dependency.name} (${dependency.current} -> ${dependency.latest})`,
-    metricName: getMetricName(dependency.prefix),
+    metricName: getMetricName(cwd),
   }))
+
+  return occurrences.length === 0 ? [emptyMetric(getMetricName(cwd))] : occurrences
 }
 
 export default { run }

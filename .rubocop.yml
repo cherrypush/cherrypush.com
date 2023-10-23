@@ -22,3 +22,5 @@ Style/HashSyntax:
   Enabled: false
 Style/StringLiteralsInInterpolation:
   Enabled: false
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: required

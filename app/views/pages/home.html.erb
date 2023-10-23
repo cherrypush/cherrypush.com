@@ -1,16 +1,35 @@
 <% title 'Home' %>
 
 <% cache 'home' do %>
-  <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-24">
-    <h1 class="max-w-3xl mb-4 text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-      Stay on top of your <span class="text-blue-700 dark:text-blue-600">technical debt</span>
+  <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-12">
+    <h1 class="mb-9 max-w-3xl text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
+      <p class="mb-3">Start tracking your</p>
+      <span class=" relative whitespace-nowrap"
+        ><span
+          class="absolute bg-blue-700 -left-2 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"
+        ></span
+        ><span class="relative text-white">technical debt</span></span
+      >
     </h1>
     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
-      Cherry helps you track your technical debt, capture the value of your work, and visualize the impact of your team.
+      Cherry helps you track your code migrations, capture the value of your work, and visualize the impact of your
+      team.
     </p>
     <div class="flex flex-col md:flex-row justify-center">
       <%= render 'components/main_cta_buttons' %>
     </div>
+  </div>
+
+  <p class="text-center mb-3 font-bold">
+    Join <%= number_to_human User.count, units: { thousand: 'k' } %> developers using Cherry
+  </p>
+  <div class="flex -space-x-4 justify-center mb-12">
+    <% User.all.sample(10).map do |user| %>
+      <%= image_tag user.image, class: 'w-10 h-10 border-2 border-white rounded-full dark:border-gray-800' %>
+    <% end %>
+    <span
+      class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+      >+<%= User.count - 10 %></span>
   </div>
 
   <section class="border-4 border-dashed text-center rounded-lg bg-slate-100 mb-12 p-6 md:p-9 dark:bg-slate-800">
@@ -49,32 +68,40 @@
 
   <%=
     render 'feature_section',
-           title: 'Stay on top of your code migrations 🏔',
-           text: 'Visualize the progress of your migrations. Watch out for new technical debt.',
+           title: 'Keep track of your TypeScript migration 📈',
+           text: 'See your progress over time. Filter files based on CODEOWNERS.',
            image: 'ss_code_migration.webp',
            alt: 'screenshot of a chart showing the progress of a code migration'
   %>
 
   <%=
     render 'feature_section',
-           title: 'Integrate with GitHub Actions 🤖',
-           text: 'Copy and paste a few lines of code, and your metrics are updated on every commit.',
+           title: 'Reward top contributors 🏆',
+           text: 'Recognize developers based on the contributions they made to reduce your technical debt.',
+           image: 'ss_top_contributors.webp',
+           alt: 'screenshot of the top contributors section'
+  %>
+
+  <%=
+    render 'feature_section',
+           title: 'Setup once and never look back 🏖️',
+           text: 'Cherry integrates with your CI/CD. Every new commit is automatically tracked.',
            image: 'ss_github_action.webp',
            alt: 'screenshot of a successful GitHub Actions workflow build'
   %>
 
   <%=
     render 'feature_section',
-           title: 'Keep an eye on a per team basis 👀',
-           text: 'With our fine-grained team monitoring, you can follow how much work is left per team.',
+           title: 'Each team is responsible for their own debt 🕵🏻‍♂️',
+           text: 'Use CODEOWNERS to automatically assign issues to your teams.',
            image: 'ss_owners.webp',
            alt: 'screenshot of the autocomplete selector for filtering owners'
   %>
 
   <%=
     render 'feature_section',
-           title: 'Be alerted about critical changes 🚨',
-           text: 'Watch metrics to receive live notifications and never miss out another critical change.',
+           title: 'Get alerted about critical changes 🚨',
+           text: 'Watch important metrics to receive live notifications. Every contribution counts.',
            image: 'ss_notifications.webp',
            alt: 'screenshot of the notifications page with sample unread notifications'
   %>
@@ -100,15 +127,6 @@
                .html_safe,
            image: 'cli.gif',
            alt: 'gif of a basic usage of the cherry cli',
-           position: 'right'
-  %>
-
-  <%=
-    render 'feature_section',
-           title: 'Recognize the work of your top team members 🏆',
-           text: 'Cherry highlights top developers based on the contributions they make.',
-           image: 'ss_top_contributors.webp',
-           alt: 'screenshot of the top contributors section',
            position: 'left'
   %>
 

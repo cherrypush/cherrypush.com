@@ -1,69 +1,63 @@
-import { Button, Modal, Spinner, Table } from 'flowbite-react'
-import { useState } from 'react'
-import {
-  useAuthorizationsCreate,
-  useAuthorizationsDestroy,
-  useAuthorizationsIndex,
-} from '../queries/user/authorizations'
+import EditIcon from '@mui/icons-material/Edit'
+import { Badge, Button, Table } from 'flowbite-react'
+import { Fragment, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuthorizationsDestroy, useAuthorizationsIndex } from '../queries/user/authorizations'
 import { useAuthorizationRequestsIndex } from '../queries/user/authorizationsRequests'
+import { useOrganizationsIndex } from '../queries/user/organizations'
 import { useProjectsIndex } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
 import AuthorizationRequestAlert from './AuthorizationsRequestAlert'
-import AutocompleteField from './AutocompleteField'
+import NewAuthorizationModal from './NewAuthorizationModal'
 import PageLoader from './PageLoader'
 
-const AddAuthorizationModal = ({ projectId, onClose }) => {
-  const { data: users, isLoading } = useUsersIndex()
-  const { mutateAsync: createAuthorization, isLoading: isCreatingAuthorization } = useAuthorizationsCreate()
-  const [userId, setUserId] = useState()
-
-  const autocompleteItems = users
-    .map((user) => ({ id: user.id, name: `${user.name} (@${user.github_handle})` }))
-    .sort((a, b) => a.name.localeCompare(b.name))
-
+const PersonalProjectAuthorizations = ({
+  project,
+}: {
+  project: { name: string; user: { name: string; email: string }; id: number }
+}) => {
   return (
-    <Modal show onClose={onClose} dismissible>
-      <Modal.Header>Add authorization</Modal.Header>
-      <Modal.Body>
-        <div className="space-y-6">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <AutocompleteField
-              placeholder="Select a user..."
-              onSelect={(user) => setUserId(user?.id)}
-              items={autocompleteItems}
-            />
-          )}
-        </div>
-      </Modal.Body>
-      <Modal.Footer className="justify-end">
-        <Button
-          disabled={!userId || isCreatingAuthorization}
-          onClick={() => createAuthorization({ projectId, userId }).then(onClose)}
-          className="align-right"
-        >
-          Create authorization
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <div className="overflow-x-auto relative">
+      <Table>
+        <Table.Head>
+          <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
+          <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end"></Table.HeadCell>
+        </Table.Head>
+        <Table.Body>
+          {/* OWNER */}
+          <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <Table.Cell className="flex gap-3">
+              {project.user.name} ({project.user.email})
+              <Badge color="gray" size="xs">
+                OWNER
+              </Badge>
+            </Table.Cell>
+            <Table.Cell />
+          </Table.Row>
+        </Table.Body>
+      </Table>
+    </div>
   )
 }
 
 const AuthorizationsPage = () => {
   const { data: projects } = useProjectsIndex()
+  const { data: users } = useUsersIndex()
   const { data: authorizations } = useAuthorizationsIndex()
+  const { data: organizations } = useOrganizationsIndex()
   const { mutateAsync: destroyAuthorization, isLoading } = useAuthorizationsDestroy()
   const { data: authorizationRequests } = useAuthorizationRequestsIndex()
+  const navigate = useNavigate()
 
-  const [editedProjectId, setEditedProjectId] = useState()
+  const [editedOrganizationId, setEditedOrganizationId] = useState<number | null>(null)
 
-  if (!projects || !authorizations) return <PageLoader />
+  if (!projects || !authorizations || !users || !organizations) return <PageLoader />
+
+  const personalProjects = projects.filter((project) => !project.organization)
 
   return (
     <div className="container">
-      <h1>Authorizations</h1>
-
+      <h1 className="mb-3">Authorizations</h1>
       <p className="mb-3">Control who has read and write access to your projects.</p>
 
       {authorizationRequests &&
@@ -74,59 +68,99 @@ const AuthorizationsPage = () => {
 
       <div className="flex mb-4">
         {projects.length === 0 && (
-          <div
-            className="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
-            role="alert"
-          >
-            You first need to create a project.
-            <a href="/user/projects" className="text-link">
-              Create a project
-            </a>
+          <div className="card w-full text-center">
+            <div className="text-gray-500">You first need to create a project.</div>
+            <Button onClick={() => navigate('/user/projects/new')} className="mx-auto mt-3">
+              + New Project
+            </Button>
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-3">
-        {projects.map((project) => (
-          <div className="overflow-x-auto relative" key={project.id}>
-            <Table>
-              <Table.Head>
-                <Table.HeadCell>{project.name}</Table.HeadCell>
-                <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end">
-                  <a className="cursor-pointer text-link" onClick={() => setEditedProjectId(project.id)}>
-                    + Add Authorization
-                  </a>
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                {authorizations
-                  .filter((authorization) => authorization.project_id === project.id)
-                  .sort((a, b) => a.user.name.localeCompare(b.user.name))
-                  .map((authorization) => (
-                    <Table.Row
-                      key={authorization.id}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                    >
-                      <Table.Cell>
-                        {authorization.user.name} (@{authorization.user.github_handle})
-                      </Table.Cell>
-                      <Table.Cell className="justify-end">
-                        <Button
-                          onClick={() => destroyAuthorization({ id: authorization.id })}
-                          disabled={isLoading}
-                          size="xs"
-                          className="ml-auto"
-                        >
-                          Remove
-                        </Button>
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
-              </Table.Body>
-            </Table>
-          </div>
-        ))}
-        {editedProjectId && (
-          <AddAuthorizationModal projectId={editedProjectId} onClose={() => setEditedProjectId(null)} />
+      <div className="flex flex-col">
+        {personalProjects.length > 0 && (
+          <>
+            <h2>Personal projects</h2>
+            <div className="flex flex-col gap-6">
+              {personalProjects.map((project) => (
+                <PersonalProjectAuthorizations key={project.id} project={project} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {organizations.map((organization) => {
+          const organizationOwner = users.find((user) => user.id === organization.user_id)
+
+          return (
+            <Fragment key={organization.id}>
+              <div className="flex items-center justify-between">
+                <h2 className="mt-6">{organization.name} organization</h2>
+                <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
+                  + Authorization
+                </Button>
+              </div>
+
+              {organization.sso_enabled && (
+                <div className="flex items-center p-4 mb-4 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400">
+                  <div className="ml-3 text-sm font-medium">
+                    SSO is enabled for {organization.sso_domain} ({organization.sso_user_count} users)
+                  </div>
+                  <button
+                    type="button"
+                    className="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
+                    onClick={() => navigate('/user/organizations/' + organization.id)}
+                  >
+                    <EditIcon fontSize="small" />
+                  </button>
+                </div>
+              )}
+
+              <Table>
+                <Table.Body>
+                  {/* OWNER */}
+                  <Table.Row className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <Table.Cell className="flex gap-3">
+                      {organizationOwner.name} ({organizationOwner.email})
+                      <Badge color="gray" size="xs">
+                        OWNER
+                      </Badge>
+                    </Table.Cell>
+                    <Table.Cell />
+                  </Table.Row>
+                  {authorizations
+                    .filter((authorization) => authorization.organization_id === organization.id)
+                    .sort((a, b) => a.email.localeCompare(b.email))
+                    .map((authorization) => (
+                      <Fragment key={authorization.id}>
+                        {/* AUTHORIZATIONS */}
+                        <Table.Row key={authorization.id} className="border-b bg-gray-800 border-gray-700">
+                          <Table.Cell className="flex gap-3 items-center">{authorization.email}</Table.Cell>
+                          <Table.Cell className="justify-end !py-0">
+                            <Button
+                              onClick={() => {
+                                if (window.confirm('Do you really want to revoke this authorization?')) {
+                                  destroyAuthorization({ id: authorization.id })
+                                }
+                              }}
+                              disabled={isLoading}
+                              size="xs"
+                              className="ml-auto"
+                              color="light"
+                            >
+                              Revoke
+                            </Button>
+                          </Table.Cell>
+                        </Table.Row>
+                      </Fragment>
+                    ))}
+                </Table.Body>
+              </Table>
+            </Fragment>
+          )
+        })}
+
+        {editedOrganizationId && (
+          <NewAuthorizationModal organizationId={editedOrganizationId} onClose={() => setEditedOrganizationId(null)} />
         )}
       </div>
     </div>

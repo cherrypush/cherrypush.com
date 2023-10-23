@@ -1,8 +1,8 @@
 {
   "name": "cherrypush",
-  "version": "1.0.102",
-  "description": "CLI for the cherrypush app",
-  "main": "index.js",
+  "version": "1.2.0",
+  "description": "Cherry CLI to manage your technical debt via cherrypush.com 🍒",
+  "source": "./bin/cherry.js",
   "type": "module",
   "bin": {
     "cherry": "./bin/cherry.js"
@@ -26,6 +26,7 @@
     "axios": "^1.2.3",
     "commander": "^10.0.0",
     "dotenv": "^16.0.3",
+    "esbuild": "^0.19.4",
     "find-up": "^6.3.0",
     "glob": "^8.1.0",
     "lodash": "^4.17.21",
@@ -38,7 +39,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.32.0",
+    "eslint": "^8.47.0",
     "jest": "^29.3.1"
   }
 }

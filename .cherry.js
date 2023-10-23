@@ -9,6 +9,7 @@ module.exports = {
     eslint: {},
     rubocop: {},
     jsCircularDependencies: { include: 'app/javascript/**' },
+    jsUnimported: { dir: 'cli' },
   },
   metrics: [
     {

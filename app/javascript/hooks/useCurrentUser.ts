@@ -1,12 +1,12 @@
-import { useUsersIndex } from '../queries/user/users'
+import { useUsersShow } from '../queries/user/users'
 
 const useCurrentUser = () => {
-  const { data: users } = useUsersIndex()
+  const { data: user } = useUsersShow(window.current_user?.id)
 
   if (!window.current_user) return { user: null }
-  if (!users) return { user: window.current_user }
+  if (!user) return { user: window.current_user }
 
-  return { user: users.find((user) => user.id === window.current_user.id) }
+  return { user }
 }
 
 export default useCurrentUser

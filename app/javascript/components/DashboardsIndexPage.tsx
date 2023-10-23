@@ -117,10 +117,6 @@ const DashboardsIndexPage = () => {
         accessor: 'project.name',
       },
       {
-        Header: '# of charts',
-        accessor: 'charts.length',
-      },
-      {
         Header: 'Last update',
         accessor: 'updated_at',
         Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
@@ -133,7 +129,7 @@ const DashboardsIndexPage = () => {
 
   return (
     <div className="container">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <h1>Dashboards</h1>
         <Button onClick={() => setShowNewDashboardModal(true)}>+ New Dashboard</Button>
       </div>
@@ -145,7 +141,7 @@ const DashboardsIndexPage = () => {
         />
       ) : (
         <Card>
-          <div className="text-center text-gray-500">No dashboards yet</div>
+          <div className="text-center text-gray-500">No dashboards yet.</div>
         </Card>
       )}
       {showNewDashboardModal && <NewDashboardModal onClose={() => setShowNewDashboardModal(false)} />}

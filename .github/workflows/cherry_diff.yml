@@ -1,4 +1,4 @@
-name: Check for new violations
+name: Prevent new occurrences of JS lines of code
 
 on:
   pull_request:
@@ -21,4 +21,5 @@ jobs:
           npm i ./cli
 
       - name: Raise if new JS code added
-        run: ./cli/bin/cherry.js diff --metric='todo' --api-key=${{ secrets.CHERRY_API_KEY }} --error-if-increase
+        run: |
+          ./cli/bin/cherry.js diff --metric='[TS Migration] JS loc' --api-key=${{ secrets.CHERRY_API_KEY }} --error-if-increase
