@@ -1,15 +1,10 @@
 <div class="md:flex justify-center gap-3">
   <%= button_to '/auth/github', class: "btn-primary text-lg py-3 px-7 mb-3 md:mb-0 md:mr-3 uppercase flex items-center justify-center w-full" do %>
-    <span class="mr-2">Try Cherry for free</span>
-    <%= heroicon 'arrow-right', options: { class: 'inline' } %>
+    <span class="mr-2">START TRACKING</span>
+    <%= heroicon 'chart-bar', options: { class: 'inline' } %>
   <% end %>
 
-  <a
-    href="https://www.youtube.com/watch?v=Kdkn31D_gto"
-    target="_blank"
-    class="btn-light text-lg py-3 px-6 flex items-center justify-center"
-  >
-    <%= heroicon 'video-camera', options: { class: 'inline' } %>
-    <span class="ml-2 inline uppercase">WATCH DEMO</span>
+  <a href="<%= demo_path %>" class="btn-light text-lg py-3 px-6 flex items-center justify-center">
+    <span class="inline uppercase">TRY DEMO</span>
   </a>
 </div>
