@@ -39,8 +39,8 @@
 
 <br />
 
-Cherry helps you track and manage your technical debt with minimal setup. You configure the codebase patterns you want
-to track once. Cherry will then run on every commit and report the stats to your dashboard. It's really that simple.
+Cherry allows you to track your technical debt with minimal setup. You configure the codebase patterns you want to track
+once. Cherry will then run on every commit and report the stats to your dashboard. It's that simple.
 
 ## Getting started
 
