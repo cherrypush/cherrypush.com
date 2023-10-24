@@ -3,6 +3,11 @@
 </h1>
 
 <p align="center">
+Cherry allows you to track your technical debt with minimal setup. You configure the codebase patterns you want to track
+once. Cherry will then run on every commit and report the stats to your dashboard. It's that simple.
+</p>
+
+<p align="center">
   <a href="https://github.com/cherrypush/cherrypush.com/actions/workflows/ci_tests.yml" target="_blank">
     <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cherrypush/cherrypush.com/ci_tests.yml"/>
   </a>
@@ -38,9 +43,6 @@
 </h3>
 
 <br />
-
-Cherry allows you to track your technical debt with minimal setup. You configure the codebase patterns you want to track
-once. Cherry will then run on every commit and report the stats to your dashboard. It's that simple.
 
 ## Getting started
 
