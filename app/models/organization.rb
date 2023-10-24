@@ -39,6 +39,12 @@ class Organization < ApplicationRecord
     User.where("email LIKE ?", "%@#{sso_domain}")
   end
 
+  # TODO: Only return the subscription fields that we need
+  def subscriptions
+    return [] if stripe_customer_id.blank?
+    Stripe::Subscription.list(customer: stripe_customer_id).data
+  end
+
   private
 
   def ensure_stripe_customer_created
