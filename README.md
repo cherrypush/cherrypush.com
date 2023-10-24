@@ -1,42 +1,34 @@
-<br />
+<h1 align="center">
+  <a href="https://cherrypush.com">🍒 Cherry</a>
+</h1>
+
 <p align="center">
-  <a href="https://cherrypush.com/" target="_blank">
-    <img src="./app/assets/images/cherrypush_banner_light.png" alt="cherrypush banner light">
+  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cherrypush/cherrypush.com/ci_tests.yml"/>
+  <a href="https://www.npmjs.com/package/cherrypush"><img alt="Visit the NPM page" src="https://img.shields.io/npm/v/cherrypush"/></a>
+  <a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors"><img src="https://img.shields.io/github/commit-activity/m/cherrypush/cherrypush.com" alt="Commits per month"></a>
+  <a href="https://twitter.com/intent/follow?screen_name=fwuensche">
+    <img alt="Follow us on Twitter" src="https://img.shields.io/twitter/follow/fwuensche?style=social"/>
   </a>
 </p>
-<br />
 
 <p align="center">
-Cherry is an open-source code static analysis tool. It allows you to track your technical debt, capture the value of your work, and recognize your top team members.
-</p>
-
-<p align="center">
-<a href="https://github.com/cherrypush/cherrypush.com/stargazers"><img src="https://img.shields.io/github/stars/cherrypush/cherrypush.com" alt="GitHub Stars"></a>
-</a>
-<a href="https://github.com/cherrypush/cherrypush.com/pulse"><img src="https://img.shields.io/github/commit-activity/m/cherrypush/cherrypush.com" alt="Commits per month"></a>
-<!-- <a href="https://docs.typebot.io/self-hosting/docker">
-<img src="https://img.shields.io/docker/pulls/fwuensche/cherry">
-</a> -->
-<a href="https://github.com/cherrypush/cherrypush.com/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPLv3-purple" alt="License">
-<a href="https://github.com/cherrypush/cherrypush.com/issues/new"><img src="https://img.shields.io/badge/report an issue-GitHub-%231F80C0" alt="report an issue"></a>
-<!-- <a href="https://github.com/cherrypush/cherrypush.com/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a> -->
-</p>
-
-<p align="center">
-<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/problem/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
-<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/typical/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
-<a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/rpm/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/problem/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/typical/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/rpm/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
 </p>
 
 <h3 align="center">
-  <b><a href="https://cherrypush.com/docs">docs</a></b>
+  <b><a href="https://cherrypush.com/docs">📄 read the docs</a></b>
   •
-  <b><a href="https://www.npmjs.com/package/cherrypush">npm package</a></b>
+  <b><a href="https://github.com/cherrypush/cherrypush.com/discussions">🤔 ask a question</a></b>
   •
-  <b><a href="https://twitter.com/intent/user?screen_name=fwuensche">twitter</a></b>
+  <b><a href="https://github.com/cherrypush/cherrypush.com/issues">📣 report an issue</a></b>
 </h3>
 
 <br />
+
+Cherry helps you track and manage your technical debt with minimal setup. You configure the codebase patterns you want
+to track once. Cherry will then run on every commit and report the stats to your dashboard. It's really that simple.
 
 ## Getting started
 
@@ -101,4 +93,6 @@ Big thanks to contributors 🙏
 
 ## Any further question or suggestion?
 
-[Shoot me a message on Twitter](https://twitter.com/messages/compose?recipient_id=38940653) 🤠
+- report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
+- suggest new features via [GitHub Discussions](https://github.com/cherrypush/cherrypush.com/discussions)
+- or shoot me a private message on [Twitter](https://twitter.com/messages/compose?recipient_id=38940653)
