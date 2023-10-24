@@ -8,30 +8,16 @@ once. Cherry will then run on every commit and report the stats to your dashboar
 </p>
 
 <p align="center">
-  <a href="https://github.com/cherrypush/cherrypush.com/actions/workflows/ci_tests.yml" target="_blank">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cherrypush/cherrypush.com/ci_tests.yml"/>
-  </a>
-  <a href="https://www.npmjs.com/package/cherrypush" target="_blank">
-    <img alt="Visit the NPM page" src="https://img.shields.io/npm/v/cherrypush"/>
-  </a>
-  <a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors" target="_blank">
-    <img src="https://img.shields.io/github/commit-activity/m/cherrypush/cherrypush.com" alt="Commits per month">
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=fwuensche" target="_blank">
-    <img alt="Follow us on Twitter" src="https://img.shields.io/twitter/follow/fwuensche?style=social"/>
-  </a>
+  <a href="https://github.com/cherrypush/cherrypush.com/actions/workflows/ci_tests.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cherrypush/cherrypush.com/ci_tests.yml"/></a>
+  <a href="https://www.npmjs.com/package/cherrypush"><img alt="Visit the NPM page" src="https://img.shields.io/npm/v/cherrypush"/></a>
+  <a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors"><img src="https://img.shields.io/github/commit-activity/m/cherrypush/cherrypush.com" alt="Commits per month"></a>
+  <a href="https://twitter.com/intent/follow?screen_name=fwuensche"><img alt="Follow us on Twitter" src="https://img.shields.io/twitter/follow/fwuensche?style=social"/></a>
 </p>
 
 <p align="center">
-  <a href="https://oss.skylight.io/app/applications/670fP418RH7v" target="_blank">
-    <img src="https://badges.skylight.io/problem/670fP418RH7v.svg" alt="View performance data on Skylight" />
-  </a>
-  <a href="https://oss.skylight.io/app/applications/670fP418RH7v" target="_blank">
-    <img src="https://badges.skylight.io/typical/670fP418RH7v.svg" alt="View performance data on Skylight" />
-  </a>
-  <a href="https://oss.skylight.io/app/applications/670fP418RH7v" target="_blank">
-    <img src="https://badges.skylight.io/rpm/670fP418RH7v.svg" alt="View performance data on Skylight" />
-  </a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/problem/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/typical/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
+  <a href="https://oss.skylight.io/app/applications/670fP418RH7v"><img src="https://badges.skylight.io/rpm/670fP418RH7v.svg" alt="View performance data on Skylight" /></a>
 </p>
 
 <h3 align="center">
