@@ -42,7 +42,7 @@ class Organization < ApplicationRecord
   # TODO: Only return the subscription fields that we need
   def subscriptions
     return [] if stripe_customer_id.blank?
-    Stripe::Subscription.list(customer: organization.stripe_customer_id).data
+    Stripe::Subscription.list(customer: stripe_customer_id).data
   end
 
   private
