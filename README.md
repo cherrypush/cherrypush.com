@@ -32,7 +32,7 @@
 <h3 align="center">
   <b><a href="https://cherrypush.com/docs">📄 read the docs</a></b>
   •
-  <b><a href="https://github.com/cherrypush/cherrypush.com/discussions">🤔 ask a question</a></b>
+  <b><a href="https://github.com/cherrypush/cherrypush.com/discussions">👨‍🎓 ask a question</a></b>
   •
   <b><a href="https://github.com/cherrypush/cherrypush.com/issues">📣 report an issue</a></b>
 </h3>
