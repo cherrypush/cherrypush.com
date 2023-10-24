@@ -131,7 +131,7 @@ const runPlugins = async (plugins) => {
 
 export const emptyMetric = (metricName) => ({ metricName, text: 'No occurrences', value: 0 })
 
-const withEmptyMetrics = (occurrences, metrics) => {
+const withEmptyMetrics = (occurrences, metrics = []) => {
   const occurrencesByMetric = _.groupBy(occurrences, 'metricName')
   const allMetricNames = _.uniq(metrics.map((metric) => metric.name).concat(Object.keys(occurrencesByMetric)))
   return allMetricNames.map((metricName) => occurrencesByMetric[metricName] || [emptyMetric(metricName)]).flat()
