@@ -7,7 +7,7 @@
 <br />
 
 <p align="center">
-Cherry is an open-source code static analysis tool. It allows you to stay on top of your technical debt, capture the value of your work, and recognize your top team members.
+Cherry is an open-source code static analysis tool. It allows you to track your technical debt, capture the value of your work, and recognize your top team members.
 </p>
 
 <p align="center">
