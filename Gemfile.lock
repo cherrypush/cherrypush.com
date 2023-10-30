@@ -92,7 +92,7 @@ GEM
       chartkick (>= 5)
       railties (>= 6.1)
       safely_block (>= 0.4)
-    bootsnap (1.16.0)
+    bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
     capybara (3.39.2)
@@ -203,7 +203,7 @@ GEM
       minitest (>= 5.0)
       railties (>= 4.1)
     minitest-stub-const (0.6)
-    msgpack (1.7.1)
+    msgpack (1.7.2)
     multi_xml (0.6.0)
     net-imap (0.4.2)
       date
