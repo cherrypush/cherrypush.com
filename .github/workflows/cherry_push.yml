@@ -21,8 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install
-          npm i ./cli
+          npm ci
+          npm i -g cherrypush
 
       - name: Push metrics to Cherry
-        run: ./cli/bin/cherry.js push --api-key=${{ secrets.CHERRY_API_KEY }}
+        run: cherry push --api-key=${{ secrets.CHERRY_API_KEY }}

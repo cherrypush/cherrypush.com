@@ -4,12 +4,12 @@ const TS_FILES = 'app/**/*.{ts,tsx}'
 module.exports = {
   project_name: 'cherrypush/cherry',
   plugins: {
-    npmOutdated: { prefix: ['', 'cli'] },
+    npmOutdated: {},
     loc: {},
     eslint: {},
     rubocop: {},
     jsCircularDependencies: { include: 'app/javascript/**' },
-    jsUnimported: { dir: 'cli' },
+    jsUnimported: {},
   },
   metrics: [
     {
@@ -21,6 +21,10 @@ module.exports = {
       name: '[TS Migration] TS loc',
       include: TS_FILES,
       groupByFile: true,
+    },
+    {
+      name: 'TODO/FIXME',
+      pattern: /(TODO|FIXME)/i,
     },
   ],
 }
