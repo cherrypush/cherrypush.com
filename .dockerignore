@@ -12,7 +12,7 @@
 
 # Ignore all environment files.
 /.env*
-!/.env.example  
+!/.env.example
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -53,7 +53,6 @@ LICENSE
 README.md
 
 # Ignore Cherry-related files
-/cli/
 /content/
 .cherry.js
 
