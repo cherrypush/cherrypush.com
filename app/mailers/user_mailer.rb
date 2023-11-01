@@ -2,6 +2,8 @@
 
 class UserMailer < ApplicationMailer
   include ApplicationHelper
+  include ActionView::Helpers::DateHelper
+
   helper :application
 
   def weekly_report
@@ -31,5 +33,11 @@ class UserMailer < ApplicationMailer
     @user = params[:user]
     @notifications = @user.notifications.unseen.recent.order(created_at: :desc)
     mail(to: @user.email, subject: "Cherry - New Notifications (#{@notifications.count})")
+  end
+
+  def inactive_alert
+    @user = params[:user]
+    subject = "Reminder: Your Cherry account will be deleted in #{time_ago_in_words(@user.updated_at + 6.months)}"
+    mail(to: @user.email, subject: subject)
   end
 end
