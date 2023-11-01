@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { GetNextPageParamFunction, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
@@ -31,13 +31,14 @@ const INDEX_KEY = ['user', 'notifications', 'index']
 
 const PER_PAGE = 20
 
+const getNextPageParam: GetNextPageParamFunction<Notification[]> = (lastPage, allPages) =>
+  lastPage.length === PER_PAGE ? allPages.length + 1 : undefined
+
 export const useNotificationsIndex = () =>
   useInfiniteQuery<Notification[]>(
     INDEX_KEY,
     ({ pageParam = 1 }) => axios.get(`/user/notifications.json?page=${pageParam}`).then((response) => response.data),
-    {
-      getNextPageParam: (lastPage, allPages) => (lastPage.length === PER_PAGE ? allPages.length + 1 : undefined),
-    }
+    { getNextPageParam }
   )
 
 export const useNotificationsMarkAsSeen = () => {
