@@ -22,4 +22,10 @@ class UserMailerPreview < ActionMailer::Preview
     Notification.create!(user: User.first, item: Contribution.first) if Notification.unseen.none?
     UserMailer.with(user: User.first).daily_notifications_report
   end
+
+  def inactive_alert
+    user = User.first
+    user.updated_at = 4.months.ago
+    UserMailer.with(user: user).inactive_alert
+  end
 end

@@ -34,4 +34,31 @@ class MailersTest < ActionMailer::TestCase
       assert_emails(1) { Rake::Task["mailers:deliver_daily_notifications"].execute }
     end
   end
+
+  describe "#inactive_users" do
+    it "does not send email to users 91 days prior to their deletion" do
+      create :user, updated_at: 6.months.ago + 91.days
+      assert_emails(0) { Rake::Task["mailers:inactive_users"].execute }
+    end
+
+    it "sends email to users 90 days prior to their deletion" do
+      create :user, updated_at: 6.months.ago + 90.days
+      assert_emails(1) { Rake::Task["mailers:inactive_users"].execute }
+    end
+
+    it "does not send email to users 89 days prior to their deletion" do
+      create :user, updated_at: 6.months.ago + 89.days
+      assert_emails(0) { Rake::Task["mailers:inactive_users"].execute }
+    end
+
+    it "sends email to users 1 day prior to their deletion" do
+      create :user, updated_at: 6.months.ago + 1.day
+      assert_emails(1) { Rake::Task["mailers:inactive_users"].execute }
+    end
+
+    it "deletes users with more than 6 months of inactivity" do
+      create :user, updated_at: 7.months.ago
+      assert_difference("User.count", -1) { Rake::Task["mailers:inactive_users"].execute }
+    end
+  end
 end
