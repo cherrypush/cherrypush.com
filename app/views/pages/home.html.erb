@@ -3,34 +3,35 @@
 <% cache 'home' do %>
   <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-12">
     <h1 class="mb-9 max-w-3xl text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-      <p class="mb-3">Start tracking your</p>
-      <span class=" relative whitespace-nowrap"
-        ><span
-          class="absolute bg-blue-700 -left-2 -top-1 -bottom-1 -right-2 md:-left-3 md:-top-0 md:-bottom-0 md:-right-3 -rotate-1"
-        ></span
-        ><span class="relative text-white">technical debt</span></span
+      <p class="mb-3">Capture the value of</p>
+      your
+      <span class=" relative whitespace-nowrap">
+        <span
+          class="absolute bg-blue-700 -left-2 -top-1 -bottom-1 -right-2 md:-left-1 md:-top-0 md:-bottom-0 md:-right-2 -rotate-1"
+        ></span>
+        <span class="relative text-white">technical</span></span
       >
+      work
     </h1>
     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
-      Cherry helps you track your code migrations, capture the value of your work, and visualize the impact of your
-      team.
+      Technical work often goes unnoticed. Cherry helps you track and visualize the value of your team's work.
     </p>
     <div class="flex flex-col md:flex-row justify-center">
       <%= render 'components/main_cta_buttons' %>
     </div>
   </div>
 
-  <!--<p class="text-center mb-3 font-bold">
-    Join <%= number_to_human User.count, units: { thousand: 'k' } %> developers using Cherry
+  <p class="text-center mb-3 font-bold">
+    ☝️ Join <%= number_to_human User.count, units: { thousand: 'k' } %> developers using Cherry
   </p>
   <div class="flex -space-x-4 justify-center mb-12">
-    <% User.all.sample(10).map do |user| %>
+    <% User.where(email: ['f.wuensche@gmail.com', 'arturo.edo@reserva.ink', 'paulo.miranda@reserva.ink', 'momotator@gmail.com']).sample(10).map do |user| %>
       <%= image_tag user.image, class: 'w-10 h-10 border-2 border-white rounded-full dark:border-gray-800' %>
     <% end %>
     <span
       class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
       >+<%= User.count - 10 %></span>
-  </div>-->
+  </div>
 
   <!--<section class="border-4 border-dashed text-center rounded-lg bg-slate-100 mb-12 p-6 md:p-9 dark:bg-slate-800">
     <div class="mb-6 gap-3 flex items-center justify-center">
@@ -38,28 +39,28 @@
         >🔴 LIVE</span
       >
       <span class=""
-        >Currently monitoring <b><%= number_to_human(Occurrence.count, units: { thousand: 'k' }).downcase %></b> issues
-        for our <b><%= (User.count / 100).round * 100 %>+</b> users.</span
+        >Currently monitoring <b>[object Object]</b> issues
+        for our <b>[object Object]+</b> users.</span
       >
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="flex card flex-col items-center justify-center">
-        <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human Project.count %></dt>
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">[object Object]</dt>
         <dd>projects</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
-        <dt class="mb-2 text-3xl md:text-4xl font-extrabold"><%= number_to_human User.count %></dt>
+        <dt class="mb-2 text-3xl md:text-4xl font-extrabold">[object Object]</dt>
         <dd>users</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_to_human Metric.count %>
+          [object Object]
         </dt>
         <dd>metrics</dd>
       </div>
       <div class="flex card flex-col items-center justify-center">
         <dt class="mb-2 text-3xl md:text-4xl font-extrabold">
-          <%= number_with_delimiter Occurrence.count %>
+          [object Object]
         </dt>
         <dd>issues</dd>
       </div>
@@ -68,8 +69,8 @@
 
   <%=
     render 'feature_section',
-           title: 'Keep track of your TypeScript migration 📈',
-           text: 'See your progress over time. Filter files based on CODEOWNERS.',
+           title: 'The perfect tool for code migrations 📈',
+           text: 'Visualize progress over time on a per-team basis.',
            image: 'ss_code_migration.webp',
            alt: 'screenshot of a chart showing the progress of a code migration'
   %>
