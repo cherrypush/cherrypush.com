@@ -21,18 +21,11 @@ class Organization < ApplicationRecord
   validate :sso_domain_coherent_with_user_email
 
   def can_create_new_authorizations?
-    if memberships.empty?
-      return [
-        false,
-        "A paid plan is required to create authorizations. Reach out to the owner of your organization: #{user.name} <#{user.email}>"
-      ]
-    end
-
-    true
+    memberships.any?
   end
 
   def users
-    User.where(email: authorizations.pluck(:email) + [user.email])
+    User.where(email: authorizations.pluck(:email)).or(sso_users).or(User.where(id: user_id))
   end
 
   def sso_users

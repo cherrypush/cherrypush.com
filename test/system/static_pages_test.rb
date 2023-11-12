@@ -8,7 +8,7 @@ class StaticPagesTest < ApplicationSystemTestCase
   it "navigates through all pages" do
     sign_in create(:user)
     visit root_url
-    assert_text "START TRACKING"
+    assert_text "START NOW"
     click_on "Terms"
     assert_text "Terms of Service"
     click_on "Privacy"
