@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "application_system_test_case"
 
-class OrganizationTest < ApplicationSystemTestCase
+class OrganizationsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:regular_user) { create :user }
   let!(:organization) { create :organization, name: "rails", user: user }

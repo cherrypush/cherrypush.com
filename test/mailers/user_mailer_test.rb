@@ -22,7 +22,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_emails(1) { email.deliver_now }
     assert_equal email.to, ["romain.choquet@example.com"]
     assert_equal email.from, ["flavio@cherrypush.com"]
-    assert_equal email.subject, "Cherry Report: Feb 10, 2023 🍒"
+    assert_equal email.subject, "Cherry - Weekly Report of Feb 10, 2023"
     assert_match "rails/rails", email.body.to_s
     assert_match "JS loc", email.body.to_s
     assert_match "▼ 21", email.body.to_s
