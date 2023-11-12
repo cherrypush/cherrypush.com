@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
 
   def weekly_report
     @user = params[:user]
-    mail(to: @user.email, subject: "Cherry Report: #{Time.current.strftime("%b %d, %Y")} 🍒")
+    mail(to: @user.email, subject: "Cherry - Weekly Report of #{Time.current.strftime("%b %d, %Y")}")
   end
 
   def welcome
@@ -23,16 +23,22 @@ class UserMailer < ApplicationMailer
   end
 
   def authorization_granted
-    @from_user = params[:from]
-    @to_email = params[:to]
-    @organization = params[:organization]
-    mail(to: @to_email, subject: "Cherry - Authorization Granted")
+    @granted_by_user = params[:granted_by_user]
+    @authorization = params[:authorization]
+    mail(to: @authorization.email, subject: "Cherry - Authorization Granted")
+  end
+
+  def authorization_alert
+    @granted_by_user = params[:granted_by_user]
+    @authorization = params[:authorization]
+    admin = @authorization.organization.user
+    mail(to: admin.email, subject: "Cherry - New Authorization")
   end
 
   def daily_notifications_report
     @user = params[:user]
     @notifications = @user.notifications.unseen.recent.order(created_at: :desc)
-    mail(to: @user.email, subject: "Cherry - New Notifications (#{@notifications.count})")
+    mail(to: @user.email, subject: "Cherry - Daily Notifications (#{@notifications.count})")
   end
 
   def inactive_alert

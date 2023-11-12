@@ -15,7 +15,11 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def authorization_granted
-    UserMailer.with(from: User.first, to: User.last.email, organization: Organization.first).authorization_granted
+    UserMailer.with(granted_by_user: User.first, authorization: Authorization.last).authorization_granted
+  end
+
+  def authorization_alert
+    UserMailer.with(granted_by_user: User.first, authorization: Authorization.last).authorization_alert
   end
 
   def daily_notifications_report

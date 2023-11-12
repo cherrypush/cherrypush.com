@@ -1,0 +1,20 @@
+<h1>New Authorization</h1>
+
+<p>
+  <b><%= @granted_by_user.name %></b> has just authorized the email <b><%= @authorization.email %></b> to access the
+  <b><%= @authorization.organization.name %></b> organization.
+</p>
+
+<p>If that's not desired, please <a href="<%= user_authorizations_url %>">review your authorizations</a>.</p>
+
+<hr />
+
+<p>
+  Here's a list of all users with access to <b><%= @authorization.organization.name %></b>:
+</p>
+
+<ul>
+  <% @authorization.organization.users.sort_by {|user| I18n.transliterate(user.name) }.each do |user| %>
+    <li><%= user.name %> - <%= user.email %></li>
+  <% end %>
+</ul>
