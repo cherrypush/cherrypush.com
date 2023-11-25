@@ -3,6 +3,10 @@ name: Prevent new occurrences of JS lines of code
 on:
   pull_request:
 
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   cherry_diff:
     runs-on: ubuntu-latest
