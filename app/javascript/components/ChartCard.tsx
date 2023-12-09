@@ -14,7 +14,13 @@ const ChartCard = ({ chart }: { chart: Chart }) => {
   return (
     <Card className="mb-3 relative">
       <div className="absolute right-3 top-3 items-center justify-end z-10">
-        <Dropdown arrowIcon={false} label={<HiDotsVertical />} color="dark" placement="bottom-end" id="chart-menu">
+        <Dropdown
+          arrowIcon={false}
+          label={<HiDotsVertical />}
+          color="dark"
+          placement="bottom-end"
+          data-testid="chart-menu"
+        >
           <Dropdown.Item
             onClick={() => navigate(`/user/dashboards/${chart.dashboard_id}/charts/${chart.id}/edit`)}
             icon={HiPencil}

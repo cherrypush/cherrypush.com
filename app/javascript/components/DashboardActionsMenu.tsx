@@ -1,5 +1,5 @@
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { HiDotsVertical, HiPencil, HiTrash } from 'react-icons/hi'
 import { useNavigate } from 'react-router-dom'
 import { useDashboardsDestroy, useDashboardsUpdate } from '../queries/user/dashboards'
@@ -61,7 +61,7 @@ const DashboardActionsMenu = ({ dashboard }: { dashboard: { id: number; name: st
       color="dark"
       placement="bottom-end"
       size="lg"
-      id="dashboard-menu"
+      data-testid="dashboard-menu"
     >
       <Dropdown.Item icon={HiPencil} onClick={() => setShowDashboardEditModal(true)}>
         Rename dashboard
