@@ -25,4 +25,4 @@ jobs:
           npm i -g cherrypush
 
       - name: Push metrics to Cherry
-        run: cherry push --api-key=${{ secrets.CHERRY_API_KEY }}
+        run: cherry push --quiet --api-key=${{ secrets.CHERRY_API_KEY }}

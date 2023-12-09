@@ -7,13 +7,20 @@ version: 2
 updates:
   - package-ecosystem: 'bundler'
     directory: '/'
+    versioning-strategy: 'lockfile-only'
     schedule:
       interval: 'daily'
       time: '09:00'
-    versioning-strategy: 'lockfile-only'
+    commit-message:
+      prefix: chore
+      include: 'scope'
+
   - package-ecosystem: 'npm'
     directory: '/'
+    versioning-strategy: 'increase'
     schedule:
       interval: 'daily'
       time: '09:00'
-    versioning-strategy: 'increase'
+    commit-message:
+      prefix: chore
+      include: 'scope'

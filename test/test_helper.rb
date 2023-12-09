@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV["RAILS_ENV"] ||= "test"
 
 require_relative "../config/environment"
@@ -22,7 +24,7 @@ class ActiveSupport::TestCase
   Rails.application.load_tasks
 end
 
-def let!(name, &block)
-  let(name, &block)
+def let!(name, &)
+  let(name, &)
   before { send(name) }
 end

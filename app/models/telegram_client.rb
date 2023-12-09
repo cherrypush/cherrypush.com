@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TelegramClient
-  TELEGRAM_TOKEN = ENV.fetch('TELEGRAM_TOKEN', nil)
+  TELEGRAM_TOKEN = ENV.fetch("TELEGRAM_TOKEN", nil)
 
   class << self
     def send(content)
@@ -10,10 +10,10 @@ class TelegramClient
       uri = URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/sendMessage")
 
       request = Net::HTTP::Post.new(uri)
-      request.content_type = 'application/json'
-      request.body = JSON.dump({ 'chat_id' => '-1001230044312', 'text' => content, 'disable_notification' => true })
+      request.content_type = "application/json"
+      request.body = JSON.dump({ "chat_id" => "-1001230044312", "text" => content, "disable_notification" => true })
 
-      req_options = { use_ssl: uri.scheme == 'https' }
+      req_options = { use_ssl: uri.scheme == "https" }
       Net::HTTP.start(uri.hostname, uri.port, req_options) { |http| http.request(request) }
     end
 

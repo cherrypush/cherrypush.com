@@ -12,7 +12,7 @@ class OrganizationTest < ActiveSupport::TestCase
       authorized_user = create(:user)
       create(:authorization, organization: organization, email: authorized_user.email)
       assert_equal 2, organization.users.count
-      assert_equal [owner, authorized_user], organization.users
+      assert_equal [owner.id, authorized_user.id].sort, organization.users.ids.sort
     end
 
     describe "when sso enabled" do
@@ -20,7 +20,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
       it "contains sso authorized users" do
         sso_user = create(:user, email: "hello@example.com")
-        assert_equal [owner, sso_user], organization.users
+        assert_equal [owner.id, sso_user.id], organization.users.ids.sort
       end
     end
   end

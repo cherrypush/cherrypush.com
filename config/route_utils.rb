@@ -6,10 +6,10 @@ class AdminConstraint
   end
 end
 
-def nested_resources(*args, &block)
-  resources(*args) { scope module: args.first, &block }
+def nested_resources(*args, &)
+  resources(*args) { scope(module: args.first, &) }
 end
 
-def nested_resource(*args, &block)
-  resource(*args) { scope module: args.first, &block }
+def nested_resource(*args, &)
+  resource(*args) { scope(module: args.first, &) }
 end
