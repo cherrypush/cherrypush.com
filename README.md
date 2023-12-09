@@ -23,8 +23,6 @@ once. Cherry will then run on every commit and report the stats to your dashboar
 <h3 align="center">
   <b><a href="https://cherrypush.com/docs">📄 read the docs</a></b>
   •
-  <b><a href="https://github.com/cherrypush/cherrypush.com/discussions">👨‍🎓 ask a question</a></b>
-  •
   <b><a href="https://github.com/cherrypush/cherrypush.com/issues">📣 report an issue</a></b>
 </h3>
 
@@ -94,5 +92,4 @@ Huge thanks to top contributors 🙏
 ## Any further question or suggestion?
 
 - report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
-- suggest new features via [GitHub Discussions](https://github.com/cherrypush/cherrypush.com/discussions)
-- or shoot me a private message on [Twitter](https://twitter.com/messages/compose?recipient_id=38940653)
+- or shoot me a private message on [twitter.com/fwuensche](https://twitter.com/fwuensche)
