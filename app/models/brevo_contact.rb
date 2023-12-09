@@ -2,7 +2,7 @@
 
 class BrevoContact
   class << self
-    API_KEY = ENV.fetch('BREVO_API_KEY', '')
+    API_KEY = ENV.fetch("BREVO_API_KEY", "")
 
     # Sample response:
     # email="f.wuensche@gmail.com", id=1, emailBlacklisted=false, smsBlacklisted=false,
@@ -14,7 +14,7 @@ class BrevoContact
 
     def create!(first_name:, last_name:, email:) # rubocop:disable Metrics/MethodLength
       call(
-        'https://api.brevo.com/v3/contacts',
+        "https://api.brevo.com/v3/contacts",
         method: :post,
         params: {
           attributes: {
@@ -48,13 +48,13 @@ class BrevoContact
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true
       request = initialize_request(method, url)
-      request['accept'] = 'application/json'
-      request['content-type'] = 'application/json'
-      request['api-key'] = API_KEY
+      request["accept"] = "application/json"
+      request["content-type"] = "application/json"
+      request["api-key"] = API_KEY
       request.body = params.to_json if params.present?
 
       response = http.request(request)
-      raise response.message unless response.code.start_with?('2')
+      raise response.message unless response.code.start_with?("2")
       JSON.parse(response.read_body, object_class: OpenStruct) if response.read_body # rubocop:disable Style/OpenStructUse
     end
 
@@ -62,7 +62,7 @@ class BrevoContact
       return Net::HTTP::Get.new(url) if method == :get
       return Net::HTTP::Post.new(url) if method == :post
       return Net::HTTP::Put.new(url) if method == :put
-      raise 'Unsupported method'
+      raise "Unsupported method"
     end
   end
 end
