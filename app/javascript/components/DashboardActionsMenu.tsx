@@ -7,21 +7,21 @@ import { useDashboardsDestroy, useDashboardsUpdate } from '../queries/user/dashb
 const DashboardEditModal = ({
   dashboard,
   show,
-  setShow,
+  onClose,
 }: {
   dashboard: { id: number; name: string }
   show: boolean
-  setShow: (boolean) => void
+  onClose: () => void
 }) => {
   const { mutate: updateDashboard } = useDashboardsUpdate()
   const [name, setName] = useState(dashboard.name)
 
   return (
-    <Modal show={show} onClose={() => setShow(false)} dismissible>
+    <Modal show={show} onClose={onClose} dismissible>
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          updateDashboard({ id: dashboard.id, dashboard: { name } }, { onSuccess: () => setShow(false) })
+          updateDashboard({ id: dashboard.id, dashboard: { name } }, { onSuccess: () => onClose() })
         }}
       >
         <Modal.Header>Rename dashboard</Modal.Header>
@@ -55,22 +55,28 @@ const DashboardActionsMenu = ({ dashboard }: { dashboard: { id: number; name: st
   }
 
   return (
-    <Dropdown
-      arrowIcon={false}
-      label={<HiDotsVertical />}
-      color="dark"
-      placement="bottom-end"
-      size="lg"
-      data-testid="dashboard-menu"
-    >
-      <Dropdown.Item icon={HiPencil} onClick={() => setShowDashboardEditModal(true)}>
-        Rename dashboard
-      </Dropdown.Item>
-      <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
-        Delete dashboard
-      </Dropdown.Item>
-      <DashboardEditModal dashboard={dashboard} show={showDashboardEditModal} setShow={setShowDashboardEditModal} />
-    </Dropdown>
+    <>
+      <Dropdown
+        arrowIcon={false}
+        label={<HiDotsVertical />}
+        color="dark"
+        placement="bottom-end"
+        size="lg"
+        data-testid="dashboard-menu"
+      >
+        <Dropdown.Item icon={HiPencil} onClick={() => setShowDashboardEditModal(true)}>
+          Rename dashboard
+        </Dropdown.Item>
+        <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
+          Delete dashboard
+        </Dropdown.Item>
+      </Dropdown>
+      <DashboardEditModal
+        dashboard={dashboard}
+        show={showDashboardEditModal}
+        onClose={() => setShowDashboardEditModal(false)}
+      />
+    </>
   )
 }
 
