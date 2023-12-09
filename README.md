@@ -92,5 +92,4 @@ Huge thanks to top contributors 🙏
 ## Any further question or suggestion?
 
 - report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
-- suggest new features via [GitHub Discussions](https://github.com/cherrypush/cherrypush.com/discussions)
-- or shoot me a private message on [Twitter](https://twitter.com/messages/compose?recipient_id=38940653)
+- or shoot me a private message on [twitter.com/fwuensche](https://twitter.com/fwuensche)

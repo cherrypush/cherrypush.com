@@ -9,11 +9,8 @@ class Organization < ApplicationRecord
   has_many :projects
   has_many :authorizations, dependent: :destroy
 
-  # TODO: there should never be two organizations with the same name for the same user
-  validates :name, presence: true
-
-  # TODO: once all organizations have a stripe_customer_id, add a database constraint to ensure presence & uniqueness
-  validates :stripe_customer_id, presence: true, uniqueness: true
+  validates :name, presence: true # TODO: there should never be two organizations with the same name for the same user
+  validates :stripe_customer_id, uniqueness: true, allow_nil: true
 
   before_validation :ensure_stripe_customer_created
   after_update :refresh_stripe_customer_data
@@ -42,6 +39,7 @@ class Organization < ApplicationRecord
 
   def ensure_stripe_customer_created
     return if stripe_customer_id.present?
+    return if Rails.env.test?
 
     customer = Stripe::Customer.create(email: user.email, name: name, metadata: { cherry_organization_id: id })
     self.stripe_customer_id = customer.id
@@ -49,6 +47,7 @@ class Organization < ApplicationRecord
 
   def refresh_stripe_customer_data
     return if stripe_customer_id.blank?
+    return if Rails.env.test?
 
     Stripe::Customer.update(
       stripe_customer_id,
