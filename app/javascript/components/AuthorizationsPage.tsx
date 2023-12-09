@@ -21,7 +21,6 @@ const PersonalProjectAuthorizations = ({
       <Table>
         <Table.Head>
           <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
-          <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end"></Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {/* OWNER */}
@@ -32,7 +31,6 @@ const PersonalProjectAuthorizations = ({
                 OWNER
               </Badge>
             </Table.Cell>
-            <Table.Cell />
           </Table.Row>
         </Table.Body>
       </Table>
