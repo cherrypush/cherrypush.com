@@ -1,4 +1,4 @@
-require 'active_support/core_ext/integer/time'
+require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -22,7 +22,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -50,7 +50,7 @@ Rails.application.configure do
   config.log_tags = [:request_id]
 
   # Use a different cache store in production.
-  config.cache_store = :redis_cache_store, { url: ENV.fetch('REDIS_URL', nil) }
+  config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL", nil) }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   config.active_job.queue_adapter = :delayed_job
@@ -70,13 +70,13 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
@@ -89,12 +89,12 @@ Rails.application.configure do
 
   # Serve static assets with an efficient cache policy (Page Speed Insights)
   config.public_file_server.headers = {
-    'Cache-Control' => 'public, max-age=15552000', # 15552000 seconds = 180 days
-    'Expires' => 1.year.from_now.to_formatted_s(:rfc822),
+    "Cache-Control" => "public, max-age=15552000", # 15552000 seconds = 180 days
+    "Expires" => 1.year.from_now.to_formatted_s(:rfc822),
   }
 
   # Sets default host for email path and urls
-  routes.default_url_options[:host] = 'https://cherrypush.com'
+  routes.default_url_options[:host] = "https://cherrypush.com"
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true

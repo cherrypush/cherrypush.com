@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SignInHelper
-  def sign_in(user = default_user, to: nil, controller_test: false) # rubocop:disable Metrics/MethodLength
+  def sign_in(user = default_user, to: nil, controller_test: false)
     OmniAuth.config.test_mode = true
     Rails.application.env_config["omniauth.auth"] = google_auth(user)
     if controller_test
