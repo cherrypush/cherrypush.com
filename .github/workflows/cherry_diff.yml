@@ -26,4 +26,4 @@ jobs:
 
       - name: Raise if new JS code added
         run: |
-          cherry diff --metric "TODO/FIXME" --metric "[TS Migration] JS loc" --api-key ${{ secrets.CHERRY_API_KEY }} --error-if-increase
+          cherry diff --quiet --metric "TODO/FIXME" --metric "[TS Migration] JS loc" --api-key ${{ secrets.CHERRY_API_KEY }} --error-if-increase
