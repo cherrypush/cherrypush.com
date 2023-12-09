@@ -20,7 +20,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
       it "contains sso authorized users" do
         sso_user = create(:user, email: "hello@example.com")
-        assert_equal [owner, sso_user], organization.users
+        assert_equal [owner.id, sso_user.id], organization.users.ids.sort
       end
     end
   end
