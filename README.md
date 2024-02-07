@@ -83,12 +83,6 @@ Cherry App (Ruby on Rails):
 - Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
 - Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
 
-Huge thanks to top contributors 🙏
-
-<a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cherrypush/cherrypush.com" />
-</a>
-
 ## Any further question or suggestion?
 
 - report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
