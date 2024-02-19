@@ -71,6 +71,7 @@ class User < ApplicationRecord
     # auth.extra.all_emails.filter(&:verified).map(&:email)
     self.email = auth.info.email if auth.info.email?
     self.image = auth.info.image if auth.info.image?
+    self.updated_at = Time.current
   end
 
   def admin?
