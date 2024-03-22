@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 namespace :database do
-  desc "Anonymize all data"
+  desc 'Anonymize all data'
   task anonymize: :environment do
-    raise "This task is not allowed in production" if Rails.env.production?
+    raise 'This task is not allowed in production' if Rails.env.production?
 
     ActiveRecord::Base.logger = nil
     Organization.all.each { |organization| organization.update_column(:name, Faker::Internet.username) }
@@ -34,7 +34,7 @@ namespace :database do
 
   # This is regularly run by the Heroku Scheduler
   # https://dashboard.heroku.com/apps/cherrypush-production/scheduler
-  desc "Clean up database"
+  desc 'Clean up database'
   task cleanup: :environment do
     Project.all.each { |project| project.metrics.each(&:clean_up!) }
   end

@@ -16,13 +16,14 @@ class User::OrganizationsController < User::ApplicationController
              organization.attributes.merge(
                subscriptions: organization.subscriptions,
                sso_user_count: organization.sso_users.count,
-               user: organization.user.slice(:id, :name, :email),
+               user: organization.user.slice(:id, :name, :email)
              )
   end
 
   def update
     organization = authorize Organization.find(params[:id]), :admin?
     return head :no_content if organization.update(organization_params)
+
     render json: { error: organization.errors.full_messages }, status: :unprocessable_entity
   end
 

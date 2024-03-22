@@ -6,12 +6,12 @@ class User::AuthorizationRequestsController < User::ApplicationController
              AuthorizationRequest.where(organization: current_user.organizations).as_json(
                include: {
                  user: {
-                   only: %w[id name email],
+                   only: %w[id name email]
                  },
                  organization: {
-                   only: %w[id name],
-                 },
-               },
+                   only: %w[id name]
+                 }
+               }
              )
   end
 
@@ -47,7 +47,7 @@ class User::AuthorizationRequestsController < User::ApplicationController
     elsif params[:organization_id]
       Organization.find(params[:organization_id])
     else
-      raise "Must provide either project_id or organization_id"
+      raise 'Must provide either project_id or organization_id'
     end
   end
 end

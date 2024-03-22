@@ -13,26 +13,26 @@ class UserMailer < ApplicationMailer
 
   def welcome
     @user = params[:user]
-    mail(to: @user.email, subject: "Welcome to Cherry 🍒")
+    mail(to: @user.email, subject: 'Welcome to Cherry 🍒')
   end
 
   def new_authorization_request
     @user = params[:user]
     @authorization_request = params[:authorization_request]
-    mail(to: @user.email, subject: "Cherry - Authorization Request")
+    mail(to: @user.email, subject: 'Cherry - Authorization Request')
   end
 
   def authorization_granted
     @granted_by_user = params[:granted_by_user]
     @authorization = params[:authorization]
-    mail(to: @authorization.email, subject: "Cherry - Authorization Granted")
+    mail(to: @authorization.email, subject: 'Cherry - Authorization Granted')
   end
 
   def authorization_alert
     @granted_by_user = params[:granted_by_user]
     @authorization = params[:authorization]
     admin = @authorization.organization.user
-    mail(to: admin.email, subject: "Cherry - New Authorization")
+    mail(to: admin.email, subject: 'Cherry - New Authorization')
   end
 
   def daily_notifications_report

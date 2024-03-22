@@ -17,9 +17,9 @@ class Article
         {
           title: title(path),
           content: content(path),
-          permalink: File.basename(path, ".md"),
-          images: images(content(path)),
-        },
+          permalink: File.basename(path, '.md'),
+          images: images(content(path))
+        }
       )
     end
 

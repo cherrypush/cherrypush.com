@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddColumnToReports < ActiveRecord::Migration[7.0]
   def change
     Report.destroy_all

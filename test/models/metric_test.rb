@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
-  describe "#owners" do
+  describe '#owners' do
     let!(:user) { create(:user) }
     let!(:project) { create(:project, user: user, updated_at: 1.day.ago) }
     let!(:metric) { create(:metric, project: project, updated_at: 1.day.ago) }
 
-    it "updates the updated_at field when a new report is created" do
+    it 'updates the updated_at field when a new report is created' do
       create(:report, metric: metric)
       assert_equal Time.current.to_date, metric.reload.updated_at.to_date
       assert_equal Time.current.to_date, project.reload.updated_at.to_date
     end
   end
 
-  describe "when chart metrics are present" do
+  describe 'when chart metrics are present' do
     let!(:metric) { create(:metric) }
     let!(:chart_metric) { create(:chart_metric, metric: metric) }
 
-    it "can still delete the metric" do
+    it 'can still delete the metric' do
       assert_equal 1, ChartMetric.count
       assert_equal 1, Metric.count
       metric.destroy!
@@ -28,7 +28,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#clean_up!" do
+  describe '#clean_up!' do
     let!(:metric1) { create(:metric) }
     let!(:report1A) { create(:report, metric: metric1, date: 6.days.ago) }
     let!(:report1B) { create(:report, metric: metric1, date: Time.current) }
@@ -46,7 +46,7 @@ class ProjectTest < ActiveSupport::TestCase
       add_occurrences(report2A)
     end
 
-    it "deletes all occurrences except the most recent one" do
+    it 'deletes all occurrences except the most recent one' do
       assert_equal 2, Project.count
       assert_equal 12, Occurrence.count
       Metric.all.each(&:clean_up!)

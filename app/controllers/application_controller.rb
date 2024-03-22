@@ -10,14 +10,14 @@ class ApplicationController < ActionController::Base
 
   # Used to control access to blazer and rails_admin
   def require_admin
-    redirect_to "/" unless current_user&.admin?
+    redirect_to '/' unless current_user&.admin?
   end
 
   private
 
   instrument_method
   def current_user
-    @current_user ||=
+    @_current_user ||=
       begin
         user = User.find_by(id: session[:user_id]) if session[:user_id]
         # reset_session if user.nil? # clear session if the user is not found

@@ -215,13 +215,13 @@ GEM
     net-smtp (0.4.0)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.5-aarch64-linux)
+    nokogiri (1.16.2-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.15.5-arm64-darwin)
+    nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-darwin)
+    nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -251,7 +251,6 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    prettier_print (1.2.1)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -351,8 +350,6 @@ GEM
       sprockets (>= 3.0.0)
     stackprof (0.2.25)
     stripe (10.2.0)
-    syntax_tree (6.2.0)
-      prettier_print (>= 1.2.0)
     tailwindcss-rails (2.0.31-aarch64-linux)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.31-arm64-darwin)
@@ -433,7 +430,6 @@ DEPENDENCIES
   sprockets-rails
   stackprof
   stripe
-  syntax_tree
   tailwindcss-rails
   tzinfo-data
   vite_rails

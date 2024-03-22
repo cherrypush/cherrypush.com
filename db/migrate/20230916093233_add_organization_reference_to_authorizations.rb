@@ -8,7 +8,7 @@ class AddOrganizationReferenceToAuthorizations < ActiveRecord::Migration[7.0]
       if authorization.project.organization_id
         authorization.update!(organization_id: authorization.project.organization_id)
       else
-        puts "deleting authorization without organization"
+        puts 'deleting authorization without organization'
         puts "project: #{authorization.project.name}, user: #{authorization.user.name}"
         authorization.destroy!
       end

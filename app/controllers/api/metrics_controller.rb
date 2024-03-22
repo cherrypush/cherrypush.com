@@ -18,7 +18,7 @@ class Api::MetricsController < Api::ApplicationController
   def metric_data(metric)
     Rails
       .cache
-      .fetch(["api/metrics#index", "metric_data", @user, metric]) do
+      .fetch(['api/metrics#index', 'metric_data', @user, metric], expires_in: 12.hours) do
         { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
       end
   end
