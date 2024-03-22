@@ -27,10 +27,12 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     it 'updates previous data if pushed twice' do
-      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -20, ts_diff: +22) }, as: :json)
+      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -20, ts_diff: +22) },
+                                   as: :json)
       assert_response :ok
       assert_equal [-20, +22], Contribution.all.map(&:diff).sort
-      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -30, ts_diff: +33) }, as: :json)
+      post(api_contributions_path, params: { api_key: user.api_key, **payload(js_diff: -30, ts_diff: +33) },
+                                   as: :json)
       assert_equal [-30, +33], Contribution.all.map(&:diff).sort
     end
 
