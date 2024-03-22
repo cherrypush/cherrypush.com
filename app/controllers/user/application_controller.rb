@@ -3,18 +3,18 @@
 class User::ApplicationController < ApplicationController
   before_action :authenticate_user!
 
-  layout "application"
+  layout 'application'
 
-  rescue_from(Pundit::NotAuthorizedError) { redirect_with_error("You are not authorized to perform this action.") }
+  rescue_from(Pundit::NotAuthorizedError) { redirect_with_error('You are not authorized to perform this action.') }
 
-  def spa
-  end
+  def spa; end
 
   private
 
   def authenticate_user!
     return if current_user
-    redirect_with_error("You must be logged in to perform this action.")
+
+    redirect_with_error('You must be logged in to perform this action.')
   end
 
   def redirect_with_error(message)

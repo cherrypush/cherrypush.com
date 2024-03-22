@@ -14,25 +14,28 @@ class Metric < ApplicationRecord
 
   def last_report
     # if two reports have the same date, we want the most recent one
-    @last_report ||= reports.order(:date, :created_at).last
+    @_last_report ||= reports.order(:date, :created_at).last
   end
 
   def occurrences(owners = [])
     return [] if reports.empty?
+
     occurrences = last_report.occurrences
     return occurrences if owners.blank?
-    occurrences.where("owners && ARRAY[?]::varchar[]", owners)
+
+    occurrences.where('owners && ARRAY[?]::varchar[]', owners)
   end
 
   def owners
     return [] if last_report.nil? || last_report.value_by_owner.nil?
+
     last_report.value_by_owner.map { |handle, count| Owner.new(handle: handle, count: count) }.sort_by(&:count).reverse
   end
 
   def chart_data(owners: nil)
     Rails
       .cache
-      .fetch([self, "chart_data", owners], expires_in: 12.hours) do
+      .fetch([self, 'chart_data', owners], expires_in: 12.hours) do
         daily_reports
           .index_with { |report| get_count(report, owners) }
           .compact
@@ -41,7 +44,7 @@ class Metric < ApplicationRecord
   end
 
   def clean_up!
-    old_reports = reports.where.not(id: last_report.id).where("date < ?", 10.minutes.ago)
+    old_reports = reports.where.not(id: last_report.id).where('date < ?', 10.minutes.ago)
     Occurrence.where(report: old_reports).in_batches(&:delete_all)
     old_reports.where.not(id: daily_reports.pluck(:id)).in_batches.delete_all
   end

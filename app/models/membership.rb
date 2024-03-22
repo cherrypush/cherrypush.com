@@ -3,5 +3,5 @@
 class Membership < ApplicationRecord
   belongs_to :organization
 
-  enum kind: { team: "team", organization: "organization" }, _suffix: :kind
+  enum kind: { team: 'team', organization: 'organization' }, _suffix: :kind
 end

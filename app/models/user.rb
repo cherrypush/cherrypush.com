@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   # TODO: add database constraint to avoid duplicate emails and API keys
 
-  ADMIN_EMAILS = ENV.fetch("ADMIN_EMAILS", "").split(",")
+  ADMIN_EMAILS = ENV.fetch('ADMIN_EMAILS', '').split(',')
 
   ALL_ATTRIBUTES = User.new.attributes.keys
   DEFAULT_ATTRIBUTES = %w[id name email].freeze
@@ -15,8 +15,8 @@ class User < ApplicationRecord
 
   before_save :ensure_api_key
 
-  validates :github_handle, presence: true, if: -> { provider == "github" }
-  validates :email, presence: true, if: -> { provider == "google_oauth2" }
+  validates :github_handle, presence: true, if: -> { provider == 'github' }
+  validates :email, presence: true, if: -> { provider == 'google_oauth2' }
   validates :email, uniqueness: true, allow_blank: true # TODO: if we go 100% google oauth, presence is mandatory
 
   # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
@@ -30,8 +30,9 @@ class User < ApplicationRecord
 
   def organizations
     return Organization.all if admin?
+
     Organization.where(
-      id: authorizations.pluck(:organization_id) + owned_organizations.pluck(:id) + sso_organizations.ids,
+      id: authorizations.pluck(:organization_id) + owned_organizations.pluck(:id) + sso_organizations.ids
     )
   end
 
@@ -45,8 +46,9 @@ class User < ApplicationRecord
 
   def projects
     return Project.all if admin?
+
     owned_projects.or(Project.where(organization_id: organizations.pluck(:id))).or(
-      Project.where(name: "cherrypush/cherry"),
+      Project.where(name: 'cherrypush/cherry')
     )
   end
 
@@ -56,9 +58,9 @@ class User < ApplicationRecord
     self.provider = auth.provider
     self.uid = auth.uid
 
-    if auth.provider == "google_oauth2"
+    if auth.provider == 'google_oauth2'
       self.name = "#{auth.info.first_name} #{auth.info.last_name}"
-    elsif auth.provider == "github"
+    elsif auth.provider == 'github'
       self.name = auth.info.name
       self.github_handle = auth.info.nickname
       self.github_organizations = fetch_github_organizations(auth)
@@ -83,13 +85,13 @@ class User < ApplicationRecord
     scope
       .where(author_name: name)
       .or(scope.where(author_email: email))
-      .or(scope.where("author_email like ?", "%#{github_handle}%"))
+      .or(scope.where('author_email like ?', "%#{github_handle}%"))
   end
 
   private
 
   def sso_organizations
-    Organization.where(sso_enabled: true, sso_domain: email.split("@").last)
+    Organization.where(sso_enabled: true, sso_domain: email.split('@').last)
   end
 
   def ensure_api_key
@@ -100,7 +102,7 @@ class User < ApplicationRecord
     return [] unless auth.try(:extra, :raw_info, :organizations_url)
 
     # organizations_url has the shape of https://api.github.com/users/:github_handle/orgs
-    HTTParty.get(auth.extra.raw_info.organizations_url).pluck("login")
+    HTTParty.get(auth.extra.raw_info.organizations_url).pluck('login')
   end
 
   class << self

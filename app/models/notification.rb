@@ -9,7 +9,7 @@ class Notification < ApplicationRecord
   validates :item_type, inclusion: { in: [Contribution.to_s] }
 
   scope :unseen, -> { where(seen_at: nil) }
-  scope :recent, -> { where("created_at > ?", 24.hours.ago) }
+  scope :recent, -> { where('created_at > ?', 24.hours.ago) }
 
   def message
     case item
@@ -23,7 +23,7 @@ class Notification < ApplicationRecord
   def unsubscribe_text
     case item
     when Contribution
-      "Unwatch this metric"
+      'Unwatch this metric'
     else
       raise "Unknown notification item type: #{item.class}"
     end
@@ -34,7 +34,7 @@ class Notification < ApplicationRecord
     when Contribution
       Rails.application.routes.url_helpers.user_projects_url(
         project_id: item.metric.project_id,
-        metric_id: item.metric_id,
+        metric_id: item.metric_id
       )
     else
       raise "Unknown notification item type: #{item.class}"

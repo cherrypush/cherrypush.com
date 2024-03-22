@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class ContributionTest < ActiveSupport::TestCase
-  describe "#notify_watchers!" do
-    it "creates one notification per watcher" do
+  describe '#notify_watchers!' do
+    it 'creates one notification per watcher' do
       user = create :user
       metric = create :metric, watcher_ids: [user.id]
       contribution = create :contribution, metric: metric
@@ -13,7 +13,7 @@ class ContributionTest < ActiveSupport::TestCase
       end
     end
 
-    it "handles ids of deleted users" do
+    it 'handles ids of deleted users' do
       user = create :user
       metric = create :metric, watcher_ids: [user.id, 999]
       contribution = create :contribution, metric: metric

@@ -5,16 +5,16 @@ class ActsAsFavoritorMigration < ActiveRecord::Migration[7.0]
     create_table :favorites, force: true do |t|
       t.references :favoritable, polymorphic: true, null: false
       t.references :favoritor, polymorphic: true, null: false
-      t.string :scope, default: "", null: false, index: true
+      t.string :scope, default: '', null: false, index: true
       t.boolean :blocked, default: false, null: false, index: true
       t.timestamps
     end
 
-    add_index :favorites, %w[favoritor_id favoritor_type], name: "fk_favorites"
-    add_index :favorites, %w[favoritable_id favoritable_type], name: "fk_favoritables"
+    add_index :favorites, %w[favoritor_id favoritor_type], name: 'fk_favorites'
+    add_index :favorites, %w[favoritable_id favoritable_type], name: 'fk_favoritables'
     add_index :favorites,
               %w[favoritable_type favoritable_id favoritor_type favoritor_id scope],
-              name: "uniq_favorites__and_favoritables",
+              name: 'uniq_favorites__and_favoritables',
               unique: true
   end
 

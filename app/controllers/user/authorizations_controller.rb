@@ -47,7 +47,7 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def error_message
-    reason = "A paid plan is required to create authorizations."
+    reason = 'A paid plan is required to create authorizations.'
     suggestion = "Reach out to the owner of your organization: #{@organization.user.name} <#{@organization.user.email}>"
     "#{reason} #{suggestion}"
   end
