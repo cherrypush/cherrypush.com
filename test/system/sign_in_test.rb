@@ -9,7 +9,7 @@ class SignInTest < ApplicationSystemTestCase
     sign_in(user)
     assert user.reload.updated_at.today?
     click_on 'Avatar'
-    click_on 'Sign out'
+    find('li', text: 'Sign out').click
     assert_text 'Signed out'
     travel_to 7.days.from_now
     click_on 'Login with Google'
