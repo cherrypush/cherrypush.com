@@ -8,8 +8,8 @@ class SignInTest < ApplicationSystemTestCase
   it 'creates a new account' do
     sign_in(user)
     assert user.reload.updated_at.today?
-    click_on 'Avatar', wait: false
-    click_on 'Sign out'
+    click_on 'Avatar'
+    find('li', text: 'Sign out').click
     assert_text 'Signed out'
     travel_to 7.days.from_now
     click_on 'Login with Google'
