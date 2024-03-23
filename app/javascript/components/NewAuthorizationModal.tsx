@@ -9,6 +9,7 @@ const NewAuthorizationModal = ({ organizationId, onClose }: { organizationId: nu
   const [email, setEmail] = useState<string>('')
 
   const isValidEmail = (email: string) => {
+    if (!email) return true
     const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
     return re.test(email)
   }
