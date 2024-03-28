@@ -4,7 +4,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import { useSettingsUpdate } from '../queries/user/settings'
 
 const SettingsPage = () => {
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
   const { mutate: updateUser } = useSettingsUpdate()
 
   return (

@@ -1,10 +1,24 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 
-export interface User {
+export type UserShowResponse = {
+  api_key: string
+  created_at: string
+  email: string
+  favorite_dashboard_ids: number[]
+  favorite_metric_ids: number[]
+  favorite_metric_names: string[]
+  favorite_owner_handles: string[]
+  favorite_project_ids: string[]
+  github_handle: string
+  github_organizations: string[]
   id: number
-  name: string
   image: string
+  name: string
+  provider: string
+  uid: string
+  updated_at: string
+  weekly_report: boolean
 }
 
 type UsersIndexResponse = {
@@ -25,9 +39,13 @@ export const useUsersIndex = ({ ids, enabled }: { ids?: number[]; enabled?: bool
   )
 
 export const useUsersShow = (id: number | undefined) =>
-  useQuery(['user', 'users', id], () => axios.get(`/user/users/${id}.json`).then((response) => response.data), {
-    enabled: !!id,
-  })
+  useQuery<UserShowResponse>(
+    ['user', 'users', id],
+    () => axios.get(`/user/users/${id}.json`).then((response) => response.data),
+    {
+      enabled: Boolean(id),
+    }
+  )
 
 export const useInvalidateUsersIndex = () => {
   const queryClient = useQueryClient()

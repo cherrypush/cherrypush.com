@@ -1,7 +1,7 @@
 import useCurrentUser from '../hooks/useCurrentUser'
 
 const BackfillInstructions = () => {
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
 
   return (
     <div className="card mb-3">

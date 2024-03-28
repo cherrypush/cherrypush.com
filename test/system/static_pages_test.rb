@@ -6,6 +6,8 @@ class StaticPagesTest < ApplicationSystemTestCase
   let!(:project) { create :project, name: 'cherrypush/cherry' }
 
   it 'navigates through all pages' do
+    visit docs_url
+    assert_text 'npm install -g cherrypush'
     sign_in create(:user)
     visit root_url
     assert_text 'START NOW'

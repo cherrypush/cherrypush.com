@@ -1,12 +1,10 @@
-import { useUsersShow } from '../queries/user/users'
+import { UserShowResponse, useUsersShow } from '../queries/user/users'
 
 const useCurrentUser = () => {
-  const { data: user } = useUsersShow(window.current_user?.id)
+  const windowUser = window.current_user as UserShowResponse | null
+  const { data: user } = useUsersShow(windowUser?.id)
 
-  if (!window.current_user) return { user: null }
-  if (!user) return { user: window.current_user }
-
-  return { user }
+  return user || windowUser
 }
 
 export default useCurrentUser
