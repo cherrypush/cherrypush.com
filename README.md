@@ -83,6 +83,12 @@ Cherry App (Ruby on Rails):
 - Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
 - Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
 
+And here's a list of tasks that are great for first-time contributors:
+
+- remove the github_handle column from the users table, which should not be used anymore
+- remove the "watch" feature from metrics as this is not generally used
+- address TODO comments in the codebase
+
 ## Any further question or suggestion?
 
 - report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
