@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
 
   instrument_method
   def set_sentry_context
-    Sentry.set_user(id: current_user&.id, email: current_user&.email, username: current_user&.github_handle)
+    Sentry.set_user(id: current_user&.id, email: current_user&.email)
   end
 end
