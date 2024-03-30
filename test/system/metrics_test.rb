@@ -116,6 +116,7 @@ class MetricsTest < ApplicationSystemTestCase
     find('tr', text: 'rubocop').click
     click_on 'Watch'
     assert_text "You're now watching this metric"
+    assert_text '1 watcher'
     click_on 'Watching'
     find('li', text: 'Unwatch').click
     assert_text "You're no longer watching this metric"

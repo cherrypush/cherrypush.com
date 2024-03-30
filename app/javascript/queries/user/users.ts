@@ -24,7 +24,8 @@ export type UserShowResponse = {
 type UsersIndexResponse = {
   id: number
   name: string
-  github_handle: string
+  email: string
+  image: string
 }[]
 
 const buildIndexKey = (ids?: number[]) => (ids ? ['user', 'users', ids] : ['user', 'users'])
