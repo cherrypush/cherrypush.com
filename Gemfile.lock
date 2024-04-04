@@ -349,7 +349,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stackprof (0.2.25)
-    stripe (10.2.0)
+    stripe (10.14.0)
     tailwindcss-rails (2.0.31-aarch64-linux)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.31-arm64-darwin)
