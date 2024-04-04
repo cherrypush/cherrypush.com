@@ -22,6 +22,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
 
   const { data: watchers } = useUsersIndex({ ids: currentMetric?.watcher_ids, enabled: !!currentMetric })
 
+  if (!user) return null
   const isWatching = currentMetric && currentMetric.watcher_ids.includes(user.id)
 
   return (
