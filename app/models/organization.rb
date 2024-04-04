@@ -26,12 +26,13 @@ class Organization < ApplicationRecord
   end
 
   def sso_users
-    User.where("email LIKE ?", "%@#{sso_domain}")
+    User.where('email LIKE ?', "%@#{sso_domain}")
   end
 
   # TODO: Only return the subscription fields that we need
   def subscriptions
     return [] if stripe_customer_id.blank?
+
     Stripe::Subscription.list(customer: stripe_customer_id).data
   end
 
@@ -51,14 +52,15 @@ class Organization < ApplicationRecord
 
     Stripe::Customer.update(
       stripe_customer_id,
-      { name: name, email: user.email, metadata: { cherry_organization_id: id } },
+      { name: name, email: user.email, metadata: { cherry_organization_id: id } }
     )
   end
 
   def sso_domain_coherent_with_user_email
     return if !sso_enabled || sso_domain.blank?
+
     errors.add(:sso_domain, "should not be an email provider such as #{sso_domain}") if sso_domain.in?(EMAIL_PROVIDERS)
-    return if user.email.split("@").last == sso_domain
+    return if user.email.split('@').last == sso_domain
 
     errors.add(:sso_domain, "must match the domain of the owner's email address")
   end

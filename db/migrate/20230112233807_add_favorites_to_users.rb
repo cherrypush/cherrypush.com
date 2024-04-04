@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFavoritesToUsers < ActiveRecord::Migration[7.0]
   def change
     add_column :users, :favorite_project_ids, :integer, array: true, default: []

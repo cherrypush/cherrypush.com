@@ -8,7 +8,7 @@ class Api::PushesController < Api::ApplicationController
       params
         .require(:metrics)
         .each do |metric_params|
-          metric = Metric.find_or_create_by!(name: metric_params.require("name"), project: current_project)
+          metric = Metric.find_or_create_by!(name: metric_params.require('name'), project: current_project)
 
           report = metric.reports.find_or_initialize_by(uuid: params[:uuid] || SecureRandom.uuid)
 
@@ -22,15 +22,16 @@ class Api::PushesController < Api::ApplicationController
                 .value_by_owner
                 .merge(
                   metric_params.permit(value_by_owner: {})[:value_by_owner] ||
-                    get_value_by_owner(metric_params[:occurrences]),
-                ) { |_key, oldval, newval| oldval + newval },
+                    get_value_by_owner(metric_params[:occurrences])
+                ) { |_key, oldval, newval| oldval + newval }
           )
 
           next if metric_params[:occurrences].blank?
+
           Occurrence.insert_all(
             metric_params[:occurrences].map do |occurrence|
               occurrence.slice(:url, :value, :owners, :text).merge(report_id: report.id)
-            end,
+            end
           )
         end
     end
@@ -41,7 +42,7 @@ class Api::PushesController < Api::ApplicationController
   private
 
   def get_value(occurrences)
-    occurrences.sum { |occurrence| occurrence["value"] || 1 }
+    occurrences.sum { |occurrence| occurrence['value'] || 1 }
   end
 
   def get_value_by_owner(occurrences)
@@ -49,10 +50,10 @@ class Api::PushesController < Api::ApplicationController
 
     occurrences.each_with_object({}) do |occurrence, owners|
       Array
-        .wrap(occurrence["owners"])
+        .wrap(occurrence['owners'])
         .each do |owner|
           owners[owner] ||= 0
-          owners[owner] += (occurrence["value"] || 1).to_f
+          owners[owner] += (occurrence['value'] || 1).to_f
         end
     end
   end

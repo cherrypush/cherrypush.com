@@ -36,8 +36,8 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
         onClose()
       }}
     >
-      <h1>{id ? 'Edit Chart' : 'New Chart'}</h1>
       <Stack spacing={3}>
+        <h1>{id ? 'Edit Chart' : 'New Chart'}</h1>
         <FormControl fullWidth>
           <Autocomplete
             multiple

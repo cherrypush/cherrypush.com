@@ -4,7 +4,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 import { Metric } from '../queries/user/metrics'
 import { Project } from '../queries/user/projects'
-import { User, useUsersIndex } from '../queries/user/users'
+import { useUsersIndex } from '../queries/user/users'
 
 // TODO: We shouldn't need to pass projects and metrics here, we should be able to get them from the URL
 const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metric[] }) => {
@@ -12,7 +12,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
   const navigate = useNavigate()
   const { mutate: watchMetric } = useMetricWatchersCreate()
   const { mutate: unwatchMetric } = useMetricWatchersDestroy()
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
 
   const projectId = searchParams.get('project_id')
   const currentProject = projectId ? projects.find((project) => project.id === parseInt(projectId)) : null
@@ -22,6 +22,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
 
   const { data: watchers } = useUsersIndex({ ids: currentMetric?.watcher_ids, enabled: !!currentMetric })
 
+  if (!user) return null
   const isWatching = currentMetric && currentMetric.watcher_ids.includes(user.id)
 
   return (
@@ -64,7 +65,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
           {watchers && (
             <>
               <Avatar.Group>
-                {watchers.map((watcher: User) => (
+                {watchers.map((watcher) => (
                   <Tooltip key={watcher.id} content={watcher.name} arrow={false}>
                     <Avatar
                       img={watcher.image}

@@ -14,6 +14,7 @@ class Api::ApplicationController < ApplicationController
 
   def render_error(exception)
     raise exception unless @user&.admin?
+
     render json: { error: exception.message }, status: :internal_server_error
   end
 
@@ -26,13 +27,13 @@ class Api::ApplicationController < ApplicationController
   end
 
   def set_user
-    return render json: { error: "API key is missing" }, status: :bad_request if params[:api_key].blank?
+    return render json: { error: 'API key is missing' }, status: :bad_request if params[:api_key].blank?
 
     @user = User.find_by(api_key: params[:api_key])
     render json: { error: wrong_api_key_message }, status: :unauthorized if @user.nil?
   end
 
   def wrong_api_key_message
-    "Unknown API key. Find yours at https://cherrypush.com/user/settings."
+    'Unknown API key. Find yours at https://cherrypush.com/user/settings.'
   end
 end

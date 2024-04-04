@@ -57,14 +57,14 @@ const OrganizationPage = () => {
   const [organization, setOrganization] = useState<OrganizationForm | null>(null)
   const { mutate: updateOrganization } = useOrganizationsUpdate()
   const isValid = organization && (!organization.sso_enabled || isValidDomain(organization.sso_domain))
-  const { user: currentUser } = useCurrentUser()
+  const user = useCurrentUser()
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
 
   if (!organizationId) return null
 
   // TODO: it's confusing to have both organization and organizationData, fix this
   const { data: organizationData } = useOrganizationsShow({ organizationId: parseInt(organizationId) })
-  const canEdit = organizationData && organizationData.user_id === currentUser.id
+  const canEdit = organizationData && organizationData.user_id === user.id
 
   useEffect(() => {
     if (organizationData) {

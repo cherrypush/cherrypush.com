@@ -17,10 +17,10 @@ class User::SubscriptionsController < User::ApplicationController
         {
           customer: organization.stripe_customer_id,
           line_items: [{ price: params[:price_id], quantity: 1 }],
-          mode: "subscription",
+          mode: 'subscription',
           success_url: user_organization_url(organization),
-          cancel_url: user_organization_url(organization),
-        },
+          cancel_url: user_organization_url(organization)
+        }
       )
   end
 end

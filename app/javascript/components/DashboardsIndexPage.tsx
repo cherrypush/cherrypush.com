@@ -79,7 +79,7 @@ const DashboardsIndexPage = () => {
   const navigate = useNavigate()
   const { mutate: addFavorite } = useFavoritesCreate()
   const { mutate: removeFavorite } = useFavoritesDestroy()
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
   const sortedDashboards = _.sortBy(
     dashboards,
     (dashboard) => (user.favorite_dashboard_ids.includes(dashboard.id) ? 0 : 1) + dashboard.name.toLowerCase()

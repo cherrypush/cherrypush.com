@@ -21,7 +21,6 @@ const PersonalProjectAuthorizations = ({
       <Table>
         <Table.Head>
           <Table.HeadCell className="text-white">{project.name}</Table.HeadCell>
-          <Table.HeadCell scope="col" className="py-3 px-6 flex justify-end"></Table.HeadCell>
         </Table.Head>
         <Table.Body>
           {/* OWNER */}
@@ -32,7 +31,6 @@ const PersonalProjectAuthorizations = ({
                 OWNER
               </Badge>
             </Table.Cell>
-            <Table.Cell />
           </Table.Row>
         </Table.Body>
       </Table>
@@ -95,23 +93,17 @@ const AuthorizationsPage = () => {
             <Fragment key={organization.id}>
               <div className="flex items-center justify-between">
                 <h2 className="mt-6">{organization.name} organization</h2>
-                <Button size="xs" onClick={() => setEditedOrganizationId(organization.id)}>
-                  + Authorization
-                </Button>
+                <Button onClick={() => setEditedOrganizationId(organization.id)}>+ Authorization</Button>
               </div>
 
               {organization.sso_enabled && (
-                <div className="flex items-center p-4 mb-4 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400">
+                <div className="flex items-center gap-3 p-4 mb-4 rounded-lg bg-blue-50 dark:bg-gray-800">
                   <div className="ml-3 text-sm font-medium">
                     SSO is enabled for {organization.sso_domain} ({organization.sso_user_count} users)
                   </div>
-                  <button
-                    type="button"
-                    className="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700"
-                    onClick={() => navigate('/user/organizations/' + organization.id)}
-                  >
+                  <Button size="xs" onClick={() => navigate('/user/organizations/' + organization.id)}>
                     <EditIcon fontSize="small" />
-                  </button>
+                  </Button>
                 </div>
               )}
 
@@ -135,8 +127,9 @@ const AuthorizationsPage = () => {
                         {/* AUTHORIZATIONS */}
                         <Table.Row key={authorization.id} className="border-b bg-gray-800 border-gray-700">
                           <Table.Cell className="flex gap-3 items-center">{authorization.email}</Table.Cell>
-                          <Table.Cell className="justify-end !py-0">
+                          <Table.Cell className="!py-0">
                             <Button
+                              className="ml-auto"
                               onClick={() => {
                                 if (window.confirm('Do you really want to revoke this authorization?')) {
                                   destroyAuthorization({ id: authorization.id })
@@ -144,8 +137,6 @@ const AuthorizationsPage = () => {
                               }}
                               disabled={isLoading}
                               size="xs"
-                              className="ml-auto"
-                              color="light"
                             >
                               Revoke
                             </Button>

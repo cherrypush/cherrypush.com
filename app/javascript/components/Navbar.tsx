@@ -12,7 +12,7 @@ import { useNotificationsIndex } from '../queries/user/notifications'
 import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
 const CherryNavbar = () => {
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
   const navigate = useNavigate()
   const isFetching = useIsFetching()
   const { data } = useNotificationsIndex()
@@ -53,11 +53,6 @@ const CherryNavbar = () => {
               {user.name}
             </Dropdown.Item>
             <Dropdown.Divider />
-            {/* <Dropdown.Item onClick={() => navigate(`/user/organizations/new`)}>
-              <AddCircleOutlineIcon fontSize="small" className="mr-2" />
-              New Organization
-            </Dropdown.Item> */}
-            {/* <Dropdown.Divider /> */}
             <Dropdown.Item onClick={() => navigate('/user/settings')}>
               <SettingsIcon fontSize="small" className="mr-2" />
               Account Settings

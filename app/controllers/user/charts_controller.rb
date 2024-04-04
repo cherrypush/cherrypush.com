@@ -29,6 +29,7 @@ class User::ChartsController < User::ApplicationController
 
   def update_chart_metrics(chart)
     return if chart.chart_metric_ids == params[:chart][:metric_ids]
+
     chart.chart_metrics.destroy_all
     params[:chart][:metric_ids].each { |metric_id| chart.chart_metrics.create!(metric_id: metric_id) }
   end

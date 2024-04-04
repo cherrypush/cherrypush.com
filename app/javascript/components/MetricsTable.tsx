@@ -13,7 +13,7 @@ const MetricsTable = ({ metrics }) => {
   const navigate = useNavigate()
   const { mutate: addFavorite } = useFavoritesCreate()
   const { mutate: removeFavorite } = useFavoritesDestroy()
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
 
   const filteredMetrics = _.sortBy(
     metrics.filter(

@@ -1,21 +1,23 @@
 # frozen_string_literal: true
 
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class StaticPagesTest < ApplicationSystemTestCase
-  let!(:project) { create :project, name: "cherrypush/cherry" }
+  let!(:project) { create :project, name: 'cherrypush/cherry' }
 
-  it "navigates through all pages" do
+  it 'navigates through all pages' do
+    visit docs_url
+    assert_text 'npm install -g cherrypush'
     sign_in create(:user)
     visit root_url
-    assert_text "START NOW"
-    click_on "Terms"
-    assert_text "Terms of Service"
-    click_on "Privacy"
-    assert_text "Privacy Policy"
-    click_on "Docs"
-    assert_text "npm install -g cherrypush"
-    click_on "Demo"
-    assert_text "cherrypush/cherry"
+    assert_text 'START NOW'
+    click_on 'Terms'
+    assert_text 'Terms of Service'
+    click_on 'Privacy'
+    assert_text 'Privacy Policy'
+    click_on 'Docs'
+    assert_text 'npm install -g cherrypush'
+    click_on 'Demo'
+    assert_text 'cherrypush/cherry'
   end
 end

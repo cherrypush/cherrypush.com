@@ -3,7 +3,7 @@ import { Card, Sidebar } from 'flowbite-react'
 import useCurrentUser from '../hooks/useCurrentUser'
 
 const DocsPage = () => {
-  const { user } = useCurrentUser()
+  const user = useCurrentUser()
 
   return (
     <div className="container">
@@ -143,7 +143,7 @@ Your dashboard is available at https://www.cherrypush.com/user/projects
                 You can run this command directly in your terminal to compare the current status of a certain metric to
                 the last reported status on cherrypush.com.
               </p>
-              <pre>cherry diff --metric="JS lines of code"</pre>
+              <pre>{`cherry diff --metric="JS lines of code"`}</pre>
               <p>
                 This command is specifically useful when you want to enforce blocking certain patterns in your codebase.
               </p>
@@ -228,11 +228,11 @@ cherry_push:
               </p>
               <p>
                 Found a bug? Report directly to me via{' '}
-                <a target="_blank" href="https://twitter.com/@fwuensche">
+                <a target="_blank" rel="noreferrer" href="https://twitter.com/@fwuensche">
                   Twitter
                 </a>{' '}
                 or{' '}
-                <a target="_blank" href="mailto:flavio@cherrypush.com">
+                <a target="_blank" rel="noreferrer" href="mailto:flavio@cherrypush.com">
                   email
                 </a>
                 .
