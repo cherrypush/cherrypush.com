@@ -6,7 +6,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
   let!(:user) { create :user }
   let!(:organization) { create :organization, name: 'rails', user: user }
   let!(:project) { create :project, user: user, name: 'rails/rails', organization: organization }
-  let!(:new_user) { create :user, name: 'John Doe', github_handle: 'jdoe', email: 'jdoe@example.com' }
+  let!(:new_user) { create :user, name: 'John Doe', email: 'jdoe@example.com' }
   let!(:dashboard) { create(:dashboard, project: project, name: 'TS Migration') }
 
   it 'allows new users to request access to projects from projects' do

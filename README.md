@@ -85,7 +85,6 @@ Cherry App (Ruby on Rails):
 
 And here's a list of tasks that are great for first-time contributors:
 
-- remove the github_handle column from the users table, which should not be used anymore
 - remove the "watch" feature from metrics as this is not generally used
 - address TODO comments in the codebase
 

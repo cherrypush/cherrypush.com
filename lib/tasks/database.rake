@@ -10,7 +10,7 @@ namespace :database do
     update_occurrences
 
     User.all.each do |user|
-      user.update!(name: Faker::Name.name, email: Faker::Internet.email, github_handle: Faker::Internet.username)
+      user.update!(name: Faker::Name.name, email: Faker::Internet.email)
     end
 
     users = User.all.to_a

@@ -19,8 +19,8 @@ const UserPage = () => {
         <div className="flex flex-col items-center gap-3">
           <Avatar size="xl" img={user.image} rounded />
           <h2 className="mb-0">{user.name}</h2>
-          <a className="text-link" href={`https://github.com/${user.github_handle}`}>
-            @{user.github_handle}
+          <a className="text-link" href={`mailto:${user.email}`}>
+            {user.email}
           </a>
         </div>
       </Card>

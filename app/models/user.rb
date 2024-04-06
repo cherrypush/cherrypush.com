@@ -16,7 +16,6 @@ class User < ApplicationRecord
 
   before_save :ensure_api_key
 
-  validates :github_handle, presence: true, if: -> { provider == 'github' }
   validates :email, presence: true, if: -> { provider == 'google_oauth2' }
   validates :email, uniqueness: true, allow_blank: true # TODO: if we go 100% google oauth, presence is mandatory
 
@@ -63,7 +62,6 @@ class User < ApplicationRecord
       self.name = "#{auth.info.first_name} #{auth.info.last_name}"
     elsif auth.provider == 'github'
       self.name = auth.info.name
-      self.github_handle = auth.info.nickname
     else
       raise "Unknown provider: #{auth.provider}"
     end

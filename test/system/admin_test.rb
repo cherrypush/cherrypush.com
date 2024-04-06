@@ -3,7 +3,7 @@
 require 'application_system_test_case'
 
 class AdminTest < ApplicationSystemTestCase
-  let!(:user) { create(:user, name: 'John Doe', email: 'john@example.com', github_handle: 'johndoe') }
+  let!(:user) { create(:user, name: 'John Doe', email: 'john@example.com') }
 
   it 'blocks non authenticated users' do
     assert_raises(ActionController::RoutingError) do

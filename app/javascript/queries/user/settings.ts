@@ -4,16 +4,17 @@ import { toast } from 'react-hot-toast'
 import { useInvalidateUsersIndex } from './users'
 
 interface SettingsPayload {
-  weekly_report: boolean
+  weekly_report?: boolean
+  github_handle?: string
 }
 
 export const useSettingsUpdate = () => {
   const invalidateUsers = useInvalidateUsersIndex()
 
-  return useMutation((settings: SettingsPayload) => axios.put('/user/settings', { ...settings }), {
+  return useMutation((user: SettingsPayload) => axios.put('/user/settings', { user }), {
     onSuccess: () => {
       invalidateUsers()
-      toast.success('Settings updated')
+      toast.success('Your changes have been saved!')
     },
   })
 }

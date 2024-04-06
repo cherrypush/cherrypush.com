@@ -94,7 +94,6 @@ class MetricsTest < ApplicationSystemTestCase
     click_on 'Avatar'
     find('li', text: 'Yan Bonnel').click
     assert_text 'Yan Bonnel'
-    assert_text '@yanbonnel'
     assert_equal 1, all('tr').count
 
     # Profile shows contributions matching name, email, or github handle

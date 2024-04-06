@@ -3,7 +3,7 @@
 require 'application_system_test_case'
 
 class OnboardingTest < ApplicationSystemTestCase
-  let!(:user) { create(:user, name: 'Flavio Wuensche', github_handle: 'fwuensche') }
+  let!(:user) { create(:user, name: 'Flavio Wuensche') }
 
   it 'goes through onboarding' do
     sign_in user

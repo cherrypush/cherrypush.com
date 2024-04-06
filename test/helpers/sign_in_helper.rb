@@ -25,7 +25,6 @@ module SignInHelper
   def info(user)
     {
       email: user.email,
-      nickname: user.github_handle,
       first_name: user.name.split.first,
       last_name: user.name.split.last,
       image: 'https://avatars.githubusercontent.com/u/1740848?v=4'
@@ -41,8 +40,7 @@ module SignInHelper
       provider: 'github',
       uid: '12345',
       name: 'Flavio Wuensche',
-      email: 'f.wuensche@gmail.com',
-      github_handle: 'fwuensche'
+      email: 'f.wuensche@gmail.com'
     )
   end
 end

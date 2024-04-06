@@ -2,6 +2,12 @@
 
 class User::SettingsController < User::ApplicationController
   def update
-    current_user.update!(weekly_report: params[:weekly_report])
+    current_user.update!(user_params)
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:weekly_report, :github_handle)
   end
 end

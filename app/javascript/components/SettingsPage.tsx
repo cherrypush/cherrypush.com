@@ -1,11 +1,15 @@
 import { FormControlLabel, Switch } from '@mui/material'
-import { Label, TextInput } from 'flowbite-react'
+import { Button, Label, TextInput } from 'flowbite-react'
+import { useState } from 'react'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useSettingsUpdate } from '../queries/user/settings'
 
 const SettingsPage = () => {
   const user = useCurrentUser()
   const { mutate: updateUser } = useSettingsUpdate()
+
+  const [githubHandle, setGithubHandle] = useState(user.github_handle)
+  const [weeklyReport, setWeeklyReport] = useState(user.weekly_report)
 
   return (
     <div className="container">
@@ -24,7 +28,12 @@ const SettingsPage = () => {
 
         <div className="mb-3 gap-1 flex flex-col">
           <Label htmlFor="github_handle">GitHub Handle</Label>
-          <TextInput type="text" id="github_handle" value={user.github_handle} disabled />
+          <TextInput
+            type="text"
+            id="github_handle"
+            value={githubHandle}
+            onChange={(event) => setGithubHandle(event.target.value)}
+          />
         </div>
 
         <div className="mb-3 gap-1 flex flex-col">
@@ -40,12 +49,18 @@ const SettingsPage = () => {
               <Switch
                 id="weekly_report"
                 name="Receive a weekly email with your project metrics"
-                checked={user.weekly_report}
-                onChange={(event) => updateUser({ weekly_report: event.target.checked })}
+                checked={weeklyReport}
+                onChange={(event) => {
+                  setWeeklyReport(event.target.checked)
+                }}
               />
             }
           />
         </div>
+
+        <Button onClick={() => updateUser({ weekly_report: weeklyReport, github_handle: githubHandle })}>
+          Save changes
+        </Button>
       </div>
     </div>
   )
