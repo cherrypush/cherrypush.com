@@ -28,11 +28,6 @@ const SettingsPage = () => {
         </div>
 
         <div className="mb-3 gap-1 flex flex-col">
-          <Label htmlFor="github_handle">GitHub Organizations</Label>
-          <TextInput type="text" id="github_handle" value={user.github_organizations} disabled />
-        </div>
-
-        <div className="mb-3 gap-1 flex flex-col">
           <Label htmlFor="api_key">API Key</Label>
           <TextInput type="text" id="api_key" value={user.api_key} disabled />
         </div>

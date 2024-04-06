@@ -11,7 +11,6 @@ export type UserShowResponse = {
   favorite_owner_handles: string[]
   favorite_project_ids: string[]
   github_handle: string
-  github_organizations: string[]
   id: number
   image: string
   name: string

@@ -64,7 +64,6 @@ class User < ApplicationRecord
     elsif auth.provider == 'github'
       self.name = auth.info.name
       self.github_handle = auth.info.nickname
-      self.github_organizations = fetch_github_organizations(auth)
     else
       raise "Unknown provider: #{auth.provider}"
     end
@@ -97,13 +96,6 @@ class User < ApplicationRecord
 
   def ensure_api_key
     self.api_key ||= SecureRandom.uuid
-  end
-
-  def fetch_github_organizations(auth)
-    return [] unless auth.try(:extra, :raw_info, :organizations_url)
-
-    # organizations_url has the shape of https://api.github.com/users/:github_handle/orgs
-    HTTParty.get(auth.extra.raw_info.organizations_url).pluck('login')
   end
 
   class << self
