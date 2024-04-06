@@ -77,7 +77,6 @@ group :development do
   gem 'binding_of_caller'
 
   # performance
-  gem 'derailed_benchmarks' # CUT_OFF=0.3 bundle exec derailed bundle:mem
   gem 'rack-mini-profiler'
   gem 'stackprof' # for call-stack profiling flamegraphs
 
