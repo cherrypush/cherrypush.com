@@ -133,4 +133,13 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'Metric deleted'
     assert_equal 1, Metric.count
   end
+
+  it 'shows users who have seen a metric' do
+    sign_in(user, to: user_projects_path)
+    visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
+    assert_text 'Top Contributors'
+    assert_no_text 'Seen by'
+    visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
+    assert_text 'Seen by'
+  end
 end

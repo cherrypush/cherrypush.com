@@ -1,10 +1,12 @@
 import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
+import _ from 'lodash'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 import { Metric } from '../queries/user/metrics'
 import { Project } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
+import { useViewsIndex } from '../queries/user/views'
 
 // TODO: We shouldn't need to pass projects and metrics here, we should be able to get them from the URL
 const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metric[] }) => {
@@ -19,6 +21,10 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
 
   const metricId = parseInt(searchParams.get('metric_id') || '')
   const currentMetric = metricId ? metrics.find((metric) => metric.id === metricId) : null
+
+  const { data: views } = useViewsIndex({ metricId })
+  const viewerIds = views ? _.uniq(views.map((view) => view.user_id)) : []
+  const { data: viewers } = useUsersIndex({ ids: viewerIds, enabled: !!currentMetric })
 
   const { data: watchers } = useUsersIndex({ ids: currentMetric?.watcher_ids, enabled: !!currentMetric })
 
@@ -80,6 +86,25 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
               {watchers.length} {watchers.length > 1 ? 'watchers' : 'watcher'}
             </>
           )}
+        </div>
+      )}
+
+      {viewers && views && views.length > 0 && (
+        <div className="ml-auto flex items-center gap-3">
+          <p>Seen by:</p>
+          <Avatar.Group>
+            {viewers.map((viewer) => (
+              <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
+                <Avatar
+                  img={viewer.image}
+                  rounded
+                  stacked
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/user/users/${viewer.id}`)}
+                />
+              </Tooltip>
+            ))}
+          </Avatar.Group>
         </div>
       )}
     </div>

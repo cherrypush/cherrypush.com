@@ -5,6 +5,7 @@ class Metric < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :contributions, dependent: :destroy
   has_many :chart_metrics, dependent: :destroy
+  has_many :views, as: :viewable, dependent: :destroy
 
   validates :name, presence: true
 

@@ -1,15 +1,21 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import { Card, Dropdown } from 'flowbite-react'
+import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 import { ChartKind } from '../queries/user/charts'
 import { useMetricsDestroy } from '../queries/user/metrics'
+import { useViewsCreate } from '../queries/user/views'
 import MetricChart from './MetricChart'
 
 const MetricCard = ({ metricId, owners }: { metricId: number; owners?: string[] }) => {
   const [searchParams, setSearchParams] = useSearchParams()
-
+  const { mutate: createView } = useViewsCreate()
   const { mutateAsync: deleteMetric } = useMetricsDestroy()
+
+  useEffect(() => {
+    createView(metricId)
+  }, [metricId, createView])
 
   return (
     <Card className="mb-3 relative">

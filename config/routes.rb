@@ -43,6 +43,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       resource :settings, only: %i[update]
       resources :subscriptions, only: %i[create]
       resources :users, only: %i[index show]
+      resources :views, only: %i[index create]
     end
 
     constraints(->(request) { request.format == :html }) do

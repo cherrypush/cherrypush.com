@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :metrics, through: :projects
   has_many :notifications, dependent: :destroy
   has_many :owned_organizations, class_name: Organization.to_s, dependent: :restrict_with_error
+  has_many :views, dependent: :destroy
 
   before_save :ensure_api_key
 
