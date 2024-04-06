@@ -144,9 +144,6 @@ GEM
     heroicon (1.0.0)
       rails (>= 5.2)
     hiredis (0.6.3)
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
@@ -396,7 +393,6 @@ DEPENDENCIES
   groupdate
   heroicon
   hiredis
-  httparty
   kaminari
   minitest-spec-rails
   minitest-stub-const
@@ -422,7 +418,6 @@ DEPENDENCIES
   stackprof
   stripe
   tailwindcss-rails
-  tzinfo-data
   vite_rails
   web-console
 
