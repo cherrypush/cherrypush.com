@@ -33,32 +33,36 @@ const DeprecationBanner = () => (
     <div className="flex w-full justify-between border-b p-4 dark:border-gray-600 dark:bg-gray-700">
       <div className="container flex items-center justify-between !my-2">
         <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-          <span className="[&_p]:inline">
-            {`We're `}
-            <a
-              href="https://doctolib.atlassian.net/wiki/spaces/PTA/pages/1570578028/Cherry+Decommissioning+Plan"
-              className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              decommissioning cherrypush.com
-            </a>{' '}
-            at Doctolib and your account is set for deletion on <strong>April 12th</strong>.
-            <br />
-            Please use{' '}
-            <a
-              href="https://metabase.doctolibdata.com/dashboard/1652-dashboard?metric=TS%20Migration%20-%20JS%20lines%20of%20code"
-              className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Cherry on Metabase
-            </a>{' '}
-            instead. For further questions, reach out via #cherry on Slack.
-          </span>
+          <div className="flex flex-col gap-2">
+            <div>
+              {`We're `}
+              decommissioning cherrypush.com at Doctolib on <strong>April 12th</strong>.
+            </div>
+            <div>
+              Please use{' '}
+              <a
+                href="https://metabase.doctolibdata.com/dashboard/1652-dashboard?metric=TS%20Migration%20-%20JS%20lines%20of%20code"
+                className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
+              >
+                Cherry on Metabase
+              </a>{' '}
+              instead.
+            </div>
+            <div>
+              Learn more about the decision {` `}
+              <a
+                className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
+                href="https://doctolib.atlassian.net/wiki/spaces/PTA/pages/1570578028"
+              >
+                here
+              </a>{' '}
+              or reach out to us via Slack at #cherry
+            </div>
+          </div>
         </p>
         <Button
           color="yellow"
+          size="lg"
           href="https://metabase.doctolibdata.com/dashboard/1652-dashboard?metric=TS%20Migration%20-%20JS%20lines%20of%20code"
           target="_blank"
           rel="noreferrer"
@@ -98,10 +102,11 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
     if (notice) toast.success(notice)
   }, [])
 
+  if (user.email.includes('@doctolib.com')) return <DeprecationBanner />
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Navbar />
-      {user.email.includes('@doctolib.com') && <DeprecationBanner />}
       <div className="px-3 pt-3">
         <ScrollToTop>
           <Routes>
