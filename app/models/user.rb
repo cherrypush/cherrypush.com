@@ -52,23 +52,10 @@ class User < ApplicationRecord
     )
   end
 
-  def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    # TODO: remove the two lines below once we migrated all users to google oauth
-    # you can also remove the find_by(auth.info.email) below
-    self.provider = auth.provider
-    self.uid = auth.uid
+  def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize
+    raise "Unknown provider: #{auth.provider}" unless auth.provider == 'google_oauth2'
 
-    if auth.provider == 'google_oauth2'
-      self.name = "#{auth.info.first_name} #{auth.info.last_name}"
-    elsif auth.provider == 'github'
-      self.name = auth.info.name
-    else
-      raise "Unknown provider: #{auth.provider}"
-    end
-
-    # TODO: maybe we should get all emails from github and let the user choose one for notifications
-    # TODO: remember to pick the verified ones, and set the primary as default
-    # auth.extra.all_emails.filter(&:verified).map(&:email)
+    self.name = "#{auth.info.first_name} #{auth.info.last_name}"
     self.email = auth.info.email if auth.info.email?
     self.image = auth.info.image if auth.info.image?
   end
@@ -97,7 +84,7 @@ class User < ApplicationRecord
 
   class << self
     def find_or_create_with_omniauth(auth)
-      user = find_by(email: auth.info.email) || find_by(auth.slice(:provider, :uid)) || initialize_from_omniauth(auth)
+      user = find_by(email: auth.info.email) || initialize_from_omniauth(auth)
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
       user.save!
@@ -105,14 +92,14 @@ class User < ApplicationRecord
       user
     end
 
+    private
+
     def initialize_from_omniauth(auth)
       new do |user|
         user.provider = auth.provider
         user.uid = auth.uid
       end
     end
-
-    private
 
     def report_sign_in(user)
       if user.new_record?

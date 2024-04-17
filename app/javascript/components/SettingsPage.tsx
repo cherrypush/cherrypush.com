@@ -8,6 +8,8 @@ const SettingsPage = () => {
   const user = useCurrentUser()
   const { mutate: updateUser } = useSettingsUpdate()
 
+  if (!user) throw new Error('This page cannot be loaded without a user')
+
   const [githubHandle, setGithubHandle] = useState(user.github_handle)
   const [weeklyReport, setWeeklyReport] = useState(user.weekly_report)
 

@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/omniauth/omniauth-github.git
-  revision: f27bb4e018150d87e9444ad13955acfc9e76f4d7
-  branch: master
-  specs:
-    omniauth-github (2.0.1)
-      omniauth (~> 2.0)
-      omniauth-oauth2 (~> 1.8)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -397,7 +388,6 @@ DEPENDENCIES
   minitest-spec-rails
   minitest-stub-const
   omniauth
-  omniauth-github!
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   parity

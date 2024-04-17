@@ -10,6 +10,7 @@ export type UserShowResponse = {
   favorite_metric_names: string[]
   favorite_owner_handles: string[]
   favorite_project_ids: string[]
+  github_handle: string
   id: number
   image: string
   name: string
