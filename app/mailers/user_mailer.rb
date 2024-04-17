@@ -40,10 +40,4 @@ class UserMailer < ApplicationMailer
     @notifications = @user.notifications.unseen.recent.order(created_at: :desc)
     mail(to: @user.email, subject: "Cherry - Daily Notifications (#{@notifications.count})")
   end
-
-  def inactive_alert
-    @user = params[:user]
-    subject = "Reminder: Your Cherry account will be deleted in #{time_ago_in_words(@user.updated_at + 6.months)}"
-    mail(to: @user.email, subject: subject)
-  end
 end

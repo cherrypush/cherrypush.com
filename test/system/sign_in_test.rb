@@ -11,8 +11,5 @@ class SignInTest < ApplicationSystemTestCase
     click_on 'Avatar'
     find('li', text: 'Sign out').click
     assert_text 'Signed out'
-    travel_to 7.days.from_now
-    click_on 'Login with Google'
-    assert user.reload.updated_at.today?
   end
 end

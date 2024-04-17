@@ -30,20 +30,6 @@ namespace :mailers do
     end
   end
 
-  # This is run every day at 7 PM UTC by Heroku Scheduler
-  # Run via: https://dashboard.heroku.com/apps/cherrypush-production/scheduler
-  desc 'Alert and delete inactive users'
-  task inactive_users: :environment do
-    [1, 7, 30, 60, 90].each do |n|
-      users_to_alert = User.where(updated_at: (Date.today - 6.months + n.days).all_day)
-      users_to_alert.each { |user| UserMailer.with(user: user).inactive_alert.deliver_now }
-      TelegramClient.send("Sent inactive alert to #{users_to_alert.map(&:email).join(", ")}") if users_to_alert.any?
-    end
-
-    users_to_delete = User.where('updated_at < ?', 6.months.ago)
-    users_to_delete.each(&:destroy!)
-  end
-
   desc 'Import contacts to Brevo'
   task 'sync:brevo' => :environment do
     total = User.count
