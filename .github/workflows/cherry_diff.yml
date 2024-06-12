@@ -27,6 +27,6 @@ jobs:
           npm ci
           npm i -g cherrypush
 
-      - name: Raise if new JS code added
+      - name: Raise if new violations are added
         run: |
           cherry diff --quiet --metric "TODO/FIXME" --metric "[TS Migration] JS loc" --error-if-increase
