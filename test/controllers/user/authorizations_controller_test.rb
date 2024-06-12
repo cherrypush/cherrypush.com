@@ -25,7 +25,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
       assert_enqueued_email_with(
         UserMailer,
         :authorization_granted,
-        args: {
+        params: {
           granted_by_user: user,
           authorization: Authorization.last
         }
@@ -43,7 +43,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
       assert_enqueued_email_with(
         UserMailer,
         :authorization_alert,
-        args: {
+        params: {
           granted_by_user: authorized_user,
           authorization: Authorization.last
         }
@@ -60,7 +60,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
       assert_enqueued_email_with(
         UserMailer,
         :authorization_granted,
-        args: {
+        params: {
           granted_by_user: user,
           authorization: Authorization.last
         }

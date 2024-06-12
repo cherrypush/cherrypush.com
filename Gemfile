@@ -8,7 +8,7 @@ ruby '3.2.1'
 gem 'bootsnap', require: false
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
-gem 'rails', '~> 7.0.4'
+gem 'rails'
 gem 'sprockets-rails'
 
 # authentication
