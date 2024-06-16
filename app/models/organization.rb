@@ -5,7 +5,7 @@ class Organization < ApplicationRecord
 
   belongs_to :user
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :projects
   has_many :authorizations, dependent: :destroy
 
