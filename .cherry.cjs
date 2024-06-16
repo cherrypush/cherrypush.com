@@ -2,7 +2,7 @@ const JS_FILES = 'app/**/*.{js,jsx}'
 const TS_FILES = 'app/**/*.{ts,tsx}'
 
 module.exports = {
-  project_name: 'cherrypush/cherry',
+  project_name: 'cherrypush/cherrypush.com',
   plugins: {
     npmOutdated: {},
     loc: {},
