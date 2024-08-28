@@ -19,6 +19,7 @@ class User < ApplicationRecord
   validates :email, presence: true, if: -> { provider == 'google_oauth2' }
   validates :email, uniqueness: true, allow_blank: true # TODO: if we go 100% google oauth, presence is mandatory
 
+  # TODO: this is so we don't return the API key in the JSON response, but there should be a better way
   # Ref: https://thoughtbot.com/blog/better-serialization-less-as-json#activemodelserializers-to-the-rescue
   def serializable_hash(options = nil)
     super({ only: DEFAULT_ATTRIBUTES }.merge(options || {}))
