@@ -1,10 +1,7 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import axios from 'axios'
-import { Banner, Button } from 'flowbite-react'
-import { useEffect } from 'react'
-import { Toaster, toast } from 'react-hot-toast'
 import { Route, Routes } from 'react-router'
-import useCurrentUser from '../hooks/useCurrentUser'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { Toaster, toast } from 'react-hot-toast'
+
 import AuthorizationsPage from './AuthorizationsPage'
 import DashboardsIndexPage from './DashboardsIndexPage'
 import DashboardsShowPage from './DashboardsShowPage'
@@ -18,8 +15,11 @@ import OrganizationPage from './OrganizationPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
-import { slideUp } from './SlideUp'
 import UserPage from './UserPage'
+import axios from 'axios'
+import { slideUp } from './SlideUp'
+import useCurrentUser from '../hooks/useCurrentUser'
+import { useEffect } from 'react'
 
 axios.defaults.headers.common['X-CSRF-Token'] = document
   .querySelector('meta[name="csrf-token"]')
@@ -27,70 +27,6 @@ axios.defaults.headers.common['X-CSRF-Token'] = document
 axios.defaults.headers.common['Accept'] = 'application/json'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
-
-const DeprecationBanner = () => (
-  <Banner>
-    <div className="flex w-full justify-between border-b p-4 dark:border-gray-600 dark:bg-gray-700">
-      <div className="container flex items-center justify-between !my-2">
-        <p className="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400">
-          <div className="flex flex-col gap-2">
-            <div>
-              {`We're `}
-              decommissioning cherrypush.com at Doctolib on <strong>April 12th</strong>.
-            </div>
-            <div>
-              Please use{' '}
-              <a
-                href="https://metabase.doctolibdata.com/dashboard/1652-dashboard?metric=TS%20Migration%20-%20JS%20lines%20of%20code"
-                className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
-              >
-                Cherry on Metabase
-              </a>{' '}
-              instead.
-            </div>
-            <div>
-              Learn more about the decision {` `}
-              <a
-                className="inline font-medium text-cyan-600 underline decoration-solid underline-offset-2 hover:no-underline dark:text-yellow-500"
-                href="https://doctolib.atlassian.net/wiki/spaces/PTA/pages/1570578028"
-              >
-                here
-              </a>{' '}
-              or reach out to us via Slack at #cherry
-            </div>
-          </div>
-        </p>
-        <Button
-          color="yellow"
-          size="lg"
-          href="https://metabase.doctolibdata.com/dashboard/1652-dashboard?metric=TS%20Migration%20-%20JS%20lines%20of%20code"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              {' '}
-              <g id="Interface / External_Link">
-                {' '}
-                <path
-                  id="Vector"
-                  d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></path>{' '}
-              </g>{' '}
-            </g>
-          </svg>
-          Go to Metabase
-        </Button>
-      </div>
-    </div>
-  </Banner>
-)
 
 const App = ({ alert, notice }: { alert: string; notice: string }) => {
   const user = useCurrentUser()
@@ -101,8 +37,6 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
     if (alert) toast.error(alert)
     if (notice) toast.success(notice)
   }, [])
-
-  if (user.email.includes('@doctolib.com')) return <DeprecationBanner />
 
   return (
     <ThemeProvider theme={darkTheme}>
