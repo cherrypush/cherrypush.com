@@ -1,4 +1,5 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
 import axios from 'axios'
 
 export interface Project {
@@ -14,7 +15,7 @@ export interface Project {
 
 type ProjectsIndexResponse = (Project & { user: { name: string } })[]
 
-const INDEX_KEY = ['user', 'projects']
+const INDEX_KEY = ['user', 'projects', 'index']
 
 export const useInvalidateProjectsIndex = () => {
   const queryClient = useQueryClient()
@@ -23,3 +24,14 @@ export const useInvalidateProjectsIndex = () => {
 
 export const useProjectsIndex = () =>
   useQuery<ProjectsIndexResponse>(INDEX_KEY, () => axios.get('/user/projects.json').then((response) => response.data))
+
+export const useProjectsDestroy = () => {
+  const invalidateProjects = useInvalidateProjectsIndex()
+
+  return useMutation(
+    (projectId: number) => axios.delete(`/user/projects/${projectId}.json`).then((response) => response.data),
+    {
+      onSuccess: () => invalidateProjects(),
+    }
+  )
+}

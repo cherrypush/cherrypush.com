@@ -9,6 +9,5 @@ class User::ProjectsController < User::ApplicationController
   def destroy
     project = authorize(Project.find(params[:id]), :destroy?)
     project.destroy!
-    redirect_to user_projects_path, notice: 'Project was successfully deleted.'
   end
 end

@@ -21,9 +21,9 @@ once. Cherry will then run on every commit and report the stats to your dashboar
 </p>
 
 <h3 align="center">
-  <b><a href="https://cherrypush.com/docs">📄 read the docs</a></b>
+  <b><a href="https://cherrypush.com/docs">📄 Read the docs</a></b>
   •
-  <b><a href="https://github.com/cherrypush/cherrypush.com/issues">📣 report an issue</a></b>
+  <b><a href="https://github.com/cherrypush/cherrypush.com/issues">📣 Report an issue</a></b>
 </h3>
 
 <br />
@@ -85,10 +85,10 @@ Cherry App (Ruby on Rails):
 
 And here's a list of tasks that are great for first-time contributors:
 
-- remove the "watch" feature from metrics as this is not generally used
-- address TODO comments in the codebase
+- Remove the "watch" feature from metrics as this is not generally used
+- Address TODO comments in the codebase
 
 ## Any further question or suggestion?
 
-- report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
-- or shoot me a private message on [twitter.com/fwuensche](https://twitter.com/fwuensche)
+- Report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
+- Or shoot me a private message on [twitter.com/fwuensche](https://twitter.com/fwuensche)
