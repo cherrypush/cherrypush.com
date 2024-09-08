@@ -1,10 +1,12 @@
 import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
-import _ from 'lodash'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import useCurrentUser from '../hooks/useCurrentUser'
 import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+
 import { Metric } from '../queries/user/metrics'
 import { Project } from '../queries/user/projects'
+import ProjectActionsMenu from './ProjectActionsMenu'
+import _ from 'lodash'
+import useCurrentUser from '../hooks/useCurrentUser'
 import { useUsersIndex } from '../queries/user/users'
 import { useViewsIndex } from '../queries/user/views'
 
@@ -86,6 +88,12 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
               {watchers.length} {watchers.length > 1 ? 'watchers' : 'watcher'}
             </>
           )}
+        </div>
+      )}
+
+      {currentProject && !currentMetric && (
+        <div className="ml-auto flex items-center gap-3">
+          <ProjectActionsMenu projectId={currentProject.id} />
         </div>
       )}
 
