@@ -1,14 +1,15 @@
 import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
-import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 
-import { Metric } from '../queries/user/metrics'
-import { Project } from '../queries/user/projects'
-import ProjectActionsMenu from './ProjectActionsMenu'
 import _ from 'lodash'
 import useCurrentUser from '../hooks/useCurrentUser'
+import { Metric } from '../queries/user/metrics'
+import { Project } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
 import { useViewsIndex } from '../queries/user/views'
+import MetricActionsMenu from './MetricActionsMenu'
+import ProjectActionsMenu from './ProjectActionsMenu'
 
 // TODO: We shouldn't need to pass projects and metrics here, we should be able to get them from the URL
 const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metric[] }) => {
@@ -91,28 +92,28 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
         </div>
       )}
 
-      {currentProject && !currentMetric && (
+      {currentProject && (
         <div className="ml-auto flex items-center gap-3">
-          <ProjectActionsMenu projectId={currentProject.id} />
-        </div>
-      )}
-
-      {viewers && views && views.length > 0 && (
-        <div className="ml-auto flex items-center gap-3">
-          <p>Seen by:</p>
-          <Avatar.Group>
-            {viewers.map((viewer) => (
-              <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
-                <Avatar
-                  img={viewer.image}
-                  rounded
-                  stacked
-                  className="cursor-pointer"
-                  onClick={() => navigate(`/user/users/${viewer.id}`)}
-                />
-              </Tooltip>
-            ))}
-          </Avatar.Group>
+          {!currentMetric && <ProjectActionsMenu projectId={currentProject.id} />}
+          {viewers && views && views.length > 0 && (
+            <>
+              <p>Seen by:</p>
+              <Avatar.Group>
+                {viewers.map((viewer) => (
+                  <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
+                    <Avatar
+                      img={viewer.image}
+                      rounded
+                      stacked
+                      className="cursor-pointer"
+                      onClick={() => navigate(`/user/users/${viewer.id}`)}
+                    />
+                  </Tooltip>
+                ))}
+              </Avatar.Group>
+            </>
+          )}
+          {currentMetric && <MetricActionsMenu metricId={currentMetric.id} projectId={currentProject.id} />}
         </div>
       )}
     </div>

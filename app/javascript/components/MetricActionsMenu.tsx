@@ -4,19 +4,19 @@ import { Dropdown } from 'flowbite-react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { confirmWrapper } from '../helpers/applicationHelper'
-import { useProjectsDestroy } from '../queries/user/projects'
+import { useMetricsDestroy } from '../queries/user/metrics'
 
-const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
-  const { mutateAsync: deleteProject } = useProjectsDestroy()
+const MetricActionsMenu = ({ metricId, projectId }: { metricId: number; projectId: number }) => {
+  const { mutateAsync: deleteMetric } = useMetricsDestroy()
   const navigate = useNavigate()
 
   const handleDelete = () => {
-    confirmWrapper('Do you really want to delete this project?', () => {
-      navigate('/user/projects')
-      toast.promise(deleteProject(projectId), {
-        loading: 'Deleting project...',
-        success: 'Project deleted',
-        error: 'Error deleting project',
+    confirmWrapper('Do you really want to delete this metric?', () => {
+      navigate(`/user/projects?project_id=${projectId}`)
+      toast.promise(deleteMetric(metricId), {
+        loading: 'Deleting metric...',
+        success: 'Metric deleted',
+        error: 'Error deleting metric',
       })
     })
   }
@@ -24,7 +24,7 @@ const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
   return (
     <>
       <Dropdown
-        title="Project actions"
+        title="Metric actions"
         arrowIcon={false}
         label={<HiDotsVertical />}
         color="dark"
@@ -32,11 +32,11 @@ const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
         size="lg"
       >
         <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
-          Delete project
+          Delete metric
         </Dropdown.Item>
       </Dropdown>
     </>
   )
 }
 
-export default ProjectActionsMenu
+export default MetricActionsMenu
