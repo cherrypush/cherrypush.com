@@ -34,6 +34,6 @@ class Api::ApplicationController < ApplicationController
   end
 
   def wrong_api_key_message
-    'Unknown API key. Find yours at https://cherrypush.com/user/settings.'
+    'Unknown API key. Find yours at https://cherrypush.com/user/settings'
   end
 end
