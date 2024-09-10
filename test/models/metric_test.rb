@@ -15,6 +15,28 @@ class ProjectTest < ActiveSupport::TestCase
     end
   end
 
+  describe '#update' do
+    let!(:metric) { create(:metric) }
+    let!(:project) { metric.project }
+
+    it "updates the project's updated_at field when the metric is updated" do
+      project.update!(updated_at: 1.day.ago)
+      metric.update!(name: 'new name')
+      assert_equal Time.current.to_date, project.reload.updated_at.to_date
+    end
+  end
+
+  describe '#destroy' do
+    let!(:metric) { create(:metric) }
+    let!(:project) { metric.project }
+
+    it 'does not update project updated_at field when deleting a metric' do
+      project.update!(updated_at: 1.day.ago)
+      metric.destroy!
+      assert_equal 1.day.ago.to_date, project.reload.updated_at.to_date
+    end
+  end
+
   describe 'when chart metrics are present' do
     let!(:metric) { create(:metric) }
     let!(:chart_metric) { create(:chart_metric, metric: metric) }

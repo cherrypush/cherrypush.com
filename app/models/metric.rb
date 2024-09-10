@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Metric < ApplicationRecord
-  belongs_to :project, touch: true
+  belongs_to :project
+  after_save { project.touch }
+
   has_many :reports, dependent: :destroy
   has_many :contributions, dependent: :destroy
   has_many :chart_metrics, dependent: :destroy
