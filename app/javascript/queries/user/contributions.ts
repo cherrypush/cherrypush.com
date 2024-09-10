@@ -17,7 +17,6 @@ export interface Contribution {
     project_id: number
     created_at: string
     updated_at: string
-    watcher_ids: number[]
     project: {
       id: number
       name: string

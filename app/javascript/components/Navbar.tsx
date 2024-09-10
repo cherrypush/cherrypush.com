@@ -1,15 +1,16 @@
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
+import CommandPalette, { CommandPaletteButton } from './CommandPalette'
+
+import { LinearProgress } from '@mui/material'
+import { Link } from 'react-router-dom'
 // import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import LogoutIcon from '@mui/icons-material/Logout'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { LinearProgress } from '@mui/material'
 import { useIsFetching } from '@tanstack/react-query'
-import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react'
 import { useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useNotificationsIndex } from '../queries/user/notifications'
-import CommandPalette, { CommandPaletteButton } from './CommandPalette'
 
 const CherryNavbar = () => {
   const user = useCurrentUser()

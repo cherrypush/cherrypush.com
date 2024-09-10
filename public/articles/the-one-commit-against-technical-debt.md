@@ -88,7 +88,6 @@ Here's a non-exhaustive list of things that you might want to do next:
 - Backfill your project data with historic data (<- write an article and link it here)
 - Create your first dashboard (<- write an article and link it here)
 - Recognize your Top Contributors 🏆 (<- write an article and link it here)
-- Watch changes to critical metrics (<- write an article and link it here)
 - Block PRs introducing new violations (<- write an article and link it here)
 - Activate plugins such as rubocop or eslint (<- write an article and link it here)
 - Create custom integrations via the Cherry API (<- write an article and link it here)

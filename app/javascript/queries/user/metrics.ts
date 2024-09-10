@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+
 import axios from 'axios'
 import { Project } from './projects'
 
@@ -8,7 +9,6 @@ export interface Metric {
   project_id: number
   updated_at: string
   created_at: string
-  watcher_ids: number[]
 }
 
 type MetricIndexReponse = (Metric & { project: Project })[]

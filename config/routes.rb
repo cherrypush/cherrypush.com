@@ -31,7 +31,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       nested_resources :metrics, only: %i[index show destroy] do
         resources :occurrences, only: %i[index]
       end
-      resource :metric_watchers, only: %i[create destroy]
       resources :notifications, only: %i[index] do
         put 'mark_as_seen', on: :member
         put 'mark_all_as_seen', on: :collection

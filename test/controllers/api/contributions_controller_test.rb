@@ -35,14 +35,6 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
                                    as: :json)
       assert_equal [-30, +33], Contribution.all.map(&:diff).sort
     end
-
-    it 'notifies watchers' do
-      js_loc.update!(watcher_ids: [user.id])
-      post(api_contributions_path, params: { api_key: user.api_key, **payload }, as: :json)
-      assert_equal 1, Notification.count
-      assert_equal user.id, Notification.last.user_id
-      assert_equal js_loc.contributions.sole, Notification.last.item
-    end
   end
 
   private

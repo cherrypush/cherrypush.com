@@ -8,7 +8,6 @@
   <% @notifications.each do |notification| %>
     <li>
       <%= notification.message %>
-      <%= link_to notification.unsubscribe_text, notification.unsubscribe_url, style: 'font-size:12px;' %>
     </li>
   <% end %>
 </p>

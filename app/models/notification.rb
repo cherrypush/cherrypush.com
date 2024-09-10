@@ -20,15 +20,6 @@ class Notification < ApplicationRecord
     end
   end
 
-  def unsubscribe_text
-    case item
-    when Contribution
-      'Unwatch this metric'
-    else
-      raise "Unknown notification item type: #{item.class}"
-    end
-  end
-
   def unsubscribe_url
     case item
     when Contribution
