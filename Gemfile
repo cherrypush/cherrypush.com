@@ -58,7 +58,6 @@ group :development do
   gem 'dockerfile-rails' # TODO: review if this is actually useful and remove otherwise
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
   gem 'rubocop', require: false # ruby linter
-  gem 'web-console' # TODO: review how this is useful and remove it not relevant
 end
 
 group :test do
