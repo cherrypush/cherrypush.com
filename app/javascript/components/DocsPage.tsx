@@ -3,12 +3,40 @@ import { useEffect, useState } from 'react'
 
 import { Grid } from '@mui/material'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { useDocsShow } from '../queries/user/docs'
 
 type Heading = {
   level: number
   text: string
   anchor: string
+}
+
+const markdownComponentsMapping = {
+  // @ts-expect-error - TODO
+  h1: (props) => {
+    if (!(typeof props.children === 'string')) return null
+    const firstElement = props.node?.position?.start.line === 1
+    const id = props.children.toLowerCase().replace(/\s+/g, '-')
+    return (
+      <>
+        {firstElement ? null : <hr />}
+        <h1 id={id} className={firstElement ? '' : 'mt-12'}>
+          {props.children}
+        </h1>
+      </>
+    )
+  },
+  // @ts-expect-error - TODO
+  h2: ({ children }) => {
+    if (!(typeof children === 'string')) return null
+    const id = children.toLowerCase().replace(/\s+/g, '-')
+    return (
+      <h2 id={id} className="mt-8">
+        {children}
+      </h2>
+    )
+  },
 }
 
 const DocsPage = () => {
@@ -74,32 +102,8 @@ const DocsPage = () => {
           <Grid item xs={12} md={8}>
             <div className="prose dark:prose-invert w-full max-w-full py-4 pr-3">
               {docsContent && (
-                <Markdown
-                  components={{
-                    h1: (props) => {
-                      if (!(typeof props.children === 'string')) return null
-                      const firstElement = props.node?.position?.start.line === 1
-                      const id = props.children.toLowerCase().replace(/\s+/g, '-')
-                      return (
-                        <>
-                          {firstElement ? null : <hr />}
-                          <h1 id={id} className={firstElement ? '' : 'mt-12'}>
-                            {props.children}
-                          </h1>
-                        </>
-                      )
-                    },
-                    h2: ({ children }) => {
-                      if (!(typeof children === 'string')) return null
-                      const id = children.toLowerCase().replace(/\s+/g, '-')
-                      return (
-                        <h2 id={id} className="mt-8">
-                          {children}
-                        </h2>
-                      )
-                    },
-                  }}
-                >
+                // @ts-expect-error - TODO
+                <Markdown remarkPlugins={[remarkGfm]} components={markdownComponentsMapping}>
                   {docsContent}
                 </Markdown>
               )}
