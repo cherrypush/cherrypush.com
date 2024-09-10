@@ -30,7 +30,6 @@ const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
         color="dark"
         placement="bottom-end"
         size="lg"
-        data-testid="project-menu"
       >
         <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
           Delete project

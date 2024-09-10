@@ -30,7 +30,6 @@ const MetricActionsMenu = ({ metricId, projectId }: { metricId: number; projectI
         color="dark"
         placement="bottom-end"
         size="lg"
-        data-testid="metric-menu"
       >
         <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
           Delete metric
