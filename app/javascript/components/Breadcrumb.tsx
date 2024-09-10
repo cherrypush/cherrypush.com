@@ -1,14 +1,15 @@
 import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
-import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 
-import { Metric } from '../queries/user/metrics'
-import { Project } from '../queries/user/projects'
-import ProjectActionsMenu from './ProjectActionsMenu'
 import _ from 'lodash'
 import useCurrentUser from '../hooks/useCurrentUser'
+import { Metric } from '../queries/user/metrics'
+import { Project } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
 import { useViewsIndex } from '../queries/user/views'
+import MetricActionsMenu from './MetricActionsMenu'
+import ProjectActionsMenu from './ProjectActionsMenu'
 
 // TODO: We shouldn't need to pass projects and metrics here, we should be able to get them from the URL
 const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metric[] }) => {
@@ -97,7 +98,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
         </div>
       )}
 
-      {viewers && views && views.length > 0 && (
+      {currentProject && viewers && views && views.length > 0 && (
         <div className="ml-auto flex items-center gap-3">
           <p>Seen by:</p>
           <Avatar.Group>
@@ -113,6 +114,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
               </Tooltip>
             ))}
           </Avatar.Group>
+          <MetricActionsMenu metricId={metricId} projectId={currentProject.id} />
         </div>
       )}
     </div>
