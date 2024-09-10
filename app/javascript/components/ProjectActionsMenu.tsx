@@ -3,18 +3,21 @@ import { HiDotsVertical, HiTrash } from 'react-icons/hi'
 import { Dropdown } from 'flowbite-react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { confirmWrapper } from '../helpers/applicationHelper'
 import { useProjectsDestroy } from '../queries/user/projects'
 
 const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
   const { mutateAsync: deleteProject } = useProjectsDestroy()
   const navigate = useNavigate()
 
-  const handleDelete = async () => {
-    navigate('/user/projects')
-    await toast.promise(deleteProject(projectId), {
-      loading: 'Deleting project...',
-      success: 'Project deleted',
-      error: 'Error deleting project',
+  const handleDelete = () => {
+    confirmWrapper('Do you really want to delete this project?', () => {
+      navigate('/user/projects')
+      toast.promise(deleteProject(projectId), {
+        loading: 'Deleting project...',
+        success: 'Project deleted',
+        error: 'Error deleting project',
+      })
     })
   }
 

@@ -41,3 +41,7 @@ export const getEnvironment = () => {
   if (subdomain === '127') return 'test' // tests run on 127.0.0.1
   throw new Error("Can't determine environment")
 }
+
+export const confirmWrapper = (message: string, callback: () => void) => {
+  if (window.confirm(message)) callback()
+}
