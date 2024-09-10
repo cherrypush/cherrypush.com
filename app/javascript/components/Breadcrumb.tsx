@@ -92,14 +92,9 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
         </div>
       )}
 
-      {currentProject && !currentMetric && (
-        <div className="ml-auto flex items-center gap-3">
-          <ProjectActionsMenu projectId={currentProject.id} />
-        </div>
-      )}
-
       {currentProject && (
         <div className="ml-auto flex items-center gap-3">
+          {!currentMetric && <ProjectActionsMenu projectId={currentProject.id} />}
           {viewers && views && views.length > 0 && (
             <>
               <p>Seen by:</p>
@@ -118,7 +113,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
               </Avatar.Group>
             </>
           )}
-          <MetricActionsMenu metricId={metricId} projectId={currentProject.id} />
+          {currentMetric && <MetricActionsMenu metricId={currentMetric.id} projectId={currentProject.id} />}
         </div>
       )}
     </div>
