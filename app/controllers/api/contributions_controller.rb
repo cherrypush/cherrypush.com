@@ -22,8 +22,6 @@ class Api::ContributionsController < Api::ApplicationController
             commit_date: params[:commit_date],
             diff: contribution_params.require('diff')
           )
-
-          contribution.notify_watchers!
         end
     end
 

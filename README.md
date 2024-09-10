@@ -85,7 +85,6 @@ Cherry App (Ruby on Rails):
 
 And here's a list of tasks that are great for first-time contributors:
 
-- Remove the "watch" feature from metrics as this is not generally used
 - Address TODO comments in the codebase
 
 ## Any further question or suggestion?

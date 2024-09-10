@@ -1,6 +1,5 @@
-import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 'flowbite-react'
+import { Avatar, Breadcrumb as BaseBreadcrumb, Tooltip } from 'flowbite-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 
 import _ from 'lodash'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -15,8 +14,6 @@ import ProjectActionsMenu from './ProjectActionsMenu'
 const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metric[] }) => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const { mutate: watchMetric } = useMetricWatchersCreate()
-  const { mutate: unwatchMetric } = useMetricWatchersDestroy()
   const user = useCurrentUser()
 
   const projectId = searchParams.get('project_id')
@@ -29,10 +26,7 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
   const viewerIds = views ? _.uniq(views.map((view) => view.user_id)) : []
   const { data: viewers } = useUsersIndex({ ids: viewerIds, enabled: !!currentMetric })
 
-  const { data: watchers } = useUsersIndex({ ids: currentMetric?.watcher_ids, enabled: !!currentMetric })
-
   if (!user) return null
-  const isWatching = currentMetric && currentMetric.watcher_ids.includes(user.id)
 
   return (
     <div className="card mb-3 flex flex-col md:flex-row md:items-center gap-3">
@@ -57,40 +51,6 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
           </BaseBreadcrumb.Item>
         )}
       </BaseBreadcrumb>
-
-      {currentMetric && metricId && (
-        <div className="flex gap-3 items-center">
-          {isWatching ? (
-            <Dropdown size="sm" label="Watching">
-              <Dropdown.Item onClick={() => unwatchMetric({ metricId })}>Unwatch</Dropdown.Item>
-            </Dropdown>
-          ) : (
-            <Tooltip placement="right" content="By watching you'll be alerted about new contributions to this metric.">
-              <Button size="sm" onClick={() => watchMetric({ metricId })}>
-                Watch
-              </Button>
-            </Tooltip>
-          )}
-          {watchers && (
-            <>
-              <Avatar.Group>
-                {watchers.map((watcher) => (
-                  <Tooltip key={watcher.id} content={watcher.name} arrow={false}>
-                    <Avatar
-                      img={watcher.image}
-                      rounded
-                      stacked
-                      className="cursor-pointer"
-                      onClick={() => navigate(`/user/users/${watcher.id}`)}
-                    />
-                  </Tooltip>
-                ))}
-              </Avatar.Group>
-              {watchers.length} {watchers.length > 1 ? 'watchers' : 'watcher'}
-            </>
-          )}
-        </div>
-      )}
 
       {currentProject && (
         <div className="ml-auto flex items-center gap-3">
