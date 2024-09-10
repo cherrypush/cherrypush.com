@@ -24,6 +24,7 @@ const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
   return (
     <>
       <Dropdown
+        title="Project actions"
         arrowIcon={false}
         label={<HiDotsVertical />}
         color="dark"

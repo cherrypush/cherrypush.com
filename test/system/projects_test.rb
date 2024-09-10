@@ -23,8 +23,8 @@ class ProjectsTest < ApplicationSystemTestCase
     find('tr', text: 'rails/rails').click
 
     # Refuses to delete project
-    find('[data-testid="project-menu"]').click
-    find('li', text: 'Delete project').click
+    click_on 'Project actions'
+    accept_confirm { click_on 'Delete project' }
     assert_text 'You are not authorized to perform this action.'
   end
 

@@ -98,22 +98,26 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
         </div>
       )}
 
-      {currentProject && viewers && views && views.length > 0 && (
+      {currentProject && (
         <div className="ml-auto flex items-center gap-3">
-          <p>Seen by:</p>
-          <Avatar.Group>
-            {viewers.map((viewer) => (
-              <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
-                <Avatar
-                  img={viewer.image}
-                  rounded
-                  stacked
-                  className="cursor-pointer"
-                  onClick={() => navigate(`/user/users/${viewer.id}`)}
-                />
-              </Tooltip>
-            ))}
-          </Avatar.Group>
+          {viewers && views && views.length > 0 && (
+            <>
+              <p>Seen by:</p>
+              <Avatar.Group>
+                {viewers.map((viewer) => (
+                  <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
+                    <Avatar
+                      img={viewer.image}
+                      rounded
+                      stacked
+                      className="cursor-pointer"
+                      onClick={() => navigate(`/user/users/${viewer.id}`)}
+                    />
+                  </Tooltip>
+                ))}
+              </Avatar.Group>
+            </>
+          )}
           <MetricActionsMenu metricId={metricId} projectId={currentProject.id} />
         </div>
       )}

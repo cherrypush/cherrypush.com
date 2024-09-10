@@ -24,12 +24,13 @@ const MetricActionsMenu = ({ metricId, projectId }: { metricId: number; projectI
   return (
     <>
       <Dropdown
+        title="Metric actions"
         arrowIcon={false}
         label={<HiDotsVertical />}
         color="dark"
         placement="bottom-end"
         size="lg"
-        data-testid="project-menu"
+        data-testid="metric-menu"
       >
         <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
           Delete metric

@@ -127,8 +127,8 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'eslint'
     assert_equal 2, Metric.count
     sleep 1 # TODO: if we delete before fetching occurrences, then the occurence call will fail with record not found
-    find('#metric-menu').click
-    accept_confirm { find('li', text: 'Delete this metric').click }
+    click_on 'Metric actions'
+    accept_confirm { click_on 'Delete metric' }
     assert_text 'Metric deleted'
     assert_equal 1, Metric.count
   end
