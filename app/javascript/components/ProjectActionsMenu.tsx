@@ -22,20 +22,18 @@ const ProjectActionsMenu = ({ projectId }: { projectId: number }) => {
   }
 
   return (
-    <>
-      <Dropdown
-        title="Project actions"
-        arrowIcon={false}
-        label={<HiDotsVertical />}
-        color="dark"
-        placement="bottom-end"
-        size="lg"
-      >
-        <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
-          Delete project
-        </Dropdown.Item>
-      </Dropdown>
-    </>
+    <Dropdown
+      title="Project actions"
+      arrowIcon={false}
+      label={<HiDotsVertical />}
+      color="dark"
+      placement="bottom-end"
+      size="lg"
+    >
+      <Dropdown.Item icon={HiTrash} onClick={handleDelete}>
+        Delete project
+      </Dropdown.Item>
+    </Dropdown>
   )
 }
 

@@ -81,18 +81,21 @@ const DashboardsIndexPage = () => {
   const { mutate: addFavorite } = useFavoritesCreate()
   const { mutate: removeFavorite } = useFavoritesDestroy()
   const user = useCurrentUser()
-  const sortedDashboards = _.sortBy(
-    dashboards,
-    (dashboard) => (user.favorite_dashboard_ids.includes(dashboard.id) ? 0 : 1) + dashboard.name.toLowerCase()
-  )
+
+  const sortedDashboards = user
+    ? _.sortBy(
+        dashboards,
+        (dashboard) => (user.favorite_dashboard_ids.includes(dashboard.id) ? 0 : 1) + dashboard.name.toLowerCase()
+      )
+    : []
 
   const data = useMemo(() => sortedDashboards, [sortedDashboards])
   const columns = useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'name',
-        Cell: ({ row }) => (
+        header: 'Name',
+        accessorKey: 'name',
+        cell: ({ row }) => (
           <div className="flex items-center text-white">
             <Button
               size="xs"
@@ -114,19 +117,19 @@ const DashboardsIndexPage = () => {
         ),
       },
       {
-        Header: 'Project',
-        accessor: 'project.name',
+        header: 'Project',
+        accessorKey: 'project.name',
       },
       {
-        Header: 'Last update',
-        accessor: 'updated_at',
-        Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
+        header: 'Last update',
+        accessorKey: 'updated_at',
+        cell: ({ row }) => timeAgoInWords(row.original.updated_at),
       },
     ],
     [user]
   )
 
-  if (!dashboards) return null
+  if (!user || !dashboards) return null
 
   return (
     <div className="container">

@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { ChartKind } from './charts'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { ChartKind } from './charts'
 
 const INDEX_KEY = ['user', 'dashboards', 'index']
 const buildShowKey = (id: number) => ['user', 'dashboards', id]
@@ -29,7 +29,7 @@ export interface UseDashboardsIndexResponse {
   charts: Chart[]
   created_at: string
   id: number
-  name: string | null
+  name: string
   project: { name: string }
   project_id: number
   updated_at: string
