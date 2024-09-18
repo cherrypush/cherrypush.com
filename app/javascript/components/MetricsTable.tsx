@@ -1,13 +1,12 @@
 import { Button, Rating, TextInput } from 'flowbite-react'
-import React, { useState } from 'react'
-import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
-
 import _ from 'lodash'
+import React, { useState } from 'react'
 import { MdSearch } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { timeAgoInWords } from '../helpers/applicationHelper'
 import { groupMetricsByPrefix } from '../helpers/metrics'
 import useCurrentUser from '../hooks/useCurrentUser'
+import { useFavoritesCreate, useFavoritesDestroy } from '../queries/user/favorites'
 import SortedTable from './SortedTable'
 
 type PartialMetric = {

@@ -1,5 +1,6 @@
 {
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
-  }
+  },
+  "sort-imports.on-save": false
 }

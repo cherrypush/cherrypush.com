@@ -19,6 +19,8 @@ const CherryNavbar = () => {
   const notifications = data?.pages.flat()
   const unSeenNotificationsCount = notifications?.filter((notification) => !notification.seen_at).length || 0
 
+  if (!user) throw new Error('User not found')
+
   return (
     <>
       <CommandPalette />

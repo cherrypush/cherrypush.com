@@ -1,13 +1,16 @@
-import { Route, Routes } from 'react-router'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Toaster, toast } from 'react-hot-toast'
+import { Route, Routes } from 'react-router'
 
+import axios from 'axios'
+import { useEffect } from 'react'
+import useCurrentUser from '../hooks/useCurrentUser'
 import AuthorizationsPage from './AuthorizationsPage'
+import CherryNavbar from './CherryNavbar'
 import DashboardsIndexPage from './DashboardsIndexPage'
 import DashboardsShowPage from './DashboardsShowPage'
 import DocsPage from './DocsPage'
 import Footer from './Footer'
-import Navbar from './Navbar'
 import NewOrganizationPage from './NewOrganizationPage'
 import NewProjectPage from './NewProjectPage'
 import NotificationsPage from './NotificationsPage'
@@ -15,11 +18,8 @@ import OrganizationPage from './OrganizationPage'
 import ProjectsPage from './ProjectsPage'
 import ScrollToTop from './ScrollToTop'
 import SettingsPage from './SettingsPage'
-import UserPage from './UserPage'
-import axios from 'axios'
 import { slideUp } from './SlideUp'
-import useCurrentUser from '../hooks/useCurrentUser'
-import { useEffect } from 'react'
+import UserPage from './UserPage'
 
 axios.defaults.headers.common['X-CSRF-Token'] = document
   .querySelector('meta[name="csrf-token"]')
@@ -40,7 +40,7 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Navbar />
+      <CherryNavbar />
       <div className="px-3 pt-3">
         <ScrollToTop>
           <Routes>
