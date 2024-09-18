@@ -1,6 +1,7 @@
 import { Table, Tooltip } from 'flowbite-react'
-import React from 'react'
 import { buildCommitUrl, timeAgoInWords } from '../helpers/applicationHelper'
+
+import React from 'react'
 import { useContributionsIndex } from '../queries/user/contributions'
 
 const INITIALLY_VISIBLE_CONTRIBUTIONS = 5
@@ -18,9 +19,7 @@ const RecentCommits = ({ metricId, projectName }: { metricId: number; projectNam
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-          <div className="flex justify-between">
-            <span>Recent Commits 🤗</span>
-          </div>
+          Recent Commits 🤗
         </caption>
 
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
