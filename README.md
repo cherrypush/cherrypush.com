@@ -53,20 +53,6 @@ bin/dev
 > The env vars step above assumes you're using the rbenv-vars plugin. If you don't have it installed, check their docs
 > [here](https://github.com/rbenv/rbenv-vars) or use an alternative method to load your environment variables.
 
-## Running in production
-
-You can either use Heroku or the `fwuensche/cherry` image from Docker Hub.
-
-Note that, in both cases, you'll also need a running instance of Postgres and Redis.
-
-<!-- TODO: update this command to reflect all recent changes to our infra
-```
-docker run \
-  -e SECRET_KEY_BASE=<secret> \
-  -e DATABASE_URL=postgresql://<user>:<pass>@<host>:5432/<db_name> \
-  cherrypush/cherrypush.com
-``` -->
-
 ## Contributing
 
 In addition to the above-mentioned docs, a great way to get started is to watch some of the live sessions below. This
