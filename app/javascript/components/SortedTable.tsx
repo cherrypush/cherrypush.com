@@ -1,7 +1,8 @@
-import { Table } from 'flowbite-react'
-import React from 'react'
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
 import { useSortBy, useTable } from 'react-table'
+
+import { Table } from 'flowbite-react'
+import React from 'react'
 
 interface Props {
   columns: any
