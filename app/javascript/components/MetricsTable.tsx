@@ -6,21 +6,20 @@ import _ from 'lodash'
 import { MdSearch } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { timeAgoInWords } from '../helpers/applicationHelper'
+import { groupMetricsByPrefix } from '../helpers/metrics'
 import useCurrentUser from '../hooks/useCurrentUser'
 import SortedTable from './SortedTable'
 
-type Metric = {
+type PartialMetric = {
   id: number
   name: string
-  updated_at: string
   project_id: number
   project: {
-    id: number
     name: string
   }
 }
 
-const MetricsTable = ({ metrics }: { metrics: Metric[] }) => {
+const MetricsTable = ({ metrics }: { metrics: PartialMetric[] }) => {
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
   const { mutate: addFavorite } = useFavoritesCreate()
@@ -37,7 +36,7 @@ const MetricsTable = ({ metrics }: { metrics: Metric[] }) => {
     (metric) => (user.favorite_metric_ids.includes(metric.id) ? 0 : 1) + metric.name.toLowerCase()
   )
 
-  const handleClick = (metric: Metric) =>
+  const handleClick = (metric: PartialMetric) =>
     navigate(`/user/projects?project_id=${metric.project_id}&metric_id=${metric.id}`)
 
   const columns = React.useMemo(
@@ -75,7 +74,7 @@ const MetricsTable = ({ metrics }: { metrics: Metric[] }) => {
     [user.favorite_metric_ids]
   )
 
-  const data = React.useMemo(() => filteredMetrics, [filteredMetrics])
+  const groupedMetrics = groupMetricsByPrefix(filteredMetrics)
 
   return (
     <>
@@ -88,7 +87,17 @@ const MetricsTable = ({ metrics }: { metrics: Metric[] }) => {
         icon={MdSearch}
         autoComplete="off"
       />
-      <SortedTable data={data} columns={columns} onRowClick={handleClick}></SortedTable>
+      {
+        <div className="grid grid-cols-1 gap-4">
+          {Object.entries(groupedMetrics)
+            .sort()
+            .map(([prefix, metrics]) => (
+              <div key={prefix}>
+                <SortedTable data={metrics} columns={columns} onRowClick={handleClick}></SortedTable>
+              </div>
+            ))}
+        </div>
+      }
     </>
   )
 }
