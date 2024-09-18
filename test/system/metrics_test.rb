@@ -7,9 +7,9 @@ class MetricsTest < ApplicationSystemTestCase
   let!(:organization) { create :organization, user: user }
   let!(:project) { create(:project, user: create(:user), name: 'rails/rails', organization: organization) }
   let!(:authorization) { create :authorization, email: user.email, organization: project.organization }
-  let!(:eslint_metric) { create(:metric, project: project, name: 'eslint') }
+  let!(:eslint_metric) { create(:metric, project: project, name: '[eslint] react/react-in-jsx-scope') }
   let!(:eslint_report) { create(:report, metric: eslint_metric, value: 60, date: 4.days.ago) }
-  let!(:rubocop_metric) { create(:metric, project: project, name: 'rubocop') }
+  let!(:rubocop_metric) { create(:metric, project: project, name: '[rubocop] Metrics/MethodLength') }
   let!(:rubocop_report) do
     create(
       :report,
@@ -65,9 +65,13 @@ class MetricsTest < ApplicationSystemTestCase
   it 'applies filters to metrics' do
     sign_in(user, to: user_projects_path)
     find('tr', text: 'rails/rails').click
-    assert_text 'eslint'
+
+    # Splits metrics into groups
+    assert_selector 'table', count: 2
+    assert_text '[eslint] react/react-in-jsx-scope'
     fill_in 'Filter metrics', with: 'rubo'
     assert_no_text 'eslint'
+    assert_selector 'table', count: 1
     find('tr', text: 'rubocop').click
 
     # Recent Commmits
