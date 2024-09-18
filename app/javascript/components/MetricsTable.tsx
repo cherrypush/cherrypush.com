@@ -41,9 +41,10 @@ const MetricsTable = ({ metrics }: { metrics: PartialMetric[] }) => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Metric',
-        accessor: 'name',
-        Cell: ({ row }) => (
+        id: 'name',
+        header: 'Metric',
+        accessorKey: 'name',
+        cell: ({ row }) => (
           <div className="flex items-center text-white">
             <Button
               size="xs"
@@ -65,9 +66,10 @@ const MetricsTable = ({ metrics }: { metrics: PartialMetric[] }) => {
         ),
       },
       {
-        Header: 'Last report',
-        accessor: 'updated_at',
-        Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
+        id: 'last_report',
+        header: 'Last report',
+        accessorKey: 'updated_at',
+        cell: ({ row }) => timeAgoInWords(row.original.updated_at),
       },
     ],
     [user.favorite_metric_ids]
@@ -91,9 +93,9 @@ const MetricsTable = ({ metrics }: { metrics: PartialMetric[] }) => {
           {Object.entries(groupedMetrics)
             .sort()
             .map(([prefix, metrics]) => (
-              <div key={prefix}>
+              <React.Fragment key={prefix}>
                 <SortedTable data={metrics} columns={columns} onRowClick={handleClick}></SortedTable>
-              </div>
+              </React.Fragment>
             ))}
         </div>
       }
