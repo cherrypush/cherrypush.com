@@ -14,13 +14,13 @@ const ProjectsTable = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'name',
+        header: 'Name',
+        accessorKey: 'name',
       },
       {
-        Header: 'Organization',
-        accessor: 'organization.name',
-        Cell: ({ row }) =>
+        header: 'Organization',
+        accessorKey: 'organization.name',
+        cell: ({ row }) =>
           row.original.organization && (
             <a
               onClick={(event) => {
@@ -34,13 +34,13 @@ const ProjectsTable = () => {
           ),
       },
       {
-        Header: 'Owner',
-        accessor: 'user.name',
+        header: 'Owner',
+        accessorKey: 'user.name',
       },
       {
-        Header: 'Last report',
-        accessor: 'updated_at',
-        Cell: ({ row }) => timeAgoInWords(row.original.updated_at),
+        header: 'Last report',
+        accessorKey: 'updated_at',
+        cell: ({ row }) => timeAgoInWords(row.original.updated_at),
       },
     ],
     []

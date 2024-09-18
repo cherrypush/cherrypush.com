@@ -13,7 +13,7 @@ export interface Project {
   organization?: { id: number; name: string }
 }
 
-type ProjectsIndexResponse = (Project & { user: { name: string } })[]
+export type ProjectsIndexResponse = (Project & { user: { name: string } })[]
 
 const INDEX_KEY = ['user', 'projects', 'index']
 
