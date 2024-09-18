@@ -1,6 +1,5 @@
 import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/20/solid'
-import React, { Fragment, useState } from 'react'
+import { Fragment, useState } from 'react'
 
 interface Props {
   items: ItemType[]
@@ -69,20 +68,11 @@ const AutocompleteField = ({ items, onSelect, placeholder }: Props) => {
                     }
                     value={item}
                   >
-                    {({ selected, active }) => (
+                    {({ selected }) => (
                       <div className="flex items-center">
                         <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
                           {item.name}
                         </span>
-                        {selected ? (
-                          <span
-                            className={`flex items-center ml-2 inset-y-0 left-0 ${
-                              active ? 'bg-teal-600 text-white' : 'text-gray-900 dark:text-gray-400'
-                            }`}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
                       </div>
                     )}
                   </Combobox.Option>
