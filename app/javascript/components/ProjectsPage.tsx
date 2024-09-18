@@ -1,6 +1,9 @@
 import { Button, Card } from 'flowbite-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import useSelectedOwners from '../hooks/useSelectedOwners'
+import { useMetricsIndex } from '../queries/user/metrics'
+import { useProjectsIndex } from '../queries/user/projects'
 import BackfillInstructions from './BackfillInstructions'
 import Breadcrumb from './Breadcrumb'
 import MetricCard from './MetricCard'
@@ -13,9 +16,6 @@ import ProjectsTable from './ProjectsTable'
 import RecentCommits from './RecentCommits'
 import RequestAccessCard from './RequestAccessCard'
 import TopContributors from './TopContributors'
-import { useMetricsIndex } from '../queries/user/metrics'
-import { useProjectsIndex } from '../queries/user/projects'
-import useSelectedOwners from '../hooks/useSelectedOwners'
 
 const ProjectsPage = () => {
   const [searchParams] = useSearchParams()
