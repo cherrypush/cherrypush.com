@@ -3,7 +3,14 @@ import { formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 
 interface Contribution {
   id: number
-  metric: { project: { name: string }; name: string }
+  metric: {
+    id: number
+    name: string
+    project: {
+      id: number
+      name: string
+    }
+  }
   commit_sha: string
   diff: number
   commit_date: string
