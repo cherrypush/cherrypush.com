@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_06_052638) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_22_181944) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "authorization_requests", force: :cascade do |t|
@@ -113,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_06_052638) do
     t.bigint "metric_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "commit_url"
     t.index ["metric_id"], name: "index_contributions_on_metric_id"
   end
 
@@ -219,13 +221,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_06_052638) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "api_key"
+    t.string "github_handle"
     t.integer "favorite_project_ids", default: [], array: true
     t.string "favorite_metric_names", default: [], array: true
     t.string "favorite_owner_handles", default: [], array: true
     t.integer "favorite_metric_ids", default: [], array: true
     t.boolean "weekly_report", default: true
     t.integer "favorite_dashboard_ids", default: [], array: true
-    t.string "github_handle"
   end
 
   create_table "views", force: :cascade do |t|
