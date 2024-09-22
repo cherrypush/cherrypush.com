@@ -28,9 +28,6 @@ export const timeAgoInWords = (date: string) => {
   return `${Math.floor(seconds)} second${Math.floor(interval) > 1 ? 's' : ''} ago`
 }
 
-export const buildCommitUrl = ({ projectName, commitSha }: { projectName: string; commitSha: string }) =>
-  `https://github.com/${projectName}/commit/${commitSha}`
-
 export const formatDiff = (number: number) => (number < 0 ? '' : '+') + number
 
 export const getEnvironment = () => {
