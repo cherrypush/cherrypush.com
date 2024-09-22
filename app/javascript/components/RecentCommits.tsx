@@ -32,7 +32,7 @@ const RecentCommits = ({ metricId }: { metricId: number }) => {
             <Table.Row
               key={contribution.id}
               className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
-              onClick={() => (window.location.href = contribution.commit_url)}
+              onClick={() => window.open(contribution.commit_url, '_blank')}
             >
               <Table.Cell>
                 <Tooltip content={contribution.author_email}>{contribution.author_name}</Tooltip>
