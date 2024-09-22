@@ -20,7 +20,8 @@ class Api::ContributionsController < Api::ApplicationController
             author_name: params[:author_name],
             author_email: params[:author_email],
             commit_date: params[:commit_date],
-            diff: contribution_params.require('diff')
+            diff: contribution_params.require('diff'),
+            commit_url: params[:commit_url]
           )
 
           contribution.notify_watchers!
