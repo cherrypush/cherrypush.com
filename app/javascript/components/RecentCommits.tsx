@@ -1,12 +1,12 @@
 import { Table, Tooltip } from 'flowbite-react'
-import { buildCommitUrl, timeAgoInWords } from '../helpers/applicationHelper'
+import { timeAgoInWords } from '../helpers/applicationHelper'
 
 import React from 'react'
 import { useContributionsIndex } from '../queries/user/contributions'
 
 const INITIALLY_VISIBLE_CONTRIBUTIONS = 5
 
-const RecentCommits = ({ metricId, projectName }: { metricId: number; projectName: string }) => {
+const RecentCommits = ({ metricId }: { metricId: number }) => {
   const { data: contributions } = useContributionsIndex({ metricId })
 
   const [showAll, setShowAll] = React.useState(false)
@@ -17,7 +17,7 @@ const RecentCommits = ({ metricId, projectName }: { metricId: number; projectNam
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-test-id="recent-commits">
         <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
           Recent Commits 🤗
         </caption>
@@ -32,7 +32,7 @@ const RecentCommits = ({ metricId, projectName }: { metricId: number; projectNam
             <Table.Row
               key={contribution.id}
               className="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-xs dark:bg-gray-800 cursor-pointer"
-              onClick={() => window.open(buildCommitUrl({ projectName, commitSha: contribution.commit_sha }), '_blank')}
+              onClick={() => (window.location.href = contribution.commit_url)}
             >
               <Table.Cell>
                 <Tooltip content={contribution.author_email}>{contribution.author_name}</Tooltip>

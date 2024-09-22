@@ -67,7 +67,7 @@ const ProjectsPage = () => {
             {metricId && (
               <div className="col-span-1">
                 <TopContributors metricId={parseInt(metricId)} />
-                <RecentCommits projectName={currentProject.name} metricId={parseInt(metricId)} />
+                <RecentCommits metricId={parseInt(metricId)} />
               </div>
             )}
             {metricId && (
