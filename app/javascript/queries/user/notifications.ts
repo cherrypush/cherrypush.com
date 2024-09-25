@@ -7,6 +7,7 @@ interface Contribution {
   author_name: string
   commit_date: string
   commit_sha: string
+  commit_url: string
   created_at: string
   diff: number
   id: number

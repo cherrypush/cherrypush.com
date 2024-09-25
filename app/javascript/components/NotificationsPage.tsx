@@ -1,6 +1,6 @@
 import { Button, Card } from 'flowbite-react'
 import { useNavigate } from 'react-router-dom'
-import { buildCommitUrl, formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
+import { formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 import { useMetricsIndex } from '../queries/user/metrics'
 import {
   useNotificationsIndex,
@@ -40,10 +40,7 @@ const NotificationsPage = () => {
               className="mb-3 dark:hover:bg-gray-700 cursor-pointer relative"
               key={notification.id}
               onClick={() => {
-                window.open(
-                  buildCommitUrl({ projectName: metric.project.name, commitSha: notification.item.commit_sha }),
-                  '_blank'
-                )
+                window.open(notification.item.commit_url, '_blank')
                 markAsSeen(notification.id)
               }}
             >

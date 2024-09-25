@@ -5,6 +5,7 @@ export interface Contribution {
   id: number
   commit_sha: string
   commit_date: string
+  commit_url: string
   author_name: string
   author_email: string
   diff: number

@@ -1,12 +1,20 @@
 import { Table } from 'flowbite-react'
-import { buildCommitUrl, formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
+import { formatDiff, timeAgoInWords } from '../helpers/applicationHelper'
 
 interface Contribution {
   id: number
-  metric: { project: { name: string }; name: string }
+  metric: {
+    id: number
+    name: string
+    project: {
+      id: number
+      name: string
+    }
+  }
   commit_sha: string
   diff: number
   commit_date: string
+  commit_url: string
 }
 
 const ContributionsTable = ({ contributions }: { contributions: Contribution[] }) => (
@@ -39,15 +47,7 @@ const ContributionsTable = ({ contributions }: { contributions: Contribution[] }
           </Table.Cell>
           <Table.Cell>{formatDiff(contribution.diff)}</Table.Cell>
           <Table.Cell>
-            <a
-              className="text-link"
-              href={buildCommitUrl({
-                projectName: contribution.metric.project.name,
-                commitSha: contribution.commit_sha,
-              })}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a className="text-link" href={contribution.commit_url} target="_blank" rel="noreferrer">
               <pre>{contribution.commit_sha.substring(0, 6)}</pre>
             </a>
           </Table.Cell>

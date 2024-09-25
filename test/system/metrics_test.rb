@@ -57,7 +57,7 @@ class MetricsTest < ApplicationSystemTestCase
     )
   end
 
-  let!(:contribution) do
+  before do
     create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -12)
     create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -10)
   end
