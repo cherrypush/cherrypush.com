@@ -16,12 +16,10 @@ class Api::MetricsController < Api::ApplicationController
   private
 
   def metric_data(metric)
-    # TODO: remove this if caching is really not needed
-    # Rails
-    #   .cache
-    #   .fetch(['api/metrics#index', 'metric_data', @user, metric], expires_in: 12.hours) do
-    #     { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
-    #   end
-    { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
+    Rails
+      .cache
+      .fetch(['api/metrics#index', 'metric_data', @user, metric], expires_in: 12.hours) do
+        { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
+      end
   end
 end
