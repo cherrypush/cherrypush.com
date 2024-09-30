@@ -7,7 +7,8 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
 
   describe '#create' do
     it 'creates reports' do
-      project = create(:project, updated_at: 1.week.ago, user: user)
+      project = create(:project, updated_at: 1.week.ago, user: user, name: 'cherrypush/cherry-app')
+      metric = create(:metric, name: 'missing coverage', project: project, updated_at: 1.week.ago)
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_response :created
       assert_equal ['cherrypush/cherry-app'], Project.all.map(&:name)
@@ -16,7 +17,8 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal 4, Occurrence.count
       assert_includes Occurrence.all.map(&:text), 'test/controllers/application_controller.rb:12'
       assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
-      assert_equal project.updated_at.to_date, Project.last.updated_at.to_date
+      assert_equal metric.reload.updated_at.to_date, Metric.last.updated_at.to_date
+      assert_equal project.reload.updated_at.to_date, Project.last.updated_at.to_date
     end
 
     it 'requires metrics' do
