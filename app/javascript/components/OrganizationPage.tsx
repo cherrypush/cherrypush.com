@@ -97,7 +97,7 @@ const OrganizationPage = () => {
           <ToggleSwitch
             id="organization_sso_enabled"
             checked={organization.sso_enabled}
-            label={`SSO ${organization.sso_enabled ? 'enabled' : 'disabled'}`}
+            label={organization.sso_enabled ? 'SSO enabled' : 'SSO disabled'}
             onChange={() => setOrganization({ ...organization, sso_enabled: !organization.sso_enabled })}
             disabled={!canEdit}
           />
