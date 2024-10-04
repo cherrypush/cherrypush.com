@@ -20,6 +20,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
     it 'creates organization when creating a project' do
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       assert_equal 'cherrypush', Organization.sole.name
+      assert_equal Organization.sole, Project.last.organization
     end
 
     it 'creates organization even if project already exists' do

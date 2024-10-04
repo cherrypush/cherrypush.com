@@ -4,12 +4,13 @@ module Api::ProjectScoped
   extend ActiveSupport::Concern
 
   def current_project
-    @_current_project ||= @user.projects.find_or_create_by!(name: params.require(:project_name)) do |project|
+    return @_current_project if defined?(@_current_project)
+
+    @_current_project = @user.projects.find_or_create_by!(name: params.require(:project_name)) do |project|
       project.user = @user
       TelegramClient.send("#{@user.name} just created the project #{project.name}")
     end
-
-    @_current_project.organization ||= create_organization
+    @_current_project.update!(organization: create_organization) if current_project.organization.nil?
     @_current_project
   end
 
