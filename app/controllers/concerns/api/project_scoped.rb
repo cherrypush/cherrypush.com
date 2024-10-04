@@ -9,8 +9,18 @@ module Api::ProjectScoped
       .projects
       .find_or_create_by!(name: params.require(:project_name)) do |project|
         project.user = @user
-        # project.organization = create_organization if project.organization.nil?
+        project.organization = create_organization if project.organization.nil?
         TelegramClient.send("#{@user.name} just created the project #{project.name}")
       end
+  end
+
+  private
+
+  def create_organization
+    Organization.create!(name: guess_organization_name, user: @user)
+  end
+
+  def guess_organization_name
+    params[:project_name].split('/').first
   end
 end
