@@ -36,7 +36,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     it 'does not update project updated_at field when deleting a metric' do
       metric.destroy!
-      assert_equal 1.day.ago.to_date, project.reload.updated_at.to_date
+      assert_equal 1.week.ago.to_date, project.reload.updated_at.to_date
     end
 
     it 'updates the project updated_at field when creating a report for an existing metric' do
