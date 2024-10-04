@@ -15,6 +15,7 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal 4, Occurrence.count
       assert_includes Occurrence.all.map(&:text), 'test/controllers/application_controller.rb:12'
       assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
+      assert_equal 'cherrypush', Organization.sole.name
     end
 
     it 'requires metrics' do
