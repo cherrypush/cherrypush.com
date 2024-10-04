@@ -17,8 +17,8 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal 4, Occurrence.count
       assert_includes Occurrence.all.map(&:text), 'test/controllers/application_controller.rb:12'
       assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
-      assert_equal project.reload.updated_at.to_date, Project.last.updated_at.to_date
-      assert_equal metric.reload.updated_at.to_date, Metric.last.updated_at.to_date
+      assert_equal project.reload.updated_at.to_date, Date.current
+      assert_equal metric.reload.updated_at.to_date, Date.current
     end
 
     it 'requires metrics' do

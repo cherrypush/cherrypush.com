@@ -2,7 +2,11 @@
 
 class Report < ApplicationRecord
   belongs_to :metric
-  after_save { metric.touch }
+
+  after_save do
+    metric.touch
+    metric.project.touch
+  end
 
   has_many :occurrences, dependent: :destroy
 
