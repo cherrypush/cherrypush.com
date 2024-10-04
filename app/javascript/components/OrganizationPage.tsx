@@ -46,6 +46,8 @@ const formatDate = (unixDate: number) =>
 // TODO: this should be moved to helpers.js
 const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
 
+const getDomainFromEmail = (email: string) => email.split('@')[1]
+
 interface OrganizationForm {
   id: number
   sso_enabled: boolean
@@ -60,7 +62,7 @@ const OrganizationPage = () => {
   const user = useCurrentUser()
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
 
-  if (!organizationId) return null
+  if (!organizationId || !user) return null
 
   // TODO: it's confusing to have both organization and organizationData, fix this
   const { data: organizationData } = useOrganizationsShow({ organizationId: parseInt(organizationId) })
@@ -98,7 +100,13 @@ const OrganizationPage = () => {
             id="organization_sso_enabled"
             checked={organization.sso_enabled}
             label={organization.sso_enabled ? 'SSO enabled' : 'SSO disabled'}
-            onChange={() => setOrganization({ ...organization, sso_enabled: !organization.sso_enabled })}
+            onChange={(checked) =>
+              setOrganization({
+                ...organization,
+                sso_enabled: !organization.sso_enabled,
+                sso_domain: checked ? getDomainFromEmail(user.email) : '',
+              })
+            }
             disabled={!canEdit}
           />
           {organization.sso_enabled && (
@@ -112,10 +120,9 @@ const OrganizationPage = () => {
               <div className="flex items-center gap-3">
                 <TextInput
                   id="organization_sso_domain"
-                  disabled={!canEdit}
+                  disabled
                   color={isValidDomain(organization.sso_domain) ? 'gray' : 'failure'}
                   value={organization.sso_domain}
-                  onChange={(e) => setOrganization({ ...organization, sso_domain: e.target.value })}
                 />
                 <span className="text-sm font-medium">({organizationData.sso_user_count} users)</span>
               </div>
