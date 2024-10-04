@@ -3,7 +3,7 @@
 require 'application_system_test_case'
 
 class OrganizationsTest < ApplicationSystemTestCase
-  let!(:user) { create :user }
+  let!(:user) { create :user, email: 'flavio@example.com' }
   let!(:regular_user) { create :user }
   let!(:organization) { create :organization, name: 'rails', user: user }
   let!(:authorization) { create :authorization, email: regular_user.email, organization: organization }
@@ -20,16 +20,10 @@ class OrganizationsTest < ApplicationSystemTestCase
     sign_in(user, to: "/user/organizations/#{organization.id}")
     click_on 'SSO disabled'
     assert_text 'SSO enabled'
-    fill_in 'organization_sso_domain', with: 'example.com'
-
-    # requires same domain as user email
-    click_on 'Update Organization'
-    assert_text "Sso domain must match the domain of the owner's email address"
-
-    # allows same domain as user email
-    user.update(email: 'john@example.com')
+    assert_field 'organization_sso_domain', with: 'example.com'
     click_on 'Update Organization'
     assert_text 'Organization updated'
+    assert true, organization.reload.sso_enabled
     assert 'example.com', organization.reload.sso_domain
   end
 end

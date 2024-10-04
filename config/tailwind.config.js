@@ -1,5 +1,5 @@
-const flowbite = require('flowbite-react/tailwind')
 const defaultTheme = require('tailwindcss/defaultTheme')
+const flowbite = require('flowbite-react/tailwind')
 
 module.exports = {
   content: [
