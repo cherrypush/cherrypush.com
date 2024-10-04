@@ -8,3 +8,4 @@ services:
       POSTGRES_DB: cherry_development
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      PGHOST: localhost
