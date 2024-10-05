@@ -17,6 +17,18 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_includes Occurrence.all.map(&:url).uniq, 'https://github.com/docto2013'
     end
 
+    it 'creates organization when creating a project' do
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 'cherrypush', Organization.sole.name
+      assert_equal Organization.sole, Project.last.organization
+    end
+
+    it 'creates organization even if project already exists' do
+      create(:project, name: 'cherrypush/cherry-app', user: user)
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal 'cherrypush', Organization.sole.name
+    end
+
     it 'requires metrics' do
       post(api_push_path, params: { api_key: user.api_key }, as: :json)
       assert_response :bad_request
