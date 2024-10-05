@@ -1,6 +1,6 @@
-import { Divider } from '@mui/material'
-import { Badge, Button, Card, Label, TextInput, ToggleSwitch } from 'flowbite-react'
-import { useEffect, useState } from 'react'
+import { Divider, FormControlLabel, Switch } from '@mui/material'
+import { Badge, Button, Card, Label, TextInput } from 'flowbite-react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getEnvironment } from '../helpers/applicationHelper'
 import useCurrentUser from '../hooks/useCurrentUser'
@@ -83,6 +83,13 @@ const OrganizationPage = () => {
   // TODO: type organizationData properly
   const hasActiveSubscription = organizationData.subscriptions.some((subscription) => subscription.plan.active)
 
+  const toggleSsoEnabled = (checked: ChangeEvent<HTMLInputElement>) =>
+    setOrganization({
+      ...organization,
+      sso_enabled: !organization.sso_enabled,
+      sso_domain: checked ? getDomainFromEmail(user.email) : '',
+    })
+
   return (
     <div className="container">
       <h1 className="mb-6">{organizationData.name}</h1>
@@ -96,18 +103,10 @@ const OrganizationPage = () => {
           <TextInput value={organizationData.user.name} disabled />
           <TextInput value={organizationData.user.email} disabled />
           <Divider />
-          <ToggleSwitch
-            id="organization_sso_enabled"
-            checked={organization.sso_enabled}
+          <FormControlLabel
             label={organization.sso_enabled ? 'SSO enabled' : 'SSO disabled'}
-            onChange={(checked) =>
-              setOrganization({
-                ...organization,
-                sso_enabled: !organization.sso_enabled,
-                sso_domain: checked ? getDomainFromEmail(user.email) : '',
-              })
-            }
             disabled={!canEdit}
+            control={<Switch checked={organization.sso_enabled} onChange={toggleSsoEnabled} />}
           />
           {organization.sso_enabled && (
             <>
