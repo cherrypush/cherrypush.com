@@ -22,18 +22,26 @@ class ProjectTest < ActiveSupport::TestCase
     it "updates the project's updated_at field when the metric is updated" do
       project.update!(updated_at: 1.day.ago)
       metric.update!(name: 'new name')
-      assert_equal Time.current.to_date, project.reload.updated_at.to_date
+      assert_equal Date.current, project.reload.updated_at.to_date
     end
   end
 
   describe '#destroy' do
-    let!(:metric) { create(:metric) }
+    let!(:metric) { create(:metric, updated_at: 1.week.ago) }
     let!(:project) { metric.project }
 
+    before do
+      project.update!(updated_at: 1.week.ago)
+    end
+
     it 'does not update project updated_at field when deleting a metric' do
-      project.update!(updated_at: 1.day.ago)
       metric.destroy!
-      assert_equal 1.day.ago.to_date, project.reload.updated_at.to_date
+      assert_equal 1.week.ago.to_date, project.reload.updated_at.to_date
+    end
+
+    it 'updates the project updated_at field when creating a report for an existing metric' do
+      create(:report, metric: metric)
+      assert_equal Date.current, project.reload.updated_at.to_date
     end
   end
 

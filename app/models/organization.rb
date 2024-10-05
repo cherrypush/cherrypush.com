@@ -59,7 +59,7 @@ class Organization < ApplicationRecord
   def sso_domain_coherent_with_user_email
     return if !sso_enabled || sso_domain.blank?
 
-    errors.add(:sso_domain, "should not be an email provider such as #{sso_domain}") if sso_domain.in?(EMAIL_PROVIDERS)
+    errors.add(:sso_domain, "cannot be an email provider such as #{sso_domain}") if sso_domain.in?(EMAIL_PROVIDERS)
     return if user.email.split('@').last == sso_domain
 
     errors.add(:sso_domain, "must match the domain of the owner's email address")
