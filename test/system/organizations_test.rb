@@ -20,7 +20,7 @@ class OrganizationsTest < ApplicationSystemTestCase
     sign_in(user, to: "/user/organizations/#{organization.id}")
     click_on 'SSO disabled'
     assert_text 'SSO enabled'
-    assert_field 'organization_sso_domain', with: 'example.com'
+    assert_field 'organization_sso_domain', with: 'example.com', disabled: true
     click_on 'Update Organization'
     assert_text 'Organization updated'
     assert true, organization.reload.sso_enabled
