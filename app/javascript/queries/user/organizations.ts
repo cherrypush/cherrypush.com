@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 
 export type Subscription = {
   id: string
-  current_period_end: number // TODO: should this be number or Date?
+  current_period_end: number
   status: string
   plan: {
     active: boolean
