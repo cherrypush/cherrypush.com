@@ -16,7 +16,8 @@ class User::OrganizationsController < User::ApplicationController
              organization.attributes.merge(
                subscriptions: organization.subscriptions,
                sso_user_count: organization.sso_users.count,
-               user: organization.user.slice(:id, :name, :email)
+               user: organization.user.slice(:id, :name, :email),
+               stripe_customer_portal_url: organization.stripe_customer_portal_url
              )
   end
 

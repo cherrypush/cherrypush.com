@@ -2,6 +2,7 @@
 
 class ApplicationRecord < ActiveRecord::Base
   include Skylight::Helpers
+  include Rails.application.routes.url_helpers
 
   primary_abstract_class
 end

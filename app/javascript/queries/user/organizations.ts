@@ -2,7 +2,30 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-export interface Organization {
+export type Subscription = {
+  id: string
+  current_period_end: number
+  status: string
+  plan: {
+    active: boolean
+    amount: number
+    interval: string
+  }
+}
+
+type OrganizationIndexResponse = {
+  created_at: string
+  id: number
+  name: string
+  sso_domain: string | null
+  sso_enabled: boolean
+  sso_user_count: number
+  stripe_customer_id: string
+  updated_at: string
+  user_id: number
+}[]
+
+export type OrganizationShowResponse = {
   id: number
   name: string
   updated_at: string
@@ -10,6 +33,10 @@ export interface Organization {
   user_id: number
   sso_enabled: boolean
   sso_domain: string
+  sso_user_count: number
+  stripe_customer_portal_url: string
+  subscriptions: Subscription[]
+  user: { name: string; email: string; id: number }
 }
 
 const BASE_KEY = ['user', 'organizations']
@@ -17,18 +44,23 @@ const BASE_KEY = ['user', 'organizations']
 const buildQueryKey = (organizationId: number) => [...BASE_KEY, organizationId]
 
 export const useOrganizationsIndex = () =>
-  useQuery<Organization[]>(BASE_KEY, () => axios.get('/user/organizations.json').then((response) => response.data))
+  useQuery<OrganizationIndexResponse>(BASE_KEY, () =>
+    axios.get('/user/organizations.json').then((response) => response.data)
+  )
 
 export const useOrganizationsShow = ({ organizationId }: { organizationId: number }) =>
-  useQuery<Organization>(buildQueryKey(organizationId), () =>
-    axios.get(`/user/organizations/${organizationId}.json`).then((response) => response.data)
-  )
+  useQuery<OrganizationShowResponse>({
+    queryKey: buildQueryKey(organizationId),
+    queryFn: () => axios.get(`/user/organizations/${organizationId}.json`).then((response) => response.data),
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  })
 
 export const useOrganizationsUpdate = () => {
   const invalidateOrganizations = useInvalidateOrganizations()
 
   return useMutation(
-    (organization: Pick<Organization, 'id' | 'sso_domain' | 'sso_enabled'>) =>
+    (organization: Pick<OrganizationShowResponse, 'id' | 'sso_domain' | 'sso_enabled'>) =>
       axios.put(`/user/organizations/${organization.id}.json`, organization),
     {
       onSuccess: () => {
