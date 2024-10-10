@@ -13,7 +13,19 @@ export type Subscription = {
   }
 }
 
-export type Organization = {
+type OrganizationIndexResponse = {
+  created_at: string
+  id: number
+  name: string
+  sso_domain: string | null
+  sso_enabled: boolean
+  sso_user_count: number
+  stripe_customer_id: string
+  updated_at: string
+  user_id: number
+}[]
+
+export type OrganizationShowResponse = {
   id: number
   name: string
   updated_at: string
@@ -32,10 +44,12 @@ const BASE_KEY = ['user', 'organizations']
 const buildQueryKey = (organizationId: number) => [...BASE_KEY, organizationId]
 
 export const useOrganizationsIndex = () =>
-  useQuery<Organization[]>(BASE_KEY, () => axios.get('/user/organizations.json').then((response) => response.data))
+  useQuery<OrganizationIndexResponse>(BASE_KEY, () =>
+    axios.get('/user/organizations.json').then((response) => response.data)
+  )
 
 export const useOrganizationsShow = ({ organizationId }: { organizationId: number }) =>
-  useQuery<Organization>(buildQueryKey(organizationId), () =>
+  useQuery<OrganizationShowResponse>(buildQueryKey(organizationId), () =>
     axios.get(`/user/organizations/${organizationId}.json`).then((response) => response.data)
   )
 
@@ -43,7 +57,7 @@ export const useOrganizationsUpdate = () => {
   const invalidateOrganizations = useInvalidateOrganizations()
 
   return useMutation(
-    (organization: Pick<Organization, 'id' | 'sso_domain' | 'sso_enabled'>) =>
+    (organization: Pick<OrganizationShowResponse, 'id' | 'sso_domain' | 'sso_enabled'>) =>
       axios.put(`/user/organizations/${organization.id}.json`, organization),
     {
       onSuccess: () => {
