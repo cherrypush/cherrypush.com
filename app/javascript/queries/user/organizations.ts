@@ -49,9 +49,12 @@ export const useOrganizationsIndex = () =>
   )
 
 export const useOrganizationsShow = ({ organizationId }: { organizationId: number }) =>
-  useQuery<OrganizationShowResponse>(buildQueryKey(organizationId), () =>
-    axios.get(`/user/organizations/${organizationId}.json`).then((response) => response.data)
-  )
+  useQuery<OrganizationShowResponse>({
+    queryKey: buildQueryKey(organizationId),
+    queryFn: () => axios.get(`/user/organizations/${organizationId}.json`).then((response) => response.data),
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  })
 
 export const useOrganizationsUpdate = () => {
   const invalidateOrganizations = useInvalidateOrganizations()
