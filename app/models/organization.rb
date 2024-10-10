@@ -30,6 +30,8 @@ class Organization < ApplicationRecord
   end
 
   def stripe_customer_portal_url
+    return if stripe_customer_id.blank?
+
     Stripe::BillingPortal::Session.create(customer: stripe_customer_id, return_url: user_organization_url(self))['url']
   end
 
