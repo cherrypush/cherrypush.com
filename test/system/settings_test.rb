@@ -8,7 +8,7 @@ class SettingsTest < ApplicationSystemTestCase
   it 'allows users to unsubscribe from weekly reports' do
     sign_in(user, to: user_settings_path)
     fill_in 'GitHub Handle', with: 'yanbonnel'
-    uncheck 'Receive a weekly email with your project metrics', visible: false
+    mui_uncheck 'Receive a weekly email with your project metrics'
     click_on 'Save changes'
     assert_text 'Your changes have been saved'
     assert_equal false, user.reload.weekly_report?

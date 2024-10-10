@@ -1,6 +1,6 @@
-import { Divider } from '@mui/material'
-import { Button, Label, TextInput, ToggleSwitch } from 'flowbite-react'
-import { useEffect, useState } from 'react'
+import { Divider, FormControlLabel, Switch } from '@mui/material'
+import { Button, Label, TextInput } from 'flowbite-react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { useOrganizationsShow, useOrganizationsUpdate } from '../queries/user/organizations'
@@ -9,6 +9,8 @@ import Subscriptions from './Subscriptions'
 
 // TODO: this should be moved to helpers.js
 const isValidDomain = (domain: string) => domain.match(/^[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}$/)
+
+const getDomainFromEmail = (email: string) => email.split('@')[1]
 
 interface OrganizationForm {
   id: number
@@ -41,6 +43,13 @@ const OrganizationPage = () => {
 
   if (!organizationData || !organization) return <PageLoader />
 
+  const toggleSsoEnabled = (checked: ChangeEvent<HTMLInputElement>) =>
+    setOrganization({
+      ...organization,
+      sso_enabled: !organization.sso_enabled,
+      sso_domain: checked ? getDomainFromEmail(user.email) : '',
+    })
+
   return (
     <div className="container">
       <h1 className="mb-6">{organizationData.name}</h1>
@@ -54,12 +63,10 @@ const OrganizationPage = () => {
           <TextInput value={organizationData.user.name} disabled />
           <TextInput value={organizationData.user.email} disabled />
           <Divider />
-          <ToggleSwitch
-            id="organization_sso_enabled"
-            checked={organization.sso_enabled}
-            label={`SSO ${organization.sso_enabled ? 'enabled' : 'disabled'}`}
-            onChange={() => setOrganization({ ...organization, sso_enabled: !organization.sso_enabled })}
+          <FormControlLabel
+            label={organization.sso_enabled ? 'SSO enabled' : 'SSO disabled'}
             disabled={!canEdit}
+            control={<Switch checked={organization.sso_enabled} onChange={toggleSsoEnabled} />}
           />
           {organization.sso_enabled && (
             <>
@@ -72,10 +79,9 @@ const OrganizationPage = () => {
               <div className="flex items-center gap-3">
                 <TextInput
                   id="organization_sso_domain"
-                  disabled={!canEdit}
+                  disabled
                   color={isValidDomain(organization.sso_domain) ? 'gray' : 'failure'}
                   value={organization.sso_domain}
-                  onChange={(e) => setOrganization({ ...organization, sso_domain: e.target.value })}
                 />
                 <span className="text-sm font-medium">({organizationData.sso_user_count} users)</span>
               </div>
