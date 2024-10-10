@@ -2,7 +2,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-export interface Organization {
+export type Subscription = {
+  plan: {
+    active: boolean
+    amount: number
+    interval: string
+    id: string
+    current_period_end: number // TODO: should this be number or Date?
+    status: string
+  }
+}
+
+export type Organization = {
   id: number
   name: string
   updated_at: string
@@ -10,6 +21,10 @@ export interface Organization {
   user_id: number
   sso_enabled: boolean
   sso_domain: string
+  sso_user_count: number
+  stripe_customer_portal_url: string
+  subscriptions: Subscription[]
+  user: { name: string; email: string; id: number }
 }
 
 const BASE_KEY = ['user', 'organizations']

@@ -29,6 +29,10 @@ class Organization < ApplicationRecord
     User.where('email LIKE ?', "%@#{sso_domain}")
   end
 
+  def stripe_customer_portal_url
+    Stripe::BillingPortal::Session.create(customer: stripe_customer_id, return_url: user_organization_url(self))['url']
+  end
+
   # TODO: Only return the subscription fields that we need
   def subscriptions
     return [] if stripe_customer_id.blank?
