@@ -3,13 +3,13 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 
 export type Subscription = {
+  id: string
+  current_period_end: number // TODO: should this be number or Date?
+  status: string
   plan: {
     active: boolean
     amount: number
     interval: string
-    id: string
-    current_period_end: number // TODO: should this be number or Date?
-    status: string
   }
 }
 

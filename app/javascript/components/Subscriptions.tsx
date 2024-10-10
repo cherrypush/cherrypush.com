@@ -47,19 +47,21 @@ const Subscriptions = ({
   organizationId: number
   stripeCustomerPortalUrl: string
 }) => {
-  // TODO: type organizationData properly
   const hasActiveSubscription = subscriptions.some((subscription) => subscription.plan.active)
   const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
 
   return (
     <div className="card mb-9">
-      <h2 className="flex justify-between">Subscription</h2>
+      <h2 className="flex justify-between">
+        Subscription
+        {hasActiveSubscription && (
+          <Button className="float-right" onClick={() => window.location.assign(stripeCustomerPortalUrl)}>
+            Manage Subscription
+          </Button>
+        )}
+      </h2>
 
-      {hasActiveSubscription ? (
-        <Button className="mb-6 float-right" onClick={() => window.location.assign(stripeCustomerPortalUrl)}>
-          Manage Subscription
-        </Button>
-      ) : (
+      {!hasActiveSubscription && (
         <div className="mb-6">
           Learn more about or compare plans by visiting our{' '}
           <a className="text-link" href="/pricing" target="_blank">
