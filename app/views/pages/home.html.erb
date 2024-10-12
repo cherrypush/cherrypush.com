@@ -2,7 +2,10 @@
 
 <div class="mr-auto place-self-center lg:col-span-7 text-center mt-24 mb-12">
   <h1 class="mb-6 max-w-3xl text-4xl font-extrabold tracking-tight md:text-5xl xl:text-6xl dark:text-white mx-auto">
-    Beautiful dashboards for your code migrations
+    Create beautiful <%= render 'components/highlight', text: 'dashboards' %> to track your
+    <span class="underline underline-offset-3 decoration-8 decoration-purple-500 dark:decoration-blue-600"
+      >code migrations</span
+    >
   </h1>
   <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400 mx-auto">
     Technical work often goes unnoticed. Cherry helps you track and recognize the value of your team's work.
@@ -26,10 +29,26 @@
 
 <%=
   render 'feature_section',
-         title: 'The perfect tool for code migrations 📈',
-         text: 'Visualize progress over time and on a per-team basis.',
-         image: 'ss_code_migration.webp',
-         alt: 'screenshot of a chart showing the progress of a code migration'
+         title: 'Visualize your code migrations 📈',
+         text: 'Track your progress over time on a per-team basis.',
+         image: 'ss_charts.webp',
+         alt: 'screenshot of the code migration page'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'STOP your technical debt ✋🤚',
+         text: 'You can easily integrate Cherry to your CI and use it to prevent new violations.',
+         image: 'ss_failing_build.png',
+         alt: 'screenshot of the notifications page with sample unread notifications'
+%>
+
+<%=
+  render 'feature_section',
+         title: 'Make teams accountable for their debt 🕵🏻‍♂️',
+         text: 'Cherry uses CODEOWNERS to auto-assign teams to code violations.',
+         image: 'ss_owners.webp',
+         alt: 'screenshot of the autocomplete selector for filtering owners'
 %>
 
 <%=
@@ -42,26 +61,10 @@
 
 <%=
   render 'feature_section',
-         title: 'Setup once and never look back 🏖️',
-         text: 'Cherry integrates with your CI/CD. Every new commit is automatically tracked.',
+         title: 'Set up once and never look back 🏖️',
+         text: 'You integrate to GitHub Actions, then every new commit is automagically tracked.',
          image: 'ss_github_action.webp',
          alt: 'screenshot of a successful GitHub Actions workflow build'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Each team is responsible for their own debt 🕵🏻‍♂️',
-         text: 'Use CODEOWNERS to automatically assign issues to your teams.',
-         image: 'ss_owners.webp',
-         alt: 'screenshot of the autocomplete selector for filtering owners'
-%>
-
-<%=
-  render 'feature_section',
-         title: 'Get alerted about critical changes 🚨',
-         text: 'Watch important metrics to receive live notifications. Every contribution counts.',
-         image: 'ss_notifications.webp',
-         alt: 'screenshot of the notifications page with sample unread notifications'
 %>
 
 <section class="rounded-xl bg-slate-100 mb-12 p-6 md:p-12 dark:bg-slate-800 border-dashed border-4">
@@ -70,9 +73,9 @@
 
 <%=
   render 'feature_section',
-         title: 'No sensitive data collected 🤫',
+         title: 'Keep your codebase private 🛡️',
          text:
-           'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We have no access to your code base.'
+           'Cherry relies on an <a href="http://npmjs.com/package/cherrypush" class="text-link">open-source CLI</a>. We have no access to your code base. Everything runs on your local machine or CI environment.'
              .html_safe,
          image: 'cli.gif',
          alt: 'gif of a basic usage of the cherry cli',
@@ -81,8 +84,9 @@
 
 <%=
   render 'feature_section',
-         title: 'Empower your senior developers 🧙‍♂️',
-         text: 'We provide all the tools they need to keep a good codebase hygiene and ensure code quality.',
+         title: 'Empower your technical leaders 🦸‍♂️',
+         text:
+           'Cherry provides all the tools they need to materialize their vision for the codebase. They think vision, we play the bad cop.',
          image: 'ss_dashboards.webp',
          alt: 'screenshot of the dashboard page',
          position: 'right'

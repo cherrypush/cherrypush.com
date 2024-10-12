@@ -26,10 +26,9 @@
 %>
 
 <h1 class="text-center text-5xl font-extrabold tracking-tight">
-  <%= pluralize User.count, 'developer' %> started using
-  <span class="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Cherry</span>
+  We are <%= render 'components/highlight', text: pluralize(User.count, 'developer') %> using Cherry
 </h1>
-<p class="text-center mt-8 mb-12 text-base text-gray-500 text-xl">When will you join them?</p>
+<p class="text-center mt-8 mb-10 text-base text-gray-500 text-xl">When will you join us?</p>
 
 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   <% testimonials.each do |testimonial| %>
@@ -40,8 +39,8 @@
       </div>
       <div class="flex">
         <% if !testimonial[:name] %>
-          <a href="https://twitter.com/fwuensche" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-            Reach out on Twitter
+          <a href="https://x.com/fwuensche" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            Reach out on 𝕏
           </a>
         <% else %>
           <div class="mr-4">

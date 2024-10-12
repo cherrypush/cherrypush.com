@@ -16,18 +16,19 @@ const NewProjectInstructions = () => {
         <pre className="mt-3">cherry init</pre>
       </div>
       <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-        Verify that everything is working properly:
+        Verify that everything is working as expected:
       </p>
       <div className="prose dark:prose-invert max-w-none mb-3">
         <pre className="mt-3">cherry run</pre>
       </div>
-      <p className="text-sm font-normal text-gray-500 dark:text-gray-400">You can now upload your metrics:</p>
-      <div className="prose dark:prose-invert max-w-none mb-3">
-        <pre className="mt-3">cherry push --api-key={user?.api_key ?? '<YOUR_API_KEY>'}</pre>
-      </div>
-      <p className="text-sm font-normal text-gray-500 dark:text-gray-400">And commit changes to your repo:</p>
+
+      <p className="text-sm font-normal text-gray-500 dark:text-gray-400">If it looks good, then commit changes:</p>
       <div className="prose dark:prose-invert max-w-none mb-3">
         <pre className="mt-3">{`git add . && git commit -m 'setup cherry'`}</pre>
+      </div>
+      <p className="text-sm font-normal text-gray-500 dark:text-gray-400">And backfill your project with data:</p>
+      <div className="prose dark:prose-invert max-w-none mb-3">
+        <pre className="mt-3">cherry backfill --api-key={user?.api_key ?? '<YOUR_API_KEY>'}</pre>
       </div>
     </>
   )

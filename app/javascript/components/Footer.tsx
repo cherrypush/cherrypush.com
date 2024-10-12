@@ -1,4 +1,6 @@
-import { FaGithub, FaTwitter } from 'react-icons/fa'
+import { FaGithub } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
+
 import { SiNpm } from 'react-icons/si'
 
 const Footer = () => (
@@ -23,12 +25,12 @@ const Footer = () => (
       </ul>
       <div className="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
         <a
-          href="https://twitter.com/fwuensche"
+          href="https://x.com/fwuensche"
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
         >
-          <FaTwitter className="w-5 h-5" />
+          <FaXTwitter className="w-5 h-5" />
         </a>
         <a
           href="https://npmjs.com/package/cherrypush"

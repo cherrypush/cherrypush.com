@@ -11,7 +11,7 @@ once. Cherry will then run on every commit and report the stats to your dashboar
   <a href="https://github.com/cherrypush/cherrypush.com/actions/workflows/ci_tests.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/cherrypush/cherrypush.com/ci_tests.yml"/></a>
   <a href="https://www.npmjs.com/package/cherrypush"><img alt="Visit the NPM page" src="https://img.shields.io/npm/v/cherrypush"/></a>
   <a href="https://github.com/cherrypush/cherrypush.com/graphs/contributors"><img src="https://img.shields.io/github/commit-activity/m/cherrypush/cherrypush.com" alt="Commits per month"></a>
-  <a href="https://twitter.com/intent/follow?screen_name=fwuensche"><img alt="Follow us on Twitter" src="https://img.shields.io/twitter/follow/fwuensche?style=social"/></a>
+  <a href="https://twitter.com/intent/follow?screen_name=fwuensche"><img alt="Follow us on 𝕏" src="https://img.shields.io/twitter/follow/fwuensche?style=social"/></a>
 </p>
 
 <p align="center">
@@ -81,4 +81,4 @@ And here's a list of tasks that are great for first-time contributors:
 ## Any further question or suggestion?
 
 - Report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
-- Or shoot me a private message on [twitter.com/fwuensche](https://twitter.com/fwuensche)
+- Or shoot me a private message on [x.com/fwuensche](https://x.com/fwuensche)

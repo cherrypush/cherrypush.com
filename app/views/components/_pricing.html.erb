@@ -1,14 +1,15 @@
 <div class="text-center flex-col gap-6">
   <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-    Predictable pricing for all team sizes
+    Lock in your price <%= render 'components/highlight', text: 'before Halloween' %> 🎃
   </h2>
   <p class="my-6 text-gray-500 md:text-lg dark:text-gray-400">
-    No trial. No surprises. Just a generous unlimited plan at a flat price.
+    Cherry is in public beta, and prices will rise on October 31st.<br />
+    Subscribe now to secure your rate for the long term! 👻
   </p>
   <div class="mb-8"><%= render 'components/main_cta_buttons' %></div>
 </div>
 
-<div class="md:flex mt-6">
+<div class="md:flex mt-6 mb-3">
   <div
     class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
   >
@@ -25,9 +26,8 @@
       <%= render 'components/pricing_item', text: 'One single project' %>
       <hr />
       <%= render 'components/pricing_item', status: :off, text: 'Email support' %>
-      <%= render 'components/pricing_item', status: :off, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :off, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
-      <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
     </ul>
     <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
   </div>
@@ -37,10 +37,10 @@
   >
     <h5 class="mb-4 text-xl font-medium">Team</h5>
     <div class="mb-3">For small teams and start-ups with up to 10 members.</div>
-    <div class="flex items-baseline text-gray-900 dark:text-white">
-      <span class="text-3xl font-semibold">$</span>
-      <span class="text-5xl font-extrabold tracking-tight">9</span>
-      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
+      <span class="text-3xl font-semibold text-blue-500">$9</span>
+      <span class="text-5xl font-semibold line-through">$19</span>
+      <span class="text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
     </div>
     <ul role="list" class="space-y-5 my-7">
       <hr />
@@ -48,9 +48,8 @@
       <%= render 'components/pricing_item', text: 'Up to 10 projects' %>
       <hr />
       <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
-      <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :off, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
-      <%= render 'components/pricing_item', status: :off, text: '24x7 email support' %>
     </ul>
     <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
   </div>
@@ -58,10 +57,10 @@
   <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
     <h5 class="mb-4 text-xl font-medium">Organization</h5>
     <div class="mb-3">For larger organizations with complex needs.</div>
-    <div class="flex items-baseline text-gray-900 dark:text-white">
-      <span class="text-3xl font-semibold">$</span>
-      <span class="text-5xl font-extrabold tracking-tight">99</span>
-      <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
+    <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
+      <span class="text-3xl font-semibold text-blue-500">$29</span>
+      <span class="text-5xl font-semibold line-through">$59</span>
+      <span class="text-xl font-normal text-gray-500 dark:text-gray-400">/month</span>
     </div>
     <ul role="list" class="space-y-5 my-7">
       <hr />
@@ -69,11 +68,37 @@
       <%= render 'components/pricing_item', status: :on, text: 'Unlimited projects' %>
       <hr />
       <%= render 'components/pricing_item', status: :on, text: 'Email support' %>
-      <%= render 'components/pricing_item', status: :on, text: 'Chat support' %>
+      <%= render 'components/pricing_item', status: :on, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :on, text: 'Single Sign-On' %>
-      <%= render 'components/pricing_item', status: :on, text: '24x7 email support' %>
     </ul>
     <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
+  </div>
+</div>
+
+<div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
+  <div class="flex">
+    <div class="w-1/3">
+      <h5 class="mb-2 text-xl font-medium">We'll do it for you</h5>
+      <div class="mb-4">If your project's success is a non-negotiable, trust us to deliver it.</div>
+      <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
+        <span class="text-3xl font-semibold text-blue-500">$60</span>
+        <span class="text-5xl font-semibold line-through">$120</span>
+        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/ hour</span>
+      </div>
+    </div>
+    <div class="w-2/3">
+      <ul role="list" class="space-y-5 mb-6">
+        <%= render 'components/pricing_item', status: :on, text: 'Craft a winning strategy for your technical vision' %>
+        <%=
+          render 'components/pricing_item', status: :on, text: 'Set up essential metrics and tailor-made integrations'
+        %>
+        <%= render 'components/pricing_item', status: :on, text: 'Streamline with CI/CD to prevent regressions' %>
+        <%=
+          render 'components/pricing_item', status: :on, text: "Relentlessly drive your project until it's a success"
+        %>
+      </ul>
+      <a href="https://x.com/fwuensche" class="w-full btn-primary">Reach out in private</a>
+    </div>
   </div>
 </div>
 
@@ -81,5 +106,5 @@
   class="text-center w-full rounded-lg pt-8 dark:border-gray-700 md:mr-3 md:mb-0 mt-3 font-light text-gray-500 md:text-lg dark:text-gray-400"
 >
   Are you working on open-source?
-  <a href="https://twitter.com/fwuensche" class="text-link" target="_blank">Shoot me a message on twitter ❤️</a>
+  <a href="https://x.com/fwuensche" class="text-link" target="_blank">Shoot me a message on twitter ❤️</a>
 </div>
