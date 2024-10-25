@@ -29,13 +29,13 @@
       <%= render 'components/pricing_item', status: :off, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
     </ul>
-    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
+    <%= render 'components/sign_in_button', text: 'Start now for free' %>
   </div>
 
   <div
     class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700 md:mr-3 mb-3 md:mb-0"
   >
-    <h5 class="mb-4 text-xl font-medium">Team</h5>
+    <h5 class="mb-4 text-xl font-medium">Team Plan</h5>
     <div class="mb-3">For small teams and start-ups with up to 10 members.</div>
     <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
       <span class="text-3xl font-semibold text-blue-500">$9</span>
@@ -51,11 +51,11 @@
       <%= render 'components/pricing_item', status: :off, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :off, text: 'Single Sign-On' %>
     </ul>
-    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
+    <%= render 'components/sign_in_button', text: 'Start now for free' %>
   </div>
 
   <div class="w-full p-4 bg-white border rounded-lg shadow-md sm:p-8 dark:bg-slate-800 dark:border-gray-700">
-    <h5 class="mb-4 text-xl font-medium">Organization</h5>
+    <h5 class="mb-4 text-xl font-medium">Enterprise Plan</h5>
     <div class="mb-3">For larger organizations with complex needs.</div>
     <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
       <span class="text-3xl font-semibold text-blue-500">$29</span>
@@ -71,7 +71,13 @@
       <%= render 'components/pricing_item', status: :on, text: 'Live chat support' %>
       <%= render 'components/pricing_item', status: :on, text: 'Single Sign-On' %>
     </ul>
-    <%= render 'components/sign_in_button', text: 'Start for free anyways' %>
+    <a
+      href="https://calendar.app.google/aTXptJHUJnMXy9rU7"
+      target="_blank"
+      class="w-full btn-primary block text-center"
+    >
+      Schedule a call
+    </a>
   </div>
 </div>
 
@@ -97,7 +103,13 @@
           render 'components/pricing_item', status: :on, text: "Relentlessly drive your project until it's a success"
         %>
       </ul>
-      <a href="https://x.com/fwuensche" class="w-full btn-primary">Reach out in private</a>
+      <a
+        href="https://calendar.app.google/aTXptJHUJnMXy9rU7"
+        target="_blank"
+        class="w-full btn-primary block text-center"
+      >
+        Schedule a call
+      </a>
     </div>
   </div>
 </div>
