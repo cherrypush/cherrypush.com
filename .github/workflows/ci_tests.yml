@@ -54,6 +54,7 @@ jobs:
       - name: Install node dependencies
         run: npm ci
 
+      # TODO: Investigate if it is really necessary to precompile assets
       - name: Precompile assets
         run: bundle exec rake assets:precompile
 

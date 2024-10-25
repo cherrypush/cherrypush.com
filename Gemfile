@@ -7,7 +7,7 @@ ruby '3.2.1'
 # default gems
 gem 'bootsnap', require: false
 gem 'pg', '~> 1.1'
-gem 'puma', '~> 5.0'
+gem 'puma', '< 7'
 gem 'rails'
 gem 'sprockets-rails'
 
