@@ -81,4 +81,3 @@ And here's a list of tasks that are great for first-time contributors:
 ## Any further question or suggestion?
 
 - Report a bug via [GitHub Issues](https://github.com/cherrypush/cherrypush.com/issues)
-- Or shoot me a private message on [x.com/fwuensche](https://x.com/fwuensche)
