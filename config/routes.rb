@@ -72,7 +72,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get :privacy, to: 'pages#privacy'
   get :terms, to: 'pages#terms'
 
-  resources :articles, only: %i[index show]
+  resources :guides, only: %i[index show]
 
   root 'pages#home'
 end

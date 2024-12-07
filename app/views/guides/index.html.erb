@@ -1,0 +1,7 @@
+<h1>Guides</h1>
+
+<% @guides.each do |guide| %>
+  <%= link_to  guide_path(guide.permalink), class: 'text-link' do %>
+    <div class="card my-3 text-lg p-9"><%= guide.title %></div>
+  <% end %>
+<% end %>

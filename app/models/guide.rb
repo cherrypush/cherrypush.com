@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class Article
+class Guide
   class << self
     def all
-      Dir.glob("#{Rails.root}/public/articles/*.md").map { |path| build(path) }
+      Dir.glob("#{Rails.root}/public/guides/*.md").map { |path| build(path) }
     end
 
     def find(permalink)
-      all.find { |article| article.permalink == permalink }
+      all.find { |guide| guide.permalink == permalink }
     end
 
     private
@@ -35,7 +35,7 @@ class Article
       content
         .scan(/!\[.*\]\((.*)\)/)
         .flatten
-        .map { |image| "#{Rails.application.routes.url_helpers.articles_url}/#{image}" }
+        .map { |image| "#{Rails.application.routes.url_helpers.guides_url}/#{image}" }
     end
   end
 end

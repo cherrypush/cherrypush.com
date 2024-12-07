@@ -1,7 +1,0 @@
-<h1>Articles</h1>
-
-<% @articles.each do |article| %>
-  <%= link_to  article_path(article.permalink), class: 'text-link' do %>
-    <div class="card my-3 text-lg p-9"><%= article.title %></div>
-  <% end %>
-<% end %>

@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class User::ArticlesControllerTest < ApplicationIntegrationTest
+class User::FavoritesControllerTest < ApplicationIntegrationTest
   let!(:user) { create :user }
   let!(:project) { create :project, user: user }
   let!(:metric) { create :metric, project: project }

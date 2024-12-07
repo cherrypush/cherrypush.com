@@ -1,11 +1,11 @@
-<%= link_to '← Back to Articles', articles_path, class: 'btn-light' %>
+<%= link_to '← Back to Guides', guides_path, class: 'btn-light' %>
 
 <div class="mb-16 mt-6 text-center card p-16">
-  <h1 class="mb-0"><%= @article.title %></h1>
+  <h1 class="mb-0"><%= @guide.title %></h1>
 </div>
 
 <div class="prose dark:prose-invert mx-auto">
-  <%= markdown @article.content %>
+  <%= markdown @guide.content %>
 </div>
 
 <div class="card my-16 py-9 px-12 text-center">
@@ -20,8 +20,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "<%= @article.title %>",
-    "image": <%= raw @article.images %>,
+    "headline": "<%= @guide.title %>",
+    "image": <%= raw @guide.images %>,
     "author": [
       {
         "@type": "Person",

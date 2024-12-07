@@ -1,4 +1,4 @@
-# Wage war against your technical debt with a single commit
+# Getting Started with Cherry
 
 Hello there. I’m Flavio from Cherry, and I’m going to show you how you can wage war against your technical debt, in a
 single commit. (wow such a badass intro) 😎
@@ -85,10 +85,10 @@ it to track what's most important for you.
 
 Here's a non-exhaustive list of things that you might want to do next:
 
-- Backfill your project data with historic data (<- write an article and link it here)
-- Create your first dashboard (<- write an article and link it here)
-- Recognize your Top Contributors 🏆 (<- write an article and link it here)
-- Watch changes to critical metrics (<- write an article and link it here)
-- Block PRs introducing new violations (<- write an article and link it here)
-- Activate plugins such as rubocop or eslint (<- write an article and link it here)
-- Create custom integrations via the Cherry API (<- write an article and link it here)
+- Backfill your project data with historic data (<- TODO: write an article and link it here)
+- Create your first dashboard (<- TODO: write an article and link it here)
+- Recognize your Top Contributors 🏆 (<- TODO: write an article and link it here)
+- Watch changes to critical metrics (<- TODO: write an article and link it here)
+- Block PRs introducing new violations (<- TODO: write an article and link it here)
+- Activate plugins such as rubocop or eslint (<- TODO: write an article and link it here)
+- Create custom integrations via the Cherry API (<- TODO: write an article and link it here)
