@@ -49,9 +49,10 @@ cp .rbenv-vars.template .rbenv-vars
 # launch the server
 bin/dev
 
-# populate the database
+# Populate the database
 npm install -g cherrypush
-API_URL=http://localhost:3001/api cherry push --api-key=00000000-0000-0000-0000-000000000000
+export API_URL=http://localhost:3001/api
+cherry backfill --api-key=28ea02ee-c6e5-4e5f-b2b6-690c4cd6ca2f # Copy command from http://localhost:3001/user/projects
 ```
 
 > The env vars step above assumes you're using the rbenv-vars plugin. If you don't have it installed, check their docs

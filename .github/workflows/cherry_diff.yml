@@ -17,10 +17,14 @@ jobs:
           fetch-depth: 0 # fetches all commits from all branches
           ref: ${{ github.head_ref }} # checks out the branch that triggered the workflow
 
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Install dependencies
         run: |
