@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.1'
+ruby '3.3.8'
 
 # default gems
 gem 'bootsnap', require: false
