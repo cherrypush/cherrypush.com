@@ -7,6 +7,7 @@ module.exports = {
     npmOutdated: {},
     loc: {},
     eslint: {},
+    // rubocop: {}, TODO: Enable rubocop when the issue has been resolved
     jsCircularDependencies: { include: 'app/javascript/**' },
     jsUnimported: {},
   },
