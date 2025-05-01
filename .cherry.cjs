@@ -7,7 +7,6 @@ module.exports = {
     npmOutdated: {},
     loc: {},
     eslint: {},
-    rubocop: {},
     jsCircularDependencies: { include: 'app/javascript/**' },
     jsUnimported: {},
   },
