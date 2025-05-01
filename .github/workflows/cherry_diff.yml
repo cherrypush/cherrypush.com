@@ -22,6 +22,12 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version' # Dynamically read the Node.js version from .node-version
+          cache: 'npm' # Enable caching for npm dependencies
+
       - name: Install dependencies
         run: |
           npm ci
