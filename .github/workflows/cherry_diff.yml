@@ -25,11 +25,6 @@ jobs:
       - name: Install Ruby dependencies
         run: bundle install
 
-      - name: Debug Rubocop
-        run: |
-          echo "RAILS_ENV: $RAILS_ENV"
-          bundle exec rubocop
-
       - name: Install dependencies
         run: |
           npm ci
