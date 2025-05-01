@@ -17,22 +17,16 @@ jobs:
           fetch-depth: 0 # fetches all commits from all branches
           ref: ${{ github.head_ref }} # checks out the branch that triggered the workflow
 
-      - name: Setup ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true # Enable caching for gems
+          bundler-cache: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version' # Dynamically read the Node.js version from .node-version
-          cache: 'npm' # Enable caching for npm dependencies
-
-      - name: Install dependencies
-        run: |
-          npm ci
-          npm i -g cherrypush
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Raise if new violations are added
         run: |
+          npm i -g cherrypush
           cherry diff --quiet --metric "TODO/FIXME" --metric "[TS Migration] JS loc" --error-if-increase
