@@ -41,7 +41,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry'
-  gem 'rubocop', require: false # ruby linter
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw] # TODO: review if this is really needed
@@ -58,6 +57,7 @@ group :development do
 
   gem 'dockerfile-rails' # TODO: review if this is actually useful and remove otherwise
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
+  gem 'rubocop', require: false # ruby linter
 end
 
 group :test do
