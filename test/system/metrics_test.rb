@@ -143,6 +143,7 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'Top Contributors'
     assert_no_text 'Seen by'
     visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
+    assert_text 'Top Contributors'
     assert_text 'Seen by'
   end
 end
