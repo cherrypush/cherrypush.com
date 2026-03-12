@@ -8,7 +8,7 @@ module SignInHelper
       get '/auth/google_oauth2/callback'
     else
       visit root_path
-      click_on 'Login', match: :first
+      find('a', text: 'Login', match: :first).click
       assert_text "Signed in as #{user.name}"
       to ? visit(to) : refresh
     end
