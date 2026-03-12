@@ -9,7 +9,11 @@ module SignInHelper
     else
       visit root_path
       find(:button, text: /Login/, match: :first).click
-      assert_text "Signed in as #{user.name}"
+      begin
+        assert_text "Signed in as #{user.name}"
+      rescue Selenium::WebDriver::Error::UnknownError
+        assert_text "Signed in as #{user.name}"
+      end
       to ? visit(to) : refresh
     end
   end
