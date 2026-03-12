@@ -63,21 +63,19 @@ cherry backfill --api-key=28ea02ee-c6e5-4e5f-b2b6-690c4cd6ca2f # Copy command fr
 In addition to the above-mentioned docs, a great way to get started is to watch some of the live sessions below. This
 should give you insights on how to navigate the codebase and start contributing.
 
-Cherry CLI (JavaScript):
+- [Cherry CLI (JavaScript)] Add support for array of globs: https://youtu.be/zPrVUFDcQ5Y
+- [Cherry CLI (JavaScript)] Sort results of cherry run: https://youtu.be/ZjJqDBLbM-E
+- [Cherry App (Ruby on Rails)] Add a new API endpoint + controller tests: https://youtu.be/vh1bCTe16Bs
+- [Cherry App (Ruby on Rails)] Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
+- [Cherry App (Ruby on Rails)] Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
 
-- Add support for array of globs: https://youtu.be/zPrVUFDcQ5Y
-- Sort results of cherry run: https://youtu.be/ZjJqDBLbM-E
+TODOs:
 
-Cherry App (Ruby on Rails):
-
-- Add a new API endpoint + controller tests: https://youtu.be/vh1bCTe16Bs
-- Fixing N+1 queries on metrics#index: https://youtu.be/isqa9r0SpsA
-- Fixing N+1 queries on dashboards#index: https://youtu.be/vcGpfbLuliA
-
-And here's a list of tasks that are great for first-time contributors:
-
-- Remove the "watch" feature from metrics as this is not generally used
-- Address TODO comments in the codebase
+- [ ] Remove the "watch" feature from metrics as this is not generally used
+- [ ] Address TODO comments in the codebase
+- [ ] Bump `eslint` from `^8.55.0` to `^10.0.3`
+- [ ] Bump `flowbite-react` from `^0.7.0` to `^0.12.17`
+- [ ] Remove the `minimatch` override in `package.json` (depends on the two tasks above)
 
 ## Any further question or suggestion?
 
