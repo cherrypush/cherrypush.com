@@ -8,12 +8,8 @@ module SignInHelper
       get '/auth/google_oauth2/callback'
     else
       visit root_path
-      find(:button, text: /Login/, match: :first).click
-      begin
-        assert_text "Signed in as #{user.name}"
-      rescue Selenium::WebDriver::Error::UnknownError
-        assert_text "Signed in as #{user.name}"
-      end
+      click_on 'Login', match: :first
+      assert_text "Signed in as #{user.name}"
       to ? visit(to) : refresh
     end
   end
