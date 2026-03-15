@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve the main worktree path (first entry in git worktree list)
+main_worktree=$(git worktree list --porcelain | head -1 | sed 's/^worktree //')
+
+# Symlink the master key from the main worktree
+ln -sf "$main_worktree/config/master.key" config/master.key
+
+# Install dependencies
+bundle install
+npm install
