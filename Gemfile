@@ -61,6 +61,7 @@ group :development do
 end
 
 group :test do
+  gem 'mini_magick'
   gem 'minitest-spec-rails' # allows rspec-like syntax
   gem 'minitest-stub-const' # provides stub_const helper for tests
 

@@ -178,6 +178,8 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     method_source (1.1.0)
+    mini_magick (5.3.1)
+      logger
     mini_mime (1.1.5)
     minitest (5.25.1)
     minitest-spec-rails (7.3.0)
@@ -398,6 +400,7 @@ DEPENDENCIES
   heroicon
   hiredis
   kaminari
+  mini_magick
   minitest-spec-rails
   minitest-stub-const
   omniauth
