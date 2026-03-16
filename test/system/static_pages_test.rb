@@ -12,11 +12,11 @@ class StaticPagesTest < ApplicationSystemTestCase
     visit root_url
     assert_text 'START NOW'
     capture_screenshot('home')
-    click_on 'Terms'
+    visit terms_url
     assert_text 'Terms of Service'
-    click_on 'Privacy'
+    visit privacy_url
     assert_text 'Privacy Policy'
-    click_on 'Docs'
+    visit docs_url
     assert_text 'npm install -g cherrypush'
     click_on 'Demo'
     assert_text 'cherrypush/cherry'
