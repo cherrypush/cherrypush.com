@@ -1,8 +1,16 @@
 #!/usr/bin/env sh
 
+export PORT="${PORT:-3001}"
+
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman
 fi
 
-exec foreman start -f Procfile.dev "$@" -p 3001
+# Kill any process listening on the Rails or Vite ports
+kill -9 $(lsof -ti :$PORT) 2>/dev/null || true
+kill -9 $(lsof -ti :3036) 2>/dev/null || true
+
+mkdir -p tmp/pids
+
+foreman start -f Procfile.dev "$@"

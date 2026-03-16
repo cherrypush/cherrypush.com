@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'support/screenshot_helpers'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include SignInHelper
   include NavigationHelper
+  include ScreenshotHelpers
 
   Capybara.server = :puma, { Silent: true } # removes noisy logs when launching tests
 

@@ -11,6 +11,7 @@ class StaticPagesTest < ApplicationSystemTestCase
     sign_in create(:user)
     visit root_url
     assert_text 'START NOW'
+    capture_screenshot('home')
     click_on 'Terms'
     assert_text 'Terms of Service'
     click_on 'Privacy'
