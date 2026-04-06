@@ -77,7 +77,7 @@ class MetricsTest < ApplicationSystemTestCase
     # Recent Commmits
     assert_text 'Recent Commits'
     assert_text 'Flavinho'
-    assert_text '1 week ago'
+    assert_text '7 days ago'
 
     # Top Contributors
     assert_text 'Top Contributors'
