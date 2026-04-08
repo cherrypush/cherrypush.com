@@ -58,8 +58,8 @@ class MetricsTest < ApplicationSystemTestCase
   end
 
   before do
-    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -12)
-    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 1.week.ago, diff: -10)
+    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 9.days.ago, diff: -12)
+    create(:contribution, metric: rubocop_metric, author_name: 'Flavinho', commit_date: 9.days.ago, diff: -10)
   end
 
   it 'applies filters to metrics' do
