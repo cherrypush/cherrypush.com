@@ -65,6 +65,7 @@ group :test do
   gem 'mini_magick'
   gem 'minitest-spec-rails' # allows rspec-like syntax
   gem 'minitest-stub-const' # provides stub_const helper for tests
+  gem 'mocha' # mocking and stubbing
 
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
