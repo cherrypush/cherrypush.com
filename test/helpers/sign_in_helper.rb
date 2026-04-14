@@ -8,7 +8,15 @@ module SignInHelper
       get '/auth/google_oauth2/callback'
     else
       visit root_path
-      click_on 'Login', match: :first
+      retries = 0
+      begin
+        click_on 'Login', match: :first
+      rescue Selenium::WebDriver::Error::UnknownError => e
+        raise unless e.message.include?('does not belong to the document') && (retries += 1) <= 3
+
+        sleep 0.2
+        retry
+      end
       assert_text "Signed in as #{user.name}"
       to ? visit(to) : refresh
     end
