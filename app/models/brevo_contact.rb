@@ -2,7 +2,7 @@
 
 class BrevoContact
   class << self
-    API_KEY = ENV.fetch('BREVO_API_KEY', '')
+    API_KEY = Rails.application.credentials.dig(:brevo, :api_key)
 
     # Sample response:
     # email="f.wuensche@gmail.com", id=1, emailBlacklisted=false, smsBlacklisted=false,

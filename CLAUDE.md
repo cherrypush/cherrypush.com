@@ -8,26 +8,30 @@ Cherry (cherrypush.com) is a technical debt tracking tool. Users configure codeb
 
 ```sh
 bin/dev                  # Start dev server (Rails + Tailwind + Vite)
-docker compose up -d     # Start PostgreSQL (required)
 rails db:setup           # Create and seed database
-```
-
-### CI
-
-Run `bin/ci` before every push. It must pass before merging any PR.
-
-```sh
-bin/ci                                   # Run full CI (setup, lint, tests)
 ```
 
 ### Testing
 
 ```sh
+HEADLESS=1 bin/rails test:all            # Run all tests (unit + system, headless)
 bin/rails test                           # Unit/integration tests only
 HEADLESS=1 bin/rails test:system         # System tests only (headless Chrome)
 bin/rails test test/models/metric_test.rb              # Single test file
 bin/rails test test/models/metric_test.rb:42            # Single test by line number
+bin/rails test:system                    # System tests with visible Chrome (no HEADLESS)
 ```
+
+When making changes, always run the related tests before considering the work done.
+
+### Credentials
+
+```sh
+EDITOR="code --wait" bin/rails credentials:edit  # Edit encrypted credentials
+heroku config --app cherrypush-production         # List Heroku env vars
+```
+
+All secrets (API keys, tokens, etc.) must be stored in Rails credentials (`config/credentials.yml.enc`), not in `ENV` vars.
 
 ### Linting
 

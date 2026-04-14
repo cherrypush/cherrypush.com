@@ -7,7 +7,7 @@ require 'rails/test_help'
 require 'minitest/stub_const'
 
 # PROJECT SPECIFIC
-require 'minitest/mock'
+require 'mocha/minitest'
 Dir[Rails.root.join('test', 'helpers', '**', '*.rb')].each { |file| require file }
 require 'application_integration_test'
 

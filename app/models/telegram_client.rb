@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TelegramClient
-  TELEGRAM_TOKEN = ENV.fetch('TELEGRAM_TOKEN', nil)
+  TELEGRAM_TOKEN = Rails.application.credentials.dig(:telegram, :token)
 
   class << self
     def send(content)

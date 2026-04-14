@@ -5,7 +5,6 @@ class Organization < ApplicationRecord
 
   belongs_to :user
 
-  has_many :memberships, dependent: :destroy
   has_many :projects
   has_many :authorizations, dependent: :destroy
 
@@ -18,7 +17,7 @@ class Organization < ApplicationRecord
   validate :sso_domain_coherent_with_user_email
 
   def can_create_new_authorizations?
-    memberships.any?
+    subscriptions.any? { |sub| sub.status == 'active' }
   end
 
   def users

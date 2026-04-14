@@ -17,7 +17,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'sends email to the user to whom the authorization has been granted' do
-      organization.memberships.create!
+      Organization.any_instance.stubs(:can_create_new_authorizations?).returns(true)
       sign_in(user, controller_test: true)
       post(user_authorizations_path(email: 'hello@example.com', organization_id: organization.id), as: :json)
       assert_response :success
@@ -33,7 +33,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'notifies admin about new authorizations' do
-      organization.memberships.create!
+      Organization.any_instance.stubs(:can_create_new_authorizations?).returns(true)
       authorized_user = create :user
       Authorization.create!(email: authorized_user.email, organization: organization)
       sign_in(authorized_user, controller_test: true)
@@ -51,7 +51,7 @@ class User::AuthorizationsControllerTest < ApplicationIntegrationTest
     end
 
     it 'does not notify admin when the admin is the creator of the authorization' do
-      organization.memberships.create!
+      Organization.any_instance.stubs(:can_create_new_authorizations?).returns(true)
       sign_in(user, controller_test: true)
       post(user_authorizations_path(email: 'hello@example.com', organization_id: organization.id), as: :json)
       assert_response :success

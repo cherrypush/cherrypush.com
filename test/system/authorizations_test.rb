@@ -54,7 +54,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
       click_on 'Grant access'
       assert_text 'A paid plan is required'
 
-      create :membership, organization: organization
+      Organization.any_instance.stubs(:can_create_new_authorizations?).returns(true)
       refresh
       click_on 'Grant access'
       assert_text 'Authorization created'

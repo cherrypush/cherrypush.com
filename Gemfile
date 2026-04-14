@@ -55,8 +55,6 @@ group :development do
   # performance
   gem 'rack-mini-profiler'
   gem 'stackprof' # for call-stack profiling flamegraphs
-
-  gem 'dockerfile-rails' # TODO: review if this is actually useful and remove otherwise
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
   gem 'rubocop', require: false # ruby linter
 end
@@ -65,6 +63,7 @@ group :test do
   gem 'mini_magick'
   gem 'minitest-spec-rails' # allows rspec-like syntax
   gem 'minitest-stub-const' # provides stub_const helper for tests
+  gem 'mocha' # mocking and stubbing
 
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
