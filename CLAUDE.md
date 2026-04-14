@@ -7,7 +7,7 @@ Cherry (cherrypush.com) is a technical debt tracking tool. Users configure codeb
 ### Development
 
 ```sh
-bin/dev                  # Start dev server (Rails + Tailwind + Vite) on port 3001
+bin/dev                  # Start dev server (Rails + Tailwind + Vite)
 rails db:setup           # Create and seed database
 ```
 
