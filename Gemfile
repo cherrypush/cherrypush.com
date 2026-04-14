@@ -55,8 +55,6 @@ group :development do
   # performance
   gem 'rack-mini-profiler'
   gem 'stackprof' # for call-stack profiling flamegraphs
-
-  gem 'dockerfile-rails' # TODO: review if this is actually useful and remove otherwise
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
   gem 'rubocop', require: false # ruby linter
 end
