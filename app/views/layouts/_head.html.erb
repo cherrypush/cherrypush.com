@@ -8,3 +8,7 @@
 <%= vite_typescript_tag 'application.tsx' %>
 <%= stylesheet_link_tag 'application', 'inter-font' %>
 <%= stylesheet_link_tag 'tailwind', 'inter-font' %>
+
+<% if Rails.env.production? %>
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="b239e429-b257-4b52-a6cf-4b9a8bd3a8c6"></script>
+<% end %>
