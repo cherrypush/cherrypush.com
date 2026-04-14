@@ -30,10 +30,9 @@ class UserTest < ActiveSupport::TestCase
     it 'returns all projects when the user is an admin' do
       admin = create(:user)
       other_project = create(:project, user: admin)
-      admin.stub :admin?, true do
-        assert admin.admin?
-        assert_equal [project.id, other_project.id], admin.projects.pluck(:id).sort
-      end
+      admin.stubs(:admin?).returns(true)
+      assert admin.admin?
+      assert_equal [project.id, other_project.id], admin.projects.pluck(:id).sort
     end
   end
 
