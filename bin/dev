@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-export PORT="${PORT:-3001}"
+export PORT="${PORT:-3000}"
 # Prevent Puma workers from crashing on macOS due to fork() safety checks (NSCharacterSet)
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
