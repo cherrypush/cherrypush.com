@@ -2,7 +2,7 @@
 
 ActionMailer::Base.smtp_settings = {
   user_name: 'f.wuensche@gmail.com',
-  password: ENV.fetch('SMTP_PASSWORD', ''),
+  password: Rails.application.credentials.dig(:smtp, :password),
   address: 'smtp-relay.brevo.com',
   port: 587,
   domain: 'cherrypush.com',

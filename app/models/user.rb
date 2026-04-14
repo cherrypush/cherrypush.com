@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   # TODO: add database constraint to avoid duplicate emails and API keys
 
-  ADMIN_EMAILS = ENV.fetch('ADMIN_EMAILS', '').split(',')
+  ADMIN_EMAILS = %w[f.wuensche@gmail.com].freeze
 
   ALL_ATTRIBUTES = User.new.attributes.keys
   DEFAULT_ATTRIBUTES = %w[id name email].freeze
