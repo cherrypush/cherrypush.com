@@ -1,5 +1,5 @@
 ---
-authentication: <%= ENV['SKYLIGHT_AUTHENTICATION'] %>
+authentication: <%= Rails.application.credentials.dig(:skylight, :authentication) %>
 ignored_endpoints:
   - ActionDispatch::Routing::RouteSet
   - ActionDispatch::SSL

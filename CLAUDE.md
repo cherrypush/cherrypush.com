@@ -25,6 +25,15 @@ bin/rails test:system                    # System tests with visible Chrome (no 
 
 When making changes, always run the related tests before considering the work done.
 
+### Credentials
+
+```sh
+EDITOR="code --wait" bin/rails credentials:edit  # Edit encrypted credentials
+heroku config --app cherrypush-production         # List Heroku env vars
+```
+
+All secrets (API keys, tokens, etc.) must be stored in Rails credentials (`config/credentials.yml.enc`), not in `ENV` vars.
+
 ### Linting
 
 ```sh
