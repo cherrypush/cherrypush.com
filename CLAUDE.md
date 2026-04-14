@@ -8,7 +8,6 @@ Cherry (cherrypush.com) is a technical debt tracking tool. Users configure codeb
 
 ```sh
 bin/dev                  # Start dev server (Rails + Tailwind + Vite)
-docker compose up -d     # Start PostgreSQL (required)
 rails db:setup           # Create and seed database
 ```
 

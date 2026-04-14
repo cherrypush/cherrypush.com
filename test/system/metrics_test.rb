@@ -130,8 +130,10 @@ class MetricsTest < ApplicationSystemTestCase
     visit "/user/projects?project_id=#{project.id}&metric_id=#{eslint_metric.id}"
     assert_text 'eslint'
     assert_equal 2, Metric.count
-    sleep 1 # TODO: if we delete before fetching occurrences, then the occurence call will fail with record not found
-    click_on 'Metric actions'
+    # Wait for async data to finish loading before deleting (otherwise the in-flight
+    # occurrences fetch will fail with record-not-found).
+    assert_text 'Top Contributors'
+    find('[title="Metric actions"]').click
     accept_confirm { click_on 'Delete metric' }
     assert_text 'Metric deleted'
     assert_equal 1, Metric.count
