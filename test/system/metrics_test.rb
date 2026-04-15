@@ -131,8 +131,9 @@ class MetricsTest < ApplicationSystemTestCase
     assert_text 'eslint'
     assert_equal 2, Metric.count
     # Wait for async data to finish loading before deleting (otherwise the in-flight
-    # occurrences fetch will fail with record-not-found).
+    # fetch will fail with record-not-found).
     assert_text 'Top Contributors'
+    assert_text 'Recent Commits'
     find('[title="Metric actions"]').click
     accept_confirm { click_on 'Delete metric' }
     assert_text 'Metric deleted'

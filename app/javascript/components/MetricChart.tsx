@@ -84,7 +84,7 @@ const MetricChart = ({ metricIds, kind, owners }: { metricIds: number[]; kind: C
       zoom: { enabled: false },
       toolbar: { show: false },
       events: {
-        legendClick: (_chartContext: any, seriesIndex: number) => {
+        legendClick: (_chartContext: unknown, seriesIndex: number) => {
           let url = `/user/projects?project_id=${metrics[seriesIndex]?.project_id}&metric_id=${metrics[seriesIndex]?.id}`
           const owners = searchParams.get('owners')
           url += owners ? `&owners=${owners}` : ''

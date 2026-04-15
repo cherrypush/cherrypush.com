@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropMemberships < ActiveRecord::Migration[7.1]
   def change
     drop_table :memberships do |t|

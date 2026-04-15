@@ -21,7 +21,7 @@ namespace :database do
 
       project.update!(name: "cherry/#{Faker::Adjective.positive}")
       project.metrics.each_with_index do |metric, metric_index|
-        print "Project #{project_index + 1} of #{projects.count}: metric #{metric_index + 1} of #{project.metrics.count}\n"
+        print "Project #{project_index + 1}/#{projects.count}: metric #{metric_index + 1}/#{project.metrics.count}\n"
         metric
           .contributions
           .in_batches(of: 100)

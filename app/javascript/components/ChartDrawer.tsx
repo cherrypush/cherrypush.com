@@ -32,7 +32,11 @@ const ChartForm = ({ metrics, chart, dashboard, onClose }: ChartFormProps) => {
       onSubmit={(event) => {
         event.preventDefault()
         const params = { dashboard_id: dashboard.id, name, kind, metric_ids: metricIds }
-        id ? updateChart({ id, ...params }) : createChart(params)
+        if (id) {
+          updateChart({ id, ...params })
+        } else {
+          createChart(params)
+        }
         onClose()
       }}
     >

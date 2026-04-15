@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
-require 'ostruct'
-
 class Guide
+  attr_reader :title, :content, :permalink, :images
+
+  def initialize(title:, content:, permalink:, images:)
+    @title = title
+    @content = content
+    @permalink = permalink
+    @images = images
+  end
+
   class << self
     def all
       Dir.glob("#{Rails.root}/public/guides/*.md").map { |path| build(path) }
@@ -15,13 +22,11 @@ class Guide
     private
 
     def build(path)
-      OpenStruct.new(
-        {
-          title: title(path),
-          content: content(path),
-          permalink: File.basename(path, '.md'),
-          images: images(content(path))
-        }
+      Guide.new(
+        title: title(path),
+        content: content(path),
+        permalink: File.basename(path, '.md'),
+        images: images(content(path))
       )
     end
 

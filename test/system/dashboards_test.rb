@@ -26,6 +26,7 @@ class DashboardsTest < ApplicationSystemTestCase
     click_on 'New Dashboard'
     fill_in 'Select a project...', with: 'rails/rails'
     find('li', text: 'rails/rails').click
+    assert_no_selector('li', text: 'rails/rails')
     fill_in 'Dashboard name', with: 'TS Migration'
     click_on 'Create'
     assert_text 'Dashboard created'

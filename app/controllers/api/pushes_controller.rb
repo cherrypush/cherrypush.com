@@ -3,7 +3,7 @@
 class Api::PushesController < Api::ApplicationController
   include Api::ProjectScoped
 
-  def create # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def create
     ActiveRecord::Base.transaction do
       params
         .require(:metrics)

@@ -10,8 +10,10 @@ const SlideUp = ({ children }: { children: ReactNode }) => {
         if (entry.isIntersecting && !isVisible) setVisible(true)
       })
     })
-    domRef.current && observer.observe(domRef.current)
-    return () => domRef.current && observer.unobserve(domRef.current)
+    if (domRef.current) observer.observe(domRef.current)
+    return () => {
+      if (domRef.current) observer.unobserve(domRef.current)
+    }
   }, [])
 
   return (

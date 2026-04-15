@@ -52,9 +52,11 @@ const MetricsTable = ({ metrics }: { metrics: PartialMetric[] }) => {
               className="mr-3"
               onClick={(event) => {
                 event.stopPropagation()
-                user.favorite_metric_ids.includes(row.original.id)
-                  ? removeFavorite({ id: row.original.id, klass: 'Metric' })
-                  : addFavorite({ id: row.original.id, klass: 'Metric' })
+                if (user.favorite_metric_ids.includes(row.original.id)) {
+                  removeFavorite({ id: row.original.id, klass: 'Metric' })
+                } else {
+                  addFavorite({ id: row.original.id, klass: 'Metric' })
+                }
               }}
             >
               <Rating>
