@@ -69,6 +69,7 @@ class MetricsTest < ApplicationSystemTestCase
     # Splits metrics into groups
     assert_selector 'table', count: 2
     assert_text '[eslint] react/react-in-jsx-scope'
+    capture_screenshot('project-metrics')
     fill_in 'Filter metrics', with: 'rubo'
     assert_no_text 'eslint'
     assert_selector 'table', count: 1
@@ -86,6 +87,7 @@ class MetricsTest < ApplicationSystemTestCase
     # Occurrences
     assert_text 'filepath:2 @yanbonnel, @rchoquet 2.8'
     assert_equal ['filepath:2 @yanbonnel, @rchoquet 2.8', 'filepath:1 @yanbonnel 1.2'], all('tr').map(&:text).last(2)
+    capture_screenshot('metric-detail')
 
     # Apply filters
     find('tr', text: '@rchoquet', match: :first).click
@@ -99,6 +101,7 @@ class MetricsTest < ApplicationSystemTestCase
     find('li', text: 'Yan Bonnel').click
     assert_text 'Yan Bonnel'
     assert_equal 1, all('tr').count
+    capture_screenshot('user-profile')
 
     # Profile shows contributions matching name, email, or github handle
     create(:contribution, author_name: 'Yan Bonnel', metric: rubocop_metric, diff: 42)

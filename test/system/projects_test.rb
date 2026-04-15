@@ -32,6 +32,7 @@ class ProjectsTest < ApplicationSystemTestCase
     # Sign in as owner
     sign_in(user, to: user_projects_path)
     find('tr', text: 'rails/rails').click
+    capture_screenshot('projects')
 
     # Can delete project
     click_on 'Project actions'

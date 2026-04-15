@@ -76,6 +76,9 @@ The core domain: `Project` has many `Metric`s, each `Metric` has many `Occurrenc
 - `FactoryBot` for test data (factories in `test/factories/`)
 - System tests use Capybara + Selenium with Chrome. `HEADLESS` env var controls headless mode.
 - Tests run in parallel by default (`parallelize(workers: :number_of_processors)`)
+- Use `capture_screenshot(name)` to capture screenshots during system tests
+- Use one `capture_screenshot` per distinct page (e.g., one for the index, one for the edit form), do not add multiple
+  screenshots of the same page at different states
 
 ### Key conventions
 

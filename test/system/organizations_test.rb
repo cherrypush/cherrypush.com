@@ -18,6 +18,8 @@ class OrganizationsTest < ApplicationSystemTestCase
 
   it 'allows admin users to edit organization' do
     sign_in(user, to: "/user/organizations/#{organization.id}")
+    assert_text 'SSO disabled'
+    capture_screenshot('organization-settings')
     mui_check 'SSO disabled'
     assert_text 'SSO enabled'
     assert_field 'organization_sso_domain', with: 'example.com', disabled: true

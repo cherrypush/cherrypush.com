@@ -21,6 +21,7 @@ class SsoTest < ApplicationSystemTestCase
     assert_text 'rails organization'
     assert_text 'DHH'
     assert_text 'rafa@facebook.com'
+    capture_screenshot('authorizations-sso')
     # TODO: users should be able to see other users who have access to the organization
   end
 end

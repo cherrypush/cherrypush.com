@@ -8,6 +8,7 @@ class OnboardingTest < ApplicationSystemTestCase
   it 'goes through onboarding' do
     sign_in user
     assert_text 'Start a new project'
+    capture_screenshot('onboarding')
 
     click_on 'Avatar'
     find('li', text: 'Authorizations').click

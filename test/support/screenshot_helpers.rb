@@ -10,6 +10,7 @@ module ScreenshotHelpers
   def capture_screenshot(name)
     return if ENV['CI']
 
+    disable_animations
     hide_toasts
 
     target_path = SCREENSHOTS_DIR.join("#{name}.png")
@@ -24,6 +25,19 @@ module ScreenshotHelpers
   end
 
   private
+
+  def disable_animations
+    page.execute_script(<<~JS)
+      if (!document.getElementById('disable-animations')) {
+        const style = document.createElement('style');
+        style.id = 'disable-animations';
+        style.textContent = '*, *::before, *::after { transition: none !important; animation: none !important; }';
+        document.head.appendChild(style);
+      }
+    JS
+  rescue StandardError
+    nil
+  end
 
   def hide_toasts
     page.execute_script("document.querySelector('[data-rht-toaster]')?.remove()")

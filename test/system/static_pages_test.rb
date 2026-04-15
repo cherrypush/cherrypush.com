@@ -8,6 +8,7 @@ class StaticPagesTest < ApplicationSystemTestCase
   it 'navigates through all pages' do
     visit docs_url
     assert_text 'npm install -g cherrypush'
+    capture_screenshot('docs')
     sign_in create(:user)
     visit root_url
     assert_text 'START NOW'
@@ -20,5 +21,6 @@ class StaticPagesTest < ApplicationSystemTestCase
     assert_text 'npm install -g cherrypush'
     click_on 'Demo'
     assert_text 'cherrypush/cherry'
+    capture_screenshot('demo')
   end
 end
