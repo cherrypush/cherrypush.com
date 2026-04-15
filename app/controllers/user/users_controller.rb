@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User::UsersController < User::ApplicationController
-  def index # rubocop:disable Metrics/AbcSize
+  def index
     users = current_user.organizations.map(&:users).flatten.push(current_user).uniq
     users = users.filter { |user| user.id.in?(params[:ids].map(&:to_i)) } if params[:ids].present?
     render json: users.sort_by(&:name).to_json(only: %i[id name email image])

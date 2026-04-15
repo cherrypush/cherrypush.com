@@ -17,7 +17,7 @@ class TelegramClient
       Net::HTTP.start(uri.hostname, uri.port, req_options) { |http| http.request(request) }
     end
 
-    def last_chat_id # rubocop:todo Metrics/MethodLength
+    def last_chat_id
       JSON
         .parse(
           Net::HTTP.get(URI.parse("https://api.telegram.org/bot#{TELEGRAM_TOKEN}/getUpdates")),

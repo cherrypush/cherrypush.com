@@ -62,7 +62,7 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
   private
 
   # TODO: Remove this method after all clients have been updated
-  def deprecated_payload(js_diff: -12, ts_diff: +14) # rubocop:disable Metrics/MethodLength
+  def deprecated_payload(js_diff: -12, ts_diff: +14)
     {
       project_name: 'cherrypush/cherry-cli',
       author_name: 'Flavio Wuensche',
@@ -76,7 +76,7 @@ class Api::ContributionsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  def payload(js_diff: -12, ts_diff: +14) # rubocop:disable Metrics/MethodLength
+  def payload(js_diff: -12, ts_diff: +14)
     {
       project_name: 'cherrypush/cherry-cli',
       author_name: 'Flavio Wuensche',

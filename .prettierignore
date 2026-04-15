@@ -1,3 +1,6 @@
 .rbenv-vars
 *.rb
 *.rake
+app/assets/builds/
+public/vite*/
+tmp/

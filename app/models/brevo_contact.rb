@@ -12,7 +12,7 @@ class BrevoContact
       call("https://api.brevo.com/v3/contacts/#{email}")
     end
 
-    def create!(first_name:, last_name:, email:) # rubocop:disable Metrics/MethodLength
+    def create!(first_name:, last_name:, email:)
       call(
         'https://api.brevo.com/v3/contacts',
         method: :post,
@@ -43,7 +43,7 @@ class BrevoContact
     private
 
     # TODO: this could be extracted to an isolated class
-    def call(url, method: :get, params: nil) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def call(url, method: :get, params: nil)
       url = URI(url)
       http = Net::HTTP.new(url.host, url.port)
       http.use_ssl = true

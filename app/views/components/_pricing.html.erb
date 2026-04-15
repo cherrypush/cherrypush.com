@@ -3,7 +3,7 @@
     Plans that scale with your team
   </h2>
   <p class="my-6 text-gray-500 md:text-lg dark:text-gray-400">
-    Cherry is in public beta, and prices will rise as we add more features.</br>
+    Cherry is in public beta, and prices will rise as we add more features.<br />
     Lock in your price now and get all future updates for free.
   </p>
   <div class="mb-8"><%= render 'components/main_cta_buttons' %></div>
@@ -85,18 +85,23 @@
   <div class="md:flex">
     <div class="md:w-2/5">
       <h5 class="mb-2 text-xl font-medium">We'll do it all for you</h5>
-      <div class="mb-4">From spec, to integration, to delivery. Explain us your technical vision, and we'll craft a winning strategy for you.</div>
+      <div class="mb-4">
+        From spec, to integration, to delivery. Explain us your technical vision, and we'll craft a winning strategy for
+        you.
+      </div>
       <div class="flex items-baseline text-gray-900 dark:text-white gap-1">
         <span class="text-3xl font-semibold text-blue-500">$60</span>
         <span class="text-5xl font-semibold line-through">$120</span>
         <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/ hour</span>
       </div>
     </div>
-    <hr class='my-5' />
+    <hr class="my-5" />
     <div class="md:w-3/5">
       <ul role="list" class="space-y-5 mb-6">
         <%=
-          render 'components/pricing_item', status: :on, text: "Set up your metrics and develop tailor-made integrations"
+          render 'components/pricing_item',
+                 status: :on,
+                 text: 'Set up your metrics and develop tailor-made integrations'
         %>
         <%= render 'components/pricing_item', status: :on, text: 'Configure your CI/CD to prevent new violations' %>
         <%=

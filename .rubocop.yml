@@ -1,13 +1,23 @@
 AllCops:
   NewCops: enable
+  Exclude:
+    - db/schema.rb
+    - node_modules/**/*
+    - vendor/**/*
 
+Metrics/MethodLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
 Metrics/ClassLength:
   Exclude:
     - test/**/*.rb
 Metrics/BlockLength:
-  Exclude:
-    - test/**/*.rb
-    - lib/tasks/**/*.rake
+  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/StringLiterals:
@@ -21,3 +31,9 @@ Style/StringLiteralsInInterpolation:
   Enabled: false
 Naming/MemoizedInstanceVariableName:
   EnforcedStyleForLeadingUnderscores: required
+Layout/LineLength:
+  Exclude:
+    - bin/**/*
+Lint/EmptyBlock:
+  Exclude:
+    - test/factories/**/*.rb

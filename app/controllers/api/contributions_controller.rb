@@ -3,7 +3,7 @@
 class Api::ContributionsController < Api::ApplicationController
   include Api::ProjectScoped
 
-  def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def create
     ActiveRecord::Base.transaction do
       all_metric_names = params[:contributions].map { |c| c.require('metric_name') }
       metrics = Metric.where(name: all_metric_names, project: current_project)

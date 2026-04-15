@@ -53,10 +53,10 @@ group :development do
   gem 'binding_of_caller' # FIX: commands such as continue not work while debugging with binding.pry
 
   # performance
-  gem 'rack-mini-profiler'
-  gem 'stackprof' # for call-stack profiling flamegraphs
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
+  gem 'rack-mini-profiler'
   gem 'rubocop', require: false # ruby linter
+  gem 'stackprof' # for call-stack profiling flamegraphs
 end
 
 group :test do

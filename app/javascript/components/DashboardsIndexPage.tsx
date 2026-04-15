@@ -103,9 +103,11 @@ const DashboardsIndexPage = () => {
               className="mr-3"
               onClick={(event) => {
                 event.stopPropagation()
-                user.favorite_dashboard_ids.includes(row.original.id)
-                  ? removeFavorite({ id: row.original.id, klass: 'Dashboard' })
-                  : addFavorite({ id: row.original.id, klass: 'Dashboard' })
+                if (user.favorite_dashboard_ids.includes(row.original.id)) {
+                  removeFavorite({ id: row.original.id, klass: 'Dashboard' })
+                } else {
+                  addFavorite({ id: row.original.id, klass: 'Dashboard' })
+                }
               }}
             >
               <Rating>

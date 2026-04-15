@@ -53,7 +53,7 @@ class User < ApplicationRecord
     )
   end
 
-  def update_dynamic_attributes(auth) # rubocop:disable Metrics/AbcSize
+  def update_dynamic_attributes(auth)
     raise "Unknown provider: #{auth.provider}" unless auth.provider == 'google_oauth2'
 
     self.name = "#{auth.info.first_name} #{auth.info.last_name}"

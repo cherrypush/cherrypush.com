@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Define an application-wide content security policy.
@@ -13,7 +14,7 @@
 #     policy.object_src  :none
 #     policy.script_src  :self, :https
 # Allow @vite/client to hot reload javascript changes in development
-#    policy.script_src *policy.script_src, :unsafe_eval, "http://#{ ViteRuby.config.host_with_port }" if Rails.env.development?
+#    policy.script_src *policy.script_src, :unsafe_eval, "http://#{ ViteRuby.config.host_with_port }" if Rails.env.development? # rubocop:disable Layout/LineLength
 
 # You may need to enable this in production as well depending on your setup.
 #    policy.script_src *policy.script_src, :blob if Rails.env.test?

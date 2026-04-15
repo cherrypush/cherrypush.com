@@ -2,7 +2,7 @@
 
 require_relative 'route_utils'
 
-Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
+Rails.application.routes.draw do
   constraints(AdminConstraint) { mount Blazer::Engine, at: 'blazer' }
 
   # AUTHENTICATION ROUTES
@@ -19,7 +19,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # SPA ROUTES
-  namespace :user do # rubocop:disable Metrics/BlockLength
+  namespace :user do
     constraints(->(request) { request.format == :json }) do
       resource :favorites, only: %i[create destroy]
       resources :authorization_requests, only: %i[index create destroy]

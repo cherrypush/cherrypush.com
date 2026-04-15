@@ -40,8 +40,8 @@ step "Setup: Database" bin/rails db:test:prepare
 [ $FAILED -eq 0 ] && step "Style: Formatting" npx prettier --check .
 
 # Tests
-[ $FAILED -eq 0 ] && step "Tests: Rails" bin/rails test
-[ $FAILED -eq 0 ] && step "Tests: System" HEADLESS=1 bin/rails test:system
+[ $FAILED -eq 0 ] && step "Tests: Rails" env PARALLEL_WORKERS=1 bin/rails test
+[ $FAILED -eq 0 ] && step "Tests: System" env HEADLESS=1 PARALLEL_WORKERS=1 bin/rails test:system
 
 # Result
 if [ $FAILED -ne 0 ]; then
