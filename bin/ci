@@ -23,19 +23,16 @@ step() {
   fi
 }
 
-# Kill stale connections to the test database
-step "Setup: Kill stale connections" bin/rails runner \
-  "ActiveRecord::Base.connection.execute(\"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'cherry_test' AND pid <> pg_backend_pid()\")"
-
 # Setup
 if [ "${CI:-}" = "true" ]; then
   step "Setup: Dependencies" npm install --frozen-lockfile
-  step "Setup: Database" bin/rails db:test:prepare
 else
   step "Setup: Dependencies" bundle install
   step "Setup: Dependencies" npm install
-  step "Setup: Database" bin/rails db:test:prepare
 fi
+# Kill stale connections to cherry_test so db:test:prepare can purge it
+psql -d cherry_development -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'cherry_test' AND pid <> pg_backend_pid()" > /dev/null 2>&1 || true
+step "Setup: Database" bin/rails db:test:prepare
 
 # Linting
 [ $FAILED -eq 0 ] && step "Style: Ruby" bundle exec rubocop
