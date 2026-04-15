@@ -11,6 +11,8 @@ class ContributionsTest < ApplicationSystemTestCase
 
   it 'applies filters to metrics' do
     sign_in(user, to: "/user/projects?project_id=#{project.id}&metric_id=#{metric.id}")
+    assert_text 'Recent Commits'
+    capture_screenshot('metric-contributions')
     within('[data-test-id="recent-commits"]') do
       new_window = window_opened_by { find('tbody tr').click }
       within_window(new_window) { assert_current_path 'https://host.com/commit/123456' }

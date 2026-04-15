@@ -23,6 +23,7 @@ class DashboardsTest < ApplicationSystemTestCase
     # Create dashboard
     assert_text 'Dashboards'
     assert_text 'No dashboards yet'
+    capture_screenshot('dashboards-empty')
     click_on 'New Dashboard'
     fill_in 'Select a project...', with: 'rails/rails'
     find('li', text: 'rails/rails').click
@@ -45,6 +46,7 @@ class DashboardsTest < ApplicationSystemTestCase
     assert_equal 'line', project.dashboards.sole.charts.sole.kind
     assert_text 'JS LOC'
     assert_text 'TS LOC'
+    capture_screenshot('dashboard-with-chart')
 
     # Filter chart
     fill_in('Filter by owners', with: 'fwuensche').send_keys(:down).send_keys(:enter)

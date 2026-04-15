@@ -12,6 +12,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
   it 'allows new users to request access to projects from projects' do
     sign_in(new_user, to: user_projects_path(project_id: project.id))
     assert_text "You don't have access to this project"
+    capture_screenshot('access-denied')
     click_on 'Request Access'
     assert_text 'Access request sent' # toast message
     assert_text 'Your request has been sent' # text inside the disabled button
@@ -37,6 +38,7 @@ class AuthorizationsTest < ApplicationSystemTestCase
     sign_in(new_user, to: user_authorizations_path)
     assert_text 'jdoe@example.com'
     assert_text 'fw@example.com'
+    capture_screenshot('authorizations')
     accept_confirm { all('button', text: 'Revoke').first.click }
     assert_text 'Authorization revoked'
     assert_no_text 'Flavio Wuensche'
