@@ -38,13 +38,17 @@ module ScreenshotHelpers
     nil
   end
 
-  # Targets react-hot-toast's container by its distinctive inline styles to
-  # avoid adding a test-only hook in production code.
+  # Hides react-hot-toast while yielding. Targets the Toaster container by
+  # its distinctive inline styles and toast items by their aria attributes,
+  # so no production-side hook is needed.
   def with_toasts_hidden
     page.execute_script(<<~JS)
       const style = document.createElement('style');
       style.id = 'hide-toasts';
-      style.textContent = 'div[style*="z-index: 9999"][style*="pointer-events: none"] { visibility: hidden !important; }';
+      style.textContent = [
+        'div[style*="z-index: 9999"][style*="pointer-events: none"]',
+        '[role="status"][aria-live]'
+      ].join(',') + ' { display: none !important; }';
       document.head.appendChild(style);
     JS
     yield
