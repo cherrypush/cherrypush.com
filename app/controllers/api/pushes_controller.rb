@@ -34,6 +34,8 @@ class Api::PushesController < Api::ApplicationController
             end
           )
         end
+
+      current_project.touch
     end
 
     render json: { status: :ok }, status: :created

@@ -168,6 +168,12 @@ class Api::PushesControllerTest < ActionDispatch::IntegrationTest
       assert_equal 24, metric_with_value.reports.last.value
     end
 
+    it 'bumps project.updated_at after a push' do
+      create(:project, name: 'cherrypush/cherry-app', user: user, updated_at: 1.week.ago)
+      post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
+      assert_equal Date.current, Project.sole.reload.updated_at.to_date
+    end
+
     it 'adds up value_by_owner to existing value_by_owner by uuid' do
       post(api_push_path, params: { api_key: user.api_key, **payload }, as: :json)
       metric_with_owners = Metric.find_by(name: 'missing coverage')
