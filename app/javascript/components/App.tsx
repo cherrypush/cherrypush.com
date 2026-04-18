@@ -28,9 +28,6 @@ axios.defaults.headers.common['Accept'] = 'application/json'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-;(window as any).__dismissToasts = () => toast.dismiss()
-
 const App = ({ alert, notice }: { alert: string; notice: string }) => {
   const user = useCurrentUser()
 
