@@ -40,7 +40,7 @@ module ScreenshotHelpers
   end
 
   def hide_toasts
-    page.execute_script("document.querySelector('[data-rht-toaster]')?.remove()")
+    page.execute_script("window.__dismissToasts?.()")
   rescue StandardError # ignore if JS execution fails
     nil
   end

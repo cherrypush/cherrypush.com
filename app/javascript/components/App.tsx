@@ -28,6 +28,9 @@ axios.defaults.headers.common['Accept'] = 'application/json'
 
 const darkTheme = createTheme({ palette: { mode: 'dark' } })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+;(window as any).__dismissToasts = () => toast.dismiss()
+
 const App = ({ alert, notice }: { alert: string; notice: string }) => {
   const user = useCurrentUser()
 
@@ -62,18 +65,18 @@ const App = ({ alert, notice }: { alert: string; notice: string }) => {
           </Routes>
         </ScrollToTop>
         <Footer />
-        <Toaster
-          containerClassName="mt-12"
-          toastOptions={{
-            style: {
-              borderRadius: '10px',
-              background: '#0B1119',
-              color: '#fff',
-              border: '1px solid #1F2A37',
-            },
-          }}
-        />
       </div>
+      <Toaster
+        containerClassName="mt-12"
+        toastOptions={{
+          style: {
+            borderRadius: '10px',
+            background: '#0B1119',
+            color: '#fff',
+            border: '1px solid #1F2A37',
+          },
+        }}
+      />
     </ThemeProvider>
   )
 }
