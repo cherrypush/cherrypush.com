@@ -1,6 +1,7 @@
 .rbenv-vars
 *.rb
 *.rake
+.context/
 app/assets/builds/
 public/vite*/
 tmp/
