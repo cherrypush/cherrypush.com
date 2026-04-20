@@ -88,7 +88,7 @@ class User < ApplicationRecord
       user.update_dynamic_attributes(auth)
       report_sign_in(user)
       user.save!
-      UserMailer.with(user: user).welcome.deliver_later if user.new_record? && user.valid? # TODO: why check valid here?
+      UserMailer.with(user: user).welcome.deliver_now if user.new_record? && user.valid? # TODO: why check valid here?
       user
     end
 

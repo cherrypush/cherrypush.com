@@ -51,10 +51,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
 
-  # Use a real queuing backend for Active Job (and separate queues per environment).
-  config.active_job.queue_adapter = :delayed_job
-  # config.active_job.queue_name_prefix = "cherry_production"
-
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
