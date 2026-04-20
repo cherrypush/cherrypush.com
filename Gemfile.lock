@@ -145,7 +145,6 @@ GEM
     hashie (5.0.0)
     heroicon (1.0.0)
       rails (>= 5.2)
-    hiredis (0.6.3)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     io-console (0.8.2)
@@ -312,10 +311,6 @@ GEM
       psych (>= 4.0.0)
       tsort
     redcarpet (3.6.0)
-    redis (5.2.0)
-      redis-client (>= 0.22.0)
-    redis-client (0.22.2)
-      connection_pool
     regexp_parser (2.9.2)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -411,14 +406,12 @@ DEPENDENCIES
   blazer
   bootsnap
   capybara
-  connection_pool (~> 2.4)
   debug
   delayed_job_active_record
   factory_bot_rails
   faker
   groupdate
   heroicon
-  hiredis
   kaminari
   mini_magick
   minitest-spec-rails
@@ -435,7 +428,6 @@ DEPENDENCIES
   rack-mini-profiler
   rails
   redcarpet
-  redis
   rubocop
   selenium-webdriver
   sentry-rails

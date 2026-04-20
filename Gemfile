@@ -6,7 +6,6 @@ ruby '3.3.8'
 
 # default gems
 gem 'bootsnap', require: false
-gem 'connection_pool', '~> 2.4' # pin to 2.x; 3.0+ breaks Rails 7.2 redis_cache_store
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails'
@@ -22,8 +21,6 @@ gem 'blazer' # for querying the database
 
 # monitoring & performance
 gem 'delayed_job_active_record'
-gem 'hiredis'
-gem 'redis'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'skylight' # performance monitoring: https://www.skylight.io/app/applications/670fP418RH7v/recent/6h/endpoints

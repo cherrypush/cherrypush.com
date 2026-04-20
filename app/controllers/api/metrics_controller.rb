@@ -10,16 +10,6 @@ class Api::MetricsController < Api::ApplicationController
     metric = project.metrics.find_by(name: params[:metric_name])
     return head :not_found if metric.nil?
 
-    render json: metric_data(metric)
-  end
-
-  private
-
-  def metric_data(metric)
-    Rails
-      .cache
-      .fetch(['api/metrics#index', 'metric_data', @user, metric], expires_in: 12.hours) do
-        { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
-      end
+    render json: { value: metric.value, occurrences: metric.occurrences.pluck(:text) }
   end
 end
