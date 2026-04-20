@@ -75,8 +75,8 @@ Rails.application.configure do
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 
-  # Do not send emails in development
-  config.action_mailer.perform_deliveries = false
+  # Preview outgoing emails in the browser via letter_opener (no real SMTP)
+  config.action_mailer.delivery_method = :letter_opener
 
   # Sets default host for email path and urls
   routes.default_url_options[:host] = 'http://localhost:3001'

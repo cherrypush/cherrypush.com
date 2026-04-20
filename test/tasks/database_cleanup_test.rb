@@ -14,7 +14,6 @@ class DatabaseCleanupTest < ActionMailer::TestCase
     it 'deletes older project occurrences' do
       assert_equal 4, Occurrence.count
       Rake::Task['database:cleanup'].execute
-      assert_equal 0, Delayed::Job.count
       assert_equal 2, Occurrence.count
     end
   end

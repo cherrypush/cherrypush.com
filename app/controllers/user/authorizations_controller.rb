@@ -35,11 +35,11 @@ class User::AuthorizationsController < User::ApplicationController
   end
 
   def notify_user(authorization)
-    UserMailer.with(granted_by_user: current_user, authorization: authorization).authorization_granted.deliver_later
+    UserMailer.with(granted_by_user: current_user, authorization: authorization).authorization_granted.deliver_now
   end
 
   def notify_admin(authorization)
-    UserMailer.with(granted_by_user: current_user, authorization: authorization).authorization_alert.deliver_later
+    UserMailer.with(granted_by_user: current_user, authorization: authorization).authorization_alert.deliver_now
   end
 
   def clear_related_authorization_requests

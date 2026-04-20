@@ -20,7 +20,6 @@ gem 'omniauth-rails_csrf_protection'
 gem 'blazer' # for querying the database
 
 # monitoring & performance
-gem 'delayed_job_active_record'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'skylight' # performance monitoring: https://www.skylight.io/app/applications/670fP418RH7v/recent/6h/endpoints
@@ -48,6 +47,7 @@ group :development do
   # debugging
   gem 'better_errors'
   gem 'binding_of_caller' # FIX: commands such as continue not work while debugging with binding.pry
+  gem 'letter_opener' # previews outgoing emails in the browser instead of sending them
 
   # performance
   gem 'parity' # CLI commands to simplify integration with Heroku apps (e.g, database sync, deployment, etc)
