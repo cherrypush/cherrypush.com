@@ -11,13 +11,12 @@ module ScreenshotHelpers
     return if ENV['CI']
 
     disable_animations
-    hide_toasts
 
     target_path = SCREENSHOTS_DIR.join("#{name}.png")
     FileUtils.mkdir_p(target_path.dirname)
 
     Tempfile.create(['screenshot', '.png']) do |temp_file|
-      page.save_screenshot(temp_file.path) # rubocop:disable Lint/Debugger
+      with_toasts_hidden { page.save_screenshot(temp_file.path) } # rubocop:disable Lint/Debugger
 
       should_save = !File.exist?(target_path) || images_differ?(temp_file.path, target_path)
       FileUtils.cp(temp_file.path, target_path) if should_save
@@ -39,10 +38,22 @@ module ScreenshotHelpers
     nil
   end
 
-  def hide_toasts
-    page.execute_script("document.querySelector('[data-rht-toaster]')?.remove()")
-  rescue StandardError # ignore if JS execution fails
-    nil
+  # Hides react-hot-toast while yielding. Targets the Toaster container by
+  # its distinctive inline styles and toast items by their aria attributes,
+  # so no production-side hook is needed.
+  def with_toasts_hidden
+    page.execute_script(<<~JS)
+      const style = document.createElement('style');
+      style.id = 'hide-toasts';
+      style.textContent = [
+        'div[style*="z-index: 9999"][style*="pointer-events: none"]',
+        '[role="status"][aria-live]'
+      ].join(',') + ' { display: none !important; }';
+      document.head.appendChild(style);
+    JS
+    yield
+  ensure
+    page.execute_script("document.getElementById('hide-toasts')?.remove()")
   end
 
   def images_differ?(new_image_path, existing_image_path)

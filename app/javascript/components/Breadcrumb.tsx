@@ -2,12 +2,10 @@ import { Avatar, Breadcrumb as BaseBreadcrumb, Button, Dropdown, Tooltip } from 
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useMetricWatchersCreate, useMetricWatchersDestroy } from '../queries/user/metricWatchers'
 
-import _ from 'lodash'
 import useCurrentUser from '../hooks/useCurrentUser'
 import { Metric } from '../queries/user/metrics'
 import { Project } from '../queries/user/projects'
 import { useUsersIndex } from '../queries/user/users'
-import { useViewsIndex } from '../queries/user/views'
 import MetricActionsMenu from './MetricActionsMenu'
 import ProjectActionsMenu from './ProjectActionsMenu'
 
@@ -24,10 +22,6 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
 
   const metricId = parseInt(searchParams.get('metric_id') || '')
   const currentMetric = metricId ? metrics.find((metric) => metric.id === metricId) : null
-
-  const { data: views } = useViewsIndex({ metricId })
-  const viewerIds = views ? _.uniq(views.map((view) => view.user_id)) : []
-  const { data: viewers } = useUsersIndex({ ids: viewerIds, enabled: !!currentMetric })
 
   const { data: watchers } = useUsersIndex({ ids: currentMetric?.watcher_ids, enabled: !!currentMetric })
 
@@ -95,24 +89,6 @@ const Breadcrumb = ({ projects, metrics }: { projects: Project[]; metrics: Metri
       {currentProject && (
         <div className="ml-auto flex items-center gap-3">
           {!currentMetric && <ProjectActionsMenu projectId={currentProject.id} />}
-          {viewers && views && views.length > 0 && (
-            <>
-              <p>Seen by:</p>
-              <Avatar.Group>
-                {viewers.map((viewer) => (
-                  <Tooltip key={viewer.id} content={viewer.name} arrow={false}>
-                    <Avatar
-                      img={viewer.image}
-                      rounded
-                      stacked
-                      className="cursor-pointer"
-                      onClick={() => navigate(`/user/users/${viewer.id}`)}
-                    />
-                  </Tooltip>
-                ))}
-              </Avatar.Group>
-            </>
-          )}
           {currentMetric && <MetricActionsMenu metricId={currentMetric.id} projectId={currentProject.id} />}
         </div>
       )}
