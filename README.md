@@ -57,9 +57,9 @@ cherry backfill --api-key=28ea02ee-c6e5-4e5f-b2b6-690c4cd6ca2f # Copy command fr
 
 ### Heroku shortcuts (parity)
 
-The [`parity`](https://github.com/thoughtbot/parity) gem provides shortcuts like `production console`, `production logs`,
-and `development restore production` to sync the prod database into dev. It expects a git remote named after each
-environment:
+The [`parity`](https://github.com/thoughtbot/parity) gem provides shortcuts like `production console`,
+`production logs`, and `development restore production` to sync the prod database into dev. It expects a git remote
+named after each environment:
 
 ```sh
 heroku git:remote -r production -a cherrypush-production
