@@ -43,9 +43,6 @@ npm install
 docker compose up -d
 rails db:setup
 
-# setup local env vars
-cp .rbenv-vars.template .rbenv-vars
-
 # launch the server
 bin/dev
 
@@ -55,8 +52,18 @@ export API_URL=http://localhost:3001/api
 cherry backfill --api-key=28ea02ee-c6e5-4e5f-b2b6-690c4cd6ca2f # Copy command from http://localhost:3001/user/projects
 ```
 
-> The env vars step above assumes you're using the rbenv-vars plugin. If you don't have it installed, check their docs
-> [here](https://github.com/rbenv/rbenv-vars) or use an alternative method to load your environment variables.
+> Secrets are stored in `config/credentials.yml.enc`. To decrypt them you need `config/master.key` (or the
+> `RAILS_MASTER_KEY` env var) — ask a maintainer for it.
+
+### Heroku shortcuts (parity)
+
+The [`parity`](https://github.com/thoughtbot/parity) gem provides shortcuts like `production console`, `production logs`,
+and `development restore production` to sync the prod database into dev. It expects a git remote named after each
+environment:
+
+```sh
+heroku git:remote -r production -a cherrypush-production
+```
 
 ## Contributing
 
