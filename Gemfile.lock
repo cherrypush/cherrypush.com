@@ -120,7 +120,7 @@ GEM
     debug_inspector (1.2.0)
     drb (2.2.3)
     dry-cli (1.0.0)
-    erb (6.0.2)
+    erb (6.0.4)
     erubi (1.13.1)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
