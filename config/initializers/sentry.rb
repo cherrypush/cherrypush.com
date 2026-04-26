@@ -6,6 +6,6 @@ if Rails.env.production?
     config.breadcrumbs_logger = %i[active_support_logger http_logger]
     config.traces_sample_rate = 0.1
     config.profiles_sample_rate = 0.1
-    config.excluded_exceptions = [ActionController::RoutingError]
+    config.excluded_exceptions = [ActionController::RoutingError, ActionController::UnknownFormat]
   end
 end
