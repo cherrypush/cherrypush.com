@@ -19,7 +19,7 @@
     "@tanstack/react-query-devtools": "^4.33.0",
     "@tanstack/react-table": "^8.20.5",
     "apexcharts": "^3.49.1",
-    "axios": "^1.15.0",
+    "axios": "^1.15.2",
     "classnames": "^2.3.2",
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.7.0",
